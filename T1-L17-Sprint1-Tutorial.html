@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T1-L17 — Sprint 1: Core Mechanics</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:15px;line-height:1.7;}a{color:var(--blue);}
+#progress-bar-wrap{position:fixed;top:0;left:0;width:100%;height:6px;background:var(--dark);z-index:9999;}#progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--neon),var(--blue));transition:width .4s;}
+.hero{text-align:center;padding:80px 20px 40px;background:linear-gradient(180deg,rgba(74,222,128,.08) 0%,transparent 100%);}.hero h1{font-family:var(--font-head);font-size:2.4rem;font-weight:900;background:linear-gradient(135deg,var(--neon),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px;}.hero .sub{color:var(--muted);font-size:.95rem;margin-bottom:24px;}.hero .meta{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;}.hero .tag{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.8rem;color:var(--muted);}.hero .tag b{color:var(--neon);}
+.xp-tracker{display:flex;justify-content:center;align-items:center;gap:16px;margin:30px auto;padding:16px 24px;background:var(--dark);border:1px solid var(--border);border-radius:12px;max-width:500px;}.xp-tracker .xp-label{font-family:var(--font-head);font-size:1rem;color:var(--amber);}.xp-tracker .xp-val{font-family:var(--font-head);font-size:1.6rem;font-weight:900;color:var(--neon);}.xp-tracker .xp-max{color:var(--muted);font-size:.85rem;}
+.container{max-width:880px;margin:0 auto;padding:0 20px 60px;}
+.tut-section{margin:40px 0;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--dark);}.tut-header{padding:20px 24px;display:flex;align-items:center;gap:16px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border);}.tut-header .tut-num{font-family:var(--font-head);font-size:1.6rem;font-weight:900;color:var(--navy);background:var(--neon);border-radius:10px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}.tut-section[data-colour="blue"] .tut-num{background:var(--blue);}.tut-section[data-colour="purple"] .tut-num{background:var(--purple);}.tut-section[data-colour="amber"] .tut-num{background:var(--amber);}.tut-section[data-colour="pink"] .tut-num{background:var(--pink);}.tut-header .tut-info{flex:1;}.tut-header .tut-title{font-family:var(--font-head);font-size:1.05rem;font-weight:700;color:var(--white);}.tut-header .tut-time{font-size:.8rem;color:var(--muted);margin-top:2px;}.tut-header .xp-badge{font-family:var(--font-head);background:rgba(251,191,36,.15);color:var(--amber);padding:4px 12px;border-radius:8px;font-size:.85rem;font-weight:700;flex-shrink:0;}.tut-header .chevron{color:var(--muted);font-size:1.4rem;transition:transform .3s;flex-shrink:0;}.tut-section.open .chevron{transform:rotate(90deg);}.tut-body{padding:0 24px 24px;display:none;}.tut-section.open .tut-body{display:block;}
+.step{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid rgba(51,65,85,.5);}.step:last-child{border-bottom:none;}.step-check{flex-shrink:0;margin-top:3px;}.step-check input[type="checkbox"]{width:20px;height:20px;accent-color:var(--neon);cursor:pointer;}.step-num{font-family:var(--font-head);font-size:.75rem;color:var(--neon);background:rgba(74,222,128,.1);border-radius:6px;padding:2px 8px;height:fit-content;flex-shrink:0;margin-top:2px;}.step-content{flex:1;}.step-content strong{color:var(--neon);}.step-content .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:1px 8px;font-size:.85rem;color:var(--amber);font-weight:700;margin:0 2px;}.step-content .sub-list{margin:8px 0 0 0;list-style:none;}.step-content .sub-list li{padding:4px 0;color:var(--muted);font-size:.9rem;}.step-content .sub-list li::before{content:'\25B8 ';color:var(--blue);}.step-content .sub-list li strong{color:var(--white);}
+.detail{margin:6px 0 0 0;padding:8px 12px;background:rgba(15,23,42,.6);border-left:3px solid var(--blue);border-radius:0 6px 6px 0;font-size:.88rem;color:var(--muted);}.detail strong{color:var(--blue);}
+.code-block{margin:10px 0;padding:14px 18px;background:#0a0e1a;border:1px solid var(--border);border-radius:10px;font-family:var(--font-body);font-size:.88rem;line-height:1.6;overflow-x:auto;white-space:pre;color:var(--neon);}.code-block .kw{color:var(--blue);}.code-block .ty{color:var(--purple);}.code-block .st{color:var(--amber);}.code-block .cm{color:var(--muted);font-style:italic;}.code-block .fn{color:var(--pink);}
+.callout{margin:16px 0;padding:14px 18px;border-radius:10px;font-size:.9rem;display:flex;gap:12px;align-items:flex-start;}.callout .icon{font-size:1.2rem;flex-shrink:0;}.callout-checkpoint{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);}.callout-checkpoint .icon{color:var(--neon);}.callout-trouble{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);}.callout-trouble .icon{color:var(--red);}.callout-tip{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);}.callout-tip .icon{color:var(--blue);}.callout-challenge{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);}.callout-challenge .icon{color:var(--amber);}.callout-extension{background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);}.callout-extension .icon{color:var(--purple);}
+.sprint-card{margin:14px 0;padding:16px 18px;background:var(--navy);border:1px solid var(--border);border-radius:10px;}.sprint-card h4{font-family:var(--font-head);font-size:.85rem;margin-bottom:8px;}.sprint-card textarea{width:100%;min-height:50px;background:var(--dark);border:1px solid var(--border);border-radius:6px;padding:10px;color:var(--white);font-family:var(--font-body);font-size:.88rem;resize:vertical;}
+.footer-section{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;}.footer-section h2{font-family:var(--font-head);font-size:1.2rem;margin-bottom:16px;color:var(--neon);}
+.progress-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;}.progress-card{display:flex;align-items:center;gap:12px;padding:12px;background:var(--navy);border-radius:10px;border:1px solid var(--border);}.progress-card input[type="checkbox"]{width:22px;height:22px;accent-color:var(--neon);}.progress-card .pc-label{flex:1;font-size:.9rem;}.progress-card .pc-xp{font-family:var(--font-head);color:var(--amber);font-size:.85rem;}
+.btn{display:inline-block;padding:10px 24px;border-radius:8px;border:none;font-family:var(--font-head);font-size:.85rem;cursor:pointer;font-weight:700;transition:transform .15s;}.btn:hover{transform:translateY(-2px);}.btn-neon{background:var(--neon);color:var(--navy);}.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted);}.btn-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;justify-content:center;}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;-webkit-text-fill-color:#111!important;}body{font-size:10pt;}#progress-bar-wrap,.btn-row,.no-print{display:none!important;}.tut-section{break-inside:avoid;}.tut-section.open .tut-body,.tut-body{display:block!important;}.tut-header .chevron{display:none;}}
+</style>
+</head>
+<body>
+<div id="progress-bar-wrap"><div id="progress-bar"></div></div>
+
+<div class="hero">
+  <h1>SPRINT 1: Core Mechanics</h1>
+  <p class="sub">Build the foundation of your game — movement, physics, and basic level</p>
+  <div class="meta">
+    <span class="tag"><b>Lesson 17</b> of 22</span>
+    <span class="tag"><b>75 min</b> session</span>
+    <span class="tag"><b>50 XP</b> available</span>
+    <span class="tag">Week 11 — Tue</span>
+    <span class="tag" style="border-color:var(--neon);color:var(--neon);"><b>SPRINT 1 of 4</b></span>
+  </div>
+</div>
+
+<div class="xp-tracker">
+  <span class="xp-label">XP EARNED:</span>
+  <span class="xp-val" id="xp-display">0</span>
+  <span class="xp-max">/ 50 XP</span>
+</div>
+
+<div class="container">
+
+<!-- ======================== SECTION 1 ======================== -->
+<div class="tut-section open" id="section-1" data-colour="neon">
+  <div class="tut-header" onclick="toggleSection(1)">
+    <div class="tut-num">1</div>
+    <div class="tut-info"><div class="tut-title">Sprint Planning — Set Your Goals</div><div class="tut-time">~10 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="callout callout-tip">
+      <div class="icon">&#128161;</div>
+      <div><strong>Sprint methodology:</strong> In professional game development, a "sprint" is a focused work session with clear goals. You decide WHAT to build, work on it, and at the end you should have something PLAYABLE. Today is Sprint 1 — the most important sprint because you're building the core foundation.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.1</div>
+      <div class="step-content">
+        <strong>Open your GDD.</strong> Pull up your Game Design Document from L16. Re-read Section 11 (Development Timeline) and Section 6 (Core Mechanics). These are your blueprint for today.
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.2</div>
+      <div class="step-content">
+        <strong>Write your Sprint 1 goals.</strong> Choose 3-5 specific tasks from your GDD that you MUST complete today. Be realistic — you have ~60 minutes of work time.
+      </div>
+    </div>
+
+    <div class="sprint-card">
+      <h4 style="color:var(--neon);">My Sprint 1 Goals (tick when done)</h4>
+      <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-content"><textarea placeholder="Goal 1: e.g., Player movement with arrow keys"></textarea></div></div>
+      <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-content"><textarea placeholder="Goal 2: e.g., Jump mechanic with ground check"></textarea></div></div>
+      <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-content"><textarea placeholder="Goal 3: e.g., Basic tilemap level with platforms"></textarea></div></div>
+      <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-content"><textarea placeholder="Goal 4: e.g., Coin prefab placed in level"></textarea></div></div>
+      <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-content"><textarea placeholder="Goal 5 (stretch): e.g., Coin collection with score"></textarea></div></div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#9989;</div>
+      <div><strong>Checkpoint:</strong> You've reviewed your GDD and written 3-5 specific Sprint 1 goals. Show your teacher your goals before starting work.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== SECTION 2 ======================== -->
+<div class="tut-section" id="section-2" data-colour="blue">
+  <div class="tut-header" onclick="toggleSection(2)">
+    <div class="tut-num">2</div>
+    <div class="tut-info"><div class="tut-title">Quick Reference — Core Features</div><div class="tut-time">Reference</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="callout callout-tip">
+      <div class="icon">&#128161;</div>
+      <div><strong>This section is a reference sheet.</strong> Don't read it top to bottom — find the code you need for YOUR features and copy it into your project. Refer back to previous lesson tutorials (L04-L15) for detailed instructions.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.1</div>
+      <div class="step-content">
+        <strong>Player Movement (from L06)</strong>
+        <div class="code-block"><span class="kw">public</span> <span class="ty">float</span> moveSpeed = 7f;
+<span class="kw">public</span> <span class="ty">float</span> jumpForce = 12f;
+<span class="kw">private</span> <span class="ty">Rigidbody2D</span> rb;
+
+<span class="kw">void</span> <span class="fn">Start</span>() { rb = <span class="fn">GetComponent</span>&lt;<span class="ty">Rigidbody2D</span>&gt;(); }
+
+<span class="kw">void</span> <span class="fn">Update</span>()
+{
+    <span class="ty">float</span> moveX = <span class="ty">Input</span>.<span class="fn">GetAxis</span>(<span class="st">"Horizontal"</span>);
+    rb.velocity = <span class="kw">new</span> <span class="ty">Vector2</span>(moveX * moveSpeed, rb.velocity.y);
+
+    <span class="kw">if</span> (<span class="ty">Input</span>.<span class="fn">GetButtonDown</span>(<span class="st">"Jump"</span>) && isGrounded)
+    {
+        rb.velocity = <span class="kw">new</span> <span class="ty">Vector2</span>(rb.velocity.x, jumpForce);
+    }
+}</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.2</div>
+      <div class="step-content">
+        <strong>Ground Check (from L08/L10)</strong>
+        <div class="code-block"><span class="kw">public</span> <span class="ty">Transform</span> groundCheck;
+<span class="kw">public</span> <span class="ty">float</span> groundRadius = 0.2f;
+<span class="kw">public</span> <span class="ty">LayerMask</span> groundLayer;
+<span class="kw">private bool</span> isGrounded;
+
+<span class="kw">void</span> <span class="fn">Update</span>()
+{
+    isGrounded = <span class="ty">Physics2D</span>.<span class="fn">OverlapCircle</span>(
+        groundCheck.position, groundRadius, groundLayer);
+}</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.3</div>
+      <div class="step-content">
+        <strong>Coin Collection (from L10)</strong>
+        <div class="code-block"><span class="kw">void</span> <span class="fn">OnTriggerEnter2D</span>(<span class="ty">Collider2D</span> other)
+{
+    <span class="kw">if</span> (other.<span class="fn">CompareTag</span>(<span class="st">"Coin"</span>))
+    {
+        score++;
+        <span class="ty">SoundManager</span>.Instance.<span class="fn">PlayCollect</span>();
+        <span class="fn">Destroy</span>(other.gameObject);
+    }
+}</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.4</div>
+      <div class="step-content">
+        <strong>Enemy Patrol (simple)</strong>
+        <div class="code-block"><span class="kw">public</span> <span class="ty">float</span> speed = 2f;
+<span class="kw">public</span> <span class="ty">float</span> distance = 3f;
+<span class="kw">private</span> <span class="ty">Vector3</span> startPos;
+<span class="kw">private int</span> direction = 1;
+
+<span class="kw">void</span> <span class="fn">Start</span>() { startPos = transform.position; }
+
+<span class="kw">void</span> <span class="fn">Update</span>()
+{
+    transform.<span class="fn">Translate</span>(<span class="ty">Vector2</span>.right * speed * direction * <span class="ty">Time</span>.deltaTime);
+    <span class="kw">if</span> (<span class="ty">Mathf</span>.<span class="fn">Abs</span>(transform.position.x - startPos.x) > distance)
+        direction *= -1;
+}</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.5</div>
+      <div class="step-content">
+        <strong>Camera Follow (from L12)</strong>
+        <div class="code-block"><span class="kw">public</span> <span class="ty">Transform</span> target;
+<span class="kw">public</span> <span class="ty">float</span> smoothSpeed = 5f;
+<span class="kw">public</span> <span class="ty">Vector3</span> offset = <span class="kw">new</span> <span class="ty">Vector3</span>(0, 2, -10);
+
+<span class="kw">void</span> <span class="fn">LateUpdate</span>()
+{
+    <span class="ty">Vector3</span> desired = target.position + offset;
+    transform.position = <span class="ty">Vector3</span>.<span class="fn">Lerp</span>(
+        transform.position, desired, smoothSpeed * <span class="ty">Time</span>.deltaTime);
+}</div>
+      </div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#9989;</div>
+      <div><strong>Reference check:</strong> You've identified which code snippets you need for your Sprint 1 goals and are ready to implement them.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== SECTION 3 ======================== -->
+<div class="tut-section" id="section-3" data-colour="purple">
+  <div class="tut-header" onclick="toggleSection(3)">
+    <div class="tut-num">3</div>
+    <div class="tut-info"><div class="tut-title">Build Time — 30 Minutes</div><div class="tut-time">~30 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="callout callout-challenge">
+      <div class="icon">&#9200;</div>
+      <div><strong>FOCUSED WORK TIME.</strong> You have 30 minutes to work on your Sprint 1 goals. Stay focused! Refer to previous tutorials if you get stuck. Raise your hand if blocked for more than 3 minutes.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.1</div>
+      <div class="step-content">
+        <strong>15-minute check-in.</strong> At the halfway point, review your progress:
+        <ul class="sub-list">
+          <li>How many goals have you completed?</li>
+          <li>Are you on track to finish Sprint 1?</li>
+          <li>Do you need to adjust your remaining goals?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sprint-card">
+      <h4 style="color:var(--blue);">Mid-Sprint Check: What's working? What's stuck?</h4>
+      <textarea placeholder="e.g., Movement works great. Still debugging jump — player sticks to walls. Need to ask about wall collision..."></textarea>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.2</div>
+      <div class="step-content">
+        <strong>Save frequently!</strong> Press <span class="key">Ctrl+S</span> every few minutes. Nothing is worse than losing work because Unity crashed.
+      </div>
+    </div>
+
+    <div class="callout callout-trouble">
+      <div class="icon">&#9888;</div>
+      <div><strong>Common Sprint 1 blockers:</strong> (1) Player falls through ground → check Collider2D on ground and Rigidbody2D on player, (2) Can't jump → check isGrounded, groundCheck position, and Layer settings, (3) Coins don't collect → check tag is "Coin" and collider Is Trigger is ticked, (4) Enemy doesn't move → check speed > 0 and script is on the enemy.</div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#9989;</div>
+      <div><strong>Checkpoint:</strong> You've completed at least 2 of your Sprint 1 goals and have a playable game foundation.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== SECTION 4 ======================== -->
+<div class="tut-section" id="section-4" data-colour="amber">
+  <div class="tut-header" onclick="toggleSection(4)">
+    <div class="tut-num">4</div>
+    <div class="tut-info"><div class="tut-title">Build Time — Final 20 Minutes</div><div class="tut-time">~20 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.1</div>
+      <div class="step-content">
+        <strong>Continue building.</strong> Push to complete your remaining Sprint 1 goals. If you've finished all 5, start on Sprint 2 features from your GDD.
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.2</div>
+      <div class="step-content">
+        <strong>Test as you go!</strong> Press Play after each feature addition. Check:
+        <ul class="sub-list">
+          <li>Does the feature work as described in your GDD?</li>
+          <li>Are there any bugs? Note them down.</li>
+          <li>Does it FEEL good? (controls responsive, speed right)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.3</div>
+      <div class="step-content">
+        <strong>Quick bug fix session.</strong> If you have known bugs, spend the last 5 minutes fixing the most critical ones. A playable game with bugs is still better than a non-playable game without bugs!
+      </div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#9989;</div>
+      <div><strong>Checkpoint:</strong> Your game has a playable core — player can move, interact with the level, and there's at least one game mechanic working.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== SECTION 5 ======================== -->
+<div class="tut-section" id="section-5" data-colour="pink">
+  <div class="tut-header" onclick="toggleSection(5)">
+    <div class="tut-num">5</div>
+    <div class="tut-info"><div class="tut-title">Sprint Review &amp; Plan Ahead</div><div class="tut-time">~5 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">5.1</div>
+      <div class="step-content">
+        <strong>Sprint Review.</strong> Check your goals from Section 1. How did you go?
+      </div>
+    </div>
+
+    <div class="sprint-card">
+      <h4 style="color:var(--amber);">Sprint 1 Review</h4>
+      <textarea placeholder="Goals completed: &#10;Goals not completed: &#10;Biggest challenge: &#10;What I learned: "></textarea>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">5.2</div>
+      <div class="step-content">
+        <strong>Plan Sprint 2.</strong> Based on today's progress, what should you focus on next lesson?
+      </div>
+    </div>
+
+    <div class="sprint-card">
+      <h4 style="color:var(--pink);">Sprint 2 Preview Goals</h4>
+      <textarea placeholder="Next lesson I need to: &#10;1. &#10;2. &#10;3. "></textarea>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">5.3</div>
+      <div class="step-content">
+        <strong>Save and submit.</strong> Save your project (<span class="key">Ctrl+S</span>). Take a screenshot of your game in Play mode and submit to Google Classroom with a note about what you completed.
+      </div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#9989;</div>
+      <div><strong>Checkpoint:</strong> Sprint 1 complete! Goals reviewed, Sprint 2 planned, screenshot submitted.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== FOOTER ======================== -->
+<div class="footer-section">
+  <h2>Progress Tracker</h2>
+  <div class="progress-grid">
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Sprint goals written</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Reference code identified</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">First 30 min build done</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Game is playable</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Sprint review + screenshot</span><span class="pc-xp">+10 XP</span></div>
+  </div>
+</div>
+
+<div class="btn-row no-print">
+  <button class="btn btn-neon" onclick="expandAll()">Expand All</button>
+  <button class="btn btn-ghost" onclick="resetAll()">Reset Progress</button>
+</div>
+
+</div>
+
+<script>
+const TOTAL_SECTIONS=5,XP_PER_SECTION=10;let xp=0;
+function toggleSection(n){const s=document.getElementById('section-'+n);s.classList.toggle('open');}
+function expandAll(){document.querySelectorAll('.tut-section').forEach(s=>s.classList.add('open'));}
+function updateProgress(){const checks=document.querySelectorAll('.step-check input[type="checkbox"]');const total=checks.length;const done=[...checks].filter(c=>c.checked).length;document.getElementById('progress-bar').style.width=Math.round(done/total*100)+'%';updateXP();}
+function updateXP(){let total=0;for(let i=1;i<=TOTAL_SECTIONS;i++){const sec=document.getElementById('section-'+i);if(!sec)continue;const checks=sec.querySelectorAll('.step-check input[type="checkbox"]');const done=[...checks].filter(c=>c.checked).length;if(checks.length>0&&done===checks.length)total+=XP_PER_SECTION;}xp=total;document.getElementById('xp-display').textContent=xp;}
+function resetAll(){document.querySelectorAll('input[type="checkbox"]').forEach(c=>c.checked=false);updateProgress();}
+</script>
+</body>
+</html>

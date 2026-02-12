@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T1-L09 — Game Design Theory Tutorial</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:15px;line-height:1.7;}a{color:var(--blue);text-decoration:none;}a:hover{text-decoration:underline;}
+#progress-bar-wrap{position:fixed;top:0;left:0;width:100%;height:6px;background:var(--dark);z-index:9999;}#progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--neon),var(--blue));transition:width .4s;}
+.hero{text-align:center;padding:80px 20px 40px;background:linear-gradient(180deg,rgba(74,222,128,.08) 0%,transparent 100%);}.hero h1{font-family:var(--font-head);font-size:2.4rem;font-weight:900;background:linear-gradient(135deg,var(--neon),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px;}.hero .sub{color:var(--muted);font-size:.95rem;margin-bottom:24px;}.hero .meta{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;}.hero .tag{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.8rem;color:var(--muted);}.hero .tag b{color:var(--neon);}
+.xp-tracker{display:flex;justify-content:center;align-items:center;gap:16px;margin:30px auto;padding:16px 24px;background:var(--dark);border:1px solid var(--border);border-radius:12px;max-width:500px;}.xp-tracker .xp-label{font-family:var(--font-head);font-size:1rem;color:var(--amber);}.xp-tracker .xp-val{font-family:var(--font-head);font-size:1.6rem;font-weight:900;color:var(--neon);}.xp-tracker .xp-max{color:var(--muted);font-size:.85rem;}
+.container{max-width:880px;margin:0 auto;padding:0 20px 60px;}
+.tut-section{margin:40px 0;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--dark);}.tut-header{padding:20px 24px;display:flex;align-items:center;gap:16px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border);}.tut-header .tut-num{font-family:var(--font-head);font-size:1.6rem;font-weight:900;color:var(--navy);background:var(--neon);border-radius:10px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}.tut-section[data-colour="blue"] .tut-num{background:var(--blue);}.tut-section[data-colour="purple"] .tut-num{background:var(--purple);}.tut-section[data-colour="amber"] .tut-num{background:var(--amber);}.tut-section[data-colour="pink"] .tut-num{background:var(--pink);}.tut-header .tut-info{flex:1;}.tut-header .tut-title{font-family:var(--font-head);font-size:1.05rem;font-weight:700;color:var(--white);}.tut-header .tut-time{font-size:.8rem;color:var(--muted);margin-top:2px;}.tut-header .xp-badge{font-family:var(--font-head);background:rgba(251,191,36,.15);color:var(--amber);padding:4px 12px;border-radius:8px;font-size:.85rem;font-weight:700;flex-shrink:0;}.tut-header .chevron{color:var(--muted);font-size:1.4rem;transition:transform .3s;flex-shrink:0;}.tut-section.open .chevron{transform:rotate(90deg);}.tut-body{padding:0 24px 24px;display:none;}.tut-section.open .tut-body{display:block;}
+.step{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid rgba(51,65,85,.5);}.step:last-child{border-bottom:none;}.step-check{flex-shrink:0;margin-top:3px;}.step-check input[type="checkbox"]{width:20px;height:20px;accent-color:var(--neon);cursor:pointer;}.step-num{font-family:var(--font-head);font-size:.75rem;color:var(--neon);background:rgba(74,222,128,.1);border-radius:6px;padding:2px 8px;height:fit-content;flex-shrink:0;margin-top:2px;}.step-content{flex:1;}.step-content strong{color:var(--neon);}.step-content .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:1px 8px;font-size:.85rem;color:var(--amber);font-weight:700;margin:0 2px;}.step-content .sub-list{margin:8px 0 0 0;list-style:none;}.step-content .sub-list li{padding:4px 0;color:var(--muted);font-size:.9rem;}.step-content .sub-list li::before{content:'\25B8 ';color:var(--blue);}.step-content .sub-list li strong{color:var(--white);}.step-content em{color:var(--muted);}
+.detail{margin:6px 0 0 0;padding:8px 12px;background:rgba(15,23,42,.6);border-left:3px solid var(--blue);border-radius:0 6px 6px 0;font-size:.88rem;color:var(--muted);}.detail strong{color:var(--blue);}
+.callout{margin:16px 0;padding:14px 18px;border-radius:10px;font-size:.9rem;display:flex;gap:12px;align-items:flex-start;}.callout .icon{font-size:1.2rem;flex-shrink:0;}.callout-checkpoint{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);}.callout-checkpoint .icon{color:var(--neon);}.callout-trouble{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);}.callout-trouble .icon{color:var(--red);}.callout-tip{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);}.callout-tip .icon{color:var(--blue);}.callout-challenge{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);}.callout-challenge .icon{color:var(--amber);}.callout-extension{background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);}.callout-extension .icon{color:var(--purple);}
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);border-radius:10px;}.vocab h4{font-family:var(--font-head);font-size:.8rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:.88rem;}.vocab dt{color:var(--amber);font-weight:700;}.vocab dd{color:var(--muted);}
+.activity-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.9rem;}.activity-table th,.activity-table td{padding:10px 14px;border:1px solid var(--border);text-align:left;}.activity-table th{background:rgba(74,222,128,.1);color:var(--neon);font-family:var(--font-head);font-size:.8rem;text-transform:uppercase;}.activity-table td{color:var(--muted);}.activity-table .write-cell{background:rgba(15,23,42,.5);color:var(--muted);font-style:italic;min-height:30px;}
+.gdd-box{margin:14px 0;padding:18px;background:rgba(15,23,42,.6);border:2px solid var(--amber);border-radius:12px;}.gdd-box h4{font-family:var(--font-head);font-size:.9rem;color:var(--amber);margin-bottom:12px;}.gdd-field{margin:8px 0;padding:10px 14px;background:rgba(15,23,42,.4);border:1px solid var(--border);border-radius:8px;min-height:40px;}.gdd-field .label{font-size:.8rem;color:var(--neon);font-weight:700;font-family:var(--font-head);margin-bottom:4px;}.gdd-field .hint{font-size:.82rem;color:var(--muted);font-style:italic;}
+.footer-section{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;}.footer-section h2{font-family:var(--font-head);font-size:1.2rem;margin-bottom:16px;color:var(--neon);}
+.progress-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;}.progress-card{display:flex;align-items:center;gap:12px;padding:12px;background:var(--navy);border-radius:10px;border:1px solid var(--border);}.progress-card input[type="checkbox"]{width:22px;height:22px;accent-color:var(--neon);}.progress-card .pc-label{flex:1;font-size:.9rem;}.progress-card .pc-xp{font-family:var(--font-head);color:var(--amber);font-size:.85rem;}
+.btn{display:inline-block;padding:10px 24px;border-radius:8px;border:none;font-family:var(--font-head);font-size:.85rem;cursor:pointer;font-weight:700;transition:transform .15s;}.btn:hover{transform:translateY(-2px);}.btn-neon{background:var(--neon);color:var(--navy);}.btn-blue{background:var(--blue);color:var(--navy);}.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted);}.btn-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;justify-content:center;}
+.submission-steps{counter-reset:sub;}.submission-steps li{list-style:none;padding:8px 0;display:flex;gap:12px;align-items:flex-start;}.submission-steps li::before{counter-increment:sub;content:counter(sub);font-family:var(--font-head);font-size:.75rem;background:var(--blue);color:var(--navy);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;-webkit-text-fill-color:#111!important;}body{font-size:10pt;line-height:1.5;}#progress-bar-wrap,.btn-row,.no-print{display:none!important;}.hero{padding:20px 0;border-bottom:2px solid #111;}.hero h1{font-size:16pt;-webkit-text-fill-color:#111!important;background:none!important;}.tut-section{break-inside:avoid;border:1px solid #999;margin:12px 0;}.tut-section.open .tut-body,.tut-body{display:block!important;}.tut-header .chevron{display:none;}.tut-num{background:#ddd!important;color:#111!important;}.callout{border:1px solid #999;background:#f9f9f9!important;}.footer-section{break-inside:avoid;border:1px solid #999;}.activity-table th{background:#eee!important;}.gdd-box{border:2px solid #333;}.gdd-field{border:1px solid #999;min-height:60px;}}
+</style>
+</head>
+<body>
+<div id="progress-bar-wrap"><div id="progress-bar"></div></div>
+
+<div class="hero">
+  <h1>GAME DESIGN THEORY</h1>
+  <p class="sub">What makes a great game? Analyse, design, and plan your own game concept.</p>
+  <div class="meta">
+    <span class="tag"><b>Course:</b> Game On (9GAMZA)</span>
+    <span class="tag"><b>Lesson:</b> T1 — L09</span>
+    <span class="tag"><b>Time:</b> ~75 min</span>
+    <span class="tag"><b>Outcomes:</b> G5-1, G5-3, G5-5</span>
+  </div>
+</div>
+
+<div class="xp-tracker">
+  <span class="xp-label">TOTAL XP</span>
+  <span class="xp-val" id="xp-display">0</span>
+  <span class="xp-max">/ 50 XP</span>
+</div>
+
+<div class="container">
+
+<!-- SECTION 1 -->
+<section class="tut-section open" data-colour="green" data-xp="10" id="tut1">
+  <div class="tut-header" onclick="toggleSection(this)">
+    <div class="tut-num">1</div>
+    <div class="tut-info"><div class="tut-title">What Is Game Design?</div><div class="tut-time">~10 min &bull; Understand the role of a game designer.</div></div>
+    <div class="xp-badge">+10 XP</div><div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+    <div class="vocab"><h4>Key Terms</h4><dl>
+      <dt>Game Design</dt><dd>The process of creating the rules, systems, and experiences of a game. It's about decisions, not coding.</dd>
+      <dt>Game Development</dt><dd>The entire process of making a game: design + programming + art + sound + testing.</dd>
+      <dt>Mechanic</dt><dd>A rule or action in a game. Examples: jumping, collecting coins, matching tiles, building blocks.</dd>
+      <dt>Dynamics</dt><dd>What happens when players interact with mechanics. e.g. "speed running" emerges from movement mechanics.</dd>
+      <dt>Aesthetics</dt><dd>How the game makes you FEEL: fun, fear, challenge, discovery, competition.</dd>
+      <dt>GDD</dt><dd>Game Design Document — a written plan for a game, created before coding begins.</dd>
+    </dl></div>
+
+    <div class="callout callout-tip"><div class="icon">&#128161;</div><div><strong>Key insight:</strong> Game design is NOT the same as programming. A game designer decides WHAT the game is — what's fun, what's challenging, what the rules are. A programmer decides HOW to build it in code. You can design a game with just pencil and paper!</div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">1.1</div><div class="step-content"><strong>Think-Pair-Share:</strong> What's your favourite game? What makes it fun? Share with the person next to you. (2 minutes)</div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">1.2</div><div class="step-content"><strong>Key roles in game development:</strong>
+      <ul class="sub-list">
+        <li><strong>Game Designer</strong> — Creates the rules, levels, and experience. The "architect".</li>
+        <li><strong>Programmer</strong> — Writes the code that makes everything work. The "builder".</li>
+        <li><strong>Artist</strong> — Creates visuals: characters, environments, UI, animations.</li>
+        <li><strong>Sound Designer</strong> — Creates music, sound effects, and audio atmosphere.</li>
+        <li><strong>QA Tester</strong> — Finds bugs and tests if the game is fun and balanced.</li>
+      </ul>
+      <em>In indie game dev (and in this course!), you do ALL of these.</em>
+    </div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">1.3</div><div class="step-content"><strong>Which role interests you most?</strong> Write it down:
+      <div class="gdd-field"><div class="label">My preferred role:</div><div class="hint">Designer / Programmer / Artist / Sound / Tester — and why?</div></div>
+    </div></div>
+
+    <div class="callout callout-checkpoint"><div class="icon">&#10003;</div><div><strong>Checkpoint:</strong> "I understand the difference between game design and game development, and I can name 5 key roles."</div></div>
+  </div>
+</section>
+
+<!-- SECTION 2 -->
+<section class="tut-section" data-colour="blue" data-xp="10" id="tut2">
+  <div class="tut-header" onclick="toggleSection(this)">
+    <div class="tut-num">2</div>
+    <div class="tut-info"><div class="tut-title">Core Mechanics &amp; Game Genres</div><div class="tut-time">~10 min &bull; Identify what makes each game unique.</div></div>
+    <div class="xp-badge">+10 XP</div><div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+    <div class="vocab"><h4>Key Terms</h4><dl>
+      <dt>Core Mechanic</dt><dd>The ONE main action a player does over and over. In Mario it's jumping. In Tetris it's rotating blocks.</dd>
+      <dt>Genre</dt><dd>A category of game based on its gameplay style: platformer, RPG, puzzle, shooter, etc.</dd>
+      <dt>Gameplay Loop</dt><dd>The cycle of actions a player repeats: explore → fight → loot → upgrade → explore again.</dd>
+    </dl></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">2.1</div><div class="step-content"><strong>Common core mechanics:</strong>
+      <ul class="sub-list">
+        <li><strong>Jump</strong> — Mario, Celeste, Hollow Knight</li>
+        <li><strong>Shoot</strong> — Fortnite, Call of Duty, Splatoon</li>
+        <li><strong>Collect</strong> — Pokemon, Animal Crossing, Pikmin</li>
+        <li><strong>Avoid</strong> — Geometry Dash, Crossy Road, Flappy Bird</li>
+        <li><strong>Match</strong> — Candy Crush, Bejewelled, Puyo Puyo</li>
+        <li><strong>Build</strong> — Minecraft, Terraria, Roblox Studio</li>
+        <li><strong>Solve</strong> — Portal, The Witness, Professor Layton</li>
+        <li><strong>Survive</strong> — Don't Starve, Subnautica, Rust</li>
+      </ul>
+    </div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">2.2</div><div class="step-content"><strong>Game genres:</strong>
+      <ul class="sub-list">
+        <li><strong>Platformer</strong> — Jump between platforms (Mario, Celeste)</li>
+        <li><strong>RPG</strong> — Role-playing with stats and story (Pokemon, Undertale)</li>
+        <li><strong>Puzzle</strong> — Solve logic challenges (Tetris, Portal)</li>
+        <li><strong>Racing</strong> — Speed competition (Mario Kart, Need for Speed)</li>
+        <li><strong>Fighting</strong> — Combat between characters (Smash Bros, Street Fighter)</li>
+        <li><strong>Sandbox</strong> — Open world, player freedom (Minecraft, GTA)</li>
+        <li><strong>Idle/Incremental</strong> — Auto-progress, numbers go up (Cookie Clicker)</li>
+        <li><strong>Battle Royale</strong> — Last one standing (Fortnite, Apex Legends)</li>
+      </ul>
+    </div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">2.3</div><div class="step-content"><strong>Activity: Analyse 3 Games.</strong> Think of 3 games you play and fill in this table:
+
+    <table class="activity-table">
+      <tr><th>Game Name</th><th>Genre</th><th>Core Mechanic</th><th>Why is it fun?</th></tr>
+      <tr><td class="write-cell">1.</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell">2.</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell">3.</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </table>
+    </div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">2.4</div><div class="step-content"><strong>Discussion:</strong> Can a game have MULTIPLE mechanics? Yes! Most games combine several. Fortnite = shoot + build + collect + survive. But there's usually ONE core mechanic that defines the experience.</div></div>
+
+    <div class="callout callout-checkpoint"><div class="icon">&#10003;</div><div><strong>Checkpoint:</strong> "I can identify core mechanics and genres for 3 different games."</div></div>
+  </div>
+</section>
+
+<!-- SECTION 3 -->
+<section class="tut-section" data-colour="purple" data-xp="10" id="tut3">
+  <div class="tut-header" onclick="toggleSection(this)">
+    <div class="tut-num">3</div>
+    <div class="tut-info"><div class="tut-title">Player Experience &amp; Flow</div><div class="tut-time">~15 min &bull; Understand what makes a game feel "fun".</div></div>
+    <div class="xp-badge">+10 XP</div><div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+    <div class="vocab"><h4>Key Terms</h4><dl>
+      <dt>Flow</dt><dd>The mental state where a game is perfectly balanced between challenge and skill. You're "in the zone".</dd>
+      <dt>Difficulty Curve</dt><dd>How hard the game gets over time. Good games start easy and gradually increase challenge.</dd>
+      <dt>Feedback</dt><dd>Information the game gives the player about their actions: sounds, visuals, score changes, screen shake.</dd>
+      <dt>Positive Feedback</dt><dd>Rewards that encourage the player: coins, XP, power-ups, satisfying sounds.</dd>
+      <dt>Negative Feedback</dt><dd>Consequences that create tension: losing lives, time pressure, damage, game over.</dd>
+    </dl></div>
+
+    <div class="callout callout-tip"><div class="icon">&#128161;</div><div><strong>Flow Theory (simplified):</strong> If a game is too EASY, the player gets <strong>bored</strong>. If it's too HARD, they get <strong>frustrated</strong>. The sweet spot in between is called <strong>flow</strong> — where skill and challenge are perfectly matched. Great game designers keep players in flow.</div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">3.1</div><div class="step-content"><strong>The Flow Channel:</strong> Imagine a graph. X-axis = your skill level. Y-axis = challenge level.
+      <ul class="sub-list">
+        <li><strong>Too easy</strong> (high skill, low challenge) = Boredom. You stop playing.</li>
+        <li><strong>Too hard</strong> (low skill, high challenge) = Frustration. You rage quit.</li>
+        <li><strong>Just right</strong> (matching skill and challenge) = FLOW. You lose track of time!</li>
+      </ul>
+    </div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">3.2</div><div class="step-content"><strong>Difficulty curves in real games:</strong>
+      <ul class="sub-list">
+        <li><strong>Mario</strong> — World 1-1 is a genius tutorial. No text, just level design that teaches you: jump, collect coins, avoid enemies, hit blocks.</li>
+        <li><strong>Celeste</strong> — Each chapter introduces ONE new mechanic, then builds on it with harder levels.</li>
+        <li><strong>Dark Souls</strong> — Intentionally hard from the start. Aimed at players who WANT extreme challenge.</li>
+        <li><strong>Candy Crush</strong> — Easy levels hook you in, then difficulty spikes encourage purchases.</li>
+      </ul>
+    </div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">3.3</div><div class="step-content"><strong>Feedback makes games satisfying.</strong> Think about what happens when you collect a coin in Mario:
+      <ul class="sub-list">
+        <li><strong>Visual:</strong> Coin spins and disappears with a sparkle</li>
+        <li><strong>Audio:</strong> Satisfying "ding!" sound</li>
+        <li><strong>Score:</strong> Number goes up (+100)</li>
+        <li><strong>Progress:</strong> Coin counter increases (50/100)</li>
+      </ul>
+      All of these happen in a split second. Without feedback, collecting a coin would feel like nothing!
+    </div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">3.4</div><div class="step-content"><strong>Activity:</strong> Pick one game you play and list its feedback systems:
+      <div class="gdd-field"><div class="label">Game:</div><div class="hint">Name your game</div></div>
+      <div class="gdd-field"><div class="label">Visual Feedback:</div><div class="hint">What do you SEE when something happens? (particles, animations, colour changes)</div></div>
+      <div class="gdd-field"><div class="label">Audio Feedback:</div><div class="hint">What do you HEAR? (sound effects, music changes)</div></div>
+      <div class="gdd-field"><div class="label">Reward Feedback:</div><div class="hint">What REWARDS do you get? (coins, XP, unlocks, power-ups)</div></div>
+    </div></div>
+
+    <div class="callout callout-checkpoint"><div class="icon">&#10003;</div><div><strong>Checkpoint:</strong> "I understand flow theory, difficulty curves, and feedback systems."</div></div>
+  </div>
+</section>
+
+<!-- SECTION 4 -->
+<section class="tut-section" data-colour="amber" data-xp="10" id="tut4">
+  <div class="tut-header" onclick="toggleSection(this)">
+    <div class="tut-num">4</div>
+    <div class="tut-info"><div class="tut-title">Design Your Game — GDD Lab</div><div class="tut-time">~25 min &bull; Create your own Game Design Document.</div></div>
+    <div class="xp-badge">+10 XP</div><div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+    <div class="callout callout-challenge"><div class="icon">&#127942;</div><div><strong>This is important!</strong> You'll use this Game Design Document later as the foundation for your assessment task. Take it seriously — a good GDD makes coding SO much easier.</div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">4.1</div><div class="step-content"><strong>Think about YOUR game.</strong> What kind of game do YOU want to make in Unity? Consider:
+      <ul class="sub-list">
+        <li>What genre excites you? (platformer, puzzle, adventure, survival...)</li>
+        <li>What's the ONE main thing the player does? (your core mechanic)</li>
+        <li>What makes your game different from others in the same genre?</li>
+        <li>What's realistic to build with your current Unity skills?</li>
+      </ul>
+    </div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">4.2</div><div class="step-content"><strong>Fill in your Game Design Document:</strong>
+
+    <div class="gdd-box"><h4>GAME DESIGN DOCUMENT</h4>
+      <div class="gdd-field"><div class="label">Game Name</div><div class="hint">What is your game called? (Can be a working title — you can change it later)</div></div>
+      <div class="gdd-field"><div class="label">Genre</div><div class="hint">Platformer / Puzzle / Adventure / Survival / Action / Other</div></div>
+      <div class="gdd-field"><div class="label">Core Mechanic</div><div class="hint">The ONE main action (jump, collect, avoid, solve, build...)</div></div>
+      <div class="gdd-field"><div class="label">One-Sentence Description</div><div class="hint">"A [genre] game where you [core mechanic] to [goal]." e.g. "A platformer where you jump between islands to rescue lost pets."</div></div>
+      <div class="gdd-field"><div class="label">Target Audience</div><div class="hint">Who would play this? (Age group, casual/hardcore, what they enjoy)</div></div>
+      <div class="gdd-field"><div class="label">Feature 1</div><div class="hint">A key gameplay feature (e.g. "double jump ability")</div></div>
+      <div class="gdd-field"><div class="label">Feature 2</div><div class="hint">Another key feature (e.g. "collectible power-ups that change abilities")</div></div>
+      <div class="gdd-field"><div class="label">Feature 3</div><div class="hint">Another key feature (e.g. "3 levels with increasing difficulty")</div></div>
+      <div class="gdd-field"><div class="label">Difficulty Plan</div><div class="hint">How does your game get harder? What starts easy? What's the final challenge?</div></div>
+      <div class="gdd-field"><div class="label">Visual Style</div><div class="hint">Pixel art? Cartoon? Dark? Colourful? Minimalist? Describe the look.</div></div>
+      <div class="gdd-field"><div class="label">Feedback Systems</div><div class="hint">What visual/audio/reward feedback will your game have?</div></div>
+    </div>
+    </div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">4.3</div><div class="step-content"><strong>Sketch your main screen.</strong> On paper (or a new page), draw what the player would see during gameplay. Include:
+      <ul class="sub-list">
+        <li>Player character</li>
+        <li>Environment/platforms/obstacles</li>
+        <li>UI elements (score, health, lives)</li>
+        <li>At least one enemy or collectible</li>
+      </ul>
+      <em>It doesn't have to be artistic — stick figures and boxes are perfectly fine! The point is to visualise your idea.</em>
+    </div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">4.4</div><div class="step-content"><strong>Peer review.</strong> Share your GDD with the person next to you. Give each other feedback:
+      <ul class="sub-list">
+        <li>Is the core mechanic clear?</li>
+        <li>Does the game sound fun to play?</li>
+        <li>Is it realistic to build in Unity with your current skills?</li>
+        <li>What's one suggestion to improve it?</li>
+      </ul>
+    </div></div>
+
+    <div class="callout callout-checkpoint"><div class="icon">&#10003;</div><div><strong>Checkpoint:</strong> "My GDD is complete with game name, genre, mechanic, features, difficulty plan, and a sketch."</div></div>
+  </div>
+</section>
+
+<!-- SECTION 5 -->
+<section class="tut-section" data-colour="pink" data-xp="10" id="tut5">
+  <div class="tut-header" onclick="toggleSection(this)">
+    <div class="tut-num">5</div>
+    <div class="tut-info"><div class="tut-title">Extension Challenges</div><div class="tut-time">If time permits &bull; Go deeper into game design.</div></div>
+    <div class="xp-badge">+10 XP</div><div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+    <p style="color:var(--muted);margin-bottom:14px;">Only if you've finished Sections 1-4.</p>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">5.1</div><div class="step-content"><strong>Challenge 1: Research a Famous Designer.</strong> Pick one and write 3 interesting facts:
+      <ul class="sub-list">
+        <li><strong>Shigeru Miyamoto</strong> — Created Mario, Zelda, Donkey Kong (Nintendo)</li>
+        <li><strong>Markus "Notch" Persson</strong> — Created Minecraft (sold to Microsoft for $2.5B)</li>
+        <li><strong>Toby Fox</strong> — Created Undertale almost entirely by himself</li>
+        <li><strong>Jade Raymond</strong> — Led development of Assassin's Creed</li>
+        <li><strong>Hideo Kojima</strong> — Created Metal Gear Solid, Death Stranding</li>
+      </ul>
+    </div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">5.2</div><div class="step-content"><strong>Challenge 2: Difficulty Curve Graph.</strong> Draw a graph for your favourite game: X = progress (Level 1 to final boss), Y = difficulty. Mark where the difficulty spikes happen. Is it a smooth curve or sudden jumps?</div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">5.3</div><div class="step-content"><strong>Challenge 3: Paper Prototype.</strong> Create a paper version of your game! Use index cards for game elements, draw a simple board, and test it with a partner. Can you play your game WITHOUT a computer?</div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">5.4</div><div class="step-content"><strong>Challenge 4: Game Design Analysis Video.</strong> Watch "What Makes Mario Fun?" or "Celeste's Assist Mode" on YouTube. Write 3 design lessons you learned from the video.</div></div>
+
+    <div class="callout callout-extension"><div class="icon">&#127918;</div><div><strong>Fun fact:</strong> Shigeru Miyamoto designed Mario levels on graph paper before anyone wrote a line of code. The design came first — always!</div></div>
+  </div>
+</section>
+
+<!-- FOOTER: Submission -->
+<div class="footer-section">
+  <h2>SUBMISSION GUIDE</h2>
+  <ol class="submission-steps">
+    <li>Take a photo of your <strong>Game Design Document</strong> and <strong>sketch</strong>.</li>
+    <li>Open <strong>Google Classroom</strong> &rarr; T1-L09 assignment.</li>
+    <li>Upload photos and click <strong>"Turn in"</strong>.</li>
+  </ol>
+</div>
+
+<!-- FOOTER: Progress -->
+<div class="footer-section">
+  <h2>PROGRESS TRACKER</h2>
+  <p style="margin-bottom:16px;color:var(--muted);">Aim for Sections 1-4 minimum!</p>
+  <div class="progress-grid">
+    <div class="progress-card"><input type="checkbox" class="master-check" data-tut="1" onchange="updateMasterProgress(this)"><span class="pc-label">Section 1 — What Is Game Design?</span><span class="pc-xp">10 XP</span></div>
+    <div class="progress-card"><input type="checkbox" class="master-check" data-tut="2" onchange="updateMasterProgress(this)"><span class="pc-label">Section 2 — Mechanics & Genres</span><span class="pc-xp">10 XP</span></div>
+    <div class="progress-card"><input type="checkbox" class="master-check" data-tut="3" onchange="updateMasterProgress(this)"><span class="pc-label">Section 3 — Flow & Feedback</span><span class="pc-xp">10 XP</span></div>
+    <div class="progress-card"><input type="checkbox" class="master-check" data-tut="4" onchange="updateMasterProgress(this)"><span class="pc-label">Section 4 — GDD Lab</span><span class="pc-xp">10 XP</span></div>
+    <div class="progress-card"><input type="checkbox" class="master-check" data-tut="5" onchange="updateMasterProgress(this)"><span class="pc-label">Section 5 — Extension</span><span class="pc-xp">10 XP</span></div>
+  </div>
+</div>
+
+<div class="btn-row no-print">
+  <button class="btn btn-neon" onclick="window.print()">&#128424; Save as PDF</button>
+  <button class="btn btn-blue" onclick="expandAll()">Expand All Sections</button>
+  <button class="btn btn-ghost" onclick="resetAll()">Reset Progress</button>
+</div>
+</div>
+
+<script>
+function toggleSection(header){header.closest('.tut-section').classList.toggle('open');}
+function expandAll(){document.querySelectorAll('.tut-section').forEach(s=>s.classList.add('open'));}
+function updateProgress(){const checks=document.querySelectorAll('.step-check input[type="checkbox"]');const total=checks.length;const done=[...checks].filter(c=>c.checked).length;const pct=total?Math.round(done/total*100):0;document.getElementById('progress-bar').style.width=pct+'%';}
+function updateXP(){const masters=document.querySelectorAll('.master-check');let xp=0;masters.forEach(m=>{if(m.checked) xp+=10;});document.getElementById('xp-display').textContent=xp;}
+function updateMasterProgress(cb){updateXP();}
+function resetAll(){if(!confirm('Reset all checkboxes and progress?')) return;document.querySelectorAll('input[type="checkbox"]').forEach(c=>c.checked=false);document.getElementById('progress-bar').style.width='0%';document.getElementById('xp-display').textContent='0';}
+</script>
+</body>
+</html>

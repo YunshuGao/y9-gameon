@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T1-L22 — Reflection &amp; Course Wrap-up</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:15px;line-height:1.7;}a{color:var(--blue);}
+#progress-bar-wrap{position:fixed;top:0;left:0;width:100%;height:6px;background:var(--dark);z-index:9999;}#progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--purple),var(--neon));transition:width .4s;}
+.hero{text-align:center;padding:80px 20px 40px;background:linear-gradient(180deg,rgba(167,139,250,.1) 0%,transparent 100%);}.hero h1{font-family:var(--font-head);font-size:2.4rem;font-weight:900;background:linear-gradient(135deg,var(--neon),var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px;}.hero .sub{color:var(--muted);font-size:.95rem;margin-bottom:24px;}.hero .meta{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;}.hero .tag{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.8rem;color:var(--muted);}.hero .tag b{color:var(--neon);}
+.xp-tracker{display:flex;justify-content:center;align-items:center;gap:16px;margin:30px auto;padding:16px 24px;background:var(--dark);border:1px solid var(--border);border-radius:12px;max-width:500px;}.xp-tracker .xp-label{font-family:var(--font-head);font-size:1rem;color:var(--amber);}.xp-tracker .xp-val{font-family:var(--font-head);font-size:1.6rem;font-weight:900;color:var(--neon);}.xp-tracker .xp-max{color:var(--muted);font-size:.85rem;}
+.container{max-width:880px;margin:0 auto;padding:0 20px 60px;}
+.tut-section{margin:40px 0;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--dark);}.tut-header{padding:20px 24px;display:flex;align-items:center;gap:16px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border);}.tut-header .tut-num{font-family:var(--font-head);font-size:1.6rem;font-weight:900;color:var(--navy);background:var(--neon);border-radius:10px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}.tut-section[data-colour="blue"] .tut-num{background:var(--blue);}.tut-section[data-colour="purple"] .tut-num{background:var(--purple);}.tut-section[data-colour="amber"] .tut-num{background:var(--amber);}.tut-section[data-colour="pink"] .tut-num{background:var(--pink);}.tut-header .tut-info{flex:1;}.tut-header .tut-title{font-family:var(--font-head);font-size:1.05rem;font-weight:700;color:var(--white);}.tut-header .tut-time{font-size:.8rem;color:var(--muted);margin-top:2px;}.tut-header .xp-badge{font-family:var(--font-head);background:rgba(251,191,36,.15);color:var(--amber);padding:4px 12px;border-radius:8px;font-size:.85rem;font-weight:700;flex-shrink:0;}.tut-header .chevron{color:var(--muted);font-size:1.4rem;transition:transform .3s;flex-shrink:0;}.tut-section.open .chevron{transform:rotate(90deg);}.tut-body{padding:0 24px 24px;display:none;}.tut-section.open .tut-body{display:block;}
+.step{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid rgba(51,65,85,.5);}.step:last-child{border-bottom:none;}.step-check{flex-shrink:0;margin-top:3px;}.step-check input[type="checkbox"]{width:20px;height:20px;accent-color:var(--neon);cursor:pointer;}.step-num{font-family:var(--font-head);font-size:.75rem;color:var(--neon);background:rgba(74,222,128,.1);border-radius:6px;padding:2px 8px;height:fit-content;flex-shrink:0;margin-top:2px;}.step-content{flex:1;}.step-content strong{color:var(--neon);}
+.callout{margin:16px 0;padding:14px 18px;border-radius:10px;font-size:.9rem;display:flex;gap:12px;align-items:flex-start;}.callout .icon{font-size:1.2rem;flex-shrink:0;}.callout-checkpoint{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);}.callout-checkpoint .icon{color:var(--neon);}.callout-trouble{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);}.callout-trouble .icon{color:var(--red);}.callout-tip{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);}.callout-tip .icon{color:var(--blue);}.callout-challenge{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);}.callout-challenge .icon{color:var(--amber);}
+.sprint-card{margin:14px 0;padding:16px 18px;background:var(--navy);border:1px solid var(--border);border-radius:10px;}.sprint-card h4{font-family:var(--font-head);font-size:.85rem;margin-bottom:8px;}.sprint-card textarea{width:100%;min-height:50px;background:var(--dark);border:1px solid var(--border);border-radius:6px;padding:10px;color:var(--white);font-family:var(--font-body);font-size:.88rem;resize:vertical;}
+.reflect-q{margin:16px 0;padding:16px 20px;background:var(--navy);border-radius:12px;border-left:4px solid var(--neon);}.reflect-q.blue{border-left-color:var(--blue);}.reflect-q.purple{border-left-color:var(--purple);}.reflect-q.amber{border-left-color:var(--amber);}.reflect-q.pink{border-left-color:var(--pink);}.reflect-q h4{font-family:var(--font-head);font-size:.85rem;margin-bottom:10px;}.reflect-q textarea{width:100%;min-height:60px;background:var(--dark);border:1px solid var(--border);border-radius:6px;padding:10px;color:var(--white);font-family:var(--font-body);font-size:.88rem;resize:vertical;}
+.skill-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0;}.skill-card{padding:14px;background:var(--navy);border:1px solid var(--border);border-radius:10px;}.skill-card h5{font-family:var(--font-head);font-size:.75rem;color:var(--neon);margin-bottom:6px;}.skill-card .rating{display:flex;gap:6px;margin:8px 0;}.skill-card .rating label{display:flex;align-items:center;gap:4px;font-size:.8rem;color:var(--muted);cursor:pointer;}.skill-card .rating input{accent-color:var(--amber);}
+.footer-section{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;}.footer-section h2{font-family:var(--font-head);font-size:1.2rem;margin-bottom:16px;color:var(--neon);}
+.progress-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;}.progress-card{display:flex;align-items:center;gap:12px;padding:12px;background:var(--navy);border-radius:10px;border:1px solid var(--border);}.progress-card input[type="checkbox"]{width:22px;height:22px;accent-color:var(--neon);}.progress-card .pc-label{flex:1;font-size:.9rem;}.progress-card .pc-xp{font-family:var(--font-head);color:var(--amber);font-size:.85rem;}
+.btn{display:inline-block;padding:10px 24px;border-radius:8px;border:none;font-family:var(--font-head);font-size:.85rem;cursor:pointer;font-weight:700;transition:transform .15s;}.btn:hover{transform:translateY(-2px);}.btn-neon{background:var(--neon);color:var(--navy);}.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted);}.btn-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;justify-content:center;}
+.timeline-item{display:flex;gap:16px;padding:8px 0;}.timeline-item .tl-week{font-family:var(--font-head);font-size:.7rem;color:var(--amber);min-width:60px;text-align:right;padding-top:2px;}.timeline-item .tl-dot{width:12px;height:12px;border-radius:50%;background:var(--neon);flex-shrink:0;margin-top:5px;}.timeline-item .tl-content{flex:1;font-size:.88rem;color:var(--muted);}.timeline-item .tl-content strong{color:var(--white);}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;-webkit-text-fill-color:#111!important;}body{font-size:10pt;}#progress-bar-wrap,.btn-row,.no-print{display:none!important;}.tut-section{break-inside:avoid;}.tut-section.open .tut-body,.tut-body{display:block!important;}.tut-header .chevron{display:none;}}
+</style>
+</head>
+<body>
+<div id="progress-bar-wrap"><div id="progress-bar"></div></div>
+<div class="hero">
+  <h1>REFLECTION &amp; WRAP-UP</h1>
+  <p class="sub">Look back at your Game On journey — from "What is a game?" to building your own</p>
+  <div class="meta">
+    <span class="tag"><b>Lesson 22</b> of 22</span>
+    <span class="tag"><b>75 min</b> session</span>
+    <span class="tag"><b>50 XP</b> available</span>
+    <span class="tag">Week 13 — Wed</span>
+    <span class="tag" style="border-color:var(--neon);color:var(--neon);"><b>FINAL LESSON</b></span>
+  </div>
+</div>
+<div class="xp-tracker"><span class="xp-label">XP EARNED:</span><span class="xp-val" id="xp-display">0</span><span class="xp-max">/ 50 XP</span></div>
+<div class="container">
+
+<!-- SECTION 1: Your Game On Journey -->
+<div class="tut-section open" id="section-1" data-colour="neon">
+  <div class="tut-header" onclick="toggleSection(1)"><div class="tut-num">1</div><div class="tut-info"><div class="tut-title">Your Game On Journey</div><div class="tut-time">~10 min</div></div><div class="xp-badge">+10 XP</div><div class="chevron">&#9654;</div></div>
+  <div class="tut-body">
+    <div class="callout callout-challenge"><div class="icon">&#127942;</div><div><strong>THE FINAL LESSON.</strong> This is the last lesson of Game On. Today you'll reflect on everything you've learned, the skills you've built, and the game you created. Take your time with each response — this is your chance to think deeply about your growth.</div></div>
+
+    <p style="font-size:.9rem;color:var(--muted);margin:16px 0 8px;">Look back at the journey you've been on:</p>
+    <div style="padding:0 12px;">
+      <div class="timeline-item"><div class="tl-week">WK 1-2</div><div class="tl-dot"></div><div class="tl-content"><strong>L01-L03:</strong> What is a game? Unity basics, editor essentials</div></div>
+      <div class="timeline-item"><div class="tl-week">WK 3-4</div><div class="tl-dot" style="background:var(--blue);"></div><div class="tl-content"><strong>L04-L06:</strong> 2D sprites, physics, first C# scripts, player movement</div></div>
+      <div class="timeline-item"><div class="tl-week">WK 5-6</div><div class="tl-dot" style="background:var(--purple);"></div><div class="tl-content"><strong>L07-L10:</strong> Variables, conditionals, jump, ground detection, game design theory</div></div>
+      <div class="timeline-item"><div class="tl-week">WK 7-8</div><div class="tl-dot" style="background:var(--amber);"></div><div class="tl-content"><strong>L11-L14:</strong> Animation, tilemaps, UI, sound, particles</div></div>
+      <div class="timeline-item"><div class="tl-week">WK 9-10</div><div class="tl-dot" style="background:var(--pink);"></div><div class="tl-content"><strong>L15-L16:</strong> Menus, scene management, Game Design Document (assessment)</div></div>
+      <div class="timeline-item"><div class="tl-week">WK 11-12</div><div class="tl-dot" style="background:var(--red);"></div><div class="tl-content"><strong>L17-L20:</strong> Sprint 1-4 — building your own game from scratch</div></div>
+      <div class="timeline-item"><div class="tl-week">WK 13</div><div class="tl-dot" style="background:var(--amber);"></div><div class="tl-content"><strong>L21-L22:</strong> Showcase + this reflection</div></div>
+    </div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">1.1</div><div class="step-content"><strong>Read through the timeline above.</strong> Think about how far you've come. In L01, you didn't know what Unity was. Now you've built a complete game.</div></div>
+
+    <div class="reflect-q"><h4 style="color:var(--neon);">What moment in Game On are you most proud of?</h4><textarea placeholder="I'm most proud of the time I... (describe a specific moment — e.g., when my player first jumped, when I fixed a bug, when someone enjoyed my game)"></textarea></div>
+
+    <div class="reflect-q blue"><h4 style="color:var(--blue);">What was the hardest challenge you faced?</h4><textarea placeholder="The hardest part was... (e.g., debugging NullReferenceExceptions, understanding C# syntax, making my game feel fun)"></textarea></div>
+
+    <div class="callout callout-checkpoint"><div class="icon">&#9989;</div><div><strong>Checkpoint:</strong> Read the timeline. Wrote about your proudest moment and biggest challenge.</div></div>
+  </div>
+</div>
+
+<!-- SECTION 2: Skills Self-Assessment -->
+<div class="tut-section" id="section-2" data-colour="blue">
+  <div class="tut-header" onclick="toggleSection(2)"><div class="tut-num">2</div><div class="tut-info"><div class="tut-title">Skills Self-Assessment</div><div class="tut-time">~15 min</div></div><div class="xp-badge">+10 XP</div><div class="chevron">&#9654;</div></div>
+  <div class="tut-body">
+    <div class="callout callout-tip"><div class="icon">&#128161;</div><div><strong>Rate yourself honestly.</strong> There are no wrong answers. This is for YOUR growth, not for marking. Be honest about what you can do well and what you still need to learn.</div></div>
+
+    <p style="font-size:.9rem;color:var(--amber);margin:16px 0 8px;font-family:var(--font-head);">UNITY SKILLS</p>
+    <div class="skill-grid">
+      <div class="skill-card"><h5>Navigate the Unity Editor</h5><div class="rating"><label><input type="radio" name="s1" value="1"> Beginner</label><label><input type="radio" name="s1" value="2"> Developing</label><label><input type="radio" name="s1" value="3"> Confident</label><label><input type="radio" name="s1" value="4"> Expert</label></div></div>
+      <div class="skill-card"><h5>Create & Import 2D Sprites</h5><div class="rating"><label><input type="radio" name="s2" value="1"> Beginner</label><label><input type="radio" name="s2" value="2"> Developing</label><label><input type="radio" name="s2" value="3"> Confident</label><label><input type="radio" name="s2" value="4"> Expert</label></div></div>
+      <div class="skill-card"><h5>Use Physics (Rigidbody2D, Colliders)</h5><div class="rating"><label><input type="radio" name="s3" value="1"> Beginner</label><label><input type="radio" name="s3" value="2"> Developing</label><label><input type="radio" name="s3" value="3"> Confident</label><label><input type="radio" name="s3" value="4"> Expert</label></div></div>
+      <div class="skill-card"><h5>Create Animations</h5><div class="rating"><label><input type="radio" name="s4" value="1"> Beginner</label><label><input type="radio" name="s4" value="2"> Developing</label><label><input type="radio" name="s4" value="3"> Confident</label><label><input type="radio" name="s4" value="4"> Expert</label></div></div>
+      <div class="skill-card"><h5>Build UI (Canvas, TMP, Buttons)</h5><div class="rating"><label><input type="radio" name="s5" value="1"> Beginner</label><label><input type="radio" name="s5" value="2"> Developing</label><label><input type="radio" name="s5" value="3"> Confident</label><label><input type="radio" name="s5" value="4"> Expert</label></div></div>
+      <div class="skill-card"><h5>Manage Scenes & Build Settings</h5><div class="rating"><label><input type="radio" name="s6" value="1"> Beginner</label><label><input type="radio" name="s6" value="2"> Developing</label><label><input type="radio" name="s6" value="3"> Confident</label><label><input type="radio" name="s6" value="4"> Expert</label></div></div>
+    </div>
+
+    <p style="font-size:.9rem;color:var(--purple);margin:16px 0 8px;font-family:var(--font-head);">CODING SKILLS (C#)</p>
+    <div class="skill-grid">
+      <div class="skill-card"><h5>Variables & Data Types</h5><div class="rating"><label><input type="radio" name="c1" value="1"> Beginner</label><label><input type="radio" name="c1" value="2"> Developing</label><label><input type="radio" name="c1" value="3"> Confident</label><label><input type="radio" name="c1" value="4"> Expert</label></div></div>
+      <div class="skill-card"><h5>If/Else Conditionals</h5><div class="rating"><label><input type="radio" name="c2" value="1"> Beginner</label><label><input type="radio" name="c2" value="2"> Developing</label><label><input type="radio" name="c2" value="3"> Confident</label><label><input type="radio" name="c2" value="4"> Expert</label></div></div>
+      <div class="skill-card"><h5>Functions / Methods</h5><div class="rating"><label><input type="radio" name="c3" value="1"> Beginner</label><label><input type="radio" name="c3" value="2"> Developing</label><label><input type="radio" name="c3" value="3"> Confident</label><label><input type="radio" name="c3" value="4"> Expert</label></div></div>
+      <div class="skill-card"><h5>GetComponent & Inspector Links</h5><div class="rating"><label><input type="radio" name="c4" value="1"> Beginner</label><label><input type="radio" name="c4" value="2"> Developing</label><label><input type="radio" name="c4" value="3"> Confident</label><label><input type="radio" name="c4" value="4"> Expert</label></div></div>
+      <div class="skill-card"><h5>Collision / Trigger Detection</h5><div class="rating"><label><input type="radio" name="c5" value="1"> Beginner</label><label><input type="radio" name="c5" value="2"> Developing</label><label><input type="radio" name="c5" value="3"> Confident</label><label><input type="radio" name="c5" value="4"> Expert</label></div></div>
+      <div class="skill-card"><h5>Debugging Errors</h5><div class="rating"><label><input type="radio" name="c6" value="1"> Beginner</label><label><input type="radio" name="c6" value="2"> Developing</label><label><input type="radio" name="c6" value="3"> Confident</label><label><input type="radio" name="c6" value="4"> Expert</label></div></div>
+    </div>
+
+    <p style="font-size:.9rem;color:var(--amber);margin:16px 0 8px;font-family:var(--font-head);">DESIGN & PROJECT SKILLS</p>
+    <div class="skill-grid">
+      <div class="skill-card"><h5>Game Design Thinking</h5><div class="rating"><label><input type="radio" name="d1" value="1"> Beginner</label><label><input type="radio" name="d1" value="2"> Developing</label><label><input type="radio" name="d1" value="3"> Confident</label><label><input type="radio" name="d1" value="4"> Expert</label></div></div>
+      <div class="skill-card"><h5>Sprint Planning & Time Management</h5><div class="rating"><label><input type="radio" name="d2" value="1"> Beginner</label><label><input type="radio" name="d2" value="2"> Developing</label><label><input type="radio" name="d2" value="3"> Confident</label><label><input type="radio" name="d2" value="4"> Expert</label></div></div>
+      <div class="skill-card"><h5>Giving & Receiving Feedback</h5><div class="rating"><label><input type="radio" name="d3" value="1"> Beginner</label><label><input type="radio" name="d3" value="2"> Developing</label><label><input type="radio" name="d3" value="3"> Confident</label><label><input type="radio" name="d3" value="4"> Expert</label></div></div>
+      <div class="skill-card"><h5>Presenting Your Work</h5><div class="rating"><label><input type="radio" name="d4" value="1"> Beginner</label><label><input type="radio" name="d4" value="2"> Developing</label><label><input type="radio" name="d4" value="3"> Confident</label><label><input type="radio" name="d4" value="4"> Expert</label></div></div>
+    </div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">2.1</div><div class="step-content"><strong>Rate yourself in all 16 skills above.</strong> Be honest — this helps you understand your growth.</div></div>
+    <div class="callout callout-checkpoint"><div class="icon">&#9989;</div><div><strong>Checkpoint:</strong> All 16 skills self-assessed.</div></div>
+  </div>
+</div>
+
+<!-- SECTION 3: Deep Reflection -->
+<div class="tut-section" id="section-3" data-colour="purple">
+  <div class="tut-header" onclick="toggleSection(3)"><div class="tut-num">3</div><div class="tut-info"><div class="tut-title">Deep Reflection</div><div class="tut-time">~20 min</div></div><div class="xp-badge">+10 XP</div><div class="chevron">&#9654;</div></div>
+  <div class="tut-body">
+    <div class="callout callout-tip"><div class="icon">&#128161;</div><div><strong>Write at least 3-4 sentences for each question.</strong> The more detail you give, the more useful this reflection will be. Think about specific examples.</div></div>
+
+    <div class="reflect-q"><h4 style="color:var(--neon);">1. Describe your final game. What is it? What can the player do?</h4><textarea style="min-height:80px" placeholder="My game is called ___. It's a ___ where the player ___. The main features are: ___. The game has ___ scenes and includes ___."></textarea></div>
+
+    <div class="reflect-q blue"><h4 style="color:var(--blue);">2. Compare your final game to your original GDD. What changed? Why?</h4><textarea style="min-height:80px" placeholder="In my GDD I planned to ___. In the final game, I ___ because ___. I had to cut ___ because of time/skill constraints. I added ___ that wasn't in my original plan."></textarea></div>
+
+    <div class="reflect-q purple"><h4 style="color:var(--purple);">3. What was the most important thing you learned in Game On? (Not just Unity — think bigger)</h4><textarea style="min-height:80px" placeholder="The most important thing I learned is ___. This matters because ___. For example, ___."></textarea></div>
+
+    <div class="reflect-q amber"><h4 style="color:var(--amber);">4. If you could restart Game On, what would you do differently?</h4><textarea style="min-height:80px" placeholder="If I started over, I would ___. I would spend more time on ___ and less time on ___. I would also ___."></textarea></div>
+
+    <div class="reflect-q pink"><h4 style="color:var(--pink);">5. How did the sprint process (planning, building, testing, reviewing) help you? Would you use it again?</h4><textarea style="min-height:80px" placeholder="The sprint process helped me because ___. The best part was ___. The hardest part was ___. I would / would not use sprints again because ___."></textarea></div>
+
+    <div class="reflect-q"><h4 style="color:var(--neon);">6. What advice would you give to a Year 9 student starting Game On next year?</h4><textarea style="min-height:80px" placeholder="I would tell them to ___. Don't worry about ___. The most important thing is ___. Start by ___."></textarea></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">3.1</div><div class="step-content"><strong>Answer all 6 reflection questions above.</strong> At least 3-4 sentences each.</div></div>
+    <div class="callout callout-checkpoint"><div class="icon">&#9989;</div><div><strong>Checkpoint:</strong> All 6 reflection questions answered with detail.</div></div>
+  </div>
+</div>
+
+<!-- SECTION 4: Course Feedback -->
+<div class="tut-section" id="section-4" data-colour="amber">
+  <div class="tut-header" onclick="toggleSection(4)"><div class="tut-num">4</div><div class="tut-info"><div class="tut-title">Course Feedback</div><div class="tut-time">~10 min</div></div><div class="xp-badge">+10 XP</div><div class="chevron">&#9654;</div></div>
+  <div class="tut-body">
+    <div class="callout callout-tip"><div class="icon">&#128161;</div><div><strong>Your honest feedback helps improve this course for future students.</strong> There are no right or wrong answers, and this won't affect your marks.</div></div>
+
+    <div class="reflect-q amber"><h4 style="color:var(--amber);">What was your FAVOURITE part of Game On?</h4><textarea placeholder="My favourite part was ___ because ___."></textarea></div>
+
+    <div class="reflect-q"><h4 style="color:var(--neon);">What was your LEAST favourite part?</h4><textarea placeholder="My least favourite part was ___ because ___."></textarea></div>
+
+    <div class="reflect-q blue"><h4 style="color:var(--blue);">Were the tutorials helpful? What would make them better?</h4><textarea placeholder="The tutorials were ___. They could be improved by ___."></textarea></div>
+
+    <div class="reflect-q purple"><h4 style="color:var(--purple);">Was the pace of the course right? Too fast? Too slow?</h4><textarea placeholder="The pace was ___. I would have liked more time on ___ and less time on ___."></textarea></div>
+
+    <div class="reflect-q pink"><h4 style="color:var(--pink);">Rate the overall course (1-10) and explain your rating:</h4><textarea placeholder="I'd rate Game On ___ / 10 because ___."></textarea></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">4.1</div><div class="step-content"><strong>Answer all 5 feedback questions.</strong> Be honest — your feedback helps improve the course!</div></div>
+    <div class="callout callout-checkpoint"><div class="icon">&#9989;</div><div><strong>Checkpoint:</strong> Course feedback complete.</div></div>
+  </div>
+</div>
+
+<!-- SECTION 5: What's Next & Farewell -->
+<div class="tut-section" id="section-5" data-colour="pink">
+  <div class="tut-header" onclick="toggleSection(5)"><div class="tut-num">5</div><div class="tut-info"><div class="tut-title">What's Next &amp; Farewell</div><div class="tut-time">~10 min</div></div><div class="xp-badge">+10 XP</div><div class="chevron">&#9654;</div></div>
+  <div class="tut-body">
+    <div class="callout callout-challenge"><div class="icon">&#127881;</div><div><strong>CONGRATULATIONS!</strong> You've completed Game On. Whether your game was simple or complex, you built something from nothing. That's real game development. Be proud!</div></div>
+
+    <p style="font-size:1rem;color:var(--amber);margin:16px 0 8px;font-family:var(--font-head);">KEEP LEARNING (if you want!)</p>
+    <div style="padding:0 12px;margin-bottom:16px;">
+      <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">5.1</div><div class="step-content"><strong>Unity Learn (free):</strong> learn.unity.com — Junior Programmer pathway continues where we left off. Recommended if you enjoyed coding.</div></div>
+      <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">5.2</div><div class="step-content"><strong>Brackeys (YouTube):</strong> Search "Brackeys" — excellent free Unity tutorials. Start with "How to make a 2D Platformer" series.</div></div>
+      <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">5.3</div><div class="step-content"><strong>Game Jams:</strong> itch.io/jams — Game Jams challenge you to build a game in a weekend. Ludum Dare and Global Game Jam are great places to start.</div></div>
+      <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">5.4</div><div class="step-content"><strong>Other engines:</strong> Try Godot (free, open-source), GameMaker, or Unreal Engine. Different tools suit different games.</div></div>
+    </div>
+
+    <div class="reflect-q pink"><h4 style="color:var(--pink);">Will you continue making games? What would you build next?</h4><textarea placeholder="After Game On, I want to ___. My next game idea is ___. I'm interested in learning more about ___."></textarea></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">5.5</div><div class="step-content"><strong>FINAL SUBMISSION.</strong> Submit this completed tutorial to Google Classroom. This is your L22 evidence and final reflection piece.</div></div>
+
+    <div class="callout callout-checkpoint"><div class="icon">&#9989;</div><div><strong>FINAL CHECKPOINT:</strong> Reflection submitted. Game On complete. Well done!</div></div>
+  </div>
+</div>
+
+<div class="footer-section">
+  <h2>Progress Tracker — FINAL</h2>
+  <div class="progress-grid">
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Journey reviewed + key moments</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">16 skills self-assessed</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">6 deep reflections written</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Course feedback given</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Final submission complete</span><span class="pc-xp">+10 XP</span></div>
+  </div>
+</div>
+<div class="btn-row no-print">
+  <button class="btn btn-neon" onclick="expandAll()">Expand All</button>
+  <button class="btn btn-ghost" onclick="resetAll()">Reset Progress</button>
+</div>
+</div>
+<script>
+const TOTAL_SECTIONS=5,XP_PER_SECTION=10;let xp=0;
+function toggleSection(n){const s=document.getElementById('section-'+n);s.classList.toggle('open');}
+function expandAll(){document.querySelectorAll('.tut-section').forEach(s=>s.classList.add('open'));}
+function updateProgress(){const checks=document.querySelectorAll('.step-check input[type="checkbox"]');const total=checks.length;const done=[...checks].filter(c=>c.checked).length;document.getElementById('progress-bar').style.width=Math.round(done/total*100)+'%';updateXP();}
+function updateXP(){let total=0;for(let i=1;i<=TOTAL_SECTIONS;i++){const sec=document.getElementById('section-'+i);if(!sec)continue;const checks=sec.querySelectorAll('.step-check input[type="checkbox"]');const done=[...checks].filter(c=>c.checked).length;if(checks.length>0&&done===checks.length)total+=XP_PER_SECTION;}xp=total;document.getElementById('xp-display').textContent=xp;}
+function resetAll(){document.querySelectorAll('input[type="checkbox"]').forEach(c=>c.checked=false);updateProgress();}
+</script>
+</body>
+</html>

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T1-L13 — UI: Score &amp; Health Tutorial</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:15px;line-height:1.7;}a{color:var(--blue);}
+#progress-bar-wrap{position:fixed;top:0;left:0;width:100%;height:6px;background:var(--dark);z-index:9999;}#progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--neon),var(--blue));transition:width .4s;}
+.hero{text-align:center;padding:80px 20px 40px;background:linear-gradient(180deg,rgba(74,222,128,.08) 0%,transparent 100%);}.hero h1{font-family:var(--font-head);font-size:2.4rem;font-weight:900;background:linear-gradient(135deg,var(--neon),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px;}.hero .sub{color:var(--muted);font-size:.95rem;margin-bottom:24px;}.hero .meta{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;}.hero .tag{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.8rem;color:var(--muted);}.hero .tag b{color:var(--neon);}
+.xp-tracker{display:flex;justify-content:center;align-items:center;gap:16px;margin:30px auto;padding:16px 24px;background:var(--dark);border:1px solid var(--border);border-radius:12px;max-width:500px;}.xp-tracker .xp-label{font-family:var(--font-head);font-size:1rem;color:var(--amber);}.xp-tracker .xp-val{font-family:var(--font-head);font-size:1.6rem;font-weight:900;color:var(--neon);}.xp-tracker .xp-max{color:var(--muted);font-size:.85rem;}
+.container{max-width:880px;margin:0 auto;padding:0 20px 60px;}
+.tut-section{margin:40px 0;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--dark);}.tut-header{padding:20px 24px;display:flex;align-items:center;gap:16px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border);}.tut-header .tut-num{font-family:var(--font-head);font-size:1.6rem;font-weight:900;color:var(--navy);background:var(--neon);border-radius:10px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}.tut-section[data-colour="blue"] .tut-num{background:var(--blue);}.tut-section[data-colour="purple"] .tut-num{background:var(--purple);}.tut-section[data-colour="amber"] .tut-num{background:var(--amber);}.tut-section[data-colour="pink"] .tut-num{background:var(--pink);}.tut-header .tut-info{flex:1;}.tut-header .tut-title{font-family:var(--font-head);font-size:1.05rem;font-weight:700;color:var(--white);}.tut-header .tut-time{font-size:.8rem;color:var(--muted);margin-top:2px;}.tut-header .xp-badge{font-family:var(--font-head);background:rgba(251,191,36,.15);color:var(--amber);padding:4px 12px;border-radius:8px;font-size:.85rem;font-weight:700;flex-shrink:0;}.tut-header .chevron{color:var(--muted);font-size:1.4rem;transition:transform .3s;flex-shrink:0;}.tut-section.open .chevron{transform:rotate(90deg);}.tut-body{padding:0 24px 24px;display:none;}.tut-section.open .tut-body{display:block;}
+.step{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid rgba(51,65,85,.5);}.step:last-child{border-bottom:none;}.step-check{flex-shrink:0;margin-top:3px;}.step-check input[type="checkbox"]{width:20px;height:20px;accent-color:var(--neon);cursor:pointer;}.step-num{font-family:var(--font-head);font-size:.75rem;color:var(--neon);background:rgba(74,222,128,.1);border-radius:6px;padding:2px 8px;height:fit-content;flex-shrink:0;margin-top:2px;}.step-content{flex:1;}.step-content strong{color:var(--neon);}.step-content .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:1px 8px;font-size:.85rem;color:var(--amber);font-weight:700;margin:0 2px;}.step-content .sub-list{margin:8px 0 0 0;list-style:none;}.step-content .sub-list li{padding:4px 0;color:var(--muted);font-size:.9rem;}.step-content .sub-list li::before{content:'\25B8 ';color:var(--blue);}.step-content .sub-list li strong{color:var(--white);}
+.detail{margin:6px 0 0 0;padding:8px 12px;background:rgba(15,23,42,.6);border-left:3px solid var(--blue);border-radius:0 6px 6px 0;font-size:.88rem;color:var(--muted);}.detail strong{color:var(--blue);}
+.code-block{margin:10px 0;padding:14px 18px;background:#0a0e1a;border:1px solid var(--border);border-radius:10px;font-family:var(--font-body);font-size:.88rem;line-height:1.6;overflow-x:auto;white-space:pre;color:var(--neon);}.code-block .kw{color:var(--blue);}.code-block .ty{color:var(--purple);}.code-block .st{color:var(--amber);}.code-block .cm{color:var(--muted);font-style:italic;}.code-block .fn{color:var(--pink);}
+.callout{margin:16px 0;padding:14px 18px;border-radius:10px;font-size:.9rem;display:flex;gap:12px;align-items:flex-start;}.callout .icon{font-size:1.2rem;flex-shrink:0;}.callout-checkpoint{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);}.callout-checkpoint .icon{color:var(--neon);}.callout-trouble{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);}.callout-trouble .icon{color:var(--red);}.callout-tip{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);}.callout-tip .icon{color:var(--blue);}.callout-challenge{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);}.callout-challenge .icon{color:var(--amber);}.callout-extension{background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);}.callout-extension .icon{color:var(--purple);}
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);border-radius:10px;}.vocab h4{font-family:var(--font-head);font-size:.8rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:.88rem;}.vocab dt{color:var(--amber);font-weight:700;}.vocab dd{color:var(--muted);}
+.footer-section{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;}.footer-section h2{font-family:var(--font-head);font-size:1.2rem;margin-bottom:16px;color:var(--neon);}
+.progress-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;}.progress-card{display:flex;align-items:center;gap:12px;padding:12px;background:var(--navy);border-radius:10px;border:1px solid var(--border);}.progress-card input[type="checkbox"]{width:22px;height:22px;accent-color:var(--neon);}.progress-card .pc-label{flex:1;font-size:.9rem;}.progress-card .pc-xp{font-family:var(--font-head);color:var(--amber);font-size:.85rem;}
+.btn{display:inline-block;padding:10px 24px;border-radius:8px;border:none;font-family:var(--font-head);font-size:.85rem;cursor:pointer;font-weight:700;transition:transform .15s;}.btn:hover{transform:translateY(-2px);}.btn-neon{background:var(--neon);color:var(--navy);}.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted);}.btn-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;justify-content:center;}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;-webkit-text-fill-color:#111!important;}body{font-size:10pt;}#progress-bar-wrap,.btn-row,.no-print{display:none!important;}.tut-section{break-inside:avoid;}.tut-section.open .tut-body,.tut-body{display:block!important;}.tut-header .chevron{display:none;}.code-block{background:#f4f4f4!important;color:#111!important;}.code-block .kw,.code-block .ty,.code-block .fn,.code-block .st,.code-block .cm{color:#333!important;}}
+</style>
+</head>
+<body>
+<div id="progress-bar-wrap"><div id="progress-bar"></div></div>
+
+<div class="hero">
+  <h1>UI: SCORE &amp; HEALTH</h1>
+  <p class="sub">Add on-screen score, health hearts, and a timer to make your game feel complete!</p>
+  <div class="meta">
+    <span class="tag"><b>Course:</b> Game On (9GAMZA)</span>
+    <span class="tag"><b>Lesson:</b> T1 — L13</span>
+    <span class="tag"><b>Time:</b> ~75 min</span>
+    <span class="tag"><b>Outcomes:</b> G5-1, G5-2, G5-5</span>
+  </div>
+</div>
+
+<div class="xp-tracker">
+  <span class="xp-label">TOTAL XP</span>
+  <span class="xp-val" id="xp-display">0</span>
+  <span class="xp-max">/ 50 XP</span>
+</div>
+
+<div class="container">
+
+<!-- ═══ SECTION 1: Unity UI Basics ═══ -->
+<div class="tut-section open" data-colour="neon" id="section-1">
+  <div class="tut-header" onclick="toggleSection(1)">
+    <div class="tut-num">1</div>
+    <div class="tut-info"><div class="tut-title">Unity UI System (Canvas)</div><div class="tut-time">~10 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="vocab">
+      <h4>Key Vocabulary</h4>
+      <dl>
+        <dt>Canvas</dt><dd>The container for all UI elements. UI exists on the Canvas, not in the game world.</dd>
+        <dt>TextMeshPro (TMP)</dt><dd>Unity's advanced text system — better fonts, styling, and performance than legacy Text.</dd>
+        <dt>Rect Transform</dt><dd>The UI version of Transform. Uses anchors to position relative to the screen.</dd>
+        <dt>Anchor</dt><dd>Where a UI element is "pinned" on screen (top-left, centre, etc.).</dd>
+        <dt>Screen Space - Overlay</dt><dd>UI renders on top of everything. Stays fixed on screen regardless of camera.</dd>
+      </dl>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.1</div>
+      <div class="step-content"><strong>What is UI?</strong> UI (User Interface) is everything the player sees that's NOT part of the game world — score, health bars, menus, buttons. In Unity, UI lives on a special object called a <strong>Canvas</strong>.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.2</div>
+      <div class="step-content"><strong>Create a Canvas:</strong>
+        <ul class="sub-list">
+          <li>Right-click Hierarchy → <strong>UI → Canvas</strong></li>
+          <li>Unity creates a Canvas with an <strong>EventSystem</strong> (handles clicks)</li>
+          <li>The Canvas looks HUGE in Scene view — that's normal! It maps to your screen.</li>
+          <li>In the Canvas Inspector, set Render Mode to <strong>Screen Space - Overlay</strong></li>
+        </ul>
+        <div class="detail"><strong>Screen Space - Overlay</strong> means the UI always renders on top and stays fixed on screen, even when the camera moves. Perfect for score and health!</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.3</div>
+      <div class="step-content"><strong>Install TextMeshPro (TMP):</strong> When you first add a TMP element, Unity will ask to <strong>Import TMP Essentials</strong>. Click it! This gives you much better text than the basic UI Text.
+        <div class="detail">If the popup doesn't appear: <strong>Window → TextMeshPro → Import TMP Essential Resources</strong></div>
+      </div>
+    </div>
+
+    <div class="callout callout-tip">
+      <span class="icon">&#128161;</span>
+      <span><strong>Scene View Tip:</strong> The Canvas is huge in Scene view. Press <span class="key">2</span> to switch to 2D view. Double-click the Canvas to zoom to it. Use the Rect Tool (<span class="key">T</span>) to move/resize UI elements.</span>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <span class="icon">&#10003;</span>
+      <span><strong>Checkpoint:</strong> I have a Canvas in my scene with Screen Space - Overlay mode.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SECTION 2: Score Display ═══ -->
+<div class="tut-section" data-colour="blue" id="section-2">
+  <div class="tut-header" onclick="toggleSection(2)">
+    <div class="tut-num">2</div>
+    <div class="tut-info"><div class="tut-title">Score Display</div><div class="tut-time">~15 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.1</div>
+      <div class="step-content"><strong>Add Score Text:</strong>
+        <ul class="sub-list">
+          <li>Right-click the Canvas → <strong>UI → Text - TextMeshPro</strong></li>
+          <li>Rename it <strong>"ScoreText"</strong></li>
+          <li>In the Inspector, set the text to <strong>"Score: 0"</strong></li>
+          <li>Font Size: <strong>36</strong></li>
+          <li>Color: white or yellow</li>
+          <li>Alignment: left</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.2</div>
+      <div class="step-content"><strong>Position with Anchors:</strong>
+        <ul class="sub-list">
+          <li>Select ScoreText → click the <strong>Anchor Presets</strong> square (top-left of Rect Transform)</li>
+          <li>Hold <span class="key">Alt</span> and click <strong>top-left</strong> anchor</li>
+          <li>This pins the score to the top-left corner of the screen</li>
+          <li>Adjust Pos X/Y to add some padding (e.g. X=20, Y=-20)</li>
+        </ul>
+        <div class="detail"><strong>Why anchors matter:</strong> If someone plays your game on a bigger screen, anchored UI stays in the correct corner. Without anchors, UI drifts to wrong positions on different screens.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.3</div>
+      <div class="step-content"><strong>Create a UIManager script:</strong> Create a new script called <strong>"UIManager"</strong>. Attach it to the <strong>Canvas</strong>.
+<div class="code-block"><span class="kw">using</span> UnityEngine;
+<span class="kw">using</span> TMPro;
+
+<span class="kw">public class</span> <span class="ty">UIManager</span> : <span class="ty">MonoBehaviour</span>
+{
+    <span class="kw">public</span> <span class="ty">TextMeshProUGUI</span> scoreText;
+    <span class="kw">public</span> <span class="ty">TextMeshProUGUI</span> livesText;
+
+    <span class="kw">public void</span> <span class="fn">UpdateScore</span>(<span class="ty">int</span> score)
+    {
+        scoreText.text = <span class="st">"Score: "</span> + score;
+    }
+
+    <span class="kw">public void</span> <span class="fn">UpdateLives</span>(<span class="ty">int</span> lives)
+    {
+        livesText.text = <span class="st">"Lives: "</span> + lives;
+    }
+}</div>
+        <div class="detail"><strong>TextMeshProUGUI</strong> is the type for UI text. Note the <code>using TMPro;</code> at the top — this is required!</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.4</div>
+      <div class="step-content"><strong>Connect the Text:</strong> Select the Canvas. In the UIManager component, drag your <strong>ScoreText</strong> into the "Score Text" field.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.5</div>
+      <div class="step-content"><strong>Update score from PlayerController:</strong> In your PlayerController, update the UI when collecting coins:
+<div class="code-block"><span class="cm">// At the top, add a reference</span>
+<span class="kw">public</span> <span class="ty">UIManager</span> uiManager;
+
+<span class="cm">// In OnTriggerEnter2D, after score++</span>
+uiManager.<span class="fn">UpdateScore</span>(score);</div>
+        <div class="detail">Select the Player in Hierarchy. Drag the <strong>Canvas</strong> (which has UIManager) into the "UI Manager" slot on the PlayerController.</div>
+      </div>
+    </div>
+
+    <div class="callout callout-trouble">
+      <span class="icon">&#9888;</span>
+      <span><strong>"TMPro" not found?</strong> Make sure you imported TMP Essentials (Window → TextMeshPro → Import). Also check: <code>using TMPro;</code> is at the very top of your script. Use <code>TextMeshProUGUI</code> not <code>Text</code>.</span>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <span class="icon">&#10003;</span>
+      <span><strong>Checkpoint:</strong> Score displays on screen and updates when I collect coins!</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SECTION 3: Lives Display ═══ -->
+<div class="tut-section" data-colour="purple" id="section-3">
+  <div class="tut-header" onclick="toggleSection(3)">
+    <div class="tut-num">3</div>
+    <div class="tut-info"><div class="tut-title">Lives Display</div><div class="tut-time">~10 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.1</div>
+      <div class="step-content"><strong>Add Lives Text:</strong>
+        <ul class="sub-list">
+          <li>Right-click Canvas → <strong>UI → Text - TextMeshPro</strong></li>
+          <li>Rename to <strong>"LivesText"</strong></li>
+          <li>Text: <strong>"Lives: 3"</strong></li>
+          <li>Font Size: <strong>36</strong>, Color: <strong>red</strong></li>
+          <li>Anchor: <strong>top-right</strong> (hold Alt, click top-right preset)</li>
+          <li>Pos X: -20, Pos Y: -20</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.2</div>
+      <div class="step-content"><strong>Connect and update:</strong>
+        <ul class="sub-list">
+          <li>Drag <strong>LivesText</strong> into the UIManager's "Lives Text" field</li>
+          <li>In your PlayerController, after <code>lives--</code>, add: <code>uiManager.UpdateLives(lives);</code></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.3</div>
+      <div class="step-content"><strong>Heart Icons (optional but cool):</strong> Instead of "Lives: 3" text, display heart images:
+        <ul class="sub-list">
+          <li>Right-click Canvas → <strong>UI → Image</strong></li>
+          <li>Set Source Image to a heart sprite (import one or use Unity's built-in)</li>
+          <li>Duplicate 3 times (Ctrl+D) for 3 hearts</li>
+          <li>Create a <strong>Horizontal Layout Group</strong> parent to space them evenly</li>
+          <li>When lives decrease, disable a heart: <code>hearts[i].SetActive(false);</code></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <span class="icon">&#10003;</span>
+      <span><strong>Checkpoint:</strong> Lives display on screen and decrease when hitting enemies.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SECTION 4: Health Bar & Timer ═══ -->
+<div class="tut-section" data-colour="amber" id="section-4">
+  <div class="tut-header" onclick="toggleSection(4)">
+    <div class="tut-num">4</div>
+    <div class="tut-info"><div class="tut-title">Health Bar &amp; Timer</div><div class="tut-time">~25 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.1</div>
+      <div class="step-content"><strong>Create a Health Bar:</strong> A visual bar that shrinks as health decreases.
+        <ul class="sub-list">
+          <li>Right-click Canvas → <strong>UI → Slider</strong></li>
+          <li>Rename to <strong>"HealthBar"</strong></li>
+          <li>Delete the <strong>"Handle Slide Area"</strong> child (we don't need it)</li>
+          <li>Uncheck <strong>"Interactable"</strong> (player shouldn't click it)</li>
+          <li>Set <strong>Max Value = 100</strong>, <strong>Value = 100</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.2</div>
+      <div class="step-content"><strong>Style the Health Bar:</strong>
+        <ul class="sub-list">
+          <li>Select <strong>Background</strong> child → set colour to <strong>dark grey</strong></li>
+          <li>Select <strong>Fill Area → Fill</strong> → set colour to <strong>green</strong></li>
+          <li>Anchor to <strong>top-centre</strong></li>
+          <li>Resize: Width = 300, Height = 30</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.3</div>
+      <div class="step-content"><strong>Add to UIManager:</strong>
+<div class="code-block"><span class="kw">using</span> UnityEngine.UI;  <span class="cm">// Add this at the top!</span>
+
+<span class="cm">// Add variable</span>
+<span class="kw">public</span> <span class="ty">Slider</span> healthBar;
+
+<span class="cm">// Add method</span>
+<span class="kw">public void</span> <span class="fn">UpdateHealth</span>(<span class="ty">float</span> health)
+{
+    healthBar.value = health;
+    <span class="cm">// Change colour based on health</span>
+    <span class="ty">Image</span> fill = healthBar.<span class="fn">fillRect</span>.<span class="fn">GetComponent</span>&lt;<span class="ty">Image</span>&gt;();
+    <span class="kw">if</span> (health > <span class="st">60</span>) fill.color = <span class="ty">Color</span>.green;
+    <span class="kw">else if</span> (health > <span class="st">30</span>) fill.color = <span class="ty">Color</span>.yellow;
+    <span class="kw">else</span> fill.color = <span class="ty">Color</span>.red;
+}</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.4</div>
+      <div class="step-content"><strong>Add a Timer:</strong>
+        <ul class="sub-list">
+          <li>Add a new TMP Text, name it <strong>"TimerText"</strong>, anchor top-centre</li>
+          <li>Add to UIManager: <code>public TextMeshProUGUI timerText;</code></li>
+        </ul>
+<div class="code-block"><span class="cm">// In UIManager</span>
+<span class="kw">private</span> <span class="ty">float</span> timer = <span class="st">0f</span>;
+
+<span class="kw">void</span> <span class="fn">Update</span>()
+{
+    timer += <span class="ty">Time</span>.deltaTime;
+    <span class="ty">int</span> minutes = (<span class="ty">int</span>)(timer / <span class="st">60</span>);
+    <span class="ty">int</span> seconds = (<span class="ty">int</span>)(timer % <span class="st">60</span>);
+    timerText.text = <span class="ty">string</span>.<span class="fn">Format</span>(<span class="st">"{0:00}:{1:00}"</span>, minutes, seconds);
+}</div>
+        <div class="detail"><strong>Time.deltaTime</strong> is the time since the last frame. Adding it each frame gives us a real-time clock. Format gives us "00:00" display.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.5</div>
+      <div class="step-content"><strong>Connect everything:</strong> Select the Canvas. Drag the HealthBar slider and TimerText into the UIManager fields. Test: the timer should count up, and the health bar should respond when you call UpdateHealth.</div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <span class="icon">&#10003;</span>
+      <span><strong>Checkpoint:</strong> My game has Score (top-left), Lives (top-right), Health Bar (top-centre), and Timer.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SECTION 5: Extension ═══ -->
+<div class="tut-section" data-colour="pink" id="section-5">
+  <div class="tut-header" onclick="toggleSection(5)">
+    <div class="tut-num">5</div>
+    <div class="tut-info"><div class="tut-title">Extension Challenges</div><div class="tut-time">~15 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="callout callout-extension">
+      <span class="icon">&#127942;</span>
+      <span><strong>Challenge 1: Score Popup</strong> — When collecting a coin, instantiate a floating "+1" text that rises and fades. Create a UI Text prefab, animate it with DOTween or coroutines.</span>
+    </div>
+
+    <div class="callout callout-extension">
+      <span class="icon">&#127942;</span>
+      <span><strong>Challenge 2: Health Bar Shake</strong> — When taking damage, make the health bar shake briefly. Use <code>transform.DOShakePosition(0.3f, 5f)</code> or manually offset it in a coroutine.</span>
+    </div>
+
+    <div class="callout callout-extension">
+      <span class="icon">&#127942;</span>
+      <span><strong>Challenge 3: Countdown Timer</strong> — Instead of counting up, count DOWN from 60. When it hits 0, trigger Game Over. Add urgency by turning the timer red below 10 seconds!</span>
+    </div>
+
+    <div class="callout callout-extension">
+      <span class="icon">&#127942;</span>
+      <span><strong>Challenge 4: High Score</strong> — Use <code>PlayerPrefs.SetInt("HighScore", score)</code> to save the high score between game sessions. Display it on screen. This persists even after closing Unity!</span>
+    </div>
+
+    <div class="callout callout-challenge">
+      <span class="icon">&#128640;</span>
+      <span><strong>Boss Challenge:</strong> Create a complete HUD: Score, Lives (heart icons), Health Bar (colour changing), Timer, High Score, Level Name, and a minimap showing the player's position in the level!</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<div class="footer-section">
+  <h2>Quick Reference</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:.88rem;">
+    <div><strong style="color:var(--neon)">Canvas:</strong> <span style="color:var(--muted)">Right-click → UI → Canvas</span></div>
+    <div><strong style="color:var(--neon)">TMP Text:</strong> <span style="color:var(--muted)">Right-click Canvas → UI → Text - TextMeshPro</span></div>
+    <div><strong style="color:var(--blue)">Anchors:</strong> <span style="color:var(--muted)">Alt+click anchor preset</span></div>
+    <div><strong style="color:var(--blue)">Slider:</strong> <span style="color:var(--muted)">Right-click Canvas → UI → Slider</span></div>
+    <div><strong style="color:var(--purple)">using TMPro;</strong> <span style="color:var(--muted)">Required for TextMeshProUGUI</span></div>
+    <div><strong style="color:var(--purple)">using UnityEngine.UI;</strong> <span style="color:var(--muted)">Required for Slider/Image</span></div>
+    <div><strong style="color:var(--amber)">SetText:</strong> <span style="color:var(--muted)">scoreText.text = "Score: " + score;</span></div>
+    <div><strong style="color:var(--amber)">SetSlider:</strong> <span style="color:var(--muted)">healthBar.value = health;</span></div>
+  </div>
+</div>
+
+<div class="footer-section">
+  <h2>Progress Tracker</h2>
+  <div class="progress-grid">
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Canvas + TMP set up</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Score displays and updates</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Lives display with red text</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Health bar + timer working</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Extension challenge done</span><span class="pc-xp">+10 XP</span></div>
+  </div>
+</div>
+
+<div class="btn-row no-print">
+  <button class="btn btn-neon" onclick="expandAll()">Expand All</button>
+  <button class="btn btn-ghost" onclick="resetAll()">Reset Progress</button>
+</div>
+
+</div>
+
+<script>
+const TOTAL_SECTIONS=5,XP_PER_SECTION=10;let xp=0;
+function toggleSection(n){const s=document.getElementById('section-'+n);s.classList.toggle('open');}
+function expandAll(){document.querySelectorAll('.tut-section').forEach(s=>s.classList.add('open'));}
+function updateProgress(){const checks=document.querySelectorAll('.step-check input[type="checkbox"]');const total=checks.length;const done=[...checks].filter(c=>c.checked).length;document.getElementById('progress-bar').style.width=Math.round(done/total*100)+'%';updateXP();}
+function updateXP(){let total=0;for(let i=1;i<=TOTAL_SECTIONS;i++){const sec=document.getElementById('section-'+i);if(!sec)continue;const checks=sec.querySelectorAll('.step-check input[type="checkbox"]');const done=[...checks].filter(c=>c.checked).length;if(checks.length>0&&done===checks.length)total+=XP_PER_SECTION;}xp=total;document.getElementById('xp-display').textContent=xp;}
+function resetAll(){document.querySelectorAll('input[type="checkbox"]').forEach(c=>c.checked=false);updateProgress();}
+</script>
+</body>
+</html>

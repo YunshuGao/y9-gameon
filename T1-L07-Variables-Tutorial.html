@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T1-L07 — Variables &amp; The Inspector Tutorial</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:15px;line-height:1.7;}a{color:var(--blue);text-decoration:none;}a:hover{text-decoration:underline;}
+#progress-bar-wrap{position:fixed;top:0;left:0;width:100%;height:6px;background:var(--dark);z-index:9999;}#progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--neon),var(--blue));transition:width .4s;}
+.hero{text-align:center;padding:80px 20px 40px;background:linear-gradient(180deg,rgba(74,222,128,.08) 0%,transparent 100%);}.hero h1{font-family:var(--font-head);font-size:2.4rem;font-weight:900;background:linear-gradient(135deg,var(--neon),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px;}.hero .sub{color:var(--muted);font-size:.95rem;margin-bottom:24px;}.hero .meta{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;}.hero .tag{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.8rem;color:var(--muted);}.hero .tag b{color:var(--neon);}
+.xp-tracker{display:flex;justify-content:center;align-items:center;gap:16px;margin:30px auto;padding:16px 24px;background:var(--dark);border:1px solid var(--border);border-radius:12px;max-width:500px;}.xp-tracker .xp-label{font-family:var(--font-head);font-size:1rem;color:var(--amber);}.xp-tracker .xp-val{font-family:var(--font-head);font-size:1.6rem;font-weight:900;color:var(--neon);}.xp-tracker .xp-max{color:var(--muted);font-size:.85rem;}
+.container{max-width:880px;margin:0 auto;padding:0 20px 60px;}
+.tut-section{margin:40px 0;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--dark);}.tut-header{padding:20px 24px;display:flex;align-items:center;gap:16px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border);}.tut-header .tut-num{font-family:var(--font-head);font-size:1.6rem;font-weight:900;color:var(--navy);background:var(--neon);border-radius:10px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}.tut-section[data-colour="blue"] .tut-num{background:var(--blue);}.tut-section[data-colour="purple"] .tut-num{background:var(--purple);}.tut-section[data-colour="amber"] .tut-num{background:var(--amber);}.tut-section[data-colour="pink"] .tut-num{background:var(--pink);}.tut-section[data-colour="red"] .tut-num{background:var(--red);color:var(--white);}.tut-header .tut-info{flex:1;}.tut-header .tut-title{font-family:var(--font-head);font-size:1.05rem;font-weight:700;color:var(--white);}.tut-header .tut-time{font-size:.8rem;color:var(--muted);margin-top:2px;}.tut-header .xp-badge{font-family:var(--font-head);background:rgba(251,191,36,.15);color:var(--amber);padding:4px 12px;border-radius:8px;font-size:.85rem;font-weight:700;flex-shrink:0;}.tut-header .chevron{color:var(--muted);font-size:1.4rem;transition:transform .3s;flex-shrink:0;}.tut-section.open .chevron{transform:rotate(90deg);}.tut-body{padding:0 24px 24px;display:none;}.tut-section.open .tut-body{display:block;}
+.step{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid rgba(51,65,85,.5);}.step:last-child{border-bottom:none;}.step-check{flex-shrink:0;margin-top:3px;}.step-check input[type="checkbox"]{width:20px;height:20px;accent-color:var(--neon);cursor:pointer;}.step-num{font-family:var(--font-head);font-size:.75rem;color:var(--neon);background:rgba(74,222,128,.1);border-radius:6px;padding:2px 8px;height:fit-content;flex-shrink:0;margin-top:2px;}.step-content{flex:1;}.step-content strong{color:var(--neon);}.step-content .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:1px 8px;font-size:.85rem;color:var(--amber);font-weight:700;margin:0 2px;}.step-content .sub-list{margin:8px 0 0 0;list-style:none;}.step-content .sub-list li{padding:4px 0;color:var(--muted);font-size:.9rem;}.step-content .sub-list li::before{content:'\25B8 ';color:var(--blue);}.step-content .sub-list li strong{color:var(--white);}.step-content em{color:var(--muted);}
+.detail{margin:6px 0 0 0;padding:8px 12px;background:rgba(15,23,42,.6);border-left:3px solid var(--blue);border-radius:0 6px 6px 0;font-size:.88rem;color:var(--muted);}.detail strong{color:var(--blue);}
+.screenshot-box{margin:12px 0;border:2px dashed var(--border);border-radius:12px;padding:20px;text-align:center;color:var(--muted);font-size:.88rem;background:rgba(15,23,42,.5);}.screenshot-box .label{font-family:var(--font-head);font-size:.7rem;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.callout{margin:16px 0;padding:14px 18px;border-radius:10px;font-size:.9rem;display:flex;gap:12px;align-items:flex-start;}.callout .icon{font-size:1.2rem;flex-shrink:0;}.callout-checkpoint{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);}.callout-checkpoint .icon{color:var(--neon);}.callout-trouble{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);}.callout-trouble .icon{color:var(--red);}.callout-tip{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);}.callout-tip .icon{color:var(--blue);}.callout-challenge{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);}.callout-challenge .icon{color:var(--amber);}.callout-extension{background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);}.callout-extension .icon{color:var(--purple);}.callout-warning{background:rgba(239,68,68,.12);border:2px solid rgba(239,68,68,.4);}.callout-warning .icon{color:var(--red);}
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);border-radius:10px;}.vocab h4{font-family:var(--font-head);font-size:.8rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:.88rem;}.vocab dt{color:var(--amber);font-weight:700;}.vocab dd{color:var(--muted);}
+.code-block{margin:12px 0;padding:16px 20px;background:#0a0e1a;border:1px solid var(--border);border-radius:10px;font-family:var(--font-body);font-size:14px;color:var(--neon);overflow-x:auto;line-height:1.6;white-space:pre;}
+.type-card-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0;}.type-card{padding:14px 18px;border-radius:10px;background:rgba(15,23,42,.6);border:1px solid var(--border);}.type-card h5{font-family:var(--font-head);font-size:.85rem;margin-bottom:6px;}.type-card .type-name{font-size:.95rem;font-weight:700;}.type-card .type-desc{font-size:.85rem;color:var(--muted);margin-top:4px;}.type-card .type-example{margin-top:6px;font-size:.82rem;color:var(--amber);font-family:var(--font-body);}
+.footer-section{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;}.footer-section h2{font-family:var(--font-head);font-size:1.2rem;margin-bottom:16px;color:var(--neon);}.footer-section h3{font-family:var(--font-head);font-size:.95rem;margin:16px 0 8px;color:var(--blue);}
+.shortcut-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;}.shortcut-item{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--navy);border-radius:8px;border:1px solid var(--border);}.shortcut-item .action{color:var(--muted);font-size:.85rem;}.shortcut-item .keys{color:var(--amber);font-family:var(--font-head);font-size:.8rem;}
+.progress-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;}.progress-card{display:flex;align-items:center;gap:12px;padding:12px;background:var(--navy);border-radius:10px;border:1px solid var(--border);}.progress-card input[type="checkbox"]{width:22px;height:22px;accent-color:var(--neon);}.progress-card .pc-label{flex:1;font-size:.9rem;}.progress-card .pc-xp{font-family:var(--font-head);color:var(--amber);font-size:.85rem;}
+.btn{display:inline-block;padding:10px 24px;border-radius:8px;border:none;font-family:var(--font-head);font-size:.85rem;cursor:pointer;font-weight:700;transition:transform .15s;}.btn:hover{transform:translateY(-2px);}.btn-neon{background:var(--neon);color:var(--navy);}.btn-blue{background:var(--blue);color:var(--navy);}.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted);}.btn-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;justify-content:center;}
+.submission-steps{counter-reset:sub;}.submission-steps li{list-style:none;padding:8px 0;display:flex;gap:12px;align-items:flex-start;}.submission-steps li::before{counter-increment:sub;content:counter(sub);font-family:var(--font-head);font-size:.75rem;background:var(--blue);color:var(--navy);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;-webkit-text-fill-color:#111!important;}body{font-size:10pt;line-height:1.5;}#progress-bar-wrap,.btn-row,.no-print{display:none!important;}.hero{padding:20px 0;border-bottom:2px solid #111;}.hero h1{font-size:16pt;-webkit-text-fill-color:#111!important;background:none!important;}.tut-section{break-inside:avoid;border:1px solid #999;margin:12px 0;}.tut-section.open .tut-body,.tut-body{display:block!important;}.tut-header .chevron{display:none;}.tut-num{background:#ddd!important;color:#111!important;}.callout{border:1px solid #999;background:#f9f9f9!important;}.footer-section{break-inside:avoid;border:1px solid #999;}.shortcut-item,.progress-card{border:1px solid #aaa;background:#f5f5f5!important;}.step-content .key{background:#eee!important;border:1px solid #999;color:#111!important;}.detail{background:#f5f5f5!important;border-left:3px solid #333;}.screenshot-box{border:2px dashed #999;}.vocab{background:#f5f5f5!important;border:1px solid #999;}.code-block{background:#f5f5f5!important;border:1px solid #999;color:#111!important;}.type-card{background:#f5f5f5!important;border:1px solid #999;}}
+</style>
+</head>
+<body>
+<div id="progress-bar-wrap"><div id="progress-bar"></div></div>
+
+<div class="hero">
+  <h1>VARIABLES &amp; THE INSPECTOR</h1>
+  <p class="sub">Your complete step-by-step walkthrough — follow at your own pace, tick every box</p>
+  <div class="meta">
+    <span class="tag"><b>Course:</b> Game On (9GAMZA)</span>
+    <span class="tag"><b>Lesson:</b> T1 — L07</span>
+    <span class="tag"><b>Time:</b> ~75 min</span>
+    <span class="tag"><b>Unity:</b> 2022.3.x</span>
+    <span class="tag"><b>Outcomes:</b> G5-1, G5-2, G5-4</span>
+  </div>
+</div>
+
+<div class="xp-tracker">
+  <span class="xp-label">TOTAL XP</span>
+  <span class="xp-val" id="xp-display">0</span>
+  <span class="xp-max">/ 50 XP</span>
+</div>
+
+<div class="container">
+
+<!-- SECTION 1 -->
+<section class="tut-section open" data-colour="green" data-xp="10" id="tut1">
+  <div class="tut-header" onclick="toggleSection(this)">
+    <div class="tut-num">1</div>
+    <div class="tut-info"><div class="tut-title">What Are Variables?</div><div class="tut-time">~10 min &bull; Understand data types and why variables matter.</div></div>
+    <div class="xp-badge">+10 XP</div><div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+    <div class="vocab"><h4>Key Terms</h4><dl>
+      <dt>Variable</dt><dd>A named container that stores a value. Like a labelled box — the label is the name, the contents are the value.</dd>
+      <dt>Data Type</dt><dd>What KIND of data the variable holds — number, text, true/false, etc.</dd>
+      <dt>int</dt><dd>A whole number (integer). Examples: 0, 5, -3, 100. No decimals.</dd>
+      <dt>float</dt><dd>A decimal number. Examples: 3.14f, 0.5f, -2.7f. Always ends with "f".</dd>
+      <dt>string</dt><dd>Text wrapped in double quotes. Examples: "Hello", "Player1", "Game Over".</dd>
+      <dt>bool</dt><dd>True or false — only two possible values. Used for on/off, yes/no decisions.</dd>
+    </dl></div>
+
+    <div class="callout callout-tip"><div class="icon">&#128161;</div><div><strong>Analogy:</strong> Variables are like backpacks. Each backpack has a <strong>label</strong> (the variable name) and carries a specific <strong>type</strong> of item. An "int backpack" only carries whole numbers. A "string backpack" only carries text. You can swap what's inside anytime, but the type of item must match the backpack!</div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">1.1</div><div class="step-content">Open your <strong>Unity project</strong> from last lesson. Your player should already move with A/D keys.</div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">1.2</div><div class="step-content">Open your <strong>PlayerMovement</strong> script (double-click it in the Project window). Find this line inside Update():
+<div class="code-block"><span style="color:#38bdf8">float</span> speed = 5.0f;</div>
+      This is already a variable! It's called <strong>speed</strong>, has the type <strong>float</strong>, and holds the value <strong>5.0</strong>.
+    </div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">1.3</div><div class="step-content">Read through the four data types below. Every variable in C# must have ONE of these types:
+
+    <div class="type-card-grid">
+      <div class="type-card" style="border-color:var(--neon)"><h5 style="color:var(--neon)">int</h5><div class="type-name" style="color:var(--neon)">Integer</div><div class="type-desc">Whole numbers only. No decimals.</div><div class="type-example">int lives = 3;<br>int score = 0;<br>int level = 1;</div></div>
+      <div class="type-card" style="border-color:var(--blue)"><h5 style="color:var(--blue)">float</h5><div class="type-name" style="color:var(--blue)">Floating Point</div><div class="type-desc">Decimal numbers. Needs "f" at the end.</div><div class="type-example">float speed = 5.0f;<br>float gravity = -9.8f;<br>float jumpForce = 7.5f;</div></div>
+      <div class="type-card" style="border-color:var(--amber)"><h5 style="color:var(--amber)">string</h5><div class="type-name" style="color:var(--amber)">String</div><div class="type-desc">Text in double quotes. Any characters.</div><div class="type-example">string playerName = "Hero";<br>string weapon = "Sword";<br>string message = "Game Over";</div></div>
+      <div class="type-card" style="border-color:var(--pink)"><h5 style="color:var(--pink)">bool</h5><div class="type-name" style="color:var(--pink)">Boolean</div><div class="type-desc">Only true or false. Yes/no decisions.</div><div class="type-example">bool isAlive = true;<br>bool hasKey = false;<br>bool isGrounded = true;</div></div>
+    </div>
+    </div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">1.4</div><div class="step-content"><strong>Quick quiz:</strong> What data type would you use for each of these? (Think first, then check the answers below.)
+      <ul class="sub-list">
+        <li>The player's health points (e.g., 100) &rarr; <em>int</em></li>
+        <li>Movement speed (e.g., 4.5) &rarr; <em>float</em></li>
+        <li>The player's name (e.g., "Ninja") &rarr; <em>string</em></li>
+        <li>Whether the game is paused (yes/no) &rarr; <em>bool</em></li>
+        <li>Number of coins collected (e.g., 7) &rarr; <em>int</em></li>
+        <li>Jump height (e.g., 12.3) &rarr; <em>float</em></li>
+      </ul>
+    </div></div>
+
+    <div class="callout callout-checkpoint"><div class="icon">&#10003;</div><div><strong>Checkpoint:</strong> "I can name the 4 data types (int, float, string, bool) and give examples of each."</div></div>
+  </div>
+</section>
+
+<!-- SECTION 2 -->
+<section class="tut-section" data-colour="blue" data-xp="10" id="tut2">
+  <div class="tut-header" onclick="toggleSection(this)">
+    <div class="tut-num">2</div>
+    <div class="tut-info"><div class="tut-title">Public vs Private Variables</div><div class="tut-time">~10 min &bull; Learn the difference and why it matters.</div></div>
+    <div class="xp-badge">+10 XP</div><div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+    <div class="vocab"><h4>Key Terms</h4><dl>
+      <dt>public</dt><dd>Everyone can see and change this variable — including the Unity Inspector. Use for settings you want to tune.</dd>
+      <dt>private</dt><dd>Only THIS script can see and change this variable. Hidden from the Inspector. Use for internal data.</dd>
+      <dt>Inspector</dt><dd>The Unity panel that shows a GameObject's components and their settings. Public variables appear here!</dd>
+      <dt>Declaration</dt><dd>Creating a variable for the first time: giving it a type, a name, and an initial value.</dd>
+    </dl></div>
+
+    <div class="callout callout-tip"><div class="icon">&#128161;</div><div><strong>Analogy:</strong> <strong>Public</strong> = a whiteboard in the classroom — everyone can see and write on it. <strong>Private</strong> = your diary — only you can read and write in it. Game designers make speed, jump force, etc. public so they can tweak them in Unity without opening the code!</div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">2.1</div><div class="step-content">In your PlayerMovement script, find this line inside <strong>Update()</strong>:
+<div class="code-block"><span style="color:#38bdf8">float</span> speed = 5.0f;</div>
+      Currently this variable is <strong>inside</strong> the function. It gets recreated every frame. We need to move it to the <strong>top of the class</strong> and make it <strong>public</strong>.
+    </div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">2.2</div><div class="step-content"><strong>DELETE</strong> the line <code>float speed = 5.0f;</code> from inside Update().</div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">2.3</div><div class="step-content"><strong>ADD</strong> a new line ABOVE the Start() function, right after the opening { of the class. Type:
+<div class="code-block"><span style="color:#94a3b8">public</span> <span style="color:#38bdf8">float</span> speed = 5.0f;</div>
+    Your script should now look like this:
+<div class="code-block"><span style="color:#94a3b8">using</span> UnityEngine;
+
+<span style="color:#94a3b8">public class</span> <span style="color:#38bdf8">PlayerMovement</span> : <span style="color:#38bdf8">MonoBehaviour</span>
+{
+    <span style="color:#94a3b8">public</span> <span style="color:#38bdf8">float</span> speed = 5.0f;
+
+    <span style="color:#a78bfa">void</span> <span style="color:#fbbf24">Start</span>()
+    {
+    }
+
+    <span style="color:#a78bfa">void</span> <span style="color:#fbbf24">Update</span>()
+    {
+        <span style="color:#38bdf8">float</span> moveInput = Input.GetAxis(<span style="color:#fbbf24">"Horizontal"</span>);
+        transform.Translate(moveInput * speed * Time.deltaTime, 0, 0);
+    }
+}</div>
+      <div class="detail"><strong>What changed?</strong> We moved <code>speed</code> outside of Update and added the keyword <code>public</code>. Now speed is a <strong>class-level</strong> variable (also called a <strong>field</strong>) — it exists for the entire life of the script, not just one frame.</div>
+    </div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">2.4</div><div class="step-content">Save the script (<span class="key">Ctrl</span>+<span class="key">S</span>). Go back to Unity. Click on your <strong>Player</strong> object in the Hierarchy.</div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">2.5</div><div class="step-content">Look at the <strong>Inspector</strong>! Under "Player Movement (Script)" you should now see a <strong>Speed</strong> slider! It shows the value 5.
+      <div class="detail"><strong>This is the magic!</strong> Because we made speed <code>public</code>, Unity automatically shows it in the Inspector. You can now change speed <strong>without editing code</strong>.</div>
+    </div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">2.6</div><div class="step-content">Press <strong>Play</strong>. While the game is running, drag the Speed slider to <strong>15</strong>. Watch your player speed up! Try <strong>1</strong> — super slow! Try <strong>50</strong> — zoom!
+      <div class="detail"><strong>WARNING:</strong> Changes made in Play mode are <strong>TEMPORARY</strong>. When you press Stop, the value goes back to what it was before. This is by design — it lets you experiment without fear!</div>
+    </div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">2.7</div><div class="step-content">Press <strong>Stop</strong>. Now change Speed in the Inspector to your preferred value (try <strong>8</strong>). This change <strong>will stick</strong> because you made it outside Play mode.
+      <div class="detail"><strong>Pro tip:</strong> The Inspector value <strong>overrides</strong> the code value. Even though your code says <code>= 5.0f</code>, if you set it to 8 in the Inspector, it stays at 8. The code value is just the <strong>default</strong>.</div>
+    </div></div>
+
+    <div class="screenshot-box"><div class="label">What you should see</div>Inspector showing "Speed" slider under PlayerMovement script. You can drag to change the value.</div>
+
+    <div class="callout callout-checkpoint"><div class="icon">&#10003;</div><div><strong>Checkpoint:</strong> "My Speed variable appears in the Inspector and I can change it without editing code."</div></div>
+
+    <div class="callout callout-trouble"><div class="icon">&#9888;</div><div><strong>Troubleshooting:</strong><ul class="sub-list">
+      <li><strong>Speed not showing in Inspector?</strong> Did you write <code>public</code> before <code>float</code>? Did you save the script?</li>
+      <li><strong>Error in Console?</strong> Make sure you deleted the old <code>float speed = 5.0f;</code> from inside Update(). You should NOT have it in both places.</li>
+      <li><strong>Speed resets after Play?</strong> That's normal! Changes in Play mode are always temporary.</li>
+    </ul></div></div>
+  </div>
+</section>
+
+<!-- SECTION 3 -->
+<section class="tut-section" data-colour="purple" data-xp="10" id="tut3">
+  <div class="tut-header" onclick="toggleSection(this)">
+    <div class="tut-num">3</div>
+    <div class="tut-info"><div class="tut-title">Add More Variables — Lab</div><div class="tut-time">~20 min &bull; Create jump force, lives, and player name variables.</div></div>
+    <div class="xp-badge">+10 XP</div><div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+    <div class="callout callout-tip"><div class="icon">&#128161;</div><div><strong>Game developers</strong> use variables for everything: speed, health, lives, score, jump height, gravity, damage... Making them public means designers can tune the game <strong>without touching code</strong>.</div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">3.1</div><div class="step-content">Open your PlayerMovement script. Below your <code>public float speed</code> line, add these new variables:
+<div class="code-block"><span style="color:#94a3b8">public</span> <span style="color:#38bdf8">float</span> speed = 5.0f;
+<span style="color:#94a3b8">public</span> <span style="color:#38bdf8">float</span> jumpForce = 10.0f;
+<span style="color:#94a3b8">public</span> <span style="color:#38bdf8">int</span> lives = 3;
+<span style="color:#94a3b8">public</span> <span style="color:#38bdf8">string</span> playerName = <span style="color:#fbbf24">"Hero"</span>;
+<span style="color:#94a3b8">public</span> <span style="color:#38bdf8">bool</span> isAlive = <span style="color:#a78bfa">true</span>;</div>
+    </div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">3.2</div><div class="step-content">Now add a <strong>Debug.Log</strong> inside Start() to test your variables:
+<div class="code-block"><span style="color:#a78bfa">void</span> <span style="color:#fbbf24">Start</span>()
+{
+    Debug.Log(<span style="color:#fbbf24">"Player: "</span> + playerName);
+    Debug.Log(<span style="color:#fbbf24">"Lives: "</span> + lives);
+    Debug.Log(<span style="color:#fbbf24">"Speed: "</span> + speed);
+    Debug.Log(<span style="color:#fbbf24">"Jump Force: "</span> + jumpForce);
+    Debug.Log(<span style="color:#fbbf24">"Is Alive: "</span> + isAlive);
+}</div>
+      <div class="detail"><strong>What is the + doing?</strong> The <code>+</code> sign joins text together (this is called <strong>concatenation</strong>). So <code>"Player: " + playerName</code> becomes <code>"Player: Hero"</code> in the Console.</div>
+    </div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">3.3</div><div class="step-content">Save (<span class="key">Ctrl</span>+<span class="key">S</span>). Go to Unity. Click on your Player. Check the Inspector — you should see <strong>all 5 variables</strong> listed!</div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">3.4</div><div class="step-content">Change some values in the Inspector:
+      <ul class="sub-list">
+        <li>Set <strong>Player Name</strong> to your real name</li>
+        <li>Set <strong>Lives</strong> to 5</li>
+        <li>Set <strong>Speed</strong> to 8</li>
+        <li>Toggle <strong>Is Alive</strong> on/off (checkbox)</li>
+      </ul>
+    </div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">3.5</div><div class="step-content">Press <strong>Play</strong>. Open the <strong>Console</strong> (Window &rarr; General &rarr; Console). You should see YOUR values printed — the ones you set in the Inspector, not the code defaults!</div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">3.6</div><div class="step-content"><strong>Stop</strong> Play mode. Your full script should look like this:
+<div class="code-block"><span style="color:#94a3b8">using</span> UnityEngine;
+
+<span style="color:#94a3b8">public class</span> <span style="color:#38bdf8">PlayerMovement</span> : <span style="color:#38bdf8">MonoBehaviour</span>
+{
+    <span style="color:#94a3b8">public</span> <span style="color:#38bdf8">float</span> speed = 5.0f;
+    <span style="color:#94a3b8">public</span> <span style="color:#38bdf8">float</span> jumpForce = 10.0f;
+    <span style="color:#94a3b8">public</span> <span style="color:#38bdf8">int</span> lives = 3;
+    <span style="color:#94a3b8">public</span> <span style="color:#38bdf8">string</span> playerName = <span style="color:#fbbf24">"Hero"</span>;
+    <span style="color:#94a3b8">public</span> <span style="color:#38bdf8">bool</span> isAlive = <span style="color:#a78bfa">true</span>;
+
+    <span style="color:#a78bfa">void</span> <span style="color:#fbbf24">Start</span>()
+    {
+        Debug.Log(<span style="color:#fbbf24">"Player: "</span> + playerName);
+        Debug.Log(<span style="color:#fbbf24">"Lives: "</span> + lives);
+        Debug.Log(<span style="color:#fbbf24">"Speed: "</span> + speed);
+        Debug.Log(<span style="color:#fbbf24">"Jump Force: "</span> + jumpForce);
+        Debug.Log(<span style="color:#fbbf24">"Is Alive: "</span> + isAlive);
+    }
+
+    <span style="color:#a78bfa">void</span> <span style="color:#fbbf24">Update</span>()
+    {
+        <span style="color:#38bdf8">float</span> moveInput = Input.GetAxis(<span style="color:#fbbf24">"Horizontal"</span>);
+        transform.Translate(moveInput * speed * Time.deltaTime, 0, 0);
+    }
+}</div>
+    </div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">3.7</div><div class="step-content"><strong>Experiment:</strong> Try adding your OWN variable. Choose a type, pick a name, give it a value. Some ideas:
+      <ul class="sub-list">
+        <li><code>public int score = 0;</code> — track the player's score</li>
+        <li><code>public float gravity = -9.8f;</code> — gravity strength</li>
+        <li><code>public bool hasShield = false;</code> — does player have a shield?</li>
+        <li><code>public string weaponName = "Sword";</code> — current weapon</li>
+      </ul>
+    </div></div>
+
+    <div class="callout callout-checkpoint"><div class="icon">&#10003;</div><div><strong>Checkpoint:</strong> "I have 5+ public variables in my script. They all appear in the Inspector and print to the Console."</div></div>
+
+    <div class="callout callout-trouble"><div class="icon">&#9888;</div><div><strong>Troubleshooting:</strong><ul class="sub-list">
+      <li><strong>"Can't add script component" error?</strong> The class name in code MUST match the file name. File = PlayerMovement.cs, class = PlayerMovement.</li>
+      <li><strong>Variable not appearing in Inspector?</strong> Make sure it has <code>public</code> before the type. Also check: did you put it ABOVE Start(), not inside a function?</li>
+      <li><strong>Strings need double quotes!</strong> Write <code>"Hello"</code>, not <code>'Hello'</code> or just Hello.</li>
+      <li><strong>Floats need an f!</strong> Write <code>5.0f</code>, not <code>5.0</code>. The f tells C# this is a float, not a double.</li>
+    </ul></div></div>
+  </div>
+</section>
+
+<!-- SECTION 4 -->
+<section class="tut-section" data-colour="amber" data-xp="10" id="tut4">
+  <div class="tut-header" onclick="toggleSection(this)">
+    <div class="tut-num">4</div>
+    <div class="tut-info"><div class="tut-title">Variables in Action — Game Tuning</div><div class="tut-time">~20 min &bull; Use variables to control game behaviour and tune your game.</div></div>
+    <div class="xp-badge">+10 XP</div><div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+    <div class="callout callout-tip"><div class="icon">&#128161;</div><div><strong>Why is this important?</strong> Professional game developers spend HOURS tuning variables. How fast should the player run? How high should they jump? How much damage does a fireball do? These are ALL variables that get adjusted through playtesting — and public variables in the Inspector make this fast and easy.</div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">4.1</div><div class="step-content"><strong>Add vertical movement.</strong> In your Update() function, add these lines BELOW the existing movement code:
+<div class="code-block"><span style="color:#a78bfa">void</span> <span style="color:#fbbf24">Update</span>()
+{
+    <span style="color:#38bdf8">float</span> moveInput = Input.GetAxis(<span style="color:#fbbf24">"Horizontal"</span>);
+    transform.Translate(moveInput * speed * Time.deltaTime, 0, 0);
+
+    <span style="color:#94a3b8">// Vertical movement (W/S or Up/Down arrows)</span>
+    <span style="color:#38bdf8">float</span> verticalInput = Input.GetAxis(<span style="color:#fbbf24">"Vertical"</span>);
+    transform.Translate(0, verticalInput * speed * Time.deltaTime, 0);
+}</div>
+      <div class="detail"><strong>What changed?</strong> We added a second GetAxis for "Vertical" (W/S keys). The Translate now moves on the <strong>Y axis</strong> (up/down) instead of X (left/right).</div>
+    </div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">4.2</div><div class="step-content">Save and Play. Test with <span class="key">W</span><span class="key">A</span><span class="key">S</span><span class="key">D</span> — you can now move in all 4 directions!</div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">4.3</div><div class="step-content"><strong>Create a separate vertical speed.</strong> What if you want the player to move faster horizontally than vertically? Add a new variable at the top:
+<div class="code-block"><span style="color:#94a3b8">public</span> <span style="color:#38bdf8">float</span> speed = 5.0f;
+<span style="color:#94a3b8">public</span> <span style="color:#38bdf8">float</span> verticalSpeed = 3.0f;</div>
+      Then change your vertical Translate to use <code>verticalSpeed</code> instead of <code>speed</code>:
+<div class="code-block">transform.Translate(0, verticalInput * verticalSpeed * Time.deltaTime, 0);</div>
+    </div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">4.4</div><div class="step-content">Save and Play. Now you have TWO speed sliders in the Inspector! Adjust them independently to get the feel you want.</div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">4.5</div><div class="step-content"><strong>Add player boundaries.</strong> The player can fly off screen! Let's use variables to set limits. Add two new variables at the top:
+<div class="code-block"><span style="color:#94a3b8">public</span> <span style="color:#38bdf8">float</span> xBound = 8.0f;
+<span style="color:#94a3b8">public</span> <span style="color:#38bdf8">float</span> yBound = 4.0f;</div>
+      Then add this boundary check at the END of Update():
+<div class="code-block"><span style="color:#94a3b8">// Keep player within boundaries</span>
+<span style="color:#a78bfa">if</span> (transform.position.x &gt; xBound)
+    transform.position = <span style="color:#a78bfa">new</span> Vector3(xBound, transform.position.y, 0);
+<span style="color:#a78bfa">if</span> (transform.position.x &lt; -xBound)
+    transform.position = <span style="color:#a78bfa">new</span> Vector3(-xBound, transform.position.y, 0);
+<span style="color:#a78bfa">if</span> (transform.position.y &gt; yBound)
+    transform.position = <span style="color:#a78bfa">new</span> Vector3(transform.position.x, yBound, 0);
+<span style="color:#a78bfa">if</span> (transform.position.y &lt; -yBound)
+    transform.position = <span style="color:#a78bfa">new</span> Vector3(transform.position.x, -yBound, 0);</div>
+      <div class="detail"><strong>What this does:</strong> If the player's X position goes past xBound (or -xBound), we snap them back to the boundary. Same for Y. The values are public so you can tune the play area size in the Inspector!</div>
+    </div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">4.6</div><div class="step-content">Save and Play. Your player can no longer leave the screen! Adjust xBound and yBound in the Inspector to match your camera view.</div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">4.7</div><div class="step-content"><strong>Game Tuning Challenge:</strong> Spend 5 minutes playtesting. Adjust your variables to get the "feel" right:
+      <ul class="sub-list">
+        <li>What speed feels responsive but controllable?</li>
+        <li>What boundaries keep the player visible?</li>
+        <li>Does vertical speed need to match horizontal speed?</li>
+      </ul>
+      Write down your final values in a comment at the top of your script:
+<div class="code-block"><span style="color:#94a3b8">// Tuned values: speed=8, verticalSpeed=5, xBound=7.5, yBound=4</span></div>
+    </div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">4.8</div><div class="step-content"><strong>Save your scene</strong> (<span class="key">Ctrl</span>+<span class="key">S</span> in Unity) and your script (<span class="key">Ctrl</span>+<span class="key">S</span> in code editor).</div></div>
+
+    <div class="screenshot-box"><div class="label">What you should see</div>Player moves with WASD, stays within boundaries. Inspector shows Speed, VerticalSpeed, xBound, yBound variables.</div>
+
+    <div class="callout callout-checkpoint"><div class="icon">&#10003;</div><div><strong>Checkpoint:</strong> "My player moves in 4 directions, stays within boundaries, and I tuned all variables in the Inspector."</div></div>
+
+    <div class="callout callout-trouble"><div class="icon">&#9888;</div><div><strong>Troubleshooting:</strong><ul class="sub-list">
+      <li><strong>Player teleports?</strong> Check the if-statements — make sure you typed <code>&gt;</code> and <code>&lt;</code> correctly. Don't mix them up!</li>
+      <li><strong>Boundaries don't work?</strong> Make sure xBound/yBound are public and set to reasonable values (try 8 and 5).</li>
+      <li><strong>Player still moves through boundary?</strong> The boundary code must be BELOW the movement code in Update(). Order matters!</li>
+    </ul></div></div>
+  </div>
+</section>
+
+<!-- SECTION 5 -->
+<section class="tut-section" data-colour="pink" data-xp="10" id="tut5">
+  <div class="tut-header" onclick="toggleSection(this)">
+    <div class="tut-num">5</div>
+    <div class="tut-info"><div class="tut-title">Extension Challenges</div><div class="tut-time">If time permits &bull; Take your variables further.</div></div>
+    <div class="xp-badge">+10 XP</div><div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+    <p style="color:var(--muted);margin-bottom:14px;">Only if you've finished Sections 1-4.</p>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">5.1</div><div class="step-content"><strong>Challenge 1: Sprint Mechanic.</strong> Add a <code>public float sprintMultiplier = 2.0f;</code> variable. When the player holds <span class="key">Left Shift</span>, multiply speed by the sprint multiplier:
+<div class="code-block"><span style="color:#38bdf8">float</span> currentSpeed = speed;
+<span style="color:#a78bfa">if</span> (Input.GetKey(KeyCode.LeftShift))
+    currentSpeed = speed * sprintMultiplier;</div>
+    Then use <code>currentSpeed</code> instead of <code>speed</code> in your Translate.
+    </div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">5.2</div><div class="step-content"><strong>Challenge 2: Display Variables on Screen.</strong> Add a Debug.Log inside Update() that shows the player's position:
+<div class="code-block">Debug.Log(<span style="color:#fbbf24">"Position: "</span> + transform.position);</div>
+      Watch the Console as you move — you'll see X and Y values changing in real time!
+    </div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">5.3</div><div class="step-content"><strong>Challenge 3: Private Variables.</strong> Add some private variables and notice they DON'T appear in the Inspector:
+<div class="code-block"><span style="color:#a78bfa">private</span> <span style="color:#38bdf8">int</span> deathCount = 0;
+<span style="color:#a78bfa">private</span> <span style="color:#38bdf8">float</span> timePlayed = 0f;</div>
+      In Update, add: <code>timePlayed += Time.deltaTime;</code> — this counts seconds played.
+    </div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">5.4</div><div class="step-content"><strong>Challenge 4: SerializeField.</strong> What if you want a variable to appear in the Inspector but stay private? Use <code>[SerializeField]</code>:
+<div class="code-block">[SerializeField] <span style="color:#a78bfa">private</span> <span style="color:#38bdf8">float</span> secretSpeed = 3.0f;</div>
+      This is the professional way — it keeps encapsulation while allowing Inspector editing.
+    </div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">5.5</div><div class="step-content"><strong>Challenge 5: Create a Second Script.</strong> Create a new C# script called "GameManager". Give it public variables for: <code>int totalScore</code>, <code>int highScore</code>, <code>bool isGameOver</code>, <code>string levelName</code>. Attach it to an empty GameObject called "GameManager". No code in Start/Update needed — just declare the variables.</div></div>
+
+    <div class="callout callout-extension"><div class="icon">&#127918;</div><div><strong>Research:</strong> Look up "Unity Inspector Attributes" — what do [Range(0,10)], [Header("Movement")], and [Tooltip("...")] do? Try adding them to your variables!</div></div>
+  </div>
+</section>
+
+<!-- FOOTER: Submission -->
+<div class="footer-section">
+  <h2>SUBMISSION GUIDE</h2>
+  <ol class="submission-steps">
+    <li>Click on Player, take a screenshot of the <strong>Inspector</strong> showing all your public variables (<span class="key">Win</span>+<span class="key">Shift</span>+<span class="key">S</span>).</li>
+    <li>Open <strong>Google Classroom</strong> &rarr; T1-L07 assignment.</li>
+    <li>Upload screenshot and click <strong>"Turn in"</strong>.</li>
+  </ol>
+</div>
+
+<!-- FOOTER: Quick Reference -->
+<div class="footer-section">
+  <h2>QUICK REFERENCE — VARIABLES</h2>
+  <h3>Data Types</h3>
+  <div class="shortcut-grid">
+    <div class="shortcut-item"><span class="action">Whole number</span><span class="keys">int</span></div>
+    <div class="shortcut-item"><span class="action">Decimal number</span><span class="keys">float</span></div>
+    <div class="shortcut-item"><span class="action">Text</span><span class="keys">string</span></div>
+    <div class="shortcut-item"><span class="action">True/False</span><span class="keys">bool</span></div>
+  </div>
+  <h3>Access Modifiers</h3>
+  <div class="shortcut-grid">
+    <div class="shortcut-item"><span class="action">Visible in Inspector</span><span class="keys">public</span></div>
+    <div class="shortcut-item"><span class="action">Hidden from Inspector</span><span class="keys">private</span></div>
+    <div class="shortcut-item"><span class="action">Private + Inspector</span><span class="keys">[SerializeField]</span></div>
+  </div>
+  <h3>Variable Declaration Pattern</h3>
+  <div class="shortcut-grid">
+    <div class="shortcut-item"><span class="action">Format</span><span class="keys">access type name = value;</span></div>
+    <div class="shortcut-item"><span class="action">Example</span><span class="keys">public float speed = 5.0f;</span></div>
+  </div>
+</div>
+
+<!-- FOOTER: Progress -->
+<div class="footer-section">
+  <h2>PROGRESS TRACKER</h2>
+  <p style="margin-bottom:16px;color:var(--muted);">Aim for Sections 1-4 minimum!</p>
+  <div class="progress-grid">
+    <div class="progress-card"><input type="checkbox" class="master-check" data-tut="1" onchange="updateMasterProgress(this)"><span class="pc-label">Section 1 — What Are Variables?</span><span class="pc-xp">10 XP</span></div>
+    <div class="progress-card"><input type="checkbox" class="master-check" data-tut="2" onchange="updateMasterProgress(this)"><span class="pc-label">Section 2 — Public vs Private</span><span class="pc-xp">10 XP</span></div>
+    <div class="progress-card"><input type="checkbox" class="master-check" data-tut="3" onchange="updateMasterProgress(this)"><span class="pc-label">Section 3 — Add More Variables</span><span class="pc-xp">10 XP</span></div>
+    <div class="progress-card"><input type="checkbox" class="master-check" data-tut="4" onchange="updateMasterProgress(this)"><span class="pc-label">Section 4 — Game Tuning</span><span class="pc-xp">10 XP</span></div>
+    <div class="progress-card"><input type="checkbox" class="master-check" data-tut="5" onchange="updateMasterProgress(this)"><span class="pc-label">Section 5 — Extension</span><span class="pc-xp">10 XP</span></div>
+  </div>
+</div>
+
+<div class="btn-row no-print">
+  <button class="btn btn-neon" onclick="window.print()">&#128424; Save as PDF</button>
+  <button class="btn btn-blue" onclick="expandAll()">Expand All Sections</button>
+  <button class="btn btn-ghost" onclick="resetAll()">Reset Progress</button>
+</div>
+</div>
+
+<script>
+function toggleSection(header){header.closest('.tut-section').classList.toggle('open');}
+function expandAll(){document.querySelectorAll('.tut-section').forEach(s=>s.classList.add('open'));}
+function updateProgress(){const checks=document.querySelectorAll('.step-check input[type="checkbox"]');const total=checks.length;const done=[...checks].filter(c=>c.checked).length;const pct=total?Math.round(done/total*100):0;document.getElementById('progress-bar').style.width=pct+'%';}
+function updateXP(){const masters=document.querySelectorAll('.master-check');let xp=0;masters.forEach(m=>{if(m.checked) xp+=10;});document.getElementById('xp-display').textContent=xp;}
+function updateMasterProgress(cb){updateXP();}
+function resetAll(){if(!confirm('Reset all checkboxes and progress?')) return;document.querySelectorAll('input[type="checkbox"]').forEach(c=>c.checked=false);document.getElementById('progress-bar').style.width='0%';document.getElementById('xp-display').textContent='0';}
+</script>
+</body>
+</html>

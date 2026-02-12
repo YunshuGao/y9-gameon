@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T1-L15 — Game Over &amp; Menus Tutorial</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:15px;line-height:1.7;}a{color:var(--blue);}
+#progress-bar-wrap{position:fixed;top:0;left:0;width:100%;height:6px;background:var(--dark);z-index:9999;}#progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--neon),var(--blue));transition:width .4s;}
+.hero{text-align:center;padding:80px 20px 40px;background:linear-gradient(180deg,rgba(74,222,128,.08) 0%,transparent 100%);}.hero h1{font-family:var(--font-head);font-size:2.4rem;font-weight:900;background:linear-gradient(135deg,var(--neon),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px;}.hero .sub{color:var(--muted);font-size:.95rem;margin-bottom:24px;}.hero .meta{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;}.hero .tag{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.8rem;color:var(--muted);}.hero .tag b{color:var(--neon);}
+.xp-tracker{display:flex;justify-content:center;align-items:center;gap:16px;margin:30px auto;padding:16px 24px;background:var(--dark);border:1px solid var(--border);border-radius:12px;max-width:500px;}.xp-tracker .xp-label{font-family:var(--font-head);font-size:1rem;color:var(--amber);}.xp-tracker .xp-val{font-family:var(--font-head);font-size:1.6rem;font-weight:900;color:var(--neon);}.xp-tracker .xp-max{color:var(--muted);font-size:.85rem;}
+.container{max-width:880px;margin:0 auto;padding:0 20px 60px;}
+.tut-section{margin:40px 0;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--dark);}.tut-header{padding:20px 24px;display:flex;align-items:center;gap:16px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border);}.tut-header .tut-num{font-family:var(--font-head);font-size:1.6rem;font-weight:900;color:var(--navy);background:var(--neon);border-radius:10px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}.tut-section[data-colour="blue"] .tut-num{background:var(--blue);}.tut-section[data-colour="purple"] .tut-num{background:var(--purple);}.tut-section[data-colour="amber"] .tut-num{background:var(--amber);}.tut-section[data-colour="pink"] .tut-num{background:var(--pink);}.tut-header .tut-info{flex:1;}.tut-header .tut-title{font-family:var(--font-head);font-size:1.05rem;font-weight:700;color:var(--white);}.tut-header .tut-time{font-size:.8rem;color:var(--muted);margin-top:2px;}.tut-header .xp-badge{font-family:var(--font-head);background:rgba(251,191,36,.15);color:var(--amber);padding:4px 12px;border-radius:8px;font-size:.85rem;font-weight:700;flex-shrink:0;}.tut-header .chevron{color:var(--muted);font-size:1.4rem;transition:transform .3s;flex-shrink:0;}.tut-section.open .chevron{transform:rotate(90deg);}.tut-body{padding:0 24px 24px;display:none;}.tut-section.open .tut-body{display:block;}
+.step{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid rgba(51,65,85,.5);}.step:last-child{border-bottom:none;}.step-check{flex-shrink:0;margin-top:3px;}.step-check input[type="checkbox"]{width:20px;height:20px;accent-color:var(--neon);cursor:pointer;}.step-num{font-family:var(--font-head);font-size:.75rem;color:var(--neon);background:rgba(74,222,128,.1);border-radius:6px;padding:2px 8px;height:fit-content;flex-shrink:0;margin-top:2px;}.step-content{flex:1;}.step-content strong{color:var(--neon);}.step-content .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:1px 8px;font-size:.85rem;color:var(--amber);font-weight:700;margin:0 2px;}.step-content .sub-list{margin:8px 0 0 0;list-style:none;}.step-content .sub-list li{padding:4px 0;color:var(--muted);font-size:.9rem;}.step-content .sub-list li::before{content:'\25B8 ';color:var(--blue);}.step-content .sub-list li strong{color:var(--white);}
+.detail{margin:6px 0 0 0;padding:8px 12px;background:rgba(15,23,42,.6);border-left:3px solid var(--blue);border-radius:0 6px 6px 0;font-size:.88rem;color:var(--muted);}.detail strong{color:var(--blue);}
+.code-block{margin:10px 0;padding:14px 18px;background:#0a0e1a;border:1px solid var(--border);border-radius:10px;font-family:var(--font-body);font-size:.88rem;line-height:1.6;overflow-x:auto;white-space:pre;color:var(--neon);}.code-block .kw{color:var(--blue);}.code-block .ty{color:var(--purple);}.code-block .st{color:var(--amber);}.code-block .cm{color:var(--muted);font-style:italic;}.code-block .fn{color:var(--pink);}
+.callout{margin:16px 0;padding:14px 18px;border-radius:10px;font-size:.9rem;display:flex;gap:12px;align-items:flex-start;}.callout .icon{font-size:1.2rem;flex-shrink:0;}.callout-checkpoint{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);}.callout-checkpoint .icon{color:var(--neon);}.callout-trouble{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);}.callout-trouble .icon{color:var(--red);}.callout-tip{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);}.callout-tip .icon{color:var(--blue);}.callout-challenge{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);}.callout-challenge .icon{color:var(--amber);}.callout-extension{background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);}.callout-extension .icon{color:var(--purple);}
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);border-radius:10px;}.vocab h4{font-family:var(--font-head);font-size:.8rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:.88rem;}.vocab dt{color:var(--amber);font-weight:700;}.vocab dd{color:var(--muted);}
+.footer-section{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;}.footer-section h2{font-family:var(--font-head);font-size:1.2rem;margin-bottom:16px;color:var(--neon);}
+.progress-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;}.progress-card{display:flex;align-items:center;gap:12px;padding:12px;background:var(--navy);border-radius:10px;border:1px solid var(--border);}.progress-card input[type="checkbox"]{width:22px;height:22px;accent-color:var(--neon);}.progress-card .pc-label{flex:1;font-size:.9rem;}.progress-card .pc-xp{font-family:var(--font-head);color:var(--amber);font-size:.85rem;}
+.btn{display:inline-block;padding:10px 24px;border-radius:8px;border:none;font-family:var(--font-head);font-size:.85rem;cursor:pointer;font-weight:700;transition:transform .15s;}.btn:hover{transform:translateY(-2px);}.btn-neon{background:var(--neon);color:var(--navy);}.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted);}.btn-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;justify-content:center;}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;-webkit-text-fill-color:#111!important;}body{font-size:10pt;}#progress-bar-wrap,.btn-row,.no-print{display:none!important;}.tut-section{break-inside:avoid;}.tut-section.open .tut-body,.tut-body{display:block!important;}.tut-header .chevron{display:none;}.code-block{background:#f4f4f4!important;color:#111!important;}.code-block .kw,.code-block .ty,.code-block .fn,.code-block .st,.code-block .cm{color:#333!important;}}
+</style>
+</head>
+<body>
+<div id="progress-bar-wrap"><div id="progress-bar"></div></div>
+
+<div class="hero">
+  <h1>MISSION 15: Game Over &amp; Menus</h1>
+  <p class="sub">Build scene management, Game Over screens, Main Menus, and restart functionality</p>
+  <div class="meta">
+    <span class="tag"><b>Lesson 15</b> of 22</span>
+    <span class="tag"><b>75 min</b> session</span>
+    <span class="tag"><b>50 XP</b> available</span>
+    <span class="tag">Week 10 — Tue</span>
+  </div>
+</div>
+
+<div class="xp-tracker">
+  <span class="xp-label">XP EARNED:</span>
+  <span class="xp-val" id="xp-display">0</span>
+  <span class="xp-max">/ 50 XP</span>
+</div>
+
+<div class="container">
+
+<!-- ======================== SECTION 1 ======================== -->
+<div class="tut-section open" id="section-1" data-colour="neon">
+  <div class="tut-header" onclick="toggleSection(1)">
+    <div class="tut-num">1</div>
+    <div class="tut-info"><div class="tut-title">Scene Management Basics</div><div class="tut-time">~12 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="vocab">
+      <h4>Key Vocabulary</h4>
+      <dl>
+        <dt>Scene</dt><dd>A self-contained level or screen in Unity — like pages in a book</dd>
+        <dt>SceneManager</dt><dd>Unity's built-in class for loading, unloading, and switching between scenes</dd>
+        <dt>Build Settings</dt><dd>The list of scenes that will be included in your final game build</dd>
+        <dt>Scene Index</dt><dd>Each scene in Build Settings gets a number (0, 1, 2...) — used for loading</dd>
+        <dt>DontDestroyOnLoad</dt><dd>Keeps a GameObject alive when switching scenes (used for managers, music)</dd>
+      </dl>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.1</div>
+      <div class="step-content">
+        <strong>Understand game flow.</strong> Most games have this structure:
+        <ul class="sub-list">
+          <li><strong>Main Menu</strong> → Player sees title, clicks "Play"</li>
+          <li><strong>Gameplay</strong> → The actual game level(s)</li>
+          <li><strong>Game Over</strong> → Player dies, sees score, can restart or go to menu</li>
+          <li><strong>Win Screen</strong> → (Optional) Player completes the game</li>
+        </ul>
+        <div class="detail"><strong>Each of these is a separate Scene in Unity.</strong> Today you'll create a Main Menu scene and a Game Over scene, and learn how to switch between them using code.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.2</div>
+      <div class="step-content">
+        <strong>Create your scenes.</strong> You should already have a gameplay scene (e.g. "Level1"). Now create two new scenes:
+        <ul class="sub-list">
+          <li><strong>File → New Scene</strong> → choose "Basic 2D" → <strong>Ctrl+S</strong> → save as <strong>"MainMenu"</strong></li>
+          <li><strong>File → New Scene</strong> → choose "Basic 2D" → <strong>Ctrl+S</strong> → save as <strong>"GameOver"</strong></li>
+        </ul>
+        <div class="detail"><strong>Save location:</strong> Save both scenes in your Assets/Scenes/ folder (create the folder if you don't have it). Your Project window should now show: MainMenu.unity, Level1.unity, GameOver.unity.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.3</div>
+      <div class="step-content">
+        <strong>Add scenes to Build Settings.</strong> Go to <strong>File → Build Settings</strong> (or <span class="key">Ctrl+Shift+B</span>). You'll see a panel with "Scenes In Build" at the top. Drag your scenes from the Project window into this list in this order:
+        <ul class="sub-list">
+          <li><strong>0:</strong> MainMenu (this loads first when the game starts)</li>
+          <li><strong>1:</strong> Level1 (your gameplay scene)</li>
+          <li><strong>2:</strong> GameOver</li>
+        </ul>
+        <div class="detail"><strong>Important:</strong> The order matters! Scene index 0 is the first scene loaded when your game runs. If your scenes are in the wrong order, drag them to rearrange. The number on the right is the <strong>scene index</strong> you'll use in code.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.4</div>
+      <div class="step-content">
+        <strong>Learn the SceneManager API.</strong> To switch scenes in code, you need to add this at the top of your script:
+        <div class="code-block"><span class="kw">using</span> UnityEngine.SceneManagement;</div>
+        Then use one of these methods:
+        <div class="code-block"><span class="cm">// Load by scene NAME (recommended):</span>
+<span class="ty">SceneManager</span>.<span class="fn">LoadScene</span>(<span class="st">"MainMenu"</span>);
+<span class="ty">SceneManager</span>.<span class="fn">LoadScene</span>(<span class="st">"Level1"</span>);
+<span class="ty">SceneManager</span>.<span class="fn">LoadScene</span>(<span class="st">"GameOver"</span>);
+
+<span class="cm">// Load by scene INDEX:</span>
+<span class="ty">SceneManager</span>.<span class="fn">LoadScene</span>(0); <span class="cm">// MainMenu</span>
+<span class="ty">SceneManager</span>.<span class="fn">LoadScene</span>(1); <span class="cm">// Level1</span>
+<span class="ty">SceneManager</span>.<span class="fn">LoadScene</span>(2); <span class="cm">// GameOver</span></div>
+        <div class="detail"><strong>Name vs Index:</strong> Using names is more readable but must match exactly (case-sensitive!). Using index numbers is shorter but breaks if you reorder scenes. Choose whichever you prefer.</div>
+      </div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#9989;</div>
+      <div><strong>Checkpoint:</strong> You have 3 scenes (MainMenu, Level1, GameOver) and they're all added to Build Settings in the correct order. You know how to use SceneManager.LoadScene().</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== SECTION 2 ======================== -->
+<div class="tut-section" id="section-2" data-colour="blue">
+  <div class="tut-header" onclick="toggleSection(2)">
+    <div class="tut-num">2</div>
+    <div class="tut-info"><div class="tut-title">Game Over Screen</div><div class="tut-time">~15 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.1</div>
+      <div class="step-content">
+        <strong>Trigger Game Over from gameplay.</strong> Open your gameplay scene (Level1). In your PlayerController (or GameManager), add the game over logic. When lives reach 0:
+        <div class="code-block"><span class="kw">using</span> UnityEngine.SceneManagement;
+
+<span class="cm">// In your damage/death logic:</span>
+<span class="kw">public void</span> <span class="fn">TakeDamage</span>()
+{
+    lives--;
+    <span class="kw">if</span> (lives &lt;= 0)
+    {
+        <span class="fn">GameOver</span>();
+    }
+}
+
+<span class="kw">void</span> <span class="fn">GameOver</span>()
+{
+    <span class="cm">// Save the score so GameOver screen can display it</span>
+    <span class="ty">PlayerPrefs</span>.<span class="fn">SetInt</span>(<span class="st">"FinalScore"</span>, score);
+    <span class="ty">PlayerPrefs</span>.<span class="fn">Save</span>();
+
+    <span class="cm">// Load the Game Over scene</span>
+    <span class="ty">SceneManager</span>.<span class="fn">LoadScene</span>(<span class="st">"GameOver"</span>);
+}</div>
+        <div class="detail"><strong>PlayerPrefs</strong> is Unity's simple data storage. It saves key-value pairs that persist between scenes (and even between game sessions). Think of it like a tiny database. We save the score here so the Game Over screen can read it.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.2</div>
+      <div class="step-content">
+        <strong>Open your GameOver scene.</strong> Double-click "GameOver" in your Project/Scenes folder. It should be an empty scene with just a camera.
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.3</div>
+      <div class="step-content">
+        <strong>Set the camera background.</strong> Select Main Camera → Inspector → Background colour → choose a dark red or dark colour that says "game over".
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.4</div>
+      <div class="step-content">
+        <strong>Build the Game Over UI.</strong> Right-click in Hierarchy → <strong>UI → Canvas</strong>. Then add:
+        <ul class="sub-list">
+          <li>Right-click Canvas → <strong>UI → Text - TextMeshPro</strong> → name it <strong>"GameOverText"</strong>. Text: "GAME OVER". Font size: 72. Colour: Red. Anchor: top-centre. Position Y: 100.</li>
+          <li>Right-click Canvas → <strong>UI → Text - TextMeshPro</strong> → name it <strong>"ScoreText"</strong>. Text: "Score: 0". Font size: 36. Colour: White. Position Y: 0.</li>
+          <li>Right-click Canvas → <strong>UI → Button - TextMeshPro</strong> → name it <strong>"RestartButton"</strong>. Change button text to "PLAY AGAIN". Position Y: -100.</li>
+          <li>Right-click Canvas → <strong>UI → Button - TextMeshPro</strong> → name it <strong>"MenuButton"</strong>. Change button text to "MAIN MENU". Position Y: -200.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.5</div>
+      <div class="step-content">
+        <strong>Create the GameOverManager script.</strong> Right-click Scripts folder → Create → C# Script → name <strong>"GameOverManager"</strong>. Replace ALL code:
+        <div class="code-block"><span class="kw">using</span> UnityEngine;
+<span class="kw">using</span> UnityEngine.SceneManagement;
+<span class="kw">using</span> TMPro;
+
+<span class="kw">public class</span> <span class="ty">GameOverManager</span> : <span class="ty">MonoBehaviour</span>
+{
+    <span class="kw">public</span> <span class="ty">TextMeshProUGUI</span> scoreText;
+
+    <span class="kw">void</span> <span class="fn">Start</span>()
+    {
+        <span class="cm">// Read the saved score</span>
+        <span class="ty">int</span> finalScore = <span class="ty">PlayerPrefs</span>.<span class="fn">GetInt</span>(<span class="st">"FinalScore"</span>, 0);
+        scoreText.text = <span class="st">"Score: "</span> + finalScore;
+    }
+
+    <span class="kw">public void</span> <span class="fn">RestartGame</span>()
+    {
+        <span class="ty">SceneManager</span>.<span class="fn">LoadScene</span>(<span class="st">"Level1"</span>);
+    }
+
+    <span class="kw">public void</span> <span class="fn">GoToMenu</span>()
+    {
+        <span class="ty">SceneManager</span>.<span class="fn">LoadScene</span>(<span class="st">"MainMenu"</span>);
+    }
+}</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.6</div>
+      <div class="step-content">
+        <strong>Wire up the script.</strong>
+        <ul class="sub-list">
+          <li>Create an empty GameObject → name it <strong>"GameOverManager"</strong></li>
+          <li>Add the GameOverManager script to it</li>
+          <li>Drag the ScoreText TMP object into the <strong>Score Text</strong> field</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.7</div>
+      <div class="step-content">
+        <strong>Connect buttons to methods.</strong> This is the key step! Select the <strong>RestartButton</strong>. In the Inspector, find the <strong>On Click ()</strong> event section:
+        <ul class="sub-list">
+          <li>Click <strong>+</strong> to add an event</li>
+          <li>Drag the <strong>GameOverManager</strong> GameObject into the object field</li>
+          <li>Click the dropdown → <strong>GameOverManager → RestartGame</strong></li>
+        </ul>
+        Repeat for <strong>MenuButton</strong> → connect to <strong>GoToMenu</strong>.
+        <div class="detail"><strong>How Button events work:</strong> When the player clicks the button, Unity calls the method you assigned. The dropdown shows ALL public methods on the connected object's scripts. This is Unity's event system — no code needed to detect the click!</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.8</div>
+      <div class="step-content">
+        <strong>Test it.</strong> Go back to your Level1 scene (double-click Level1 in Project). Press Play. Let your player die (run into enemies until lives = 0). The Game Over scene should load, show your score, and the buttons should work.
+      </div>
+    </div>
+
+    <div class="callout callout-trouble">
+      <div class="icon">&#9888;</div>
+      <div><strong>Buttons not working?</strong> Check: (1) The scene is in Build Settings, (2) Button On Click event is connected, (3) Scene name matches exactly (case-sensitive), (4) You have an <strong>EventSystem</strong> in the scene (auto-created with Canvas, but check it's there).</div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#9989;</div>
+      <div><strong>Checkpoint:</strong> When lives reach 0, the Game Over scene loads. It shows the final score and has working Restart and Menu buttons.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== SECTION 3 ======================== -->
+<div class="tut-section" id="section-3" data-colour="purple">
+  <div class="tut-header" onclick="toggleSection(3)">
+    <div class="tut-num">3</div>
+    <div class="tut-info"><div class="tut-title">Main Menu Screen</div><div class="tut-time">~15 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.1</div>
+      <div class="step-content">
+        <strong>Open the MainMenu scene.</strong> Double-click "MainMenu" in your Project/Scenes folder.
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.2</div>
+      <div class="step-content">
+        <strong>Set a nice background.</strong> You have several options:
+        <ul class="sub-list">
+          <li><strong>Option A:</strong> Set Camera background colour to a gradient-like dark colour</li>
+          <li><strong>Option B:</strong> Create a UI → Image that fills the screen (set anchors to stretch-stretch) and assign a background sprite</li>
+          <li><strong>Option C:</strong> Place a sprite in the scene as a background decoration</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.3</div>
+      <div class="step-content">
+        <strong>Build the Main Menu UI.</strong> Right-click Hierarchy → <strong>UI → Canvas</strong>. Add these elements:
+        <ul class="sub-list">
+          <li><strong>Title Text (TMP):</strong> Your game's name! Font size: 80. Colour: your accent colour. Anchor: top-centre. Position Y: 150.</li>
+          <li><strong>Subtitle Text (TMP):</strong> A tagline (e.g., "A 2D Adventure"). Font size: 24. Colour: light grey.</li>
+          <li><strong>Play Button (TMP):</strong> Text "PLAY". Position Y: -50. Make it big and inviting!</li>
+          <li><strong>Quit Button (TMP):</strong> Text "QUIT". Position Y: -150. Smaller and less prominent.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.4</div>
+      <div class="step-content">
+        <strong>Style the buttons.</strong> Select a button. In the <strong>Image</strong> component, change the <strong>Color</strong> to match your game's theme. You can also:
+        <ul class="sub-list">
+          <li>Change the button's child TMP text colour, size, and font</li>
+          <li>In the <strong>Button</strong> component, customise <strong>Highlighted Color</strong> (hover) and <strong>Pressed Color</strong> (click)</li>
+          <li>Add a subtle <strong>Navigation → None</strong> if keyboard/gamepad nav isn't needed</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.5</div>
+      <div class="step-content">
+        <strong>Create the MainMenuManager script.</strong> New C# Script → "MainMenuManager":
+        <div class="code-block"><span class="kw">using</span> UnityEngine;
+<span class="kw">using</span> UnityEngine.SceneManagement;
+
+<span class="kw">public class</span> <span class="ty">MainMenuManager</span> : <span class="ty">MonoBehaviour</span>
+{
+    <span class="kw">public void</span> <span class="fn">PlayGame</span>()
+    {
+        <span class="ty">SceneManager</span>.<span class="fn">LoadScene</span>(<span class="st">"Level1"</span>);
+    }
+
+    <span class="kw">public void</span> <span class="fn">QuitGame</span>()
+    {
+        <span class="cm">// Only works in a built game, not in the Editor</span>
+        <span class="ty">Application</span>.<span class="fn">Quit</span>();
+
+        <span class="cm">// This line helps test in the Editor:</span>
+        #<span class="kw">if</span> UNITY_EDITOR
+        <span class="ty">UnityEditor</span>.<span class="ty">EditorApplication</span>.isPlaying = <span class="kw">false</span>;
+        #<span class="kw">endif</span>
+    }
+}</div>
+        <div class="detail"><strong>Application.Quit()</strong> only works in a built game — not in the Editor's Play mode. The <code>#if UNITY_EDITOR</code> block is a preprocessor directive that only runs in the Editor, letting you test the quit button during development.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.6</div>
+      <div class="step-content">
+        <strong>Wire up buttons.</strong> Same process as Game Over:
+        <ul class="sub-list">
+          <li>Create empty GameObject → add MainMenuManager script</li>
+          <li>Play Button → On Click → drag MainMenuManager → select <strong>PlayGame</strong></li>
+          <li>Quit Button → On Click → drag MainMenuManager → select <strong>QuitGame</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.7</div>
+      <div class="step-content">
+        <strong>Test the full game loop.</strong> Make sure MainMenu is Scene 0 in Build Settings. Press Play from the MainMenu scene. Click "PLAY" → gameplay starts. Die → Game Over screen. Click "PLAY AGAIN" → gameplay restarts. Click "MAIN MENU" → back to menu. The whole loop should work!
+      </div>
+    </div>
+
+    <div class="callout callout-tip">
+      <div class="icon">&#128161;</div>
+      <div><strong>Pro tip:</strong> Add a button click sound! In the Button's On Click event, add a second entry: drag SoundManager → select PlayButton. Now buttons make a satisfying click sound (if your SoundManager uses DontDestroyOnLoad from last lesson).</div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#9989;</div>
+      <div><strong>Checkpoint:</strong> Main Menu has a title, Play button, and Quit button. The full game loop works: Menu → Play → Game Over → Restart/Menu.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== SECTION 4 ======================== -->
+<div class="tut-section" id="section-4" data-colour="amber">
+  <div class="tut-header" onclick="toggleSection(4)">
+    <div class="tut-num">4</div>
+    <div class="tut-info"><div class="tut-title">Polish — Pause Menu &amp; Transitions</div><div class="tut-time">~20 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.1</div>
+      <div class="step-content">
+        <strong>Create an in-game Pause Menu.</strong> Go to your Level1 scene. On the existing Canvas, create a <strong>Panel</strong> (right-click Canvas → UI → Panel). Name it <strong>"PausePanel"</strong>.
+        <ul class="sub-list">
+          <li>Set the Panel's Image colour to semi-transparent black: RGBA(0, 0, 0, 200)</li>
+          <li>Add a TMP text child: "PAUSED", font size 60, centre</li>
+          <li>Add a "Resume" Button (TMP) inside the Panel</li>
+          <li>Add a "Main Menu" Button (TMP) inside the Panel</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.2</div>
+      <div class="step-content">
+        <strong>Create a PauseManager script.</strong> New C# script → "PauseManager":
+        <div class="code-block"><span class="kw">using</span> UnityEngine;
+<span class="kw">using</span> UnityEngine.SceneManagement;
+
+<span class="kw">public class</span> <span class="ty">PauseManager</span> : <span class="ty">MonoBehaviour</span>
+{
+    <span class="kw">public</span> <span class="ty">GameObject</span> pausePanel;
+    <span class="kw">private bool</span> isPaused = <span class="kw">false</span>;
+
+    <span class="kw">void</span> <span class="fn">Start</span>()
+    {
+        pausePanel.<span class="fn">SetActive</span>(<span class="kw">false</span>); <span class="cm">// hidden at start</span>
+    }
+
+    <span class="kw">void</span> <span class="fn">Update</span>()
+    {
+        <span class="kw">if</span> (<span class="ty">Input</span>.<span class="fn">GetKeyDown</span>(<span class="ty">KeyCode</span>.Escape))
+        {
+            <span class="kw">if</span> (isPaused)
+                <span class="fn">ResumeGame</span>();
+            <span class="kw">else</span>
+                <span class="fn">PauseGame</span>();
+        }
+    }
+
+    <span class="kw">public void</span> <span class="fn">PauseGame</span>()
+    {
+        pausePanel.<span class="fn">SetActive</span>(<span class="kw">true</span>);
+        <span class="ty">Time</span>.timeScale = 0f; <span class="cm">// FREEZE the game!</span>
+        isPaused = <span class="kw">true</span>;
+    }
+
+    <span class="kw">public void</span> <span class="fn">ResumeGame</span>()
+    {
+        pausePanel.<span class="fn">SetActive</span>(<span class="kw">false</span>);
+        <span class="ty">Time</span>.timeScale = 1f; <span class="cm">// UN-FREEZE</span>
+        isPaused = <span class="kw">false</span>;
+    }
+
+    <span class="kw">public void</span> <span class="fn">GoToMenu</span>()
+    {
+        <span class="ty">Time</span>.timeScale = 1f; <span class="cm">// Reset before leaving!</span>
+        <span class="ty">SceneManager</span>.<span class="fn">LoadScene</span>(<span class="st">"MainMenu"</span>);
+    }
+}</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.3</div>
+      <div class="step-content">
+        <strong>Understand Time.timeScale.</strong> This is powerful!
+        <ul class="sub-list">
+          <li><strong>Time.timeScale = 0f</strong> → FREEZES everything that uses Time.deltaTime (physics, animations, movement). The game pauses!</li>
+          <li><strong>Time.timeScale = 1f</strong> → Normal speed</li>
+          <li><strong>Time.timeScale = 0.5f</strong> → Slow motion (half speed)</li>
+          <li><strong>Time.timeScale = 2f</strong> → Double speed</li>
+        </ul>
+        <div class="detail"><strong>Warning:</strong> UI buttons and Input.GetKeyDown still work when timeScale = 0, because they don't depend on deltaTime. That's why the Escape key and Resume button work even while paused!</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.4</div>
+      <div class="step-content">
+        <strong>Wire up the Pause Menu.</strong>
+        <ul class="sub-list">
+          <li>Create an empty GameObject → add PauseManager script</li>
+          <li>Drag the PausePanel into the <strong>Pause Panel</strong> field</li>
+          <li>Resume Button → On Click → PauseManager → <strong>ResumeGame</strong></li>
+          <li>Main Menu Button → On Click → PauseManager → <strong>GoToMenu</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.5</div>
+      <div class="step-content">
+        <strong>Test the pause menu.</strong> Press Play in Level1. Press <span class="key">Escape</span> — the game should freeze and show the pause overlay. Click Resume — game continues. Press Escape again — paused again. Click Main Menu — goes to menu.
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.6</div>
+      <div class="step-content">
+        <strong>Add a simple fade transition (optional but impressive).</strong> On both your MainMenu and Level1 Canvas, add a <strong>Panel</strong> named "FadePanel":
+        <ul class="sub-list">
+          <li>Image colour: Black, Alpha: 255 (fully opaque)</li>
+          <li>Move it to the TOP of the Canvas hierarchy (so it covers everything)</li>
+          <li>Add a <strong>CanvasGroup</strong> component to it</li>
+        </ul>
+        Then add this simple fade script:
+        <div class="code-block"><span class="kw">using</span> UnityEngine;
+
+<span class="kw">public class</span> <span class="ty">FadeIn</span> : <span class="ty">MonoBehaviour</span>
+{
+    <span class="kw">public</span> <span class="ty">CanvasGroup</span> fadePanel;
+    <span class="kw">public</span> <span class="ty">float</span> fadeSpeed = 1.5f;
+
+    <span class="kw">void</span> <span class="fn">Start</span>()
+    {
+        fadePanel.alpha = 1f; <span class="cm">// start fully black</span>
+    }
+
+    <span class="kw">void</span> <span class="fn">Update</span>()
+    {
+        <span class="kw">if</span> (fadePanel.alpha > 0)
+        {
+            fadePanel.alpha -= fadeSpeed * <span class="ty">Time</span>.deltaTime;
+            <span class="kw">if</span> (fadePanel.alpha &lt;= 0)
+                fadePanel.gameObject.<span class="fn">SetActive</span>(<span class="kw">false</span>);
+        }
+    }
+}</div>
+        <div class="detail"><strong>Effect:</strong> When the scene loads, it fades from black to visible. Simple but effective! For fade OUT, you'd increase alpha before calling LoadScene. Try it as an extension challenge.</div>
+      </div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#9989;</div>
+      <div><strong>Checkpoint:</strong> Pressing Escape pauses the game with a semi-transparent overlay. Resume button works. You understand Time.timeScale.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== SECTION 5 ======================== -->
+<div class="tut-section" id="section-5" data-colour="pink">
+  <div class="tut-header" onclick="toggleSection(5)">
+    <div class="tut-num">5</div>
+    <div class="tut-info"><div class="tut-title">Extension — High Score &amp; Win Condition</div><div class="tut-time">~13 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="callout callout-challenge">
+      <div class="icon">&#127942;</div>
+      <div><strong>Challenge time!</strong> Add a high score system and a win condition to make your game feel complete.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">5.1</div>
+      <div class="step-content">
+        <strong>High Score System.</strong> Modify your GameOver logic to track the highest score:
+        <div class="code-block"><span class="cm">// In GameOverManager.Start():</span>
+<span class="ty">int</span> finalScore = <span class="ty">PlayerPrefs</span>.<span class="fn">GetInt</span>(<span class="st">"FinalScore"</span>, 0);
+<span class="ty">int</span> highScore = <span class="ty">PlayerPrefs</span>.<span class="fn">GetInt</span>(<span class="st">"HighScore"</span>, 0);
+
+<span class="kw">if</span> (finalScore > highScore)
+{
+    highScore = finalScore;
+    <span class="ty">PlayerPrefs</span>.<span class="fn">SetInt</span>(<span class="st">"HighScore"</span>, highScore);
+    <span class="ty">PlayerPrefs</span>.<span class="fn">Save</span>();
+    <span class="cm">// Show "NEW HIGH SCORE!" text</span>
+}
+
+scoreText.text = <span class="st">"Score: "</span> + finalScore;
+highScoreText.text = <span class="st">"Best: "</span> + highScore;</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">5.2</div>
+      <div class="step-content">
+        <strong>Win Condition.</strong> Create a "WinZone" trigger at the end of your level:
+        <ul class="sub-list">
+          <li>Create an empty GameObject → name "WinZone"</li>
+          <li>Add Box Collider 2D → Is Trigger ✓</li>
+          <li>Position it at the end of your level</li>
+          <li>Tag it as "WinZone" (create new tag)</li>
+        </ul>
+        <div class="code-block"><span class="cm">// In PlayerController.OnTriggerEnter2D:</span>
+<span class="kw">if</span> (other.<span class="fn">CompareTag</span>(<span class="st">"WinZone"</span>))
+{
+    <span class="ty">PlayerPrefs</span>.<span class="fn">SetInt</span>(<span class="st">"FinalScore"</span>, score);
+    <span class="ty">SceneManager</span>.<span class="fn">LoadScene</span>(<span class="st">"WinScreen"</span>);
+}</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">5.3</div>
+      <div class="step-content">
+        <strong>Animated menu elements.</strong> Make your Main Menu more professional:
+        <ul class="sub-list">
+          <li>Title text: Add an Animation component, create a gentle "bob" animation (move Y up and down slightly)</li>
+          <li>Buttons: Adjust Button colours for Normal, Highlighted (hover), Pressed, and Disabled states</li>
+          <li>Add floating particles in the background for atmosphere</li>
+          <li>Add your background music to the Main Menu scene</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">5.4</div>
+      <div class="step-content">
+        <strong>Multiple levels.</strong> If you have multiple levels:
+        <div class="code-block"><span class="cm">// Load the NEXT scene by index:</span>
+<span class="ty">int</span> nextScene = <span class="ty">SceneManager</span>.<span class="fn">GetActiveScene</span>().buildIndex + 1;
+
+<span class="kw">if</span> (nextScene &lt; <span class="ty">SceneManager</span>.sceneCountInBuildSettings)
+{
+    <span class="ty">SceneManager</span>.<span class="fn">LoadScene</span>(nextScene);
+}
+<span class="kw">else</span>
+{
+    <span class="cm">// No more levels — go to win screen</span>
+    <span class="ty">SceneManager</span>.<span class="fn">LoadScene</span>(<span class="st">"WinScreen"</span>);
+}</div>
+      </div>
+    </div>
+
+    <div class="callout callout-extension">
+      <div class="icon">&#128640;</div>
+      <div><strong>Super Extension:</strong> Add a "Settings" screen accessible from the Main Menu with volume sliders, a "Credits" screen, or a level select screen where each level is a button that loads a specific scene.</div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#9989;</div>
+      <div><strong>Checkpoint:</strong> You've implemented at least one extension (high score, win condition, animated menu, or multi-level loading).</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== FOOTER ======================== -->
+<div class="footer-section">
+  <h2>Quick Reference</h2>
+  <dl style="display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-size:.9rem;">
+    <dt style="color:var(--amber)">SceneManager.LoadScene("name")</dt><dd style="color:var(--muted)">Load a scene by name</dd>
+    <dt style="color:var(--amber)">PlayerPrefs.SetInt(key, value)</dt><dd style="color:var(--muted)">Save an integer that persists between scenes</dd>
+    <dt style="color:var(--amber)">PlayerPrefs.GetInt(key, default)</dt><dd style="color:var(--muted)">Read a saved integer (with fallback value)</dd>
+    <dt style="color:var(--amber)">Time.timeScale = 0f</dt><dd style="color:var(--muted)">Pause all time-dependent systems</dd>
+    <dt style="color:var(--amber)">Application.Quit()</dt><dd style="color:var(--muted)">Exit the game (only works in built game)</dd>
+    <dt style="color:var(--amber)">gameObject.SetActive(bool)</dt><dd style="color:var(--muted)">Show/hide a GameObject and all children</dd>
+  </dl>
+</div>
+
+<div class="footer-section">
+  <h2>Submission</h2>
+  <p style="color:var(--muted);font-size:.9rem;">Take <strong>3 screenshots</strong>: (1) Main Menu, (2) Gameplay with UI visible, (3) Game Over screen. Submit all three to Google Classroom. Save your project (<span class="key">Ctrl+S</span>).</p>
+</div>
+
+<div class="footer-section">
+  <h2>Progress Tracker</h2>
+  <div class="progress-grid">
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">3 scenes in Build Settings</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Game Over screen with buttons</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Main Menu with Play + Quit</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Pause menu working (Escape)</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Extension completed</span><span class="pc-xp">+10 XP</span></div>
+  </div>
+</div>
+
+<div class="btn-row no-print">
+  <button class="btn btn-neon" onclick="expandAll()">Expand All</button>
+  <button class="btn btn-ghost" onclick="resetAll()">Reset Progress</button>
+</div>
+
+</div>
+
+<script>
+const TOTAL_SECTIONS=5,XP_PER_SECTION=10;let xp=0;
+function toggleSection(n){const s=document.getElementById('section-'+n);s.classList.toggle('open');}
+function expandAll(){document.querySelectorAll('.tut-section').forEach(s=>s.classList.add('open'));}
+function updateProgress(){const checks=document.querySelectorAll('.step-check input[type="checkbox"]');const total=checks.length;const done=[...checks].filter(c=>c.checked).length;document.getElementById('progress-bar').style.width=Math.round(done/total*100)+'%';updateXP();}
+function updateXP(){let total=0;for(let i=1;i<=TOTAL_SECTIONS;i++){const sec=document.getElementById('section-'+i);if(!sec)continue;const checks=sec.querySelectorAll('.step-check input[type="checkbox"]');const done=[...checks].filter(c=>c.checked).length;if(checks.length>0&&done===checks.length)total+=XP_PER_SECTION;}xp=total;document.getElementById('xp-display').textContent=xp;}
+function resetAll(){document.querySelectorAll('input[type="checkbox"]').forEach(c=>c.checked=false);updateProgress();}
+</script>
+</body>
+</html>

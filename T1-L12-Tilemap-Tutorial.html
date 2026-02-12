@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T1-L12 — Tilemap &amp; Level Design Tutorial</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:15px;line-height:1.7;}a{color:var(--blue);text-decoration:none;}a:hover{text-decoration:underline;}
+#progress-bar-wrap{position:fixed;top:0;left:0;width:100%;height:6px;background:var(--dark);z-index:9999;}#progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--neon),var(--blue));transition:width .4s;}
+.hero{text-align:center;padding:80px 20px 40px;background:linear-gradient(180deg,rgba(74,222,128,.08) 0%,transparent 100%);}.hero h1{font-family:var(--font-head);font-size:2.4rem;font-weight:900;background:linear-gradient(135deg,var(--neon),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px;}.hero .sub{color:var(--muted);font-size:.95rem;margin-bottom:24px;}.hero .meta{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;}.hero .tag{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.8rem;color:var(--muted);}.hero .tag b{color:var(--neon);}
+.xp-tracker{display:flex;justify-content:center;align-items:center;gap:16px;margin:30px auto;padding:16px 24px;background:var(--dark);border:1px solid var(--border);border-radius:12px;max-width:500px;}.xp-tracker .xp-label{font-family:var(--font-head);font-size:1rem;color:var(--amber);}.xp-tracker .xp-val{font-family:var(--font-head);font-size:1.6rem;font-weight:900;color:var(--neon);}.xp-tracker .xp-max{color:var(--muted);font-size:.85rem;}
+.container{max-width:880px;margin:0 auto;padding:0 20px 60px;}
+.tut-section{margin:40px 0;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--dark);}.tut-header{padding:20px 24px;display:flex;align-items:center;gap:16px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border);}.tut-header .tut-num{font-family:var(--font-head);font-size:1.6rem;font-weight:900;color:var(--navy);background:var(--neon);border-radius:10px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}.tut-section[data-colour="blue"] .tut-num{background:var(--blue);}.tut-section[data-colour="purple"] .tut-num{background:var(--purple);}.tut-section[data-colour="amber"] .tut-num{background:var(--amber);}.tut-section[data-colour="pink"] .tut-num{background:var(--pink);}.tut-header .tut-info{flex:1;}.tut-header .tut-title{font-family:var(--font-head);font-size:1.05rem;font-weight:700;color:var(--white);}.tut-header .tut-time{font-size:.8rem;color:var(--muted);margin-top:2px;}.tut-header .xp-badge{font-family:var(--font-head);background:rgba(251,191,36,.15);color:var(--amber);padding:4px 12px;border-radius:8px;font-size:.85rem;font-weight:700;flex-shrink:0;}.tut-header .chevron{color:var(--muted);font-size:1.4rem;transition:transform .3s;flex-shrink:0;}.tut-section.open .chevron{transform:rotate(90deg);}.tut-body{padding:0 24px 24px;display:none;}.tut-section.open .tut-body{display:block;}
+.step{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid rgba(51,65,85,.5);}.step:last-child{border-bottom:none;}.step-check{flex-shrink:0;margin-top:3px;}.step-check input[type="checkbox"]{width:20px;height:20px;accent-color:var(--neon);cursor:pointer;}.step-num{font-family:var(--font-head);font-size:.75rem;color:var(--neon);background:rgba(74,222,128,.1);border-radius:6px;padding:2px 8px;height:fit-content;flex-shrink:0;margin-top:2px;}.step-content{flex:1;}.step-content strong{color:var(--neon);}.step-content .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:1px 8px;font-size:.85rem;color:var(--amber);font-weight:700;margin:0 2px;}.step-content .sub-list{margin:8px 0 0 0;list-style:none;}.step-content .sub-list li{padding:4px 0;color:var(--muted);font-size:.9rem;}.step-content .sub-list li::before{content:'\25B8 ';color:var(--blue);}.step-content .sub-list li strong{color:var(--white);}
+.detail{margin:6px 0 0 0;padding:8px 12px;background:rgba(15,23,42,.6);border-left:3px solid var(--blue);border-radius:0 6px 6px 0;font-size:.88rem;color:var(--muted);}.detail strong{color:var(--blue);}
+.code-block{margin:10px 0;padding:14px 18px;background:#0a0e1a;border:1px solid var(--border);border-radius:10px;font-family:var(--font-body);font-size:.88rem;line-height:1.6;overflow-x:auto;white-space:pre;color:var(--neon);}.code-block .kw{color:var(--blue);}.code-block .ty{color:var(--purple);}.code-block .st{color:var(--amber);}.code-block .cm{color:var(--muted);font-style:italic;}.code-block .fn{color:var(--pink);}
+.callout{margin:16px 0;padding:14px 18px;border-radius:10px;font-size:.9rem;display:flex;gap:12px;align-items:flex-start;}.callout .icon{font-size:1.2rem;flex-shrink:0;}.callout-checkpoint{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);}.callout-checkpoint .icon{color:var(--neon);}.callout-trouble{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);}.callout-trouble .icon{color:var(--red);}.callout-tip{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);}.callout-tip .icon{color:var(--blue);}.callout-challenge{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);}.callout-challenge .icon{color:var(--amber);}.callout-extension{background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);}.callout-extension .icon{color:var(--purple);}
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);border-radius:10px;}.vocab h4{font-family:var(--font-head);font-size:.8rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:.88rem;}.vocab dt{color:var(--amber);font-weight:700;}.vocab dd{color:var(--muted);}
+.footer-section{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;}.footer-section h2{font-family:var(--font-head);font-size:1.2rem;margin-bottom:16px;color:var(--neon);}
+.progress-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;}.progress-card{display:flex;align-items:center;gap:12px;padding:12px;background:var(--navy);border-radius:10px;border:1px solid var(--border);}.progress-card input[type="checkbox"]{width:22px;height:22px;accent-color:var(--neon);}.progress-card .pc-label{flex:1;font-size:.9rem;}.progress-card .pc-xp{font-family:var(--font-head);color:var(--amber);font-size:.85rem;}
+.btn{display:inline-block;padding:10px 24px;border-radius:8px;border:none;font-family:var(--font-head);font-size:.85rem;cursor:pointer;font-weight:700;transition:transform .15s;}.btn:hover{transform:translateY(-2px);}.btn-neon{background:var(--neon);color:var(--navy);}.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted);}.btn-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;justify-content:center;}
+.submission-steps{counter-reset:sub;}.submission-steps li{list-style:none;padding:8px 0;display:flex;gap:12px;align-items:flex-start;}.submission-steps li::before{counter-increment:sub;content:counter(sub);font-family:var(--font-head);font-size:.75rem;background:var(--blue);color:var(--navy);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;-webkit-text-fill-color:#111!important;}body{font-size:10pt;line-height:1.5;}#progress-bar-wrap,.btn-row,.no-print{display:none!important;}.hero{padding:20px 0;border-bottom:2px solid #111;}.hero h1{font-size:16pt;-webkit-text-fill-color:#111!important;background:none!important;}.tut-section{break-inside:avoid;border:1px solid #999;margin:12px 0;}.tut-section.open .tut-body,.tut-body{display:block!important;}.tut-header .chevron{display:none;}.callout{border:1px solid #999;background:#f9f9f9!important;}.code-block{background:#f4f4f4!important;border:1px solid #999;color:#111!important;}.footer-section{break-inside:avoid;border:1px solid #999;}}
+</style>
+</head>
+<body>
+<div id="progress-bar-wrap"><div id="progress-bar"></div></div>
+
+<div class="hero">
+  <h1>TILEMAP &amp; LEVEL DESIGN</h1>
+  <p class="sub">Build professional game levels with Unity's powerful Tilemap system!</p>
+  <div class="meta">
+    <span class="tag"><b>Course:</b> Game On (9GAMZA)</span>
+    <span class="tag"><b>Lesson:</b> T1 — L12</span>
+    <span class="tag"><b>Time:</b> ~75 min</span>
+    <span class="tag"><b>Outcomes:</b> G5-1, G5-2, G5-3</span>
+  </div>
+</div>
+
+<div class="xp-tracker">
+  <span class="xp-label">TOTAL XP</span>
+  <span class="xp-val" id="xp-display">0</span>
+  <span class="xp-max">/ 50 XP</span>
+</div>
+
+<div class="container">
+
+<!-- ═══ SECTION 1: What Is a Tilemap? ═══ -->
+<div class="tut-section open" data-colour="neon" id="section-1">
+  <div class="tut-header" onclick="toggleSection(1)">
+    <div class="tut-num">1</div>
+    <div class="tut-info"><div class="tut-title">What Is a Tilemap?</div><div class="tut-time">~10 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="vocab">
+      <h4>Key Vocabulary</h4>
+      <dl>
+        <dt>Tilemap</dt><dd>A grid-based system for building game levels using small square images (tiles).</dd>
+        <dt>Tile</dt><dd>A small square image (e.g. 16x16 or 32x32 pixels) that represents ground, wall, etc.</dd>
+        <dt>Tile Palette</dt><dd>A toolbox where you pick which tile to paint with — like a painter's palette.</dd>
+        <dt>Tilemap Collider</dt><dd>Automatically adds collision to your tilemap so the player can walk on it.</dd>
+        <dt>Rule Tile</dt><dd>A smart tile that automatically changes its appearance based on neighbours.</dd>
+      </dl>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.1</div>
+      <div class="step-content"><strong>What is a Tilemap?</strong> A tilemap is like digital LEGO for game levels. You have a grid, and you "paint" small tiles onto it to build floors, walls, platforms, and decorations. Almost every 2D game uses tilemaps — Mario, Celeste, Hollow Knight, Stardew Valley.
+        <div class="detail"><strong>Why tilemaps?</strong> (1) Build huge levels quickly. (2) Memory efficient — reuse the same tiles. (3) Easy to edit — just paint over. (4) Collision can be added automatically.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.2</div>
+      <div class="step-content"><strong>Create a Tilemap:</strong>
+        <ul class="sub-list">
+          <li>In Hierarchy: <strong>Right-click → 2D Object → Tilemap → Rectangular</strong></li>
+          <li>Unity creates a <strong>Grid</strong> parent with a <strong>Tilemap</strong> child</li>
+          <li>The Grid defines cell size; the Tilemap holds your tiles</li>
+          <li>Rename the Tilemap to <strong>"Ground"</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.3</div>
+      <div class="step-content"><strong>Import a Tileset:</strong> Download the tileset from Google Classroom (or use a free one from kenney.nl).
+        <ul class="sub-list">
+          <li>Drag the tileset PNG into your <strong>Sprites</strong> folder</li>
+          <li>Select it → Inspector → <strong>Sprite Mode = Multiple</strong></li>
+          <li>Set <strong>Pixels Per Unit</strong> to match your tile size (e.g. 16 for 16x16 tiles)</li>
+          <li>Open <strong>Sprite Editor → Slice → Grid By Cell Size</strong> → set tile size → Slice → Apply</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.4</div>
+      <div class="step-content"><strong>Open the Tile Palette:</strong>
+        <ul class="sub-list">
+          <li>Go to <strong>Window → 2D → Tile Palette</strong></li>
+          <li>Click <strong>Create New Palette</strong> → name it <strong>"LevelTiles"</strong></li>
+          <li>Choose <strong>Grid → Rectangle</strong>, Cell Size → <strong>Automatic</strong></li>
+          <li>Save in a new folder called <strong>"Palettes"</strong></li>
+          <li>Drag your sliced tileset sprites INTO the Tile Palette window</li>
+          <li>Save each tile asset in a <strong>"Tiles"</strong> folder when prompted</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <span class="icon">&#10003;</span>
+      <span><strong>Checkpoint:</strong> I have a Tilemap in my scene and tiles loaded in the Tile Palette.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SECTION 2: Paint Your Level ═══ -->
+<div class="tut-section" data-colour="blue" id="section-2">
+  <div class="tut-header" onclick="toggleSection(2)">
+    <div class="tut-num">2</div>
+    <div class="tut-info"><div class="tut-title">Paint Your Level</div><div class="tut-time">~15 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.1</div>
+      <div class="step-content"><strong>Select your tools:</strong> In the Tile Palette, use these tools (top toolbar):
+        <ul class="sub-list">
+          <li><strong>Paint Brush (B)</strong> — paint one tile at a time</li>
+          <li><strong>Box Fill (U)</strong> — drag to fill a rectangle</li>
+          <li><strong>Eraser (D)</strong> — remove tiles</li>
+          <li><strong>Eyedropper (I)</strong> — pick a tile that's already placed</li>
+          <li><strong>Flood Fill</strong> — fill an area with one tile</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.2</div>
+      <div class="step-content"><strong>Paint the ground:</strong>
+        <ul class="sub-list">
+          <li>Select a ground/dirt tile from the palette</li>
+          <li>Make sure the <strong>"Ground" Tilemap</strong> is selected in the Hierarchy</li>
+          <li>In the Scene view, click and drag to paint a flat ground across the bottom</li>
+          <li>Use <strong>Box Fill (U)</strong> to quickly fill large areas</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.3</div>
+      <div class="step-content"><strong>Add platforms:</strong> Paint some platforms above the ground at different heights. Think about:
+        <ul class="sub-list">
+          <li>Can the player <strong>reach</strong> each platform with their jump?</li>
+          <li>Is there a <strong>path</strong> from start to finish?</li>
+          <li>Are there <strong>gaps</strong> to jump over?</li>
+          <li>Is there a <strong>risk/reward</strong> — harder path = better reward?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.4</div>
+      <div class="step-content"><strong>Delete your old placeholder ground:</strong> If you still have the default square sprites from earlier lessons, <strong>delete them</strong> from the Hierarchy. The tilemap replaces them!</div>
+    </div>
+
+    <div class="callout callout-tip">
+      <span class="icon">&#128161;</span>
+      <span><strong>Level Design Tip:</strong> Start simple! A flat ground with 3-4 platforms is a perfect first level. You can always add complexity later. Test as you build — press Play often!</span>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <span class="icon">&#10003;</span>
+      <span><strong>Checkpoint:</strong> I have a ground layer and several platforms painted with tiles.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SECTION 3: Tilemap Collider ═══ -->
+<div class="tut-section" data-colour="purple" id="section-3">
+  <div class="tut-header" onclick="toggleSection(3)">
+    <div class="tut-num">3</div>
+    <div class="tut-info"><div class="tut-title">Tilemap Collider &amp; Layers</div><div class="tut-time">~10 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.1</div>
+      <div class="step-content"><strong>Add collision to your tilemap:</strong>
+        <ul class="sub-list">
+          <li>Select the <strong>"Ground" Tilemap</strong> in the Hierarchy</li>
+          <li>Add Component → <strong>Tilemap Collider 2D</strong></li>
+          <li>Add Component → <strong>Composite Collider 2D</strong> (this merges tiles into one smooth collider)</li>
+          <li>Unity will auto-add a <strong>Rigidbody 2D</strong> — set it to <strong>Body Type = Static</strong></li>
+          <li>On the Tilemap Collider 2D, tick <strong>"Used By Composite"</strong></li>
+        </ul>
+        <div class="detail"><strong>Why Composite?</strong> Without it, each tile has its own collider — the player can get "caught" on edges between tiles. The Composite merges them into one smooth shape.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.2</div>
+      <div class="step-content"><strong>Tag the Tilemap:</strong> Set the Ground tilemap's Tag to <strong>"Ground"</strong> so your jump detection still works!
+        <div class="detail">Your OnCollisionEnter2D checks for "Ground" tag. The tilemap needs this tag to trigger isGrounded = true when landing.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.3</div>
+      <div class="step-content"><strong>Test!</strong> Press Play. Your player should walk on the tilemap ground and jump between platforms.
+        <div class="detail"><strong>Player falling through?</strong> Check: (1) Tilemap has Tilemap Collider 2D. (2) Composite Collider 2D is added. (3) Rigidbody 2D is Static. (4) Player has a Collider2D and Rigidbody2D.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.4</div>
+      <div class="step-content"><strong>Create a Background Tilemap:</strong>
+        <ul class="sub-list">
+          <li>Right-click the <strong>Grid</strong> in Hierarchy → <strong>2D Object → Tilemap → Rectangular</strong></li>
+          <li>Rename it <strong>"Background"</strong></li>
+          <li>In Tilemap Renderer, set <strong>Sorting Layer</strong> or <strong>Order in Layer = -1</strong></li>
+          <li>Paint background tiles (sky, clouds, distant mountains)</li>
+          <li>Do NOT add a collider to the background!</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <span class="icon">&#10003;</span>
+      <span><strong>Checkpoint:</strong> Player walks and jumps on tilemap. Background tilemap renders behind.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SECTION 4: Level Design Lab ═══ -->
+<div class="tut-section" data-colour="amber" id="section-4">
+  <div class="tut-header" onclick="toggleSection(4)">
+    <div class="tut-num">4</div>
+    <div class="tut-info"><div class="tut-title">Level Design Lab</div><div class="tut-time">~25 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.1</div>
+      <div class="step-content"><strong>Level Design Principles:</strong> Great levels follow these rules:
+        <ul class="sub-list">
+          <li><strong>Teach through play:</strong> The first section should teach the mechanic safely (e.g. small gap before a big gap)</li>
+          <li><strong>Escalating difficulty:</strong> Start easy, get harder (remember the flow channel from L09!)</li>
+          <li><strong>Visual language:</strong> Players should "read" the level — spikes look dangerous, coins look collectible</li>
+          <li><strong>Risk vs reward:</strong> Hard-to-reach areas should have better rewards</li>
+          <li><strong>Breathing room:</strong> Give rest areas between challenging sections</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.2</div>
+      <div class="step-content"><strong>Build Level 1:</strong> Using your tilemap, build a complete first level:
+        <ul class="sub-list">
+          <li><strong>Start zone:</strong> Safe flat area where the player spawns</li>
+          <li><strong>Tutorial zone:</strong> Small gap to jump, easy platform</li>
+          <li><strong>Challenge zone:</strong> Multiple platforms, bigger gaps, enemies/hazards</li>
+          <li><strong>Reward zone:</strong> Place coins on difficult platforms</li>
+          <li><strong>End zone:</strong> Clear goal (door, flag, or exit area)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.3</div>
+      <div class="step-content"><strong>Place game objects:</strong> Add your prefabs from L10 to the level:
+        <ul class="sub-list">
+          <li>Drag <strong>Coin prefabs</strong> to strategic locations (on platforms, above gaps)</li>
+          <li>Place your <strong>CoinSpawner</strong> if you have one</li>
+          <li>Add <strong>Enemy prefabs</strong> in the challenge zone</li>
+          <li>Position the <strong>DeathZone</strong> below the level</li>
+          <li>Set the player's starting position at the Start zone</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.4</div>
+      <div class="step-content"><strong>Playtest your level!</strong> Press Play and try to complete it. Ask yourself:
+        <ul class="sub-list">
+          <li>Can I reach all platforms? (adjust jumpForce if needed)</li>
+          <li>Is the first section too hard? (add stepping stones)</li>
+          <li>Is there a clear path from start to end?</li>
+          <li>Is it fun? Does it feel like a real game level?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.5</div>
+      <div class="step-content"><strong>Camera follow (optional but recommended):</strong> If your level is bigger than the screen, you need the camera to follow the player. Create a new script called <strong>"CameraFollow"</strong>:
+<div class="code-block"><span class="kw">using</span> UnityEngine;
+
+<span class="kw">public class</span> <span class="ty">CameraFollow</span> : <span class="ty">MonoBehaviour</span>
+{
+    <span class="kw">public</span> <span class="ty">Transform</span> target;
+    <span class="kw">public</span> <span class="ty">float</span> smoothSpeed = <span class="st">5f</span>;
+    <span class="kw">public</span> <span class="ty">Vector3</span> offset = <span class="kw">new</span> <span class="ty">Vector3</span>(<span class="st">0</span>, <span class="st">2</span>, <span class="st">-10</span>);
+
+    <span class="kw">void</span> <span class="fn">LateUpdate</span>()
+    {
+        <span class="ty">Vector3</span> desired = target.position + offset;
+        transform.position = <span class="ty">Vector3</span>.<span class="fn">Lerp</span>(transform.position, desired, smoothSpeed * <span class="ty">Time</span>.deltaTime);
+    }
+}</div>
+        <div class="detail">Attach this to your <strong>Main Camera</strong>. Drag your Player into the "Target" field. The camera smoothly follows the player! <strong>LateUpdate</strong> runs after Update so the camera moves AFTER the player.</div>
+      </div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <span class="icon">&#10003;</span>
+      <span><strong>Checkpoint:</strong> I have a complete level with ground, platforms, coins, hazards, and a clear path from start to end.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SECTION 5: Extension ═══ -->
+<div class="tut-section" data-colour="pink" id="section-5">
+  <div class="tut-header" onclick="toggleSection(5)">
+    <div class="tut-num">5</div>
+    <div class="tut-info"><div class="tut-title">Extension Challenges</div><div class="tut-time">~15 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="callout callout-extension">
+      <span class="icon">&#127942;</span>
+      <span><strong>Challenge 1: Multiple Tilemap Layers</strong> — Create separate tilemaps for: Ground (collision), Decoration (no collision), Hazards (different tag). Use Sorting Layers to control draw order.</span>
+    </div>
+
+    <div class="callout callout-extension">
+      <span class="icon">&#127942;</span>
+      <span><strong>Challenge 2: Moving Platforms</strong> — Create a platform prefab (not tilemap) with a script that moves between two positions using <code>Vector3.MoveTowards</code>. The player rides on it!</span>
+    </div>
+
+    <div class="callout callout-extension">
+      <span class="icon">&#127942;</span>
+      <span><strong>Challenge 3: Parallax Background</strong> — Create multiple background layers that scroll at different speeds as the camera moves. Distant layers move slower = depth illusion. Search "Unity 2D parallax" for tutorials.</span>
+    </div>
+
+    <div class="callout callout-extension">
+      <span class="icon">&#127942;</span>
+      <span><strong>Challenge 4: Second Level</strong> — Create a new Scene (File → New Scene). Build a harder Level 2. Add a trigger zone at the end of Level 1 that loads Level 2 using <code>SceneManager.LoadScene("Level2");</code></span>
+    </div>
+
+    <div class="callout callout-challenge">
+      <span class="icon">&#128640;</span>
+      <span><strong>Boss Challenge:</strong> Build a complete 3-level game. Level 1 = tutorial. Level 2 = challenge. Level 3 = boss fight. Each level loads the next. Include a start menu and game over screen!</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<div class="footer-section">
+  <h2>Submission Guide</h2>
+  <ul class="submission-steps">
+    <li>Save your Unity project (<span class="key">Ctrl+S</span>)</li>
+    <li>Take a screenshot of your complete level design</li>
+    <li>Record a short playthrough video showing the level</li>
+    <li>Upload to Google Classroom</li>
+  </ul>
+</div>
+
+<div class="footer-section">
+  <h2>Quick Reference</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:.88rem;">
+    <div><strong style="color:var(--neon)">Create Tilemap:</strong> <span style="color:var(--muted)">Right-click → 2D Object → Tilemap → Rectangular</span></div>
+    <div><strong style="color:var(--neon)">Tile Palette:</strong> <span style="color:var(--muted)">Window → 2D → Tile Palette</span></div>
+    <div><strong style="color:var(--blue)">Paint (B):</strong> <span style="color:var(--muted)">Click to place one tile</span></div>
+    <div><strong style="color:var(--blue)">Box Fill (U):</strong> <span style="color:var(--muted)">Drag to fill a rectangle</span></div>
+    <div><strong style="color:var(--purple)">Eraser (D):</strong> <span style="color:var(--muted)">Click to remove a tile</span></div>
+    <div><strong style="color:var(--purple)">Eyedropper (I):</strong> <span style="color:var(--muted)">Pick an existing tile</span></div>
+    <div><strong style="color:var(--amber)">Collider:</strong> <span style="color:var(--muted)">Tilemap Collider 2D + Composite Collider 2D</span></div>
+    <div><strong style="color:var(--amber)">Static Body:</strong> <span style="color:var(--muted)">Rigidbody 2D → Body Type = Static</span></div>
+  </div>
+</div>
+
+<div class="footer-section">
+  <h2>Progress Tracker</h2>
+  <div class="progress-grid">
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Tilemap created + tiles loaded</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Ground and platforms painted</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Collider works (player walks on tiles)</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Complete level with coins/enemies</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Extension challenge done</span><span class="pc-xp">+10 XP</span></div>
+  </div>
+</div>
+
+<div class="btn-row no-print">
+  <button class="btn btn-neon" onclick="expandAll()">Expand All</button>
+  <button class="btn btn-ghost" onclick="resetAll()">Reset Progress</button>
+</div>
+
+</div>
+
+<script>
+const TOTAL_SECTIONS=5,XP_PER_SECTION=10;let xp=0;
+function toggleSection(n){const s=document.getElementById('section-'+n);s.classList.toggle('open');}
+function expandAll(){document.querySelectorAll('.tut-section').forEach(s=>s.classList.add('open'));}
+function updateProgress(){const checks=document.querySelectorAll('.step-check input[type="checkbox"]');const total=checks.length;const done=[...checks].filter(c=>c.checked).length;document.getElementById('progress-bar').style.width=Math.round(done/total*100)+'%';updateXP();}
+function updateXP(){let total=0;for(let i=1;i<=TOTAL_SECTIONS;i++){const sec=document.getElementById('section-'+i);if(!sec)continue;const checks=sec.querySelectorAll('.step-check input[type="checkbox"]');const done=[...checks].filter(c=>c.checked).length;if(checks.length>0&&done===checks.length)total+=XP_PER_SECTION;}xp=total;document.getElementById('xp-display').textContent=xp;}
+function resetAll(){document.querySelectorAll('input[type="checkbox"]').forEach(c=>c.checked=false);updateProgress();}
+</script>
+</body>
+</html>

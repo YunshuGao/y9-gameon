@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T1-L16 — Assessment: Game Design Document</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:15px;line-height:1.7;}a{color:var(--blue);}
+#progress-bar-wrap{position:fixed;top:0;left:0;width:100%;height:6px;background:var(--dark);z-index:9999;}#progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--neon),var(--blue));transition:width .4s;}
+.hero{text-align:center;padding:80px 20px 40px;background:linear-gradient(180deg,rgba(251,191,36,.08) 0%,transparent 100%);}.hero h1{font-family:var(--font-head);font-size:2.4rem;font-weight:900;background:linear-gradient(135deg,var(--amber),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px;}.hero .sub{color:var(--muted);font-size:.95rem;margin-bottom:24px;}.hero .meta{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;}.hero .tag{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.8rem;color:var(--muted);}.hero .tag b{color:var(--amber);}
+.xp-tracker{display:flex;justify-content:center;align-items:center;gap:16px;margin:30px auto;padding:16px 24px;background:var(--dark);border:1px solid var(--border);border-radius:12px;max-width:500px;}.xp-tracker .xp-label{font-family:var(--font-head);font-size:1rem;color:var(--amber);}.xp-tracker .xp-val{font-family:var(--font-head);font-size:1.6rem;font-weight:900;color:var(--neon);}.xp-tracker .xp-max{color:var(--muted);font-size:.85rem;}
+.container{max-width:880px;margin:0 auto;padding:0 20px 60px;}
+.tut-section{margin:40px 0;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--dark);}.tut-header{padding:20px 24px;display:flex;align-items:center;gap:16px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border);}.tut-header .tut-num{font-family:var(--font-head);font-size:1.6rem;font-weight:900;color:var(--navy);background:var(--neon);border-radius:10px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}.tut-section[data-colour="blue"] .tut-num{background:var(--blue);}.tut-section[data-colour="purple"] .tut-num{background:var(--purple);}.tut-section[data-colour="amber"] .tut-num{background:var(--amber);}.tut-section[data-colour="pink"] .tut-num{background:var(--pink);}.tut-header .tut-info{flex:1;}.tut-header .tut-title{font-family:var(--font-head);font-size:1.05rem;font-weight:700;color:var(--white);}.tut-header .tut-time{font-size:.8rem;color:var(--muted);margin-top:2px;}.tut-header .xp-badge{font-family:var(--font-head);background:rgba(251,191,36,.15);color:var(--amber);padding:4px 12px;border-radius:8px;font-size:.85rem;font-weight:700;flex-shrink:0;}.tut-header .chevron{color:var(--muted);font-size:1.4rem;transition:transform .3s;flex-shrink:0;}.tut-section.open .chevron{transform:rotate(90deg);}.tut-body{padding:0 24px 24px;display:none;}.tut-section.open .tut-body{display:block;}
+.step{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid rgba(51,65,85,.5);}.step:last-child{border-bottom:none;}.step-check{flex-shrink:0;margin-top:3px;}.step-check input[type="checkbox"]{width:20px;height:20px;accent-color:var(--neon);cursor:pointer;}.step-num{font-family:var(--font-head);font-size:.75rem;color:var(--neon);background:rgba(74,222,128,.1);border-radius:6px;padding:2px 8px;height:fit-content;flex-shrink:0;margin-top:2px;}.step-content{flex:1;}.step-content strong{color:var(--neon);}.step-content .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:1px 8px;font-size:.85rem;color:var(--amber);font-weight:700;margin:0 2px;}.step-content .sub-list{margin:8px 0 0 0;list-style:none;}.step-content .sub-list li{padding:4px 0;color:var(--muted);font-size:.9rem;}.step-content .sub-list li::before{content:'\25B8 ';color:var(--blue);}.step-content .sub-list li strong{color:var(--white);}
+.detail{margin:6px 0 0 0;padding:8px 12px;background:rgba(15,23,42,.6);border-left:3px solid var(--blue);border-radius:0 6px 6px 0;font-size:.88rem;color:var(--muted);}.detail strong{color:var(--blue);}
+.callout{margin:16px 0;padding:14px 18px;border-radius:10px;font-size:.9rem;display:flex;gap:12px;align-items:flex-start;}.callout .icon{font-size:1.2rem;flex-shrink:0;}.callout-checkpoint{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);}.callout-checkpoint .icon{color:var(--neon);}.callout-trouble{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);}.callout-trouble .icon{color:var(--red);}.callout-tip{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);}.callout-tip .icon{color:var(--blue);}.callout-challenge{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);}.callout-challenge .icon{color:var(--amber);}.callout-extension{background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);}.callout-extension .icon{color:var(--purple);}
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);border-radius:10px;}.vocab h4{font-family:var(--font-head);font-size:.8rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:.88rem;}.vocab dt{color:var(--amber);font-weight:700;}.vocab dd{color:var(--muted);}
+.gdd-field{margin:14px 0;padding:16px 18px;background:var(--navy);border:1px solid var(--border);border-radius:10px;}.gdd-field h4{font-family:var(--font-head);font-size:.85rem;color:var(--amber);margin-bottom:6px;}.gdd-field p{font-size:.88rem;color:var(--muted);margin-bottom:8px;}.gdd-field .example{padding:8px 12px;background:rgba(74,222,128,.06);border-left:3px solid var(--neon);border-radius:0 6px 6px 0;font-size:.85rem;color:var(--neon);margin-bottom:8px;}.gdd-field textarea{width:100%;min-height:60px;background:var(--dark);border:1px solid var(--border);border-radius:6px;padding:10px;color:var(--white);font-family:var(--font-body);font-size:.88rem;resize:vertical;}
+.footer-section{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;}.footer-section h2{font-family:var(--font-head);font-size:1.2rem;margin-bottom:16px;color:var(--neon);}
+.progress-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;}.progress-card{display:flex;align-items:center;gap:12px;padding:12px;background:var(--navy);border-radius:10px;border:1px solid var(--border);}.progress-card input[type="checkbox"]{width:22px;height:22px;accent-color:var(--neon);}.progress-card .pc-label{flex:1;font-size:.9rem;}.progress-card .pc-xp{font-family:var(--font-head);color:var(--amber);font-size:.85rem;}
+.btn{display:inline-block;padding:10px 24px;border-radius:8px;border:none;font-family:var(--font-head);font-size:.85rem;cursor:pointer;font-weight:700;transition:transform .15s;}.btn:hover{transform:translateY(-2px);}.btn-neon{background:var(--neon);color:var(--navy);}.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted);}.btn-amber{background:var(--amber);color:var(--navy);}.btn-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;justify-content:center;}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;-webkit-text-fill-color:#111!important;}body{font-size:10pt;}#progress-bar-wrap,.btn-row,.no-print{display:none!important;}.tut-section{break-inside:avoid;}.tut-section.open .tut-body,.tut-body{display:block!important;}.tut-header .chevron{display:none;}.gdd-field textarea{border:1px solid #999!important;min-height:50px!important;}}
+</style>
+</head>
+<body>
+<div id="progress-bar-wrap"><div id="progress-bar"></div></div>
+
+<div class="hero">
+  <h1>ASSESSMENT: Game Design Document</h1>
+  <p class="sub">Plan your final game project with a professional Game Design Document (GDD)</p>
+  <div class="meta">
+    <span class="tag"><b>Lesson 16</b> of 22</span>
+    <span class="tag"><b>75 min</b> session</span>
+    <span class="tag"><b>50 XP</b> available</span>
+    <span class="tag">Week 10 — Wed</span>
+    <span class="tag" style="border-color:var(--amber);color:var(--amber);"><b>ASSESSMENT TASK</b></span>
+  </div>
+</div>
+
+<div class="xp-tracker">
+  <span class="xp-label">XP EARNED:</span>
+  <span class="xp-val" id="xp-display">0</span>
+  <span class="xp-max">/ 50 XP</span>
+</div>
+
+<div class="container">
+
+<div class="callout callout-challenge">
+  <div class="icon">&#128221;</div>
+  <div><strong>Assessment Task:</strong> This lesson is part of your formal assessment. Your GDD will be graded. Complete ALL sections to the best of your ability. You may continue or refine your GDD next lesson. Submit via Google Classroom by the deadline on your assessment notification.</div>
+</div>
+
+<!-- ======================== SECTION 1 ======================== -->
+<div class="tut-section open" id="section-1" data-colour="neon">
+  <div class="tut-header" onclick="toggleSection(1)">
+    <div class="tut-num">1</div>
+    <div class="tut-info"><div class="tut-title">What Is a Game Design Document?</div><div class="tut-time">~10 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="vocab">
+      <h4>Key Vocabulary</h4>
+      <dl>
+        <dt>GDD</dt><dd>Game Design Document — a written plan that describes every aspect of a game before development begins</dd>
+        <dt>Scope</dt><dd>How big and complex your game is — keeping scope realistic is crucial for finishing on time</dd>
+        <dt>Target Audience</dt><dd>The specific group of players your game is designed for (age, interests, skill level)</dd>
+        <dt>Core Loop</dt><dd>The main action the player repeats over and over (e.g., run → collect → avoid → repeat)</dd>
+        <dt>Unique Selling Point</dt><dd>What makes your game different from all other games (also called USP)</dd>
+      </dl>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.1</div>
+      <div class="step-content">
+        <strong>Why do professional studios write GDDs?</strong> Every game — from indie to AAA — starts with a plan:
+        <ul class="sub-list">
+          <li><strong>Communication:</strong> Everyone on the team knows what the game IS</li>
+          <li><strong>Focus:</strong> Prevents "feature creep" (adding too much and never finishing)</li>
+          <li><strong>Scope management:</strong> Helps estimate what's achievable in the time available</li>
+          <li><strong>Decision making:</strong> When you're stuck, refer back to the GDD</li>
+        </ul>
+        <div class="detail"><strong>Real example:</strong> The GDD for the original Grand Theft Auto was 55 pages. Hollow Knight's design doc was a shared Google Doc that grew over 3 years. Your GDD will be 1-2 pages — but just as important!</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.2</div>
+      <div class="step-content">
+        <strong>Your GDD has 11 sections.</strong> Each section answers a specific question about your game. You'll complete them in order throughout this lesson. Here's an overview:
+        <ul class="sub-list">
+          <li><strong>1. Game Title</strong> — What's your game called?</li>
+          <li><strong>2. Concept Statement</strong> — Describe your game in 1-2 sentences</li>
+          <li><strong>3. Genre & Platform</strong> — What type of game? Where does it run?</li>
+          <li><strong>4. Target Audience</strong> — Who is this game for?</li>
+          <li><strong>5. Gameplay Description</strong> — What does the player DO?</li>
+          <li><strong>6. Core Mechanics</strong> — List the main systems and rules</li>
+          <li><strong>7. Unique Selling Point</strong> — What makes it special?</li>
+          <li><strong>8. Art Style & Sound</strong> — What does it look and sound like?</li>
+          <li><strong>9. Level Design</strong> — Sketch your first level</li>
+          <li><strong>10. Technical Plan</strong> — What Unity features will you use?</li>
+          <li><strong>11. Development Timeline</strong> — When will you build each part?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.3</div>
+      <div class="step-content">
+        <strong>Scope check — keep it realistic!</strong> You have approximately <strong>4 lessons (4 x 75 min = 5 hours)</strong> of development time after this GDD. Your game should be:
+        <ul class="sub-list">
+          <li><strong>Achievable:</strong> 1-2 levels, not an entire open world</li>
+          <li><strong>Complete:</strong> A game with menu, gameplay, and game over is better than an unfinished epic</li>
+          <li><strong>Polished:</strong> Sound, particles, and UI make a simple game feel great</li>
+        </ul>
+        <div class="detail"><strong>Rule of thumb:</strong> Think of the simplest version of your game that would still be fun. That's your "minimum viable product" (MVP). Build that first, then add extras if you have time.</div>
+      </div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#9989;</div>
+      <div><strong>Checkpoint:</strong> You understand what a GDD is and why it matters. You know the 11 sections. You've thought about keeping your scope realistic.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== SECTION 2 ======================== -->
+<div class="tut-section" id="section-2" data-colour="blue">
+  <div class="tut-header" onclick="toggleSection(2)">
+    <div class="tut-num">2</div>
+    <div class="tut-info"><div class="tut-title">GDD Part 1 — Identity &amp; Concept</div><div class="tut-time">~15 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="gdd-field">
+      <h4>1. Game Title</h4>
+      <p>Choose a memorable name for your game. It should hint at what the game is about.</p>
+      <div class="example">Example: "Shadow Runner" / "Pixel Quest" / "Bounce Kingdom" / "Neon Dash"</div>
+      <textarea placeholder="Write your game title here..."></textarea>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.1</div>
+      <div class="step-content">
+        <strong>Write your game title above.</strong> Tips for a good title:
+        <ul class="sub-list">
+          <li>Short and memorable (1-3 words)</li>
+          <li>Hints at the game's theme or action</li>
+          <li>Easy to spell and say out loud</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="gdd-field">
+      <h4>2. Concept Statement (Elevator Pitch)</h4>
+      <p>Describe your entire game in 1-2 sentences. If you had 30 seconds in a lift with a game publisher, what would you say?</p>
+      <div class="example">Example: "Shadow Runner is a 2D platformer where a ninja must escape a collapsing temple by wall-jumping, dashing, and collecting ancient relics before time runs out."</div>
+      <textarea placeholder="Write your concept statement here..." style="min-height:80px"></textarea>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.2</div>
+      <div class="step-content">
+        <strong>Write your concept statement.</strong> Use this formula: "[Game name] is a [genre] where [player role] must [core action] by [mechanics] to [goal]."
+      </div>
+    </div>
+
+    <div class="gdd-field">
+      <h4>3. Genre & Platform</h4>
+      <p>What type of game is it? Where will it run?</p>
+      <div class="example">Example: Genre: 2D Platformer | Platform: PC (Windows) | Engine: Unity 2022.3 LTS</div>
+      <textarea placeholder="Genre: &#10;Platform: &#10;Engine: Unity 2022.3 LTS"></textarea>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.3</div>
+      <div class="step-content">
+        <strong>Define your genre and platform.</strong> Common 2D genres you can build:
+        <ul class="sub-list">
+          <li><strong>Platformer</strong> — Jump between platforms, avoid hazards (Mario, Celeste)</li>
+          <li><strong>Runner / Endless Runner</strong> — Character runs automatically, player jumps/dodges (Subway Surfers)</li>
+          <li><strong>Top-down Adventure</strong> — Explore from above, collect items (Zelda, Stardew Valley)</li>
+          <li><strong>Puzzle Platformer</strong> — Platformer + puzzle elements (Limbo, Inside)</li>
+          <li><strong>Shooter</strong> — Player shoots at enemies/targets (Space Invaders, Cuphead)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="gdd-field">
+      <h4>4. Target Audience</h4>
+      <p>Who will play your game? Be specific — this affects difficulty, theme, and content.</p>
+      <div class="example">Example: Ages 10-15, casual gamers who enjoy fast-paced platformers with colourful pixel art. Players who liked games such as Celeste and Shovel Knight.</div>
+      <textarea placeholder="Age range: &#10;Player type: &#10;Similar games they enjoy: "></textarea>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.4</div>
+      <div class="step-content">
+        <strong>Define your target audience.</strong> Think about: age range, what games they already play, casual vs hardcore, and what would attract them.
+      </div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#9989;</div>
+      <div><strong>Checkpoint:</strong> You have completed sections 1-4 of your GDD: Title, Concept Statement, Genre & Platform, and Target Audience.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== SECTION 3 ======================== -->
+<div class="tut-section" id="section-3" data-colour="purple">
+  <div class="tut-header" onclick="toggleSection(3)">
+    <div class="tut-num">3</div>
+    <div class="tut-info"><div class="tut-title">GDD Part 2 — Gameplay &amp; Mechanics</div><div class="tut-time">~15 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="gdd-field">
+      <h4>5. Gameplay Description</h4>
+      <p>Describe what the player DOES in your game. Walk through a typical 2-minute play session.</p>
+      <div class="example">Example: "The player controls a ninja using arrow keys to move and space to jump. They navigate through a temple filled with spike traps, moving platforms, and enemy guards. Collecting relics increases the score. Getting hit costs a life (3 lives total). Reaching the exit portal completes the level."</div>
+      <textarea placeholder="Describe a typical play session..." style="min-height:100px"></textarea>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.1</div>
+      <div class="step-content">
+        <strong>Describe your gameplay.</strong> Include: controls (keys), player actions, objectives, obstacles, and what happens when you win/lose.
+      </div>
+    </div>
+
+    <div class="gdd-field">
+      <h4>6. Core Mechanics</h4>
+      <p>List every game mechanic (system/rule) in your game. For each one, describe how it works.</p>
+      <div class="example">Example:
+• Movement — Arrow keys, speed 7, smooth acceleration
+• Jump — Space bar, force 12, ground check with raycast
+• Coin Collection — OnTriggerEnter2D, +10 score each, sparkle particles
+• Enemy Patrol — Enemies walk left/right on platforms, damage on contact
+• Lives System — Start with 3 lives, lose 1 on enemy hit, Game Over at 0
+• Timer — 60 seconds per level, Game Over if timer reaches 0</div>
+      <textarea placeholder="List your mechanics with descriptions..." style="min-height:120px"></textarea>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.2</div>
+      <div class="step-content">
+        <strong>List your core mechanics.</strong> Think about everything you've learned:
+        <ul class="sub-list">
+          <li><strong>Movement</strong> — How does the player move? (Rigidbody2D, speed, jump)</li>
+          <li><strong>Collection</strong> — What can the player collect? (coins, power-ups)</li>
+          <li><strong>Enemies</strong> — How do enemies behave? (patrol, chase, shoot)</li>
+          <li><strong>Health/Lives</strong> — How does the player lose? (lives, health bar, timer)</li>
+          <li><strong>Scoring</strong> — How does the player earn points?</li>
+          <li><strong>Win/Lose</strong> — What triggers Game Over? What triggers winning?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="gdd-field">
+      <h4>7. Unique Selling Point (USP)</h4>
+      <p>What makes YOUR game different from every other 2D game? This is the ONE thing that makes someone want to play.</p>
+      <div class="example">Example: "The temple collapses in real-time behind the player — you can see tiles falling away as you run. If you're too slow, the ground disappears beneath you. This creates constant tension and makes every run feel different."</div>
+      <textarea placeholder="What makes your game special?" style="min-height:80px"></textarea>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.3</div>
+      <div class="step-content">
+        <strong>Define your USP.</strong> This could be: a unique mechanic, a creative art style, an interesting story, a twist on a classic genre, or a combination of ideas no one has tried before.
+      </div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#9989;</div>
+      <div><strong>Checkpoint:</strong> Sections 5-7 complete: Gameplay Description, Core Mechanics list, and Unique Selling Point. You should have at least 4 mechanics listed.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== SECTION 4 ======================== -->
+<div class="tut-section" id="section-4" data-colour="amber">
+  <div class="tut-header" onclick="toggleSection(4)">
+    <div class="tut-num">4</div>
+    <div class="tut-info"><div class="tut-title">GDD Part 3 — Art, Sound &amp; Level Design</div><div class="tut-time">~20 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="gdd-field">
+      <h4>8. Art Style & Sound</h4>
+      <p>Describe the visual look and audio of your game. How should it FEEL?</p>
+      <div class="example">Example:
+Art: Pixel art style, 16x16 tiles, dark colour palette (greys, browns, orange accents). Inspired by Celeste's clean pixel aesthetic.
+Sound: Fast-paced electronic music. Crunchy SFX for jumps and impacts. Echo effects in cave levels.
+UI: Minimal HUD — score top-left, lives top-right, timer centre. Pixel font.</div>
+      <textarea placeholder="Art style: &#10;Colour palette: &#10;Sound/music: &#10;UI style: " style="min-height:100px"></textarea>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.1</div>
+      <div class="step-content">
+        <strong>Describe your art and sound direction.</strong> Consider:
+        <ul class="sub-list">
+          <li><strong>Art style:</strong> Pixel art, hand-drawn, geometric, minimalist?</li>
+          <li><strong>Colour palette:</strong> Dark and moody, bright and cheerful, neon, pastel?</li>
+          <li><strong>Music mood:</strong> Energetic, calm, mysterious, intense?</li>
+          <li><strong>SFX:</strong> Retro beeps, realistic sounds, cartoony?</li>
+          <li><strong>Reference games:</strong> Name 2-3 games whose visual style inspires you</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="gdd-field">
+      <h4>9. Level Design — Sketch Your First Level</h4>
+      <p>Draw or describe the layout of your first level. Show the player's path, obstacles, collectibles, and enemies.</p>
+      <div class="example">You can either:
+A) Draw on paper and take a photo → attach to Google Classroom
+B) Describe in text: "Level starts on the left with a safe platform. Three moving platforms over a pit. Coin trail guides the player. Enemy patrol on the far platform. Exit portal on the right side, elevated."</div>
+      <textarea placeholder="Describe your Level 1 layout or note that you'll attach a hand-drawn sketch..." style="min-height:100px"></textarea>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.2</div>
+      <div class="step-content">
+        <strong>Design your first level.</strong> Include:
+        <ul class="sub-list">
+          <li><strong>Start position</strong> — Where does the player begin?</li>
+          <li><strong>Path</strong> — What route do they follow?</li>
+          <li><strong>Obstacles</strong> — What challenges block the way?</li>
+          <li><strong>Collectibles</strong> — Where are coins/items placed?</li>
+          <li><strong>Enemies</strong> — Where do enemies patrol?</li>
+          <li><strong>End/Goal</strong> — How does the player complete the level?</li>
+        </ul>
+        <div class="detail"><strong>Level design tip:</strong> Remember the principles from L12 — teach through play, escalating difficulty, breathing room between challenges, and visual language to guide the player.</div>
+      </div>
+    </div>
+
+    <div class="gdd-field">
+      <h4>10. Technical Plan</h4>
+      <p>Which Unity features and scripts will you need? This shows you've thought about HOW to build your game.</p>
+      <div class="example">Example:
+• Rigidbody2D + BoxCollider2D for player physics
+• Tilemap for level construction
+• Animator Controller for player run/jump/idle animations
+• SoundManager singleton for audio
+• UIManager for score/lives display
+• SceneManager for menu/gameplay/game over scenes
+• Particle Systems for dust, coin sparkle, enemy explosion
+• Prefabs for coins, enemies, platforms
+• PlayerPrefs for high score saving</div>
+      <textarea placeholder="List the Unity features and scripts you'll need..." style="min-height:100px"></textarea>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.3</div>
+      <div class="step-content">
+        <strong>Write your technical plan.</strong> Look back at what you've learned in L04-L15 and list which Unity features you'll use. Be specific about scripts you'll need to write.
+      </div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#9989;</div>
+      <div><strong>Checkpoint:</strong> Sections 8-10 complete. You have art direction, a level sketch/description, and a technical plan listing Unity features.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== SECTION 5 ======================== -->
+<div class="tut-section" id="section-5" data-colour="pink">
+  <div class="tut-header" onclick="toggleSection(5)">
+    <div class="tut-num">5</div>
+    <div class="tut-info"><div class="tut-title">GDD Part 4 — Timeline &amp; Final Review</div><div class="tut-time">~15 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="gdd-field">
+      <h4>11. Development Timeline</h4>
+      <p>Plan what you'll build in each sprint lesson. Be realistic!</p>
+      <div class="example">Example:
+Sprint 1 (L17): Player movement + jump + basic tilemap level + coin prefabs
+Sprint 2 (L18): Enemies + scoring + UI (score/lives display) + sound effects
+Sprint 3 (L19): Menu system + Game Over + polish (particles, animations)
+Sprint 4 (L20): Playtesting + bug fixes + final adjustments</div>
+      <textarea placeholder="Sprint 1 (L17): &#10;Sprint 2 (L18): &#10;Sprint 3 (L19): &#10;Sprint 4 (L20): " style="min-height:100px"></textarea>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">5.1</div>
+      <div class="step-content">
+        <strong>Plan your development sprints.</strong> You have 4 build lessons. Allocate features to each:
+        <ul class="sub-list">
+          <li><strong>Sprint 1:</strong> Core mechanics (movement, physics, basic level)</li>
+          <li><strong>Sprint 2:</strong> Content (enemies, collectibles, scoring, UI)</li>
+          <li><strong>Sprint 3:</strong> Polish (menus, sound, particles, animations)</li>
+          <li><strong>Sprint 4:</strong> Test, fix bugs, final polish</li>
+        </ul>
+        <div class="detail"><strong>Important:</strong> If you're building a new game from scratch, Sprints 1-2 are critical. If you're expanding your existing project, you may have more time for polish. Adjust your timeline accordingly.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">5.2</div>
+      <div class="step-content">
+        <strong>Review your ENTIRE GDD.</strong> Read through all 11 sections. Check:
+        <ul class="sub-list">
+          <li>Is the scope realistic for 4 lessons?</li>
+          <li>Are the mechanics clearly described?</li>
+          <li>Could someone else read this and understand your game?</li>
+          <li>Does the technical plan cover all the mechanics you listed?</li>
+          <li>Is the timeline achievable?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">5.3</div>
+      <div class="step-content">
+        <strong>Peer Review.</strong> Swap your GDD with a partner. Give feedback on:
+        <ul class="sub-list">
+          <li><strong>Clarity:</strong> Can you understand the game from reading the GDD?</li>
+          <li><strong>Scope:</strong> Is this achievable in 4 lessons?</li>
+          <li><strong>Fun factor:</strong> Would you want to play this game?</li>
+          <li><strong>Missing details:</strong> Are there any gaps in the plan?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">5.4</div>
+      <div class="step-content">
+        <strong>Submit your GDD.</strong> You can submit in one of these ways:
+        <ul class="sub-list">
+          <li><strong>Option A:</strong> Type your GDD directly in Google Classroom (paste from this page)</li>
+          <li><strong>Option B:</strong> Write in Google Docs and link to Google Classroom</li>
+          <li><strong>Option C:</strong> Print this page (Ctrl+P) with your filled-in fields and hand in</li>
+        </ul>
+        <div class="detail"><strong>If you drew a level sketch on paper:</strong> Take a clear photo and attach it to your submission alongside the typed GDD.</div>
+      </div>
+    </div>
+
+    <div class="callout callout-tip">
+      <div class="icon">&#128161;</div>
+      <div><strong>Marking tip:</strong> The best GDDs are <strong>specific</strong>. Don't write "I'll have enemies" — write "Slime enemies that patrol left-right on platforms at speed 3, dealing 1 damage on contact, destroyed by jumping on their head." The more detail, the higher your mark.</div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#9989;</div>
+      <div><strong>Checkpoint:</strong> All 11 GDD sections complete. Peer reviewed. Submitted to Google Classroom. Ready to start building next lesson!</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== FOOTER ======================== -->
+<div class="footer-section">
+  <h2>Assessment Criteria</h2>
+  <div style="display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:.9rem;">
+    <span style="color:var(--neon);font-weight:bold;">Concept & Identity (Sections 1-4)</span><span style="color:var(--muted);">Clear game concept, appropriate genre, defined target audience</span>
+    <span style="color:var(--blue);font-weight:bold;">Gameplay & Mechanics (Sections 5-7)</span><span style="color:var(--muted);">Detailed mechanics, clear player experience, defined USP</span>
+    <span style="color:var(--purple);font-weight:bold;">Art & Level Design (Sections 8-9)</span><span style="color:var(--muted);">Visual direction, level sketch with gameplay elements</span>
+    <span style="color:var(--amber);font-weight:bold;">Technical Planning (Section 10)</span><span style="color:var(--muted);">Appropriate Unity features identified, realistic scope</span>
+    <span style="color:var(--pink);font-weight:bold;">Timeline & Presentation (Section 11)</span><span style="color:var(--muted);">Achievable sprint plan, well-organised document</span>
+  </div>
+</div>
+
+<div class="footer-section">
+  <h2>Progress Tracker</h2>
+  <div class="progress-grid">
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Understand GDD purpose</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Sections 1-4 complete</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Sections 5-7 complete</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Sections 8-10 complete</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Timeline + peer review + submit</span><span class="pc-xp">+10 XP</span></div>
+  </div>
+</div>
+
+<div class="btn-row no-print">
+  <button class="btn btn-neon" onclick="expandAll()">Expand All</button>
+  <button class="btn btn-ghost" onclick="resetAll()">Reset Progress</button>
+</div>
+
+</div>
+
+<script>
+const TOTAL_SECTIONS=5,XP_PER_SECTION=10;let xp=0;
+function toggleSection(n){const s=document.getElementById('section-'+n);s.classList.toggle('open');}
+function expandAll(){document.querySelectorAll('.tut-section').forEach(s=>s.classList.add('open'));}
+function updateProgress(){const checks=document.querySelectorAll('.step-check input[type="checkbox"]');const total=checks.length;const done=[...checks].filter(c=>c.checked).length;document.getElementById('progress-bar').style.width=Math.round(done/total*100)+'%';updateXP();}
+function updateXP(){let total=0;for(let i=1;i<=TOTAL_SECTIONS;i++){const sec=document.getElementById('section-'+i);if(!sec)continue;const checks=sec.querySelectorAll('.step-check input[type="checkbox"]');const done=[...checks].filter(c=>c.checked).length;if(checks.length>0&&done===checks.length)total+=XP_PER_SECTION;}xp=total;document.getElementById('xp-display').textContent=xp;}
+function resetAll(){document.querySelectorAll('input[type="checkbox"]').forEach(c=>c.checked=false);updateProgress();}
+</script>
+</body>
+</html>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T1-L06 — C# Scripting &amp; Player Movement Tutorial</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:15px;line-height:1.7;}a{color:var(--blue);text-decoration:none;}a:hover{text-decoration:underline;}
+#progress-bar-wrap{position:fixed;top:0;left:0;width:100%;height:6px;background:var(--dark);z-index:9999;}#progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--neon),var(--blue));transition:width .4s;}
+.hero{text-align:center;padding:80px 20px 40px;background:linear-gradient(180deg,rgba(74,222,128,.08) 0%,transparent 100%);}.hero h1{font-family:var(--font-head);font-size:2.4rem;font-weight:900;background:linear-gradient(135deg,var(--neon),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px;}.hero .sub{color:var(--muted);font-size:.95rem;margin-bottom:24px;}.hero .meta{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;}.hero .tag{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.8rem;color:var(--muted);}.hero .tag b{color:var(--neon);}
+.xp-tracker{display:flex;justify-content:center;align-items:center;gap:16px;margin:30px auto;padding:16px 24px;background:var(--dark);border:1px solid var(--border);border-radius:12px;max-width:500px;}.xp-tracker .xp-label{font-family:var(--font-head);font-size:1rem;color:var(--amber);}.xp-tracker .xp-val{font-family:var(--font-head);font-size:1.6rem;font-weight:900;color:var(--neon);}.xp-tracker .xp-max{color:var(--muted);font-size:.85rem;}
+.container{max-width:880px;margin:0 auto;padding:0 20px 60px;}
+.tut-section{margin:40px 0;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--dark);}.tut-header{padding:20px 24px;display:flex;align-items:center;gap:16px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border);}.tut-header .tut-num{font-family:var(--font-head);font-size:1.6rem;font-weight:900;color:var(--navy);background:var(--neon);border-radius:10px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}.tut-section[data-colour="blue"] .tut-num{background:var(--blue);}.tut-section[data-colour="purple"] .tut-num{background:var(--purple);}.tut-section[data-colour="amber"] .tut-num{background:var(--amber);}.tut-section[data-colour="pink"] .tut-num{background:var(--pink);}.tut-section[data-colour="red"] .tut-num{background:var(--red);color:var(--white);}.tut-header .tut-info{flex:1;}.tut-header .tut-title{font-family:var(--font-head);font-size:1.05rem;font-weight:700;color:var(--white);}.tut-header .tut-time{font-size:.8rem;color:var(--muted);margin-top:2px;}.tut-header .xp-badge{font-family:var(--font-head);background:rgba(251,191,36,.15);color:var(--amber);padding:4px 12px;border-radius:8px;font-size:.85rem;font-weight:700;flex-shrink:0;}.tut-header .chevron{color:var(--muted);font-size:1.4rem;transition:transform .3s;flex-shrink:0;}.tut-section.open .chevron{transform:rotate(90deg);}.tut-body{padding:0 24px 24px;display:none;}.tut-section.open .tut-body{display:block;}
+.step{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid rgba(51,65,85,.5);}.step:last-child{border-bottom:none;}.step-check{flex-shrink:0;margin-top:3px;}.step-check input[type="checkbox"]{width:20px;height:20px;accent-color:var(--neon);cursor:pointer;}.step-num{font-family:var(--font-head);font-size:.75rem;color:var(--neon);background:rgba(74,222,128,.1);border-radius:6px;padding:2px 8px;height:fit-content;flex-shrink:0;margin-top:2px;}.step-content{flex:1;}.step-content strong{color:var(--neon);}.step-content .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:1px 8px;font-size:.85rem;color:var(--amber);font-weight:700;margin:0 2px;}.step-content .sub-list{margin:8px 0 0 0;list-style:none;}.step-content .sub-list li{padding:4px 0;color:var(--muted);font-size:.9rem;}.step-content .sub-list li::before{content:'\25B8 ';color:var(--blue);}.step-content .sub-list li strong{color:var(--white);}.step-content em{color:var(--muted);}
+.detail{margin:6px 0 0 0;padding:8px 12px;background:rgba(15,23,42,.6);border-left:3px solid var(--blue);border-radius:0 6px 6px 0;font-size:.88rem;color:var(--muted);}.detail strong{color:var(--blue);}
+.screenshot-box{margin:12px 0;border:2px dashed var(--border);border-radius:12px;padding:20px;text-align:center;color:var(--muted);font-size:.88rem;background:rgba(15,23,42,.5);}.screenshot-box .label{font-family:var(--font-head);font-size:.7rem;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.callout{margin:16px 0;padding:14px 18px;border-radius:10px;font-size:.9rem;display:flex;gap:12px;align-items:flex-start;}.callout .icon{font-size:1.2rem;flex-shrink:0;}.callout-checkpoint{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);}.callout-checkpoint .icon{color:var(--neon);}.callout-trouble{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);}.callout-trouble .icon{color:var(--red);}.callout-tip{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);}.callout-tip .icon{color:var(--blue);}.callout-challenge{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);}.callout-challenge .icon{color:var(--amber);}.callout-extension{background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);}.callout-extension .icon{color:var(--purple);}.callout-warning{background:rgba(239,68,68,.12);border:2px solid rgba(239,68,68,.4);}.callout-warning .icon{color:var(--red);}
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);border-radius:10px;}.vocab h4{font-family:var(--font-head);font-size:.8rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:.88rem;}.vocab dt{color:var(--amber);font-weight:700;}.vocab dd{color:var(--muted);}
+.code-block{margin:12px 0;padding:16px 20px;background:#0a0e1a;border:1px solid var(--border);border-radius:10px;font-family:var(--font-body);font-size:14px;color:var(--neon);overflow-x:auto;line-height:1.6;white-space:pre;}
+.footer-section{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;}.footer-section h2{font-family:var(--font-head);font-size:1.2rem;margin-bottom:16px;color:var(--neon);}.footer-section h3{font-family:var(--font-head);font-size:.95rem;margin:16px 0 8px;color:var(--blue);}
+.shortcut-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;}.shortcut-item{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--navy);border-radius:8px;border:1px solid var(--border);}.shortcut-item .action{color:var(--muted);font-size:.85rem;}.shortcut-item .keys{color:var(--amber);font-family:var(--font-head);font-size:.8rem;}
+.progress-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;}.progress-card{display:flex;align-items:center;gap:12px;padding:12px;background:var(--navy);border-radius:10px;border:1px solid var(--border);}.progress-card input[type="checkbox"]{width:22px;height:22px;accent-color:var(--neon);}.progress-card .pc-label{flex:1;font-size:.9rem;}.progress-card .pc-xp{font-family:var(--font-head);color:var(--amber);font-size:.85rem;}
+.btn{display:inline-block;padding:10px 24px;border-radius:8px;border:none;font-family:var(--font-head);font-size:.85rem;cursor:pointer;font-weight:700;transition:transform .15s;}.btn:hover{transform:translateY(-2px);}.btn-neon{background:var(--neon);color:var(--navy);}.btn-blue{background:var(--blue);color:var(--navy);}.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted);}.btn-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;justify-content:center;}
+.submission-steps{counter-reset:sub;}.submission-steps li{list-style:none;padding:8px 0;display:flex;gap:12px;align-items:flex-start;}.submission-steps li::before{counter-increment:sub;content:counter(sub);font-family:var(--font-head);font-size:.75rem;background:var(--blue);color:var(--navy);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;-webkit-text-fill-color:#111!important;}body{font-size:10pt;line-height:1.5;}#progress-bar-wrap,.btn-row,.no-print{display:none!important;}.hero{padding:20px 0;border-bottom:2px solid #111;}.hero h1{font-size:16pt;-webkit-text-fill-color:#111!important;background:none!important;}.tut-section{break-inside:avoid;border:1px solid #999;margin:12px 0;}.tut-section.open .tut-body,.tut-body{display:block!important;}.tut-header .chevron{display:none;}.tut-num{background:#ddd!important;color:#111!important;}.callout{border:1px solid #999;background:#f9f9f9!important;}.footer-section{break-inside:avoid;border:1px solid #999;}.shortcut-item,.progress-card{border:1px solid #aaa;background:#f5f5f5!important;}.step-content .key{background:#eee!important;border:1px solid #999;color:#111!important;}.detail{background:#f5f5f5!important;border-left:3px solid #333;}.screenshot-box{border:2px dashed #999;}.vocab{background:#f5f5f5!important;border:1px solid #999;}.code-block{background:#f5f5f5!important;border:1px solid #999;color:#111!important;}}
+</style>
+</head>
+<body>
+<div id="progress-bar-wrap"><div id="progress-bar"></div></div>
+
+<div class="hero">
+  <h1>C# SCRIPTING &amp; PLAYER MOVEMENT</h1>
+  <p class="sub">Your complete step-by-step walkthrough — follow at your own pace, tick every box</p>
+  <div class="meta">
+    <span class="tag"><b>Course:</b> Game On (9GAMZA)</span>
+    <span class="tag"><b>Lesson:</b> T1 — L06</span>
+    <span class="tag"><b>Time:</b> ~75 min</span>
+    <span class="tag"><b>Unity:</b> 2022.3.x</span>
+    <span class="tag"><b>Outcomes:</b> G5-1, G5-2, G5-4</span>
+  </div>
+</div>
+
+<div class="xp-tracker">
+  <span class="xp-label">TOTAL XP</span>
+  <span class="xp-val" id="xp-display">0</span>
+  <span class="xp-max">/ 50 XP</span>
+</div>
+
+<div class="container">
+
+<!-- SECTION 1 -->
+<section class="tut-section open" data-colour="green" data-xp="10" id="tut1">
+  <div class="tut-header" onclick="toggleSection(this)">
+    <div class="tut-num">1</div>
+    <div class="tut-info"><div class="tut-title">Your First Script</div><div class="tut-time">~10 min &bull; Create a C# script and understand its structure.</div></div>
+    <div class="xp-badge">+10 XP</div><div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+    <div class="vocab"><h4>Key Terms</h4><dl>
+      <dt>C#</dt><dd>"C-Sharp" — the programming language Unity uses. It tells GameObjects how to behave.</dd>
+      <dt>Script</dt><dd>A text file containing C# code. Every script is a Component you attach to a GameObject.</dd>
+      <dt>Console</dt><dd>A Unity window that shows messages, warnings, and errors from your code.</dd>
+      <dt>Component</dt><dd>A building block you add to a GameObject — scripts, Rigidbody, Colliders are all components.</dd>
+    </dl></div>
+
+    <div class="callout callout-tip"><div class="icon">&#128161;</div><div><strong>Analogy:</strong> If a GameObject is a car, a Script is the driver. The car exists but does nothing until a driver (script) tells it to move!</div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">1.1</div><div class="step-content">Open your <strong>L05 project</strong> in Unity. Your scene should have sprites with physics from last lesson.</div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">1.2</div><div class="step-content">In the <strong>Project window</strong> (bottom), right-click on <strong>Assets</strong> &rarr; <strong>Create</strong> &rarr; <strong>C# Script</strong>.</div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">1.3</div><div class="step-content"><strong>IMMEDIATELY</strong> type the name <strong>PlayerMovement</strong> and press <span class="key">Enter</span>.
+      <div class="detail"><strong>CRITICAL:</strong> Name it RIGHT AWAY before clicking elsewhere! If you click away, it gets named "NewBehaviourScript" and you'll have problems. NO SPACES in the name!</div></div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">1.4</div><div class="step-content"><strong>Double-click</strong> the "PlayerMovement" script to open it in a code editor (Visual Studio or VS Code). Wait for it to load — this can take 30-60 seconds the first time.</div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">1.5</div><div class="step-content">You should see code that looks like this:
+<div class="code-block"><span style="color:#94a3b8">using</span> UnityEngine;
+
+<span style="color:#94a3b8">public class</span> <span style="color:#38bdf8">PlayerMovement</span> : <span style="color:#38bdf8">MonoBehaviour</span>
+{
+    <span style="color:#94a3b8">// Start is called once before the first execution of Update</span>
+    <span style="color:#a78bfa">void</span> <span style="color:#fbbf24">Start</span>()
+    {
+
+    }
+
+    <span style="color:#94a3b8">// Update is called once per frame</span>
+    <span style="color:#a78bfa">void</span> <span style="color:#fbbf24">Update</span>()
+    {
+
+    }
+}</div>
+      This is the skeleton of every Unity script. Two functions are already there: <strong>Start()</strong> and <strong>Update()</strong>.
+    </div></div>
+
+    <div class="callout callout-checkpoint"><div class="icon">&#10003;</div><div><strong>Checkpoint:</strong> "I created a C# script called PlayerMovement and it's open in the code editor."</div></div>
+
+    <div class="callout callout-trouble"><div class="icon">&#9888;</div><div><strong>Troubleshooting:</strong><ul class="sub-list">
+      <li><strong>Script won't open?</strong> Right-click &rarr; "Open C# Project". Or try Edit &rarr; Preferences &rarr; External Tools and set your code editor.</li>
+      <li><strong>Visual Studio is very slow?</strong> Be patient. It loads many files the first time. Try VS Code instead if it keeps freezing.</li>
+    </ul></div></div>
+  </div>
+</section>
+
+<!-- SECTION 2 -->
+<section class="tut-section" data-colour="blue" data-xp="10" id="tut2">
+  <div class="tut-header" onclick="toggleSection(this)">
+    <div class="tut-num">2</div>
+    <div class="tut-info"><div class="tut-title">Start vs Update</div><div class="tut-time">~5 min &bull; Understand when code runs.</div></div>
+    <div class="xp-badge">+10 XP</div><div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+    <div class="vocab"><h4>Key Terms</h4><dl>
+      <dt>Start()</dt><dd>Runs ONCE when you press Play. Use for: setting up starting values.</dd>
+      <dt>Update()</dt><dd>Runs EVERY FRAME (60+ times per second). Use for: checking input, moving objects.</dd>
+      <dt>Frame</dt><dd>One "tick" of the game clock. Games run at 60 frames per second — Update runs each tick.</dd>
+      <dt>Debug.Log()</dt><dd>Prints a message to the Console window. Great for testing if your code works!</dd>
+    </dl></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">2.1</div><div class="step-content">Inside the <strong>Start()</strong> function, between the curly braces { }, type:
+<div class="code-block"><span style="color:#a78bfa">void</span> <span style="color:#fbbf24">Start</span>()
+{
+    Debug.Log(<span style="color:#fbbf24">"Game Started!"</span>);
+}</div></div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">2.2</div><div class="step-content">Save the script (<span class="key">Ctrl</span>+<span class="key">S</span> in the code editor). Go back to Unity.</div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">2.3</div><div class="step-content"><strong>Drag</strong> the PlayerMovement script from the Project window onto your <strong>Player</strong> object in the Hierarchy. The Inspector should now show "Player Movement" as a component.</div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">2.4</div><div class="step-content">Open the <strong>Console</strong> window: <strong>Window</strong> menu &rarr; <strong>General</strong> &rarr; <strong>Console</strong>. Press <strong>Play</strong>. You should see "Game Started!" in the Console — it runs ONCE.</div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">2.5</div><div class="step-content">Press <strong>Stop</strong>. Now add a Debug.Log in <strong>Update()</strong> too — watch how it runs EVERY frame (floods the Console!). <strong>Delete the Debug.Log lines</strong> from both functions when you're done testing.</div></div>
+
+    <div class="callout callout-checkpoint"><div class="icon">&#10003;</div><div><strong>Checkpoint:</strong> "I understand Start runs once and Update runs every frame. My script is attached to the Player."</div></div>
+  </div>
+</section>
+
+<!-- SECTION 3 -->
+<section class="tut-section" data-colour="purple" data-xp="10" id="tut3">
+  <div class="tut-header" onclick="toggleSection(this)">
+    <div class="tut-num">3</div>
+    <div class="tut-info"><div class="tut-title">Capturing Player Input</div><div class="tut-time">~10 min &bull; Detect keyboard presses in code.</div></div>
+    <div class="xp-badge">+10 XP</div><div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+    <div class="vocab"><h4>Key Terms</h4><dl>
+      <dt>Input</dt><dd>Unity's system for detecting keyboard, mouse, and controller input.</dd>
+      <dt>GetAxis</dt><dd>Returns a number from -1 to 1. Smooth input for movement.</dd>
+      <dt>float</dt><dd>A data type for decimal numbers (e.g. 0.5, -1.0, 3.14). Speed and movement use floats.</dd>
+    </dl></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">3.1</div><div class="step-content">In your <strong>Update()</strong> function (make sure Debug.Log is deleted), type:
+<div class="code-block"><span style="color:#a78bfa">void</span> <span style="color:#fbbf24">Update</span>()
+{
+    <span style="color:#38bdf8">float</span> moveInput = Input.GetAxis(<span style="color:#fbbf24">"Horizontal"</span>);
+    Debug.Log(moveInput);
+}</div>
+      This line checks what the player is pressing: A/Left = -1, D/Right = +1, nothing = 0.
+    </div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">3.2</div><div class="step-content">Save (<span class="key">Ctrl</span>+<span class="key">S</span>), go to Unity, open the <strong>Console</strong>, Press <strong>Play</strong>.</div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">3.3</div><div class="step-content">Press <span class="key">A</span> or <span class="key">Left Arrow</span> — the Console shows numbers going toward <strong>-1</strong>. Press <span class="key">D</span> or <span class="key">Right Arrow</span> — numbers go toward <strong>+1</strong>. Release everything — numbers go back to <strong>0</strong>.
+      <div class="detail"><strong>GetAxis is smooth!</strong> It doesn't snap to -1/1 instantly — it eases in and out. This makes movement feel natural rather than jerky.</div></div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">3.4</div><div class="step-content">Press <strong>Stop</strong>. Delete the <code>Debug.Log(moveInput);</code> line (we don't need it anymore).</div></div>
+
+    <div class="callout callout-checkpoint"><div class="icon">&#10003;</div><div><strong>Checkpoint:</strong> "I can see input values in the Console when I press A/D. I understand -1 = left, +1 = right."</div></div>
+  </div>
+</section>
+
+<!-- SECTION 4 -->
+<section class="tut-section" data-colour="amber" data-xp="10" id="tut4">
+  <div class="tut-header" onclick="toggleSection(this)">
+    <div class="tut-num">4</div>
+    <div class="tut-info"><div class="tut-title">Moving Your Player — Lab</div><div class="tut-time">~25 min &bull; Write the movement code and make your player move!</div></div>
+    <div class="xp-badge">+10 XP</div><div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+    <div class="vocab"><h4>Key Terms</h4><dl>
+      <dt>Translate</dt><dd>A function that moves a GameObject by a specific amount each frame.</dd>
+      <dt>Time.deltaTime</dt><dd>The time between frames. Multiplying by this makes movement the same speed on ALL computers.</dd>
+      <dt>speed</dt><dd>A number that controls how fast the player moves. Higher = faster.</dd>
+    </dl></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">4.1</div><div class="step-content">Replace the code in your <strong>Update()</strong> function with:
+<div class="code-block"><span style="color:#a78bfa">void</span> <span style="color:#fbbf24">Update</span>()
+{
+    <span style="color:#38bdf8">float</span> moveInput = Input.GetAxis(<span style="color:#fbbf24">"Horizontal"</span>);
+    <span style="color:#38bdf8">float</span> speed = 5.0f;
+    transform.Translate(moveInput * speed * Time.deltaTime, 0, 0);
+}</div>
+      <div class="detail"><strong>What this does:</strong> Each frame, it checks the A/D keys (moveInput), multiplies by speed and deltaTime, then moves the object on the X axis (left/right). The 0,0 means don't move on Y or Z.</div>
+    </div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">4.2</div><div class="step-content">Save (<span class="key">Ctrl</span>+<span class="key">S</span>) and go back to Unity. Make sure the PlayerMovement script is attached to your Player (check the Inspector).</div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">4.3</div><div class="step-content">Press <strong>Play</strong>! Press <span class="key">A</span> and <span class="key">D</span> — your player should <strong>move left and right!</strong></div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">4.4</div><div class="step-content"><strong>Experiment with speed:</strong> Stop Play mode. Change <code>5.0f</code> to <code>10.0f</code> — faster! Try <code>1.0f</code> — slower! Try <code>50.0f</code> — zoom! Find a speed that feels good.</div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">4.5</div><div class="step-content"><strong>Why Time.deltaTime?</strong> Without it, movement would be tied to frame rate. A fast computer running at 120fps would move the player twice as fast as a computer at 60fps! Time.deltaTime fixes this — it makes movement <strong>smooth and consistent everywhere</strong>.</div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">4.6</div><div class="step-content"><strong>Save your scene!</strong> Press <span class="key">Ctrl</span>+<span class="key">S</span> in Unity. Your complete script should look like this:
+<div class="code-block"><span style="color:#94a3b8">using</span> UnityEngine;
+
+<span style="color:#94a3b8">public class</span> <span style="color:#38bdf8">PlayerMovement</span> : <span style="color:#38bdf8">MonoBehaviour</span>
+{
+    <span style="color:#a78bfa">void</span> <span style="color:#fbbf24">Start</span>()
+    {
+    }
+
+    <span style="color:#a78bfa">void</span> <span style="color:#fbbf24">Update</span>()
+    {
+        <span style="color:#38bdf8">float</span> moveInput = Input.GetAxis(<span style="color:#fbbf24">"Horizontal"</span>);
+        <span style="color:#38bdf8">float</span> speed = 5.0f;
+        transform.Translate(moveInput * speed * Time.deltaTime, 0, 0);
+    }
+}</div></div></div>
+
+    <div class="screenshot-box"><div class="label">What you should see</div>Player moves left and right when pressing A/D. Inspector shows PlayerMovement script component attached.</div>
+
+    <div class="callout callout-checkpoint"><div class="icon">&#10003;</div><div><strong>Checkpoint:</strong> "My player moves left and right with A/D keys!"</div></div>
+
+    <div class="callout callout-trouble"><div class="icon">&#9888;</div><div><strong>Troubleshooting:</strong><ul class="sub-list">
+      <li><strong>Red error in Console?</strong> Read the error — usually a typo. Check spelling, semicolons, and matching { } braces.</li>
+      <li><strong>Not moving?</strong> Did you drag the script onto the Player? Check Inspector for "Player Movement" component.</li>
+      <li><strong>Case sensitive!</strong> <code>update</code> is NOT <code>Update</code>. <code>getaxis</code> is NOT <code>GetAxis</code>. C# cares!</li>
+      <li><strong>Player falls through floor?</strong> Make sure ground still has its Collider from L05.</li>
+    </ul></div></div>
+  </div>
+</section>
+
+<!-- SECTION 5 -->
+<section class="tut-section" data-colour="pink" data-xp="10" id="tut5">
+  <div class="tut-header" onclick="toggleSection(this)">
+    <div class="tut-num">5</div>
+    <div class="tut-info"><div class="tut-title">Extension Challenges</div><div class="tut-time">If time permits &bull; Take your scripting further.</div></div>
+    <div class="xp-badge">+10 XP</div><div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+    <p style="color:var(--muted);margin-bottom:14px;">Only if you've finished Sections 1-4.</p>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">5.1</div><div class="step-content"><strong>Challenge 1: Vertical Movement.</strong> Add another axis! Use <code>Input.GetAxis("Vertical")</code> to get W/S input. Add a second Translate line for Y movement. Now you can move in all 4 directions!</div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">5.2</div><div class="step-content"><strong>Challenge 2: Flip the Sprite.</strong> When moving left, flip the sprite! In Update, after movement code:
+<div class="code-block"><span style="color:#94a3b8">// Flip sprite based on direction</span>
+<span style="color:#a78bfa">if</span> (moveInput &lt; 0)
+    transform.localScale = <span style="color:#a78bfa">new</span> Vector3(-1, 1, 1);
+<span style="color:#a78bfa">else if</span> (moveInput &gt; 0)
+    transform.localScale = <span style="color:#a78bfa">new</span> Vector3(1, 1, 1);</div></div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">5.3</div><div class="step-content"><strong>Challenge 3: Speed Variable.</strong> Move <code>float speed = 5.0f;</code> to the TOP of the class (above Start) and make it <code>public float speed = 5.0f;</code>. Now you can change it in the Inspector without editing code! (We'll learn more about this next lesson.)</div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">5.4</div><div class="step-content"><strong>Challenge 4: Enemy Script.</strong> Create a NEW script called "EnemyMovement". Make the enemy move automatically (without input) by using a fixed direction in Translate.</div></div>
+
+    <div class="callout callout-extension"><div class="icon">&#127918;</div><div><strong>Research:</strong> Look up "GetKey vs GetKeyDown vs GetKeyUp" in Unity. What's the difference? When would you use each?</div></div>
+  </div>
+</section>
+
+<!-- FOOTER: Submission -->
+<div class="footer-section">
+  <h2>SUBMISSION GUIDE</h2>
+  <ol class="submission-steps">
+    <li>Press Play to show your player moving, then take a screenshot (<span class="key" style="display:inline;background:#1e293b;border:1px solid #334155;border-radius:4px;padding:1px 8px;font-size:.85rem;color:#fbbf24;font-weight:700;">Win</span>+<span class="key" style="display:inline;background:#1e293b;border:1px solid #334155;border-radius:4px;padding:1px 8px;font-size:.85rem;color:#fbbf24;font-weight:700;">Shift</span>+<span class="key" style="display:inline;background:#1e293b;border:1px solid #334155;border-radius:4px;padding:1px 8px;font-size:.85rem;color:#fbbf24;font-weight:700;">S</span>).</li>
+    <li>Open <strong>Google Classroom</strong> &rarr; T1-L06 assignment.</li>
+    <li>Upload screenshot and click <strong>"Turn in"</strong>.</li>
+  </ol>
+</div>
+
+<!-- FOOTER: Quick Reference -->
+<div class="footer-section">
+  <h2>QUICK REFERENCE — C# SCRIPTING</h2>
+  <h3>Script Basics</h3>
+  <div class="shortcut-grid">
+    <div class="shortcut-item"><span class="action">Create script</span><span class="keys">Assets &rarr; Create &rarr; C#</span></div>
+    <div class="shortcut-item"><span class="action">Open script</span><span class="keys">Double-click .cs file</span></div>
+    <div class="shortcut-item"><span class="action">Save script</span><span class="keys">Ctrl + S (in editor)</span></div>
+    <div class="shortcut-item"><span class="action">Attach script</span><span class="keys">Drag onto GameObject</span></div>
+  </div>
+  <h3>Input</h3>
+  <div class="shortcut-grid">
+    <div class="shortcut-item"><span class="action">Horizontal</span><span class="keys">A/D or Left/Right</span></div>
+    <div class="shortcut-item"><span class="action">Vertical</span><span class="keys">W/S or Up/Down</span></div>
+    <div class="shortcut-item"><span class="action">GetAxis range</span><span class="keys">-1.0 to +1.0</span></div>
+    <div class="shortcut-item"><span class="action">Console</span><span class="keys">Window &rarr; Console</span></div>
+  </div>
+</div>
+
+<!-- FOOTER: Progress -->
+<div class="footer-section">
+  <h2>PROGRESS TRACKER</h2>
+  <p style="margin-bottom:16px;color:var(--muted);">Aim for Sections 1-4 minimum!</p>
+  <div class="progress-grid">
+    <div class="progress-card"><input type="checkbox" class="master-check" data-tut="1" onchange="updateMasterProgress(this)"><span class="pc-label">Section 1 — First Script</span><span class="pc-xp">10 XP</span></div>
+    <div class="progress-card"><input type="checkbox" class="master-check" data-tut="2" onchange="updateMasterProgress(this)"><span class="pc-label">Section 2 — Start vs Update</span><span class="pc-xp">10 XP</span></div>
+    <div class="progress-card"><input type="checkbox" class="master-check" data-tut="3" onchange="updateMasterProgress(this)"><span class="pc-label">Section 3 — Player Input</span><span class="pc-xp">10 XP</span></div>
+    <div class="progress-card"><input type="checkbox" class="master-check" data-tut="4" onchange="updateMasterProgress(this)"><span class="pc-label">Section 4 — Movement Lab</span><span class="pc-xp">10 XP</span></div>
+    <div class="progress-card"><input type="checkbox" class="master-check" data-tut="5" onchange="updateMasterProgress(this)"><span class="pc-label">Section 5 — Extension</span><span class="pc-xp">10 XP</span></div>
+  </div>
+</div>
+
+<div class="btn-row no-print">
+  <button class="btn btn-neon" onclick="window.print()">&#128424; Save as PDF</button>
+  <button class="btn btn-blue" onclick="expandAll()">Expand All Sections</button>
+  <button class="btn btn-ghost" onclick="resetAll()">Reset Progress</button>
+</div>
+</div>
+
+<script>
+function toggleSection(header){header.closest('.tut-section').classList.toggle('open');}
+function expandAll(){document.querySelectorAll('.tut-section').forEach(s=>s.classList.add('open'));}
+function updateProgress(){const checks=document.querySelectorAll('.step-check input[type="checkbox"]');const total=checks.length;const done=[...checks].filter(c=>c.checked).length;const pct=total?Math.round(done/total*100):0;document.getElementById('progress-bar').style.width=pct+'%';}
+function updateXP(){const masters=document.querySelectorAll('.master-check');let xp=0;masters.forEach(m=>{if(m.checked) xp+=10;});document.getElementById('xp-display').textContent=xp;}
+function updateMasterProgress(cb){updateXP();}
+function resetAll(){if(!confirm('Reset all checkboxes and progress?')) return;document.querySelectorAll('input[type="checkbox"]').forEach(c=>c.checked=false);document.getElementById('progress-bar').style.width='0%';document.getElementById('xp-display').textContent='0';}
+</script>
+</body>
+</html>

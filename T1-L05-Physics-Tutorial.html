@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T1-L05 — Physics: Rigidbody 2D &amp; Colliders Tutorial</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0f172a; --dark:#1e293b; --card:#1e293b; --border:#334155;
+  --neon:#4ade80; --blue:#38bdf8; --purple:#a78bfa; --amber:#fbbf24;
+  --pink:#f472b6; --red:#ef4444; --white:#f1f5f9; --muted:#94a3b8;
+  --font-head:'Orbitron',sans-serif; --font-body:'Roboto Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:15px;line-height:1.7;}
+a{color:var(--blue);text-decoration:none;}
+a:hover{text-decoration:underline;}
+
+#progress-bar-wrap{position:fixed;top:0;left:0;width:100%;height:6px;background:var(--dark);z-index:9999;}
+#progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--neon),var(--blue));transition:width .4s;}
+
+.hero{text-align:center;padding:80px 20px 40px;background:linear-gradient(180deg,rgba(74,222,128,.08) 0%,transparent 100%);}
+.hero h1{font-family:var(--font-head);font-size:2.4rem;font-weight:900;background:linear-gradient(135deg,var(--neon),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px;}
+.hero .sub{color:var(--muted);font-size:.95rem;margin-bottom:24px;}
+.hero .meta{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;}
+.hero .tag{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.8rem;color:var(--muted);}
+.hero .tag b{color:var(--neon);}
+
+.xp-tracker{display:flex;justify-content:center;align-items:center;gap:16px;margin:30px auto;padding:16px 24px;background:var(--dark);border:1px solid var(--border);border-radius:12px;max-width:500px;}
+.xp-tracker .xp-label{font-family:var(--font-head);font-size:1rem;color:var(--amber);}
+.xp-tracker .xp-val{font-family:var(--font-head);font-size:1.6rem;font-weight:900;color:var(--neon);}
+.xp-tracker .xp-max{color:var(--muted);font-size:.85rem;}
+
+.container{max-width:880px;margin:0 auto;padding:0 20px 60px;}
+
+.tut-section{margin:40px 0;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--dark);}
+.tut-header{padding:20px 24px;display:flex;align-items:center;gap:16px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border);}
+.tut-header .tut-num{font-family:var(--font-head);font-size:1.6rem;font-weight:900;color:var(--navy);background:var(--neon);border-radius:10px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.tut-section[data-colour="blue"] .tut-num{background:var(--blue);}
+.tut-section[data-colour="purple"] .tut-num{background:var(--purple);}
+.tut-section[data-colour="amber"] .tut-num{background:var(--amber);}
+.tut-section[data-colour="pink"] .tut-num{background:var(--pink);}
+.tut-section[data-colour="red"] .tut-num{background:var(--red);color:var(--white);}
+.tut-header .tut-info{flex:1;}
+.tut-header .tut-title{font-family:var(--font-head);font-size:1.05rem;font-weight:700;color:var(--white);}
+.tut-header .tut-time{font-size:.8rem;color:var(--muted);margin-top:2px;}
+.tut-header .xp-badge{font-family:var(--font-head);background:rgba(251,191,36,.15);color:var(--amber);padding:4px 12px;border-radius:8px;font-size:.85rem;font-weight:700;flex-shrink:0;}
+.tut-header .chevron{color:var(--muted);font-size:1.4rem;transition:transform .3s;flex-shrink:0;}
+.tut-section.open .chevron{transform:rotate(90deg);}
+.tut-body{padding:0 24px 24px;display:none;}
+.tut-section.open .tut-body{display:block;}
+
+.step{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid rgba(51,65,85,.5);}
+.step:last-child{border-bottom:none;}
+.step-check{flex-shrink:0;margin-top:3px;}
+.step-check input[type="checkbox"]{width:20px;height:20px;accent-color:var(--neon);cursor:pointer;}
+.step-num{font-family:var(--font-head);font-size:.75rem;color:var(--neon);background:rgba(74,222,128,.1);border-radius:6px;padding:2px 8px;height:fit-content;flex-shrink:0;margin-top:2px;}
+.step-content{flex:1;}
+.step-content strong{color:var(--neon);}
+.step-content .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:1px 8px;font-size:.85rem;color:var(--amber);font-weight:700;margin:0 2px;}
+.step-content .sub-list{margin:8px 0 0 0;list-style:none;}
+.step-content .sub-list li{padding:4px 0;color:var(--muted);font-size:.9rem;}
+.step-content .sub-list li::before{content:'\25B8 ';color:var(--blue);}
+.step-content .sub-list li strong{color:var(--white);}
+.step-content em{color:var(--muted);}
+
+.detail{margin:6px 0 0 0;padding:8px 12px;background:rgba(15,23,42,.6);border-left:3px solid var(--blue);border-radius:0 6px 6px 0;font-size:.88rem;color:var(--muted);}
+.detail strong{color:var(--blue);}
+
+.screenshot-box{margin:12px 0;border:2px dashed var(--border);border-radius:12px;padding:20px;text-align:center;color:var(--muted);font-size:.88rem;background:rgba(15,23,42,.5);}
+.screenshot-box .label{font-family:var(--font-head);font-size:.7rem;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+
+.callout{margin:16px 0;padding:14px 18px;border-radius:10px;font-size:.9rem;display:flex;gap:12px;align-items:flex-start;}
+.callout .icon{font-size:1.2rem;flex-shrink:0;}
+.callout-checkpoint{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);}
+.callout-checkpoint .icon{color:var(--neon);}
+.callout-trouble{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);}
+.callout-trouble .icon{color:var(--red);}
+.callout-tip{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);}
+.callout-tip .icon{color:var(--blue);}
+.callout-challenge{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);}
+.callout-challenge .icon{color:var(--amber);}
+.callout-extension{background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);}
+.callout-extension .icon{color:var(--purple);}
+.callout-warning{background:rgba(239,68,68,.12);border:2px solid rgba(239,68,68,.4);}
+.callout-warning .icon{color:var(--red);}
+
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);border-radius:10px;}
+.vocab h4{font-family:var(--font-head);font-size:.8rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}
+.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:.88rem;}
+.vocab dt{color:var(--amber);font-weight:700;}
+.vocab dd{color:var(--muted);}
+
+.footer-section{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;}
+.footer-section h2{font-family:var(--font-head);font-size:1.2rem;margin-bottom:16px;color:var(--neon);}
+.footer-section h3{font-family:var(--font-head);font-size:.95rem;margin:16px 0 8px;color:var(--blue);}
+
+.shortcut-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;}
+.shortcut-item{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--navy);border-radius:8px;border:1px solid var(--border);}
+.shortcut-item .action{color:var(--muted);font-size:.85rem;}
+.shortcut-item .keys{color:var(--amber);font-family:var(--font-head);font-size:.8rem;}
+
+.progress-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;}
+.progress-card{display:flex;align-items:center;gap:12px;padding:12px;background:var(--navy);border-radius:10px;border:1px solid var(--border);}
+.progress-card input[type="checkbox"]{width:22px;height:22px;accent-color:var(--neon);}
+.progress-card .pc-label{flex:1;font-size:.9rem;}
+.progress-card .pc-xp{font-family:var(--font-head);color:var(--amber);font-size:.85rem;}
+
+.btn{display:inline-block;padding:10px 24px;border-radius:8px;border:none;font-family:var(--font-head);font-size:.85rem;cursor:pointer;font-weight:700;transition:transform .15s;}
+.btn:hover{transform:translateY(-2px);}
+.btn-neon{background:var(--neon);color:var(--navy);}
+.btn-blue{background:var(--blue);color:var(--navy);}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted);}
+.btn-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;justify-content:center;}
+
+.submission-steps{counter-reset:sub;}
+.submission-steps li{list-style:none;padding:8px 0;display:flex;gap:12px;align-items:flex-start;}
+.submission-steps li::before{counter-increment:sub;content:counter(sub);font-family:var(--font-head);font-size:.75rem;background:var(--blue);color:var(--navy);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;}
+
+@media print{
+  *{color:#111!important;background:#fff!important;border-color:#ccc!important;-webkit-text-fill-color:#111!important;}
+  body{font-size:10pt;line-height:1.5;}
+  #progress-bar-wrap,.btn-row,.no-print{display:none!important;}
+  .hero{padding:20px 0;border-bottom:2px solid #111;}
+  .hero h1{font-size:16pt;-webkit-text-fill-color:#111!important;background:none!important;}
+  .tut-section{break-inside:avoid;border:1px solid #999;margin:12px 0;}
+  .tut-section.open .tut-body,.tut-body{display:block!important;}
+  .tut-header .chevron{display:none;}
+  .tut-num{background:#ddd!important;color:#111!important;}
+  .callout{border:1px solid #999;background:#f9f9f9!important;}
+  .footer-section{break-inside:avoid;border:1px solid #999;}
+  .shortcut-item,.progress-card{border:1px solid #aaa;background:#f5f5f5!important;}
+  .step-content .key{background:#eee!important;border:1px solid #999;color:#111!important;}
+  .detail{background:#f5f5f5!important;border-left:3px solid #333;}
+  .screenshot-box{border:2px dashed #999;}
+  .vocab{background:#f5f5f5!important;border:1px solid #999;}
+}
+</style>
+</head>
+<body>
+
+<!-- Progress Bar -->
+<div id="progress-bar-wrap"><div id="progress-bar"></div></div>
+
+<!-- Hero -->
+<div class="hero">
+  <h1>PHYSICS: RIGIDBODY 2D &amp; COLLIDERS</h1>
+  <p class="sub">Your complete step-by-step walkthrough — follow at your own pace, tick every box</p>
+  <div class="meta">
+    <span class="tag"><b>Course:</b> Game On (9GAMZA)</span>
+    <span class="tag"><b>Lesson:</b> T1 — L05</span>
+    <span class="tag"><b>Time:</b> ~75 min</span>
+    <span class="tag"><b>Unity:</b> 2022.3.x</span>
+    <span class="tag"><b>Outcomes:</b> G5-1, G5-2, G5-3</span>
+  </div>
+</div>
+
+<!-- XP Tracker -->
+<div class="xp-tracker">
+  <span class="xp-label">TOTAL XP</span>
+  <span class="xp-val" id="xp-display">0</span>
+  <span class="xp-max">/ 50 XP</span>
+</div>
+
+<div class="container">
+
+<!-- ================================================================ -->
+<!-- SECTION 1: What Is Rigidbody 2D?                                  -->
+<!-- ================================================================ -->
+<section class="tut-section open" data-colour="green" data-xp="10" id="tut1">
+  <div class="tut-header" onclick="toggleSection(this)">
+    <div class="tut-num">1</div>
+    <div class="tut-info">
+      <div class="tut-title">What Is Rigidbody 2D?</div>
+      <div class="tut-time">~10 min &bull; Give your sprites weight and gravity.</div>
+    </div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="vocab">
+      <h4>Key Terms for This Section</h4>
+      <dl>
+        <dt>Rigidbody 2D</dt><dd>A Unity component that tells the physics engine to calculate gravity, mass, drag, and velocity for an object.</dd>
+        <dt>Gravity</dt><dd>A force that pulls objects downward. In Unity, Gravity Scale 1.0 = Earth normal.</dd>
+        <dt>Physics Engine</dt><dd>The system inside Unity that simulates real-world physics — gravity, collisions, bouncing.</dd>
+        <dt>Component</dt><dd>A building block you add to a GameObject to give it abilities (like physics, rendering, or scripts).</dd>
+      </dl>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.1</div>
+      <div class="step-content">Open <strong>Unity Hub</strong> and open your <strong>L04 project</strong> (MyFirstGame). You should see your scene with sprites from last lesson.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.2</div>
+      <div class="step-content">Click on your <strong>Player</strong> sprite in the Hierarchy. Look at the Inspector — you should see the <strong>Transform</strong> and <strong>Sprite Renderer</strong> components.
+        <div class="detail"><strong>By default, Unity objects are "ghosts".</strong> They have no weight, no gravity, no physics. They just sit there like pictures on a wall. We're about to change that!</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.3</div>
+      <div class="step-content">With your Player selected, click <strong>"Add Component"</strong> at the bottom of the Inspector. Type <strong>"Rigidbody 2D"</strong> and click it to add.
+        <div class="detail"><strong>Important:</strong> Make sure you choose "Rigidbody 2D" (the 2D version), NOT "Rigidbody" (which is for 3D)!</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.4</div>
+      <div class="step-content">Press <strong>Play</strong> (triangle button, top centre). Watch what happens... <strong>your player falls!</strong> It drops off the screen because gravity is now pulling it down. Press <strong>Stop</strong> when you've seen it.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.5</div>
+      <div class="step-content">Look at the <strong>Rigidbody 2D</strong> component in the Inspector. Find <strong>Gravity Scale</strong> — it should be <strong>1</strong> (Earth normal). Try these experiments:
+        <ul class="sub-list">
+          <li><strong>Gravity Scale = 0</strong> — Press Play. No falling! (zero gravity / space)</li>
+          <li><strong>Gravity Scale = 5</strong> — Press Play. Falls FAST! (heavy gravity)</li>
+          <li><strong>Gravity Scale = -1</strong> — Press Play. Falls UPWARD!</li>
+          <li>Set it back to <strong>1</strong> when done experimenting.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.6</div>
+      <div class="step-content">Also notice in the Rigidbody 2D component:
+        <ul class="sub-list">
+          <li><strong>Mass</strong> — how heavy the object is (default 1)</li>
+          <li><strong>Linear Drag</strong> — air resistance (0 = none, higher = more)</li>
+          <li><strong>Angular Drag</strong> — resistance to spinning</li>
+          <li><strong>Constraints</strong> — freeze position or rotation on specific axes</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="screenshot-box">
+      <div class="label">What you should see</div>
+      Player selected in Hierarchy. Inspector shows Rigidbody 2D component with Gravity Scale = 1.
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#10003;</div>
+      <div><strong>Checkpoint:</strong> "I added Rigidbody 2D to my player. When I press Play, it falls due to gravity."</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================================================================ -->
+<!-- SECTION 2: Colliders: The Physical Border                         -->
+<!-- ================================================================ -->
+<section class="tut-section" data-colour="blue" data-xp="10" id="tut2">
+  <div class="tut-header" onclick="toggleSection(this)">
+    <div class="tut-num">2</div>
+    <div class="tut-info">
+      <div class="tut-title">Colliders: The Physical Border</div>
+      <div class="tut-time">~10 min &bull; Create solid surfaces so objects can't pass through each other.</div>
+    </div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="vocab">
+      <h4>Key Terms for This Section</h4>
+      <dl>
+        <dt>Collider</dt><dd>An invisible shape around a sprite that defines its physical boundary — what it can bump into.</dd>
+        <dt>Box Collider 2D</dt><dd>A rectangular collision shape. Best for floors, crates, and platforms.</dd>
+        <dt>Circle Collider 2D</dt><dd>A circular collision shape. Best for balls and round objects.</dd>
+        <dt>Capsule Collider 2D</dt><dd>A pill-shaped collider. Industry standard for humanoid characters.</dd>
+        <dt>Is Trigger</dt><dd>A checkbox that makes a collider detect overlaps WITHOUT physical collision (used for pickups, zones).</dd>
+      </dl>
+    </div>
+
+    <div class="callout callout-tip">
+      <div class="icon">&#128161;</div>
+      <div><strong>Think of it this way:</strong> Rigidbody = makes it FALL. Collider = makes it STOP. You need BOTH for physics to work properly!</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.1</div>
+      <div class="step-content">Click on your <strong>ground</strong> sprite in the Hierarchy. Click <strong>"Add Component"</strong> &rarr; search <strong>"Box Collider 2D"</strong> &rarr; add it.
+        <div class="detail"><strong>Why Box?</strong> Your ground is a rectangle — Box Collider matches its shape perfectly and is fast for the computer to calculate.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.2</div>
+      <div class="step-content">Now click on your <strong>Player</strong> sprite. Add a collider:
+        <ul class="sub-list">
+          <li>If your player is <strong>round</strong> &rarr; add <strong>Circle Collider 2D</strong></li>
+          <li>If your player is a <strong>character/person</strong> &rarr; add <strong>Capsule Collider 2D</strong></li>
+          <li>If your player is <strong>square/rectangular</strong> &rarr; add <strong>Box Collider 2D</strong></li>
+        </ul>
+        <div class="detail"><strong>You'll see a green wireframe</strong> outline around your sprite in the Scene View. This shows the collider's shape. It should closely match your sprite.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.3</div>
+      <div class="step-content">Press <strong>Play</strong>. Your player should <strong>fall and land on the ground!</strong> It no longer falls through because both objects have colliders that create a physical barrier.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.4</div>
+      <div class="step-content">Check the collider in the Inspector. Find the <strong>"Is Trigger"</strong> checkbox. Make sure it is <strong>NOT ticked</strong>.
+        <div class="detail"><strong>Is Trigger = OFF</strong> means the collider is a solid wall. <strong>Is Trigger = ON</strong> means objects pass through but you can detect the overlap (used for coins, power-ups, etc. — we'll use this later!).</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.5</div>
+      <div class="step-content">Add <strong>Box Collider 2D</strong> to any other platforms or obstacles in your scene. Each solid surface needs its own collider.</div>
+    </div>
+
+    <div class="screenshot-box">
+      <div class="label">What you should see</div>
+      Player falling and landing on ground. Green wireframe outlines visible in Scene View around colliders. Player sits on top of ground, not falling through.
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#10003;</div>
+      <div><strong>Checkpoint:</strong> "My player falls with gravity and lands on the ground. It doesn't fall through!"</div>
+    </div>
+
+    <div class="callout callout-trouble">
+      <div class="icon">&#9888;</div>
+      <div><strong>Troubleshooting:</strong>
+        <ul class="sub-list">
+          <li><strong>Player passes through ground?</strong> Check BOTH objects have colliders. Check "Is Trigger" is OFF on both.</li>
+          <li><strong>Player spinning wildly on landing?</strong> Select Player &rarr; Rigidbody 2D &rarr; Constraints &rarr; tick <strong>Freeze Rotation Z</strong></li>
+          <li><strong>Ground falls away when I press Play?</strong> Your ground has a Rigidbody 2D set to Dynamic! See Section 3.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================================================================ -->
+<!-- SECTION 3: Body Types & The Great Fall Lab                        -->
+<!-- ================================================================ -->
+<section class="tut-section" data-colour="purple" data-xp="10" id="tut3">
+  <div class="tut-header" onclick="toggleSection(this)">
+    <div class="tut-num">3</div>
+    <div class="tut-info">
+      <div class="tut-title">Body Types &amp; The Great Fall Lab</div>
+      <div class="tut-time">~15 min &bull; Understand Dynamic vs Static and build a physics playground.</div>
+    </div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="vocab">
+      <h4>Key Terms for This Section</h4>
+      <dl>
+        <dt>Dynamic</dt><dd>Moved by gravity and collisions. Use for: players, enemies, falling rocks, projectiles.</dd>
+        <dt>Static</dt><dd>Does NOT move. Gravity ignored. Use for: floors, walls, ceilings, platforms.</dd>
+        <dt>Kinematic</dt><dd>Not affected by physics forces, but CAN be moved by code. Use for: moving platforms, elevators.</dd>
+      </dl>
+    </div>
+
+    <div class="callout callout-warning">
+      <div class="icon">&#9888;</div>
+      <div><strong>CRITICAL RULE:</strong> If your floor has a Dynamic Rigidbody, it will fall into the void when you press Play! Floors must be Static or have NO Rigidbody at all.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.1</div>
+      <div class="step-content"><strong>Check your ground.</strong> Click on it. Does it have a Rigidbody 2D? If yes, change the <strong>Body Type</strong> dropdown to <strong>"Static"</strong>. If it doesn't have a Rigidbody, that's fine — objects without Rigidbody are automatically treated as static.
+        <div class="detail"><strong>Quick rule:</strong> Things that MOVE = Dynamic Rigidbody. Things that DON'T MOVE = Static or no Rigidbody. Your ground stays put, so it should be Static.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.2</div>
+      <div class="step-content"><strong>The Great Fall experiment!</strong> Right-click in Hierarchy &rarr; <strong>2D Object</strong> &rarr; <strong>Sprites</strong> &rarr; <strong>Circle</strong>. This creates a white circle sprite. Rename it <strong>"Ball"</strong>.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.3</div>
+      <div class="step-content">Select the Ball. Add: <strong>Circle Collider 2D</strong> + <strong>Rigidbody 2D</strong> (Body Type: Dynamic). Move the Ball to a position ABOVE the ground.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.4</div>
+      <div class="step-content">Create a platform: Right-click &rarr; <strong>2D Object</strong> &rarr; <strong>Sprites</strong> &rarr; <strong>Square</strong>. Scale it wide (X: 3, Y: 0.3). Add <strong>Box Collider 2D</strong>. Position it between the ball and the ground at an angle using <strong>Rotate</strong> (<span class="key">E</span>).</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.5</div>
+      <div class="step-content">Press <strong>Play</strong>! The ball should fall, hit the angled platform, and <strong>roll/slide off</strong> before landing on the ground below.
+        <ul class="sub-list">
+          <li>Add more platforms at different angles to create a <strong>pinball-like course</strong></li>
+          <li>Duplicate the ball (<span class="key">Ctrl</span>+<span class="key">D</span>) and position copies at different heights</li>
+          <li>Experiment with different <strong>Gravity Scale</strong> values on each ball</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.6</div>
+      <div class="step-content">Try the <strong>Freeze Rotation Z</strong> constraint: Select your Player &rarr; Rigidbody 2D &rarr; Constraints &rarr; tick <strong>Freeze Rotation Z</strong>. This prevents your character from spinning when they collide with things (important for player characters!).</div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#10003;</div>
+      <div><strong>Checkpoint:</strong> "I understand Dynamic vs Static. I built a physics course with a falling ball."</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================================================================ -->
+<!-- SECTION 4: Physics Materials: Bounce & Slide                      -->
+<!-- ================================================================ -->
+<section class="tut-section" data-colour="amber" data-xp="10" id="tut4">
+  <div class="tut-header" onclick="toggleSection(this)">
+    <div class="tut-num">4</div>
+    <div class="tut-info">
+      <div class="tut-title">Physics Materials: Bounce &amp; Slide</div>
+      <div class="tut-time">~15 min &bull; Make objects bouncy, slippery, or sticky.</div>
+    </div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="vocab">
+      <h4>Key Terms for This Section</h4>
+      <dl>
+        <dt>Physics Material 2D</dt><dd>An asset that controls how surfaces interact — how bouncy and how slippery they are.</dd>
+        <dt>Bounciness</dt><dd>How much an object bounces. 0 = no bounce (thud). 1 = perfect bounce (bounces forever).</dd>
+        <dt>Friction</dt><dd>How grippy a surface is. 0 = ice (super slippery). 1 = sandpaper (very grippy).</dd>
+      </dl>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.1</div>
+      <div class="step-content">In the <strong>Project window</strong> (bottom), right-click on your <strong>Assets</strong> folder &rarr; <strong>Create</strong> &rarr; <strong>2D</strong> &rarr; <strong>Physics Material 2D</strong>. Name it <strong>"Bouncy"</strong>.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.2</div>
+      <div class="step-content">Click on the "Bouncy" material in the Project window. In the Inspector, set:
+        <ul class="sub-list">
+          <li><strong>Friction: 0.3</strong></li>
+          <li><strong>Bounciness: 0.8</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.3</div>
+      <div class="step-content">Select your <strong>Ball</strong> in the Hierarchy. In the Inspector, find the <strong>Circle Collider 2D</strong> component. There's a field called <strong>"Material"</strong> — drag the "Bouncy" material from the Project window into this slot.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.4</div>
+      <div class="step-content">Press <strong>Play</strong>! The ball should <strong>bounce</strong> when it hits the ground! It bounces multiple times, getting lower each time (because Bounciness is 0.8, not 1.0).</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.5</div>
+      <div class="step-content"><strong>Experiment time!</strong> Create two more Physics Materials:
+        <ul class="sub-list">
+          <li><strong>"Ice"</strong> — Bounciness: 0, Friction: 0 (super slippery, no bounce)</li>
+          <li><strong>"SuperBounce"</strong> — Bounciness: 1, Friction: 0.1 (bounces forever!)</li>
+        </ul>
+        Apply "Ice" to a platform and watch objects slide. Apply "SuperBounce" to a ball and watch it go crazy!
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.6</div>
+      <div class="step-content"><strong>Challenge:</strong> Can you make a ball bounce <strong>exactly 3 times</strong> before stopping? Adjust the Bounciness value — try 0.5, 0.6, 0.7... find the sweet spot!</div>
+    </div>
+
+    <div class="screenshot-box">
+      <div class="label">What you should see</div>
+      A ball bouncing on a platform. Physics Material 2D visible in the Project window. The ball's Collider shows the material assigned.
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#10003;</div>
+      <div><strong>Checkpoint:</strong> "I created a Physics Material, applied it to a collider, and my ball bounces!"</div>
+    </div>
+
+    <div class="callout callout-tip">
+      <div class="icon">&#128161;</div>
+      <div><strong>Pro tip:</strong> You can apply Physics Materials to ANY collider — ground, walls, platforms. An "Ice" floor + a bouncy ball = chaotic fun!</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================================================================ -->
+<!-- SECTION 5: Extension Challenges                                   -->
+<!-- ================================================================ -->
+<section class="tut-section" data-colour="pink" data-xp="10" id="tut5">
+  <div class="tut-header" onclick="toggleSection(this)">
+    <div class="tut-num">5</div>
+    <div class="tut-info">
+      <div class="tut-title">Extension Challenges</div>
+      <div class="tut-time">If time permits &bull; Push your physics skills further.</div>
+    </div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <p style="color:var(--muted);margin-bottom:14px;">These are <strong>bonus challenges</strong>. Only do them if you've finished Sections 1-4.</p>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">5.1</div>
+      <div class="step-content"><strong>Challenge 1: Rube Goldberg Machine.</strong> Build a chain reaction: a ball falls onto a seesaw, which launches another ball, which hits a domino stack. Use at least 5 physics objects in a sequence.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">5.2</div>
+      <div class="step-content"><strong>Challenge 2: Pinball Scene.</strong> Create a vertical scene with bumpers (circles with high bounciness), flippers (angled rectangles), and a ball that bounces around. Think classic pinball machine!</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">5.3</div>
+      <div class="step-content"><strong>Challenge 3: Variable Gravity.</strong> Create 3 balls with different Gravity Scale values (0.5, 1, 3). Drop them from the same height. Which lands first? Can you predict?</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">5.4</div>
+      <div class="step-content"><strong>Challenge 4: Polygon Collider.</strong> Import a complex-shaped sprite. Add a <strong>Polygon Collider 2D</strong> — watch how it traces the sprite's outline perfectly! Compare performance with a simple Box Collider.</div>
+    </div>
+
+    <div class="callout callout-extension">
+      <div class="icon">&#127918;</div>
+      <div><strong>Research:</strong> Look up "2D physics puzzle games" (like Angry Birds or Cut the Rope). How do they use Rigidbody, Colliders, and Physics Materials to create gameplay? Write a short paragraph.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================================================================ -->
+<!-- SUBMISSION GUIDE                                                  -->
+<!-- ================================================================ -->
+<div class="footer-section">
+  <h2>SUBMISSION GUIDE</h2>
+  <p style="margin-bottom:12px;color:var(--muted);">Take a screenshot of your physics scene and submit to Google Classroom.</p>
+  <ol class="submission-steps">
+    <li>Open your scene with physics objects visible. Press Play briefly to show physics working, then Stop.</li>
+    <li>Take a screenshot: <span class="key" style="display:inline;background:#1e293b;border:1px solid #334155;border-radius:4px;padding:1px 8px;font-size:.85rem;color:#fbbf24;font-weight:700;">Win</span>+<span class="key" style="display:inline;background:#1e293b;border:1px solid #334155;border-radius:4px;padding:1px 8px;font-size:.85rem;color:#fbbf24;font-weight:700;">Shift</span>+<span class="key" style="display:inline;background:#1e293b;border:1px solid #334155;border-radius:4px;padding:1px 8px;font-size:.85rem;color:#fbbf24;font-weight:700;">S</span></li>
+    <li>Open <strong>Google Classroom</strong> and find the T1-L05 assignment.</li>
+    <li>Upload your screenshot and click <strong>"Turn in"</strong>.</li>
+  </ol>
+</div>
+
+<!-- ================================================================ -->
+<!-- QUICK REFERENCE                                                   -->
+<!-- ================================================================ -->
+<div class="footer-section">
+  <h2>QUICK REFERENCE — PHYSICS ESSENTIALS</h2>
+
+  <h3>Components</h3>
+  <div class="shortcut-grid">
+    <div class="shortcut-item"><span class="action">Add component</span><span class="keys">Inspector &rarr; Add Component</span></div>
+    <div class="shortcut-item"><span class="action">Rigidbody 2D</span><span class="keys">Gravity + physics</span></div>
+    <div class="shortcut-item"><span class="action">Box Collider 2D</span><span class="keys">Rectangle boundary</span></div>
+    <div class="shortcut-item"><span class="action">Circle Collider 2D</span><span class="keys">Round boundary</span></div>
+  </div>
+
+  <h3>Body Types</h3>
+  <div class="shortcut-grid">
+    <div class="shortcut-item"><span class="action">Dynamic</span><span class="keys">Players, enemies, balls</span></div>
+    <div class="shortcut-item"><span class="action">Static</span><span class="keys">Floors, walls, platforms</span></div>
+    <div class="shortcut-item"><span class="action">Kinematic</span><span class="keys">Moving platforms</span></div>
+    <div class="shortcut-item"><span class="action">Freeze Rotation Z</span><span class="keys">Stop character spinning</span></div>
+  </div>
+
+  <h3>Physics Materials</h3>
+  <div class="shortcut-grid">
+    <div class="shortcut-item"><span class="action">Create material</span><span class="keys">Assets &rarr; Create &rarr; 2D</span></div>
+    <div class="shortcut-item"><span class="action">Bounciness</span><span class="keys">0 = thud, 1 = bounce</span></div>
+    <div class="shortcut-item"><span class="action">Friction</span><span class="keys">0 = ice, 1 = sandpaper</span></div>
+    <div class="shortcut-item"><span class="action">Apply to collider</span><span class="keys">Drag to Material slot</span></div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PROGRESS TRACKER                                                  -->
+<!-- ================================================================ -->
+<div class="footer-section">
+  <h2>PROGRESS TRACKER</h2>
+  <p style="margin-bottom:16px;color:var(--muted);">Tick off each section as you complete it. Aim for Sections 1-4 minimum!</p>
+  <div class="progress-grid">
+    <div class="progress-card">
+      <input type="checkbox" class="master-check" data-tut="1" onchange="updateMasterProgress(this)">
+      <span class="pc-label">Section 1 — Rigidbody 2D</span>
+      <span class="pc-xp">10 XP</span>
+    </div>
+    <div class="progress-card">
+      <input type="checkbox" class="master-check" data-tut="2" onchange="updateMasterProgress(this)">
+      <span class="pc-label">Section 2 — Colliders</span>
+      <span class="pc-xp">10 XP</span>
+    </div>
+    <div class="progress-card">
+      <input type="checkbox" class="master-check" data-tut="3" onchange="updateMasterProgress(this)">
+      <span class="pc-label">Section 3 — Body Types</span>
+      <span class="pc-xp">10 XP</span>
+    </div>
+    <div class="progress-card">
+      <input type="checkbox" class="master-check" data-tut="4" onchange="updateMasterProgress(this)">
+      <span class="pc-label">Section 4 — Physics Materials</span>
+      <span class="pc-xp">10 XP</span>
+    </div>
+    <div class="progress-card">
+      <input type="checkbox" class="master-check" data-tut="5" onchange="updateMasterProgress(this)">
+      <span class="pc-label">Section 5 — Extension</span>
+      <span class="pc-xp">10 XP</span>
+    </div>
+  </div>
+</div>
+
+<!-- Buttons -->
+<div class="btn-row no-print">
+  <button class="btn btn-neon" onclick="window.print()">&#128424; Save as PDF</button>
+  <button class="btn btn-blue" onclick="expandAll()">Expand All Sections</button>
+  <button class="btn btn-ghost" onclick="resetAll()">Reset Progress</button>
+</div>
+
+</div><!-- /container -->
+
+<script>
+function toggleSection(header){
+  header.closest('.tut-section').classList.toggle('open');
+}
+function expandAll(){
+  document.querySelectorAll('.tut-section').forEach(s=>s.classList.add('open'));
+}
+function updateProgress(){
+  const checks=document.querySelectorAll('.step-check input[type="checkbox"]');
+  const total=checks.length;
+  const done=[...checks].filter(c=>c.checked).length;
+  const pct=total?Math.round(done/total*100):0;
+  document.getElementById('progress-bar').style.width=pct+'%';
+}
+function updateXP(){
+  const masters=document.querySelectorAll('.master-check');
+  let xp=0;
+  masters.forEach(m=>{if(m.checked) xp+=10;});
+  document.getElementById('xp-display').textContent=xp;
+}
+function updateMasterProgress(cb){updateXP();}
+function resetAll(){
+  if(!confirm('Reset all checkboxes and progress?')) return;
+  document.querySelectorAll('input[type="checkbox"]').forEach(c=>c.checked=false);
+  document.getElementById('progress-bar').style.width='0%';
+  document.getElementById('xp-display').textContent='0';
+}
+</script>
+</body>
+</html>

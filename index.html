@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Year 9 Game On — Unity Tutorials</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #0f0f23;
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 0.3rem;
+            background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            text-align: center;
+            color: #888;
+            font-size: 1rem;
+            margin-bottom: 2.5rem;
+        }
+        .phase {
+            margin-bottom: 2rem;
+        }
+        .phase-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #00d4ff;
+            margin-bottom: 0.8rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 1px solid #2a2a4a;
+        }
+        .tutorials {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 0.6rem;
+        }
+        .tutorial-link {
+            display: block;
+            padding: 0.8rem 1rem;
+            background: #1a1a2e;
+            border: 1px solid #2a2a4a;
+            border-radius: 8px;
+            color: #e0e0e0;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .tutorial-link:hover {
+            background: #252545;
+            border-color: #7b2ff7;
+            transform: translateY(-1px);
+        }
+        .lesson-num {
+            font-size: 0.75rem;
+            color: #7b2ff7;
+            font-weight: 600;
+        }
+        .lesson-title {
+            font-size: 0.95rem;
+            margin-top: 0.2rem;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: #555;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 Year 9 Game On</h1>
+        <p class="subtitle">Unity Game Development Tutorials — Term 1</p>
+
+        <div class="phase">
+            <div class="phase-title">🔧 Phase 1: Unity Foundations (Weeks 3–5)</div>
+            <div class="tutorials">
+                <a class="tutorial-link" href="T1-L03-EditorEssentials-Tutorial.html">
+                    <span class="lesson-num">Lesson 3</span>
+                    <div class="lesson-title">Editor Essentials</div>
+                </a>
+                <a class="tutorial-link" href="T1-L04-2DSprites-Tutorial.html">
+                    <span class="lesson-num">Lesson 4</span>
+                    <div class="lesson-title">2D Sprites</div>
+                </a>
+                <a class="tutorial-link" href="T1-L05-Physics-Tutorial.html">
+                    <span class="lesson-num">Lesson 5</span>
+                    <div class="lesson-title">Physics</div>
+                </a>
+                <a class="tutorial-link" href="T1-L06-CSharp-Tutorial.html">
+                    <span class="lesson-num">Lesson 6</span>
+                    <div class="lesson-title">C# Scripting Basics</div>
+                </a>
+            </div>
+        </div>
+
+        <div class="phase">
+            <div class="phase-title">⚙️ Phase 2: Core Mechanics (Weeks 6–8)</div>
+            <div class="tutorials">
+                <a class="tutorial-link" href="T1-L07-Variables-Tutorial.html">
+                    <span class="lesson-num">Lesson 7</span>
+                    <div class="lesson-title">Variables & Data Types</div>
+                </a>
+                <a class="tutorial-link" href="T1-L08-Conditionals-Tutorial.html">
+                    <span class="lesson-num">Lesson 8</span>
+                    <div class="lesson-title">Conditionals</div>
+                </a>
+                <a class="tutorial-link" href="T1-L09-GameDesign-Tutorial.html">
+                    <span class="lesson-num">Lesson 9</span>
+                    <div class="lesson-title">Game Design</div>
+                </a>
+                <a class="tutorial-link" href="T1-L10-Prefabs-Tutorial.html">
+                    <span class="lesson-num">Lesson 10</span>
+                    <div class="lesson-title">Prefabs</div>
+                </a>
+                <a class="tutorial-link" href="T1-L11-SpriteAnimation-Tutorial.html">
+                    <span class="lesson-num">Lesson 11</span>
+                    <div class="lesson-title">Sprite Animation</div>
+                </a>
+                <a class="tutorial-link" href="T1-L12-Tilemap-Tutorial.html">
+                    <span class="lesson-num">Lesson 12</span>
+                    <div class="lesson-title">Tilemap</div>
+                </a>
+            </div>
+        </div>
+
+        <div class="phase">
+            <div class="phase-title">🎨 Phase 3: Polish & UI (Weeks 9–10)</div>
+            <div class="tutorials">
+                <a class="tutorial-link" href="T1-L13-UI-Tutorial.html">
+                    <span class="lesson-num">Lesson 13</span>
+                    <div class="lesson-title">UI Systems</div>
+                </a>
+                <a class="tutorial-link" href="T1-L14-SoundParticles-Tutorial.html">
+                    <span class="lesson-num">Lesson 14</span>
+                    <div class="lesson-title">Sound & Particles</div>
+                </a>
+                <a class="tutorial-link" href="T1-L15-GameOverMenus-Tutorial.html">
+                    <span class="lesson-num">Lesson 15</span>
+                    <div class="lesson-title">Game Over & Menus</div>
+                </a>
+                <a class="tutorial-link" href="T1-L16-GDD-Tutorial.html">
+                    <span class="lesson-num">Lesson 16</span>
+                    <div class="lesson-title">Game Design Document</div>
+                </a>
+            </div>
+        </div>
+
+        <div class="phase">
+            <div class="phase-title">🚀 Phase 4: Build Sprint & Showcase (Weeks 11–13)</div>
+            <div class="tutorials">
+                <a class="tutorial-link" href="T1-L17-Sprint1-Tutorial.html">
+                    <span class="lesson-num">Lesson 17</span>
+                    <div class="lesson-title">Sprint 1</div>
+                </a>
+                <a class="tutorial-link" href="T1-L18-Sprint2-Tutorial.html">
+                    <span class="lesson-num">Lesson 18</span>
+                    <div class="lesson-title">Sprint 2</div>
+                </a>
+                <a class="tutorial-link" href="T1-L19-Sprint3-Tutorial.html">
+                    <span class="lesson-num">Lesson 19</span>
+                    <div class="lesson-title">Sprint 3</div>
+                </a>
+                <a class="tutorial-link" href="T1-L20-Sprint4-Tutorial.html">
+                    <span class="lesson-num">Lesson 20</span>
+                    <div class="lesson-title">Sprint 4</div>
+                </a>
+                <a class="tutorial-link" href="T1-L21-Showcase-Tutorial.html">
+                    <span class="lesson-num">Lesson 21</span>
+                    <div class="lesson-title">Showcase</div>
+                </a>
+                <a class="tutorial-link" href="T1-L22-Reflection-Tutorial.html">
+                    <span class="lesson-num">Lesson 22</span>
+                    <div class="lesson-title">Reflection</div>
+                </a>
+            </div>
+        </div>
+
+        <div class="footer">
+            Year 9 Game On — Arthur Phillip High School — 2026
+        </div>
+    </div>
+</body>
+</html>

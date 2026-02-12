@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T1-L04 — Starting Your 2D Game: Project Setup &amp; Sprites Tutorial</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0f172a; --dark:#1e293b; --card:#1e293b; --border:#334155;
+  --neon:#4ade80; --blue:#38bdf8; --purple:#a78bfa; --amber:#fbbf24;
+  --pink:#f472b6; --red:#ef4444; --white:#f1f5f9; --muted:#94a3b8;
+  --font-head:'Orbitron',sans-serif; --font-body:'Roboto Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:15px;line-height:1.7;}
+a{color:var(--blue);text-decoration:none;}
+a:hover{text-decoration:underline;}
+
+#progress-bar-wrap{position:fixed;top:0;left:0;width:100%;height:6px;background:var(--dark);z-index:9999;}
+#progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--neon),var(--blue));transition:width .4s;}
+
+.hero{text-align:center;padding:80px 20px 40px;background:linear-gradient(180deg,rgba(74,222,128,.08) 0%,transparent 100%);}
+.hero h1{font-family:var(--font-head);font-size:2.4rem;font-weight:900;background:linear-gradient(135deg,var(--neon),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px;}
+.hero .sub{color:var(--muted);font-size:.95rem;margin-bottom:24px;}
+.hero .meta{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;}
+.hero .tag{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.8rem;color:var(--muted);}
+.hero .tag b{color:var(--neon);}
+
+.xp-tracker{display:flex;justify-content:center;align-items:center;gap:16px;margin:30px auto;padding:16px 24px;background:var(--dark);border:1px solid var(--border);border-radius:12px;max-width:500px;}
+.xp-tracker .xp-label{font-family:var(--font-head);font-size:1rem;color:var(--amber);}
+.xp-tracker .xp-val{font-family:var(--font-head);font-size:1.6rem;font-weight:900;color:var(--neon);}
+.xp-tracker .xp-max{color:var(--muted);font-size:.85rem;}
+
+.container{max-width:880px;margin:0 auto;padding:0 20px 60px;}
+
+.tut-section{margin:40px 0;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--dark);}
+.tut-header{padding:20px 24px;display:flex;align-items:center;gap:16px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border);}
+.tut-header .tut-num{font-family:var(--font-head);font-size:1.6rem;font-weight:900;color:var(--navy);background:var(--neon);border-radius:10px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.tut-section[data-colour="blue"] .tut-num{background:var(--blue);}
+.tut-section[data-colour="purple"] .tut-num{background:var(--purple);}
+.tut-section[data-colour="amber"] .tut-num{background:var(--amber);}
+.tut-section[data-colour="pink"] .tut-num{background:var(--pink);}
+.tut-section[data-colour="red"] .tut-num{background:var(--red);color:var(--white);}
+.tut-header .tut-info{flex:1;}
+.tut-header .tut-title{font-family:var(--font-head);font-size:1.05rem;font-weight:700;color:var(--white);}
+.tut-header .tut-time{font-size:.8rem;color:var(--muted);margin-top:2px;}
+.tut-header .xp-badge{font-family:var(--font-head);background:rgba(251,191,36,.15);color:var(--amber);padding:4px 12px;border-radius:8px;font-size:.85rem;font-weight:700;flex-shrink:0;}
+.tut-header .chevron{color:var(--muted);font-size:1.4rem;transition:transform .3s;flex-shrink:0;}
+.tut-section.open .chevron{transform:rotate(90deg);}
+.tut-body{padding:0 24px 24px;display:none;}
+.tut-section.open .tut-body{display:block;}
+
+.step{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid rgba(51,65,85,.5);}
+.step:last-child{border-bottom:none;}
+.step-check{flex-shrink:0;margin-top:3px;}
+.step-check input[type="checkbox"]{width:20px;height:20px;accent-color:var(--neon);cursor:pointer;}
+.step-num{font-family:var(--font-head);font-size:.75rem;color:var(--neon);background:rgba(74,222,128,.1);border-radius:6px;padding:2px 8px;height:fit-content;flex-shrink:0;margin-top:2px;}
+.step-content{flex:1;}
+.step-content strong{color:var(--neon);}
+.step-content .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:1px 8px;font-size:.85rem;color:var(--amber);font-weight:700;margin:0 2px;}
+.step-content .sub-list{margin:8px 0 0 0;list-style:none;}
+.step-content .sub-list li{padding:4px 0;color:var(--muted);font-size:.9rem;}
+.step-content .sub-list li::before{content:'\25B8 ';color:var(--blue);}
+.step-content .sub-list li strong{color:var(--white);}
+.step-content em{color:var(--muted);}
+
+.detail{margin:6px 0 0 0;padding:8px 12px;background:rgba(15,23,42,.6);border-left:3px solid var(--blue);border-radius:0 6px 6px 0;font-size:.88rem;color:var(--muted);}
+.detail strong{color:var(--blue);}
+
+.screenshot-box{margin:12px 0;border:2px dashed var(--border);border-radius:12px;padding:20px;text-align:center;color:var(--muted);font-size:.88rem;background:rgba(15,23,42,.5);}
+.screenshot-box .label{font-family:var(--font-head);font-size:.7rem;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+
+.callout{margin:16px 0;padding:14px 18px;border-radius:10px;font-size:.9rem;display:flex;gap:12px;align-items:flex-start;}
+.callout .icon{font-size:1.2rem;flex-shrink:0;}
+.callout-checkpoint{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);}
+.callout-checkpoint .icon{color:var(--neon);}
+.callout-trouble{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);}
+.callout-trouble .icon{color:var(--red);}
+.callout-tip{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);}
+.callout-tip .icon{color:var(--blue);}
+.callout-challenge{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);}
+.callout-challenge .icon{color:var(--amber);}
+.callout-extension{background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);}
+.callout-extension .icon{color:var(--purple);}
+.callout-warning{background:rgba(239,68,68,.12);border:2px solid rgba(239,68,68,.4);}
+.callout-warning .icon{color:var(--red);}
+
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);border-radius:10px;}
+.vocab h4{font-family:var(--font-head);font-size:.8rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}
+.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:.88rem;}
+.vocab dt{color:var(--amber);font-weight:700;}
+.vocab dd{color:var(--muted);}
+
+.footer-section{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;}
+.footer-section h2{font-family:var(--font-head);font-size:1.2rem;margin-bottom:16px;color:var(--neon);}
+.footer-section h3{font-family:var(--font-head);font-size:.95rem;margin:16px 0 8px;color:var(--blue);}
+
+.shortcut-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;}
+.shortcut-item{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--navy);border-radius:8px;border:1px solid var(--border);}
+.shortcut-item .action{color:var(--muted);font-size:.85rem;}
+.shortcut-item .keys{color:var(--amber);font-family:var(--font-head);font-size:.8rem;}
+
+.progress-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;}
+.progress-card{display:flex;align-items:center;gap:12px;padding:12px;background:var(--navy);border-radius:10px;border:1px solid var(--border);}
+.progress-card input[type="checkbox"]{width:22px;height:22px;accent-color:var(--neon);}
+.progress-card .pc-label{flex:1;font-size:.9rem;}
+.progress-card .pc-xp{font-family:var(--font-head);color:var(--amber);font-size:.85rem;}
+
+.btn{display:inline-block;padding:10px 24px;border-radius:8px;border:none;font-family:var(--font-head);font-size:.85rem;cursor:pointer;font-weight:700;transition:transform .15s;}
+.btn:hover{transform:translateY(-2px);}
+.btn-neon{background:var(--neon);color:var(--navy);}
+.btn-blue{background:var(--blue);color:var(--navy);}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted);}
+.btn-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;justify-content:center;}
+
+.submission-steps{counter-reset:sub;}
+.submission-steps li{list-style:none;padding:8px 0;display:flex;gap:12px;align-items:flex-start;}
+.submission-steps li::before{counter-increment:sub;content:counter(sub);font-family:var(--font-head);font-size:.75rem;background:var(--blue);color:var(--navy);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;}
+
+@media print{
+  *{color:#111!important;background:#fff!important;border-color:#ccc!important;-webkit-text-fill-color:#111!important;}
+  body{font-size:10pt;line-height:1.5;}
+  #progress-bar-wrap,.btn-row,.no-print{display:none!important;}
+  .hero{padding:20px 0;border-bottom:2px solid #111;}
+  .hero h1{font-size:16pt;-webkit-text-fill-color:#111!important;background:none!important;}
+  .tut-section{break-inside:avoid;border:1px solid #999;margin:12px 0;}
+  .tut-section.open .tut-body,.tut-body{display:block!important;}
+  .tut-header .chevron{display:none;}
+  .tut-num{background:#ddd!important;color:#111!important;}
+  .callout{border:1px solid #999;background:#f9f9f9!important;}
+  .footer-section{break-inside:avoid;border:1px solid #999;}
+  .shortcut-item,.progress-card{border:1px solid #aaa;background:#f5f5f5!important;}
+  .step-content .key{background:#eee!important;border:1px solid #999;color:#111!important;}
+  .detail{background:#f5f5f5!important;border-left:3px solid #333;}
+  .screenshot-box{border:2px dashed #999;}
+  .vocab{background:#f5f5f5!important;border:1px solid #999;}
+}
+</style>
+</head>
+<body>
+
+<!-- Progress Bar -->
+<div id="progress-bar-wrap"><div id="progress-bar"></div></div>
+
+<!-- Hero -->
+<div class="hero">
+  <h1>STARTING YOUR 2D GAME</h1>
+  <p class="sub">Your complete step-by-step walkthrough — follow at your own pace, tick every box</p>
+  <div class="meta">
+    <span class="tag"><b>Course:</b> Game On (9GAMZA)</span>
+    <span class="tag"><b>Lesson:</b> T1 — L04</span>
+    <span class="tag"><b>Time:</b> ~75 min</span>
+    <span class="tag"><b>Unity:</b> 2022.3.x</span>
+    <span class="tag"><b>Outcomes:</b> G5-1, G5-2, G5-3</span>
+  </div>
+</div>
+
+<!-- XP Tracker -->
+<div class="xp-tracker">
+  <span class="xp-label">TOTAL XP</span>
+  <span class="xp-val" id="xp-display">0</span>
+  <span class="xp-max">/ 50 XP</span>
+</div>
+
+<div class="container">
+
+<!-- ================================================================ -->
+<!-- SECTION 1: Create Your 2D Project                                -->
+<!-- ================================================================ -->
+<section class="tut-section open" data-colour="green" data-xp="10" id="tut1">
+  <div class="tut-header" onclick="toggleSection(this)">
+    <div class="tut-num">1</div>
+    <div class="tut-info">
+      <div class="tut-title">Create Your 2D Project</div>
+      <div class="tut-time">~10 min &bull; Set up a brand-new 2D project in Unity Hub.</div>
+    </div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="vocab">
+      <h4>Key Terms for This Section</h4>
+      <dl>
+        <dt>2D Game</dt><dd>A flat game where everything is images (sprites), not 3D models. Think Terraria, Hollow Knight, Celeste.</dd>
+        <dt>Template</dt><dd>A pre-made project setup with the right settings already configured for a specific type of game.</dd>
+        <dt>Sprite</dt><dd>A 2D image used in a game — characters, backgrounds, tiles, and objects are all sprites.</dd>
+        <dt>Orthographic Camera</dt><dd>A flat camera with no perspective distortion — everything stays the same size regardless of distance.</dd>
+      </dl>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.1</div>
+      <div class="step-content">Open <strong>Unity Hub</strong> (the launcher app, not the Unity Editor itself).
+        <div class="detail"><strong>Can't find it?</strong> Look for the Unity Hub icon on your Desktop or taskbar. If it's not there, click the Windows Start button and type "Unity Hub".</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.2</div>
+      <div class="step-content">Click <strong>"New project"</strong> (blue button, top-right corner of Unity Hub). Make sure <strong>Unity 2022.3.x</strong> is selected in the "Editor Version" dropdown at the top.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.3</div>
+      <div class="step-content">In the template list, find and click <strong>"2D Core"</strong>. This is different from 3D!
+        <div class="detail"><strong>If "2D Core" doesn't appear:</strong> Click the download icon next to it — templates sometimes need to be downloaded first. If you still can't find it, try "2D (Built-in Render Pipeline)" instead.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.4</div>
+      <div class="step-content"><strong>Name your project.</strong> Type <strong>MyFirstGame</strong> (or your own name — avoid spaces). Choose a save location (the default is fine).</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.5</div>
+      <div class="step-content">Click <strong>"Create project"</strong>. Unity will open and import assets. <strong>This takes 1–2 minutes.</strong> Do NOT click anything while it loads — watch the progress bar at the bottom.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.6</div>
+      <div class="step-content">Unity is open! You should see a mostly <strong>empty 2D scene</strong>. The Scene View background is a solid colour (usually dark blue). Notice: no 3D objects, no robot, no playground — this is your <strong>blank canvas</strong>!</div>
+    </div>
+
+    <div class="screenshot-box">
+      <div class="label">What you should see</div>
+      Unity Editor with an empty 2D scene. The Scene View is flat with a white rectangle outline (the camera view). The Hierarchy shows only "Main Camera".
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#10003;</div>
+      <div><strong>Checkpoint:</strong> "I have a 2D project open in Unity. The Scene View looks flat, not 3D."</div>
+    </div>
+
+    <div class="callout callout-trouble">
+      <div class="icon">&#9888;</div>
+      <div><strong>Troubleshooting:</strong>
+        <ul class="sub-list">
+          <li><strong>2D Core template missing?</strong> Close Unity Hub, reopen it, check for updates. OR try "2D (Built-in Render Pipeline)" template instead.</li>
+          <li><strong>Project stuck on loading?</strong> Be patient — first-time setup takes longer. If frozen for 5+ minutes, close and reopen Unity Hub.</li>
+          <li><strong>See a 3D scene instead?</strong> You picked the wrong template. File &rarr; New Project &rarr; choose "2D Core" this time.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================================================================ -->
+<!-- SECTION 2: The 2D World                                          -->
+<!-- ================================================================ -->
+<section class="tut-section" data-colour="blue" data-xp="10" id="tut2">
+  <div class="tut-header" onclick="toggleSection(this)">
+    <div class="tut-num">2</div>
+    <div class="tut-info">
+      <div class="tut-title">The 2D World</div>
+      <div class="tut-time">~10 min &bull; Understand coordinates, the orthographic camera, and how 2D differs from 3D.</div>
+    </div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="vocab">
+      <h4>Key Terms for This Section</h4>
+      <dl>
+        <dt>Cartesian Plane</dt><dd>The X/Y coordinate grid used to position everything in 2D space.</dd>
+        <dt>X-axis</dt><dd>Horizontal — left is negative, right is positive.</dd>
+        <dt>Y-axis</dt><dd>Vertical — down is negative, up is positive.</dd>
+        <dt>Origin (0, 0)</dt><dd>The exact centre of the 2D world where X and Y both equal zero.</dd>
+      </dl>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.1</div>
+      <div class="step-content">Look at your <strong>Scene View</strong> (centre panel). Notice it's flat — no depth, no 3D perspective. This is because 2D games use an <strong>Orthographic camera</strong>.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.2</div>
+      <div class="step-content">In the <strong>Hierarchy</strong> (left panel), click on <strong>"Main Camera"</strong>. Look at the <strong>Inspector</strong> (right panel). You'll see a <strong>Camera</strong> component. Find the field that says <strong>"Projection: Orthographic"</strong>.
+        <div class="detail"><strong>3D vs 2D cameras:</strong> In L03's 3D project, the camera used "Perspective" projection — far things looked smaller. In 2D, "Orthographic" means everything stays the same size regardless of distance. No depth illusion!</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.3</div>
+      <div class="step-content">Still looking at the Camera component in the Inspector, find <strong>"Background"</strong> — it shows a colour swatch. <strong>Click the colour swatch</strong> to open the colour picker. Choose a sky blue or any colour you like!
+        <div class="detail"><strong>This background colour</strong> is what the player sees behind all your sprites. A sky-blue (#87CEEB) works well for platformers, dark blue (#1a1a2e) for space games!</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.4</div>
+      <div class="step-content"><strong>Understand the coordinate system.</strong> In 2D Unity:
+        <ul class="sub-list">
+          <li><strong>X = horizontal</strong> (positive = right, negative = left)</li>
+          <li><strong>Y = vertical</strong> (positive = up, negative = down)</li>
+          <li><strong>Origin (0, 0)</strong> = the dead centre of the world</li>
+          <li>Position (5, 0) = 5 units to the right of centre</li>
+          <li>Position (0, -3) = 3 units below centre</li>
+          <li>Position (-2, 4) = 2 units left and 4 units up</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.5</div>
+      <div class="step-content">Click on <strong>Main Camera</strong> in the Hierarchy. Look at the <strong>Transform</strong> component in the Inspector. The Position should be <strong>X: 0, Y: 0, Z: -10</strong>.
+        <div class="detail"><strong>Wait — Z: -10?</strong> In 2D, the camera sits "behind" the scene at Z = -10, looking forward at Z = 0. Everything in your game lives on the X/Y plane at Z = 0. You won't usually touch the Z value of the camera.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.6</div>
+      <div class="step-content">In the Scene View, check the <strong>Scene view gizmo</strong> (colourful cube, upper-right corner). In 2D, the camera should be looking straight at the XY plane. If your scene looks weird, click the <strong>blue cone (Z)</strong> on the gizmo to snap to the front view.</div>
+    </div>
+
+    <div class="screenshot-box">
+      <div class="label">What your Inspector should show</div>
+      Main Camera selected. Camera component with Projection: Orthographic. Background colour changed to your chosen colour.
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#10003;</div>
+      <div><strong>Checkpoint:</strong> "I understand that 2D uses X/Y coordinates. I changed my camera background colour."</div>
+    </div>
+
+    <div class="callout callout-tip">
+      <div class="icon">&#128161;</div>
+      <div><strong>3D vs 2D quick comparison:</strong> In 3D you use X, Y AND Z to position objects in space. In 2D you mainly use X and Y. The Z axis is only used for layer ordering (which sprite appears in front). Think of 2D like a flat painting — everything is on the same wall, arranged left/right and up/down.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================================================================ -->
+<!-- SECTION 3: Import Your First Sprites                             -->
+<!-- ================================================================ -->
+<section class="tut-section" data-colour="purple" data-xp="10" id="tut3">
+  <div class="tut-header" onclick="toggleSection(this)">
+    <div class="tut-num">3</div>
+    <div class="tut-info">
+      <div class="tut-title">Import Your First Sprites</div>
+      <div class="tut-time">~15 min &bull; Find sprites, import them into Unity, and place them in your scene.</div>
+    </div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="vocab">
+      <h4>Key Terms for This Section</h4>
+      <dl>
+        <dt>Sprite Renderer</dt><dd>The Unity component that displays a sprite image on screen. Every sprite in the scene has one.</dd>
+        <dt>Pixels Per Unit</dt><dd>How many pixels in the image equal 1 Unity unit. Default is 100. Higher PPU = smaller sprite in scene.</dd>
+        <dt>Sorting Layer</dt><dd>A named layer that controls what appears in front — like layers in Photoshop.</dd>
+        <dt>Order in Layer</dt><dd>A number within the same Sorting Layer. Higher number = displayed in front.</dd>
+      </dl>
+    </div>
+
+    <div class="callout callout-warning">
+      <div class="icon">📦</div>
+      <div><strong>Before you start:</strong> Your teacher has uploaded a <strong>sprite assets pack</strong> to <strong>Google Classroom</strong>. Go to Google Classroom now, find the assets link for this lesson, and download the pack before continuing.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.1</div>
+      <div class="step-content"><strong>Download your sprites.</strong> Open <strong>Google Classroom</strong> and find the assets link for T1-L04. Download and unzip the sprite pack to a folder you can find easily (e.g. Desktop or Downloads).
+        <div class="detail"><strong>Want more sprites?</strong> You can also browse <strong>kenney.nl/assets</strong> for free game art — packs like "Platformer Art Deluxe" or "Simplified Platformer Pack" include player characters, ground tiles, backgrounds, and props.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.2</div>
+      <div class="step-content">In Unity, look at the <strong>Project window</strong> (bottom panel). You should see an <strong>Assets</strong> folder. Right-click on <strong>Assets</strong> &rarr; <strong>Create</strong> &rarr; <strong>Folder</strong>. Name it <strong>"Sprites"</strong>.
+        <div class="detail"><strong>Organisation tip:</strong> Keeping your project organised from the start is a great habit! Professional game developers always use folders for sprites, scripts, scenes, etc.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.3</div>
+      <div class="step-content">Open <strong>File Explorer</strong> (<span class="key">Win</span>+<span class="key">E</span>). Find the sprite images you downloaded. <strong>Select all the images</strong> (<span class="key">Ctrl</span>+<span class="key">A</span>) and <strong>drag them</strong> from File Explorer directly into the <strong>Sprites</strong> folder in Unity's Project window.
+        <ul class="sub-list">
+          <li>Unity will import them automatically</li>
+          <li>You'll see a brief progress bar at the bottom</li>
+          <li>Each image becomes a Sprite asset in Unity</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.4</div>
+      <div class="step-content">Click on any imported sprite in the Project window. Look at the <strong>Inspector</strong> — you'll see the <strong>Sprite Import Settings</strong>:
+        <ul class="sub-list">
+          <li><strong>Texture Type: Sprite (2D and UI)</strong> — already correct since you're in a 2D project</li>
+          <li><strong>Pixels Per Unit: 100</strong> — 100 pixels in the image = 1 Unity unit</li>
+          <li><strong>Filter Mode: Point (no filter)</strong> for pixel art, or <strong>Bilinear</strong> for smooth art</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.5</div>
+      <div class="step-content"><strong>Place your first sprite in the scene!</strong> From the Project window, <strong>drag a sprite</strong> directly into the <strong>Scene View</strong> (centre panel). A new GameObject appears!
+        <ul class="sub-list">
+          <li>The Hierarchy now shows a new object with the sprite's name</li>
+          <li>The Inspector shows a <strong>Sprite Renderer</strong> component</li>
+          <li>The sprite is visible in the Scene View!</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.6</div>
+      <div class="step-content">Click the sprite in the Scene View (or Hierarchy). Look at the <strong>Inspector</strong> &rarr; <strong>Sprite Renderer</strong> component. Find these fields:
+        <ul class="sub-list">
+          <li><strong>Sprite</strong> — which image is displayed</li>
+          <li><strong>Color</strong> — you can tint the sprite (leave as white for normal)</li>
+          <li><strong>Flip X / Flip Y</strong> — mirror the sprite horizontally or vertically</li>
+          <li><strong>Sorting Layer</strong> — which layer (Default by default)</li>
+          <li><strong>Order in Layer</strong> — number within the layer (0 by default)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.7</div>
+      <div class="step-content"><strong>Add a second sprite.</strong> Drag another image from the Project window into the Scene. Position it using the <strong>Move tool</strong> (press <span class="key">W</span>, drag the coloured arrows).
+        <div class="detail"><strong>Remember from L03:</strong> Red arrow = X (horizontal), Green arrow = Y (vertical). The blue arrow is Z — don't touch this in 2D!</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.8</div>
+      <div class="step-content"><strong>Test the layering.</strong> Move one sprite on top of the other. Which one is in front? The one with the <strong>higher Order in Layer</strong> number wins. Try it: select a sprite &rarr; Inspector &rarr; Sprite Renderer &rarr; Order in Layer &rarr; type <strong>1</strong> instead of 0.</div>
+    </div>
+
+    <div class="screenshot-box">
+      <div class="label">What you should see</div>
+      Scene View showing 2+ sprites placed in your scene. Inspector shows Sprite Renderer with Sorting Layer and Order in Layer fields visible.
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#10003;</div>
+      <div><strong>Checkpoint:</strong> "I have at least 2 sprites imported and placed in my scene. I understand that Order in Layer controls which is in front."</div>
+    </div>
+
+    <div class="callout callout-trouble">
+      <div class="icon">&#9888;</div>
+      <div><strong>Troubleshooting:</strong>
+        <ul class="sub-list">
+          <li><strong>Sprites look blurry?</strong> Select sprite in Project window &rarr; Inspector &rarr; Filter Mode &rarr; change to "Point (no filter)" &rarr; click Apply</li>
+          <li><strong>Sprites are HUGE or tiny?</strong> Check Pixels Per Unit. For pixel art, try 16 or 32 instead of 100. For HD art, keep 100.</li>
+          <li><strong>Can't see the sprite?</strong> It might be off-camera. Select it in the Hierarchy, press <span class="key">F</span> to frame it, then move it within the camera view.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================================================================ -->
+<!-- SECTION 4: Build Your Game World — Lab                           -->
+<!-- ================================================================ -->
+<section class="tut-section" data-colour="amber" data-xp="10" id="tut4">
+  <div class="tut-header" onclick="toggleSection(this)">
+    <div class="tut-num">4</div>
+    <div class="tut-info">
+      <div class="tut-title">Build Your Game World — Lab</div>
+      <div class="tut-time">~25 min &bull; Create a complete 2D scene with sorting layers, background, ground, player, and decorations.</div>
+    </div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="callout callout-tip">
+      <div class="icon">&#127918;</div>
+      <div><strong>Lab Goal:</strong> Build a simple 2D game world with a background, ground/platform, player character, and at least 2 decoration sprites — all correctly layered!</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.1</div>
+      <div class="step-content"><strong>Set up Sorting Layers.</strong> Go to <strong>Edit</strong> menu (top) &rarr; <strong>Project Settings</strong> &rarr; <strong>Tags and Layers</strong> (left sidebar) &rarr; expand <strong>Sorting Layers</strong>. Add these layers IN THIS ORDER (click the + button):
+        <ul class="sub-list">
+          <li><strong>Background</strong> (add first — this will render at the back)</li>
+          <li><strong>Midground</strong></li>
+          <li><strong>Foreground</strong></li>
+          <li><strong>Player</strong> (add last — this will render in front)</li>
+        </ul>
+        <div class="detail"><strong>How Sorting Layers work:</strong> Layers at the TOP of the list render BEHIND layers at the BOTTOM. So "Background" (top) is behind everything, and "Player" (bottom) is in front of everything. Like stacking sheets of paper!</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.2</div>
+      <div class="step-content"><strong>Place your background.</strong> Drag a background sprite (sky, clouds, or a scenery image) into the Scene. In the Inspector &rarr; Sprite Renderer &rarr; set <strong>Sorting Layer</strong> to <strong>"Background"</strong>. Use the <strong>Scale tool</strong> (press <span class="key">R</span>) to make it fill the camera view.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.3</div>
+      <div class="step-content"><strong>Create ground.</strong> Drag a ground/platform sprite into the Scene. Set Sorting Layer to <strong>"Midground"</strong>. Position it near the bottom of the camera view using the Move tool (<span class="key">W</span>).
+        <div class="detail"><strong>Tip:</strong> You can duplicate a ground sprite with <span class="key">Ctrl</span>+<span class="key">D</span> and place copies side by side to create a longer platform!</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.4</div>
+      <div class="step-content"><strong>Place your player character.</strong> Drag a character sprite into the Scene. Set Sorting Layer to <strong>"Player"</strong>. Position them standing on top of the ground. Rename the GameObject: click the name in the Hierarchy &rarr; type <strong>"Player"</strong>.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.5</div>
+      <div class="step-content"><strong>Add decorations.</strong> Drag 2–3 more sprites in (trees, bushes, clouds, coins, anything!). Set their Sorting Layers appropriately — things behind the player go on "Midground", things in front on "Foreground".</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.6</div>
+      <div class="step-content"><strong>The Identity Sprite Challenge!</strong> Select your Player character. Duplicate it 3 times (<span class="key">Ctrl</span>+<span class="key">D</span> three times). Now modify each copy:
+        <ul class="sub-list">
+          <li><strong>Copy 1:</strong> Use Scale (<span class="key">R</span>) &rarr; make it <strong>2x bigger</strong> (set Scale to 2, 2, 1 in the Inspector)</li>
+          <li><strong>Copy 2:</strong> Use Scale (<span class="key">R</span>) &rarr; make it <strong>half size</strong> (set Scale to 0.5, 0.5, 1 in the Inspector)</li>
+          <li><strong>Copy 3:</strong> In Inspector &rarr; Sprite Renderer &rarr; tick <strong>Flip X</strong> to mirror it horizontally</li>
+        </ul>
+        Position all 4 versions in a row. Take a screenshot of this!
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.7</div>
+      <div class="step-content"><strong>Clean up.</strong> Delete the 3 extra copies (select each &rarr; press <span class="key">Delete</span> key). Keep just your original Player character and your scene layout.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.8</div>
+      <div class="step-content"><strong>Save your scene!</strong> Press <span class="key">Ctrl</span>+<span class="key">S</span>. If Unity asks for a name, type <strong>"Level1"</strong> and save it in your project's Scenes folder.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.9</div>
+      <div class="step-content"><strong>Test in Play Mode!</strong> Click the <strong>&#9654; Play button</strong> at the top centre. You should see your scene through the camera. Nothing moves yet (we'll add that next lesson!), but check: Is the layering correct? Can you see all your sprites? Click <strong>&#9632; Stop</strong> when done.</div>
+    </div>
+
+    <div class="screenshot-box">
+      <div class="label">Your completed scene should have</div>
+      A background covering the camera view, ground along the bottom, a player character standing on the ground, and 2-3 decoration sprites. Everything layered correctly — background behind, player in front.
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#10003;</div>
+      <div><strong>Checkpoint:</strong> "My scene has a background, ground, player, and decorations. Sorting layers are correct — background is behind, player is in front. Scene is saved!"</div>
+    </div>
+
+    <div class="callout callout-tip">
+      <div class="icon">&#128161;</div>
+      <div><strong>Layer check:</strong> Click on each sprite and look at the Sorting Layer field in the Inspector. Background sprites should be on "Background", ground on "Midground", player on "Player". If something looks wrong, change the Sorting Layer — it updates instantly!</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================================================================ -->
+<!-- SECTION 5: Extension Challenges                                  -->
+<!-- ================================================================ -->
+<section class="tut-section" data-colour="pink" data-xp="10" id="tut5">
+  <div class="tut-header" onclick="toggleSection(this)">
+    <div class="tut-num">5</div>
+    <div class="tut-info">
+      <div class="tut-title">Extension Challenges</div>
+      <div class="tut-time">If time permits &bull; Push your skills further with these bonus challenges.</div>
+    </div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <p style="color:var(--muted);margin-bottom:14px;">These are <strong>bonus challenges</strong>. Only do them if you've finished Sections 1–4. Pick whichever sounds fun!</p>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">5.1</div>
+      <div class="step-content"><strong>Challenge 1: Complete Level Design.</strong> Add 5+ more sprites to create a complete, believable game level. Add platforms at different heights, background details (clouds, mountains, sun), and foreground details (bushes, rocks).</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">5.2</div>
+      <div class="step-content"><strong>Challenge 2: Parallax Layers.</strong> Create 5 sorting layers: Sky, FarBackground, Background, Midground, Foreground. Place clouds on Sky, mountains on FarBackground, trees on Background. This creates visual depth — like a parallax effect!</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">5.3</div>
+      <div class="step-content"><strong>Challenge 3: Unity Asset Store.</strong> Open <strong>Window</strong> &rarr; <strong>Asset Store</strong> (or go to assetstore.unity.com in your browser). Search for "2D platformer". Download a FREE asset pack and import it into your project. Use the new sprites in your scene!</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">5.4</div>
+      <div class="step-content"><strong>Challenge 4: Second Scene.</strong> Create a completely new scene: <strong>File</strong> &rarr; <strong>New Scene</strong>. Build a different environment (underwater? space? desert?). Save it as "Level2". You now have 2 levels!</div>
+    </div>
+
+    <div class="callout callout-challenge">
+      <div class="icon">&#127942;</div>
+      <div><strong>Speed Challenge:</strong> How many sprites can you place, layer, and organise in 10 minutes? Keep it looking good — quantity AND quality!</div>
+    </div>
+
+    <div class="callout callout-extension">
+      <div class="icon">&#127918;</div>
+      <div><strong>Research:</strong> Look up "parallax scrolling" in 2D games. How do games like Hollow Knight or Celeste create a sense of depth with flat sprites? Write a short paragraph explaining it.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================================================================ -->
+<!-- SUBMISSION GUIDE                                                  -->
+<!-- ================================================================ -->
+<div class="footer-section">
+  <h2>SUBMISSION GUIDE</h2>
+  <p style="margin-bottom:12px;color:var(--muted);">How to take a screenshot and submit your work to Google Classroom.</p>
+  <ol class="submission-steps">
+    <li>Open your completed scene in the Unity Editor. Zoom out so everything is visible.</li>
+    <li>Take a screenshot: press <span class="key" style="display:inline;background:#1e293b;border:1px solid #334155;border-radius:4px;padding:1px 8px;font-size:.85rem;color:#fbbf24;font-weight:700;">Win</span>+<span class="key" style="display:inline;background:#1e293b;border:1px solid #334155;border-radius:4px;padding:1px 8px;font-size:.85rem;color:#fbbf24;font-weight:700;">Shift</span>+<span class="key" style="display:inline;background:#1e293b;border:1px solid #334155;border-radius:4px;padding:1px 8px;font-size:.85rem;color:#fbbf24;font-weight:700;">S</span>. Draw a rectangle around your Scene View.</li>
+    <li>Open <strong>Google Classroom</strong> and find the T1-L04 assignment.</li>
+    <li>Click <strong>"Add or create"</strong> &rarr; <strong>"File"</strong> and upload your screenshot.</li>
+    <li>Click <strong>"Turn in"</strong> — you're done!</li>
+  </ol>
+</div>
+
+<!-- ================================================================ -->
+<!-- QUICK REFERENCE                                                   -->
+<!-- ================================================================ -->
+<div class="footer-section">
+  <h2>QUICK REFERENCE — 2D ESSENTIALS</h2>
+
+  <h3>Scene Setup</h3>
+  <div class="shortcut-grid">
+    <div class="shortcut-item"><span class="action">New 2D Project</span><span class="keys">Hub &rarr; New &rarr; 2D Core</span></div>
+    <div class="shortcut-item"><span class="action">Camera Background</span><span class="keys">Camera &rarr; Background</span></div>
+    <div class="shortcut-item"><span class="action">Sorting Layers</span><span class="keys">Edit &rarr; Project Settings</span></div>
+    <div class="shortcut-item"><span class="action">Save Scene</span><span class="keys">Ctrl + S</span></div>
+  </div>
+
+  <h3>Working with Sprites</h3>
+  <div class="shortcut-grid">
+    <div class="shortcut-item"><span class="action">Import sprites</span><span class="keys">Drag PNG into Project</span></div>
+    <div class="shortcut-item"><span class="action">Place in scene</span><span class="keys">Drag from Project to Scene</span></div>
+    <div class="shortcut-item"><span class="action">Move</span><span class="keys">W</span></div>
+    <div class="shortcut-item"><span class="action">Rotate</span><span class="keys">E</span></div>
+    <div class="shortcut-item"><span class="action">Scale</span><span class="keys">R</span></div>
+    <div class="shortcut-item"><span class="action">Duplicate</span><span class="keys">Ctrl + D</span></div>
+    <div class="shortcut-item"><span class="action">Delete</span><span class="keys">Delete</span></div>
+    <div class="shortcut-item"><span class="action">Flip sprite</span><span class="keys">Sprite Renderer &rarr; Flip X/Y</span></div>
+  </div>
+
+  <h3>Layering</h3>
+  <div class="shortcut-grid">
+    <div class="shortcut-item"><span class="action">Sorting Layer</span><span class="keys">Major layer (BG/MG/Player)</span></div>
+    <div class="shortcut-item"><span class="action">Order in Layer</span><span class="keys">Fine-tune within layer</span></div>
+    <div class="shortcut-item"><span class="action">Frame object</span><span class="keys">Select + F</span></div>
+    <div class="shortcut-item"><span class="action">Undo</span><span class="keys">Ctrl + Z</span></div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PROGRESS TRACKER                                                  -->
+<!-- ================================================================ -->
+<div class="footer-section">
+  <h2>PROGRESS TRACKER</h2>
+  <p style="margin-bottom:16px;color:var(--muted);">Tick off each section as you complete it. Aim for Sections 1–4 minimum!</p>
+  <div class="progress-grid">
+    <div class="progress-card">
+      <input type="checkbox" class="master-check" data-tut="1" onchange="updateMasterProgress(this)">
+      <span class="pc-label">Section 1 — Create 2D Project</span>
+      <span class="pc-xp">10 XP</span>
+    </div>
+    <div class="progress-card">
+      <input type="checkbox" class="master-check" data-tut="2" onchange="updateMasterProgress(this)">
+      <span class="pc-label">Section 2 — The 2D World</span>
+      <span class="pc-xp">10 XP</span>
+    </div>
+    <div class="progress-card">
+      <input type="checkbox" class="master-check" data-tut="3" onchange="updateMasterProgress(this)">
+      <span class="pc-label">Section 3 — Import Sprites</span>
+      <span class="pc-xp">10 XP</span>
+    </div>
+    <div class="progress-card">
+      <input type="checkbox" class="master-check" data-tut="4" onchange="updateMasterProgress(this)">
+      <span class="pc-label">Section 4 — Build Your World</span>
+      <span class="pc-xp">10 XP</span>
+    </div>
+    <div class="progress-card">
+      <input type="checkbox" class="master-check" data-tut="5" onchange="updateMasterProgress(this)">
+      <span class="pc-label">Section 5 — Extension</span>
+      <span class="pc-xp">10 XP</span>
+    </div>
+  </div>
+</div>
+
+<!-- Buttons -->
+<div class="btn-row no-print">
+  <button class="btn btn-neon" onclick="window.print()">&#128424; Save as PDF</button>
+  <button class="btn btn-blue" onclick="expandAll()">Expand All Sections</button>
+  <button class="btn btn-ghost" onclick="resetAll()">Reset Progress</button>
+</div>
+
+</div><!-- /container -->
+
+<script>
+function toggleSection(header){
+  header.closest('.tut-section').classList.toggle('open');
+}
+function expandAll(){
+  document.querySelectorAll('.tut-section').forEach(s=>s.classList.add('open'));
+}
+function updateProgress(){
+  const checks=document.querySelectorAll('.step-check input[type="checkbox"]');
+  const total=checks.length;
+  const done=[...checks].filter(c=>c.checked).length;
+  const pct=total?Math.round(done/total*100):0;
+  document.getElementById('progress-bar').style.width=pct+'%';
+}
+function updateXP(){
+  const masters=document.querySelectorAll('.master-check');
+  let xp=0;
+  masters.forEach(m=>{if(m.checked) xp+=10;});
+  document.getElementById('xp-display').textContent=xp;
+}
+function updateMasterProgress(cb){updateXP();}
+function resetAll(){
+  if(!confirm('Reset all checkboxes and progress?')) return;
+  document.querySelectorAll('input[type="checkbox"]').forEach(c=>c.checked=false);
+  document.getElementById('progress-bar').style.width='0%';
+  document.getElementById('xp-display').textContent='0';
+}
+</script>
+</body>
+</html>

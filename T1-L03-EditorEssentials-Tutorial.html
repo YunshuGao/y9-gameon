@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T1-L03 — Unity Editor Essentials Tutorial</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0f172a; --dark:#1e293b; --card:#1e293b; --border:#334155;
+  --neon:#4ade80; --blue:#38bdf8; --purple:#a78bfa; --amber:#fbbf24;
+  --pink:#f472b6; --red:#ef4444; --white:#f1f5f9; --muted:#94a3b8;
+  --font-head:'Orbitron',sans-serif; --font-body:'Roboto Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:15px;line-height:1.7;}
+a{color:var(--blue);text-decoration:none;}
+a:hover{text-decoration:underline;}
+
+/* ── Progress bar ── */
+#progress-bar-wrap{position:fixed;top:0;left:0;width:100%;height:6px;background:var(--dark);z-index:9999;}
+#progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--neon),var(--blue));transition:width .4s;}
+
+/* ── Header ── */
+.hero{text-align:center;padding:80px 20px 40px;background:linear-gradient(180deg,rgba(74,222,128,.08) 0%,transparent 100%);}
+.hero h1{font-family:var(--font-head);font-size:2.4rem;font-weight:900;background:linear-gradient(135deg,var(--neon),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px;}
+.hero .sub{color:var(--muted);font-size:.95rem;margin-bottom:24px;}
+.hero .meta{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;}
+.hero .tag{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.8rem;color:var(--muted);}
+.hero .tag b{color:var(--neon);}
+
+/* ── XP Tracker ── */
+.xp-tracker{display:flex;justify-content:center;align-items:center;gap:16px;margin:30px auto;padding:16px 24px;background:var(--dark);border:1px solid var(--border);border-radius:12px;max-width:500px;}
+.xp-tracker .xp-label{font-family:var(--font-head);font-size:1rem;color:var(--amber);}
+.xp-tracker .xp-val{font-family:var(--font-head);font-size:1.6rem;font-weight:900;color:var(--neon);}
+.xp-tracker .xp-max{color:var(--muted);font-size:.85rem;}
+
+/* ── Container ── */
+.container{max-width:880px;margin:0 auto;padding:0 20px 60px;}
+
+/* ── Tutorial Section ── */
+.tut-section{margin:40px 0;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--dark);}
+.tut-header{padding:20px 24px;display:flex;align-items:center;gap:16px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border);}
+.tut-header .tut-num{font-family:var(--font-head);font-size:1.6rem;font-weight:900;color:var(--navy);background:var(--neon);border-radius:10px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.tut-section[data-colour="blue"] .tut-num{background:var(--blue);}
+.tut-section[data-colour="purple"] .tut-num{background:var(--purple);}
+.tut-section[data-colour="amber"] .tut-num{background:var(--amber);}
+.tut-section[data-colour="pink"] .tut-num{background:var(--pink);}
+.tut-section[data-colour="red"] .tut-num{background:var(--red);color:var(--white);}
+.tut-header .tut-info{flex:1;}
+.tut-header .tut-title{font-family:var(--font-head);font-size:1.05rem;font-weight:700;color:var(--white);}
+.tut-header .tut-time{font-size:.8rem;color:var(--muted);margin-top:2px;}
+.tut-header .xp-badge{font-family:var(--font-head);background:rgba(251,191,36,.15);color:var(--amber);padding:4px 12px;border-radius:8px;font-size:.85rem;font-weight:700;flex-shrink:0;}
+.tut-header .chevron{color:var(--muted);font-size:1.4rem;transition:transform .3s;flex-shrink:0;}
+.tut-section.open .chevron{transform:rotate(90deg);}
+.tut-body{padding:0 24px 24px;display:none;}
+.tut-section.open .tut-body{display:block;}
+
+/* ── Steps ── */
+.step{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid rgba(51,65,85,.5);}
+.step:last-child{border-bottom:none;}
+.step-check{flex-shrink:0;margin-top:3px;}
+.step-check input[type="checkbox"]{width:20px;height:20px;accent-color:var(--neon);cursor:pointer;}
+.step-num{font-family:var(--font-head);font-size:.75rem;color:var(--neon);background:rgba(74,222,128,.1);border-radius:6px;padding:2px 8px;height:fit-content;flex-shrink:0;margin-top:2px;}
+.step-content{flex:1;}
+.step-content strong{color:var(--neon);}
+.step-content .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:1px 8px;font-size:.85rem;color:var(--amber);font-weight:700;margin:0 2px;}
+.step-content .sub-list{margin:8px 0 0 0;list-style:none;}
+.step-content .sub-list li{padding:4px 0;color:var(--muted);font-size:.9rem;}
+.step-content .sub-list li::before{content:'▸ ';color:var(--blue);}
+.step-content .sub-list li strong{color:var(--white);}
+.step-content em{color:var(--muted);}
+
+/* ── Micro detail ── */
+.detail{margin:6px 0 0 0;padding:8px 12px;background:rgba(15,23,42,.6);border-left:3px solid var(--blue);border-radius:0 6px 6px 0;font-size:.88rem;color:var(--muted);}
+.detail strong{color:var(--blue);}
+
+/* ── Screenshot placeholder ── */
+.screenshot-box{margin:12px 0;border:2px dashed var(--border);border-radius:12px;padding:20px;text-align:center;color:var(--muted);font-size:.88rem;background:rgba(15,23,42,.5);}
+.screenshot-box .label{font-family:var(--font-head);font-size:.7rem;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+
+/* ── Callout boxes ── */
+.callout{margin:16px 0;padding:14px 18px;border-radius:10px;font-size:.9rem;display:flex;gap:12px;align-items:flex-start;}
+.callout .icon{font-size:1.2rem;flex-shrink:0;}
+.callout-checkpoint{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);}
+.callout-checkpoint .icon{color:var(--neon);}
+.callout-trouble{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);}
+.callout-trouble .icon{color:var(--red);}
+.callout-tip{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);}
+.callout-tip .icon{color:var(--blue);}
+.callout-challenge{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);}
+.callout-challenge .icon{color:var(--amber);}
+.callout-extension{background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);}
+.callout-extension .icon{color:var(--purple);}
+.callout-warning{background:rgba(239,68,68,.12);border:2px solid rgba(239,68,68,.4);}
+.callout-warning .icon{color:var(--red);}
+
+/* ── Vocab box ── */
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);border-radius:10px;}
+.vocab h4{font-family:var(--font-head);font-size:.8rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}
+.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:.88rem;}
+.vocab dt{color:var(--amber);font-weight:700;}
+.vocab dd{color:var(--muted);}
+
+/* ── Footer sections ── */
+.footer-section{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;}
+.footer-section h2{font-family:var(--font-head);font-size:1.2rem;margin-bottom:16px;color:var(--neon);}
+.footer-section h3{font-family:var(--font-head);font-size:.95rem;margin:16px 0 8px;color:var(--blue);}
+
+/* ── Shortcut grid ── */
+.shortcut-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;}
+.shortcut-item{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--navy);border-radius:8px;border:1px solid var(--border);}
+.shortcut-item .action{color:var(--muted);font-size:.85rem;}
+.shortcut-item .keys{color:var(--amber);font-family:var(--font-head);font-size:.8rem;}
+
+/* ── Progress checklist ── */
+.progress-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;}
+.progress-card{display:flex;align-items:center;gap:12px;padding:12px;background:var(--navy);border-radius:10px;border:1px solid var(--border);}
+.progress-card input[type="checkbox"]{width:22px;height:22px;accent-color:var(--neon);}
+.progress-card .pc-label{flex:1;font-size:.9rem;}
+.progress-card .pc-xp{font-family:var(--font-head);color:var(--amber);font-size:.85rem;}
+
+/* ── Buttons ── */
+.btn{display:inline-block;padding:10px 24px;border-radius:8px;border:none;font-family:var(--font-head);font-size:.85rem;cursor:pointer;font-weight:700;transition:transform .15s;}
+.btn:hover{transform:translateY(-2px);}
+.btn-neon{background:var(--neon);color:var(--navy);}
+.btn-blue{background:var(--blue);color:var(--navy);}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted);}
+.btn-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;justify-content:center;}
+
+/* ── Submission ── */
+.submission-steps{counter-reset:sub;}
+.submission-steps li{list-style:none;padding:8px 0;display:flex;gap:12px;align-items:flex-start;}
+.submission-steps li::before{counter-increment:sub;content:counter(sub);font-family:var(--font-head);font-size:.75rem;background:var(--blue);color:var(--navy);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;}
+
+/* ── Print ── */
+@media print{
+  *{color:#111!important;background:#fff!important;border-color:#ccc!important;-webkit-text-fill-color:#111!important;}
+  body{font-size:10pt;line-height:1.5;}
+  #progress-bar-wrap,.btn-row,.no-print{display:none!important;}
+  .hero{padding:20px 0;border-bottom:2px solid #111;}
+  .hero h1{font-size:16pt;-webkit-text-fill-color:#111!important;background:none!important;}
+  .tut-section{break-inside:avoid;border:1px solid #999;margin:12px 0;}
+  .tut-section.open .tut-body,.tut-body{display:block!important;}
+  .tut-header .chevron{display:none;}
+  .tut-num{background:#ddd!important;color:#111!important;}
+  .callout{border:1px solid #999;background:#f9f9f9!important;}
+  .footer-section{break-inside:avoid;border:1px solid #999;}
+  .shortcut-item,.progress-card{border:1px solid #aaa;background:#f5f5f5!important;}
+  .step-content .key{background:#eee!important;border:1px solid #999;color:#111!important;}
+  .detail{background:#f5f5f5!important;border-left:3px solid #333;}
+  .screenshot-box{border:2px dashed #999;}
+  .vocab{background:#f5f5f5!important;border:1px solid #999;}
+}
+</style>
+</head>
+<body>
+
+<!-- Progress Bar -->
+<div id="progress-bar-wrap"><div id="progress-bar"></div></div>
+
+<!-- Hero -->
+<div class="hero">
+  <h1>UNITY EDITOR ESSENTIALS</h1>
+  <p class="sub">Your complete step-by-step walkthrough — follow at your own pace, tick every box</p>
+  <div class="meta">
+    <span class="tag"><b>Course:</b> Game On (9GAMZA)</span>
+    <span class="tag"><b>Lesson:</b> T1 — L03</span>
+    <span class="tag"><b>Time:</b> ~75 min</span>
+    <span class="tag"><b>Unity:</b> 2022.3.x</span>
+    <span class="tag"><b>Outcomes:</b> G5-1, G5-2, G5-3</span>
+  </div>
+</div>
+
+<!-- XP Tracker -->
+<div class="xp-tracker">
+  <span class="xp-label">TOTAL XP</span>
+  <span class="xp-val" id="xp-display">0</span>
+  <span class="xp-max">/ 60 XP</span>
+</div>
+
+<div class="container">
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- TUTORIAL 2: Open the Unity Essentials Project       -->
+<!-- ════════════════════════════════════════════════════ -->
+<section class="tut-section open" data-colour="green" data-xp="10" id="tut2">
+  <div class="tut-header" onclick="toggleSection(this)">
+    <div class="tut-num">2</div>
+    <div class="tut-info">
+      <div class="tut-title">Open the Unity Essentials Project</div>
+      <div class="tut-time">~10 min &bull; You'll open the special learning project that has all the scenes and assets pre-built for you.</div>
+    </div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="vocab">
+      <h4>Key Terms for This Section</h4>
+      <dl>
+        <dt>Unity Hub</dt><dd>The launcher app where you manage your Unity projects and editor versions.</dd>
+        <dt>Project</dt><dd>A folder containing all the files (code, images, scenes, etc.) for one game.</dd>
+        <dt>Assets</dt><dd>Any file used in your game — images, sounds, 3D models, scripts, etc.</dd>
+        <dt>Import</dt><dd>When Unity reads all the assets and converts them into formats it can use. This can take several minutes the first time.</dd>
+      </dl>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.1</div>
+      <div class="step-content">Open your <strong>web browser</strong> (Chrome or Edge). Type <strong>learn.unity.com</strong> in the address bar and press Enter.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.2</div>
+      <div class="step-content">Click <strong>"Sign In"</strong> in the top-right corner. Use the Unity account you created last lesson.
+        <div class="detail"><strong>Forgot your password?</strong> Click "Forgot password" and use your school email to reset it. If you used a Google sign-in, click the Google button instead.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.3</div>
+      <div class="step-content">Once signed in, you need to find the <strong>Unity Essentials</strong> pathway. There are two ways:
+        <ul class="sub-list">
+          <li><strong>Option A:</strong> Click <strong>"Pathways"</strong> in the top menu bar &rarr; find <strong>"Unity Essentials"</strong> and click on it</li>
+          <li><strong>Option B:</strong> Use the search bar at the top &rarr; type <strong>"Unity Essentials"</strong> &rarr; click the pathway result</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.4</div>
+      <div class="step-content">Inside the Unity Essentials pathway, find the <strong>"Editor Essentials"</strong> mission. It should be the <strong>first mission</strong> in the list. Click on it.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.5</div>
+      <div class="step-content">You'll see a list of tutorials. Tutorial 1 is "Install Unity" — you already did that. Click on <strong>Tutorial 2: "Open the Unity Essentials project"</strong>.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.6</div>
+      <div class="step-content">Read through the Unity Learn page. It will ask you to <strong>open Unity Hub</strong>.
+        <div class="detail"><strong>How to open Unity Hub:</strong> Look for the <strong>Unity Hub</strong> icon on your Desktop or taskbar. If you can't find it, click the Windows Start button and type "Unity Hub".</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.7</div>
+      <div class="step-content">In <strong>Unity Hub</strong>, you need to create the project using the <strong>Essentials Pathway template</strong>:
+        <ul class="sub-list">
+          <li>Click <strong>"New project"</strong> (blue button, top-right corner of Unity Hub)</li>
+          <li>Make sure <strong>Unity 2022.3.x</strong> is selected in the "Editor Version" dropdown at the top</li>
+          <li>In the template list on the left, scroll down and find <strong>"Essentials Pathway"</strong> (you may need to download it first — click the download icon if you see one)</li>
+          <li>Give your project a name, e.g. <strong>"Editor Essentials"</strong></li>
+          <li>Choose a save location (the default is fine)</li>
+          <li>Click <strong>"Create project"</strong></li>
+        </ul>
+        <div class="detail"><strong>Alternative method:</strong> If Unity Learn gives you a direct <strong>"Open in Unity"</strong> button or a project download link, follow those instructions instead. The result is the same — the Essentials project will open in Unity.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.8</div>
+      <div class="step-content"><strong>WAIT.</strong> Unity is now importing all the assets. You'll see a progress bar at the bottom of the Unity window.
+        <div class="detail"><strong>This takes 2–5 minutes.</strong> The first time you open a project, Unity needs to process every single file. <strong>Do NOT click anything</strong> while it's loading — let it finish. You can watch the progress bar at the bottom.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.9</div>
+      <div class="step-content">When loading is complete, the Unity Editor will appear. You might see a <strong>welcome dialog</strong>. If it says "Start Mission 1" — you can click it to follow the in-editor tutorial, OR you can close the dialog and follow this guide instead.
+        <div class="detail"><strong>Recommended:</strong> Close the dialog and follow THIS tutorial guide — it's written specifically for you and breaks things down more clearly.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.10</div>
+      <div class="step-content">You should now see the <strong>Unity Editor</strong> with a 3D scene. It might show a robot on a white platform, or a playground scene, depending on which scene loaded first.
+        <div class="detail"><strong>If you see a grey/empty scene:</strong> Look in the bottom of the screen in the <strong>Project window</strong>. Navigate to <strong>Assets → _Unity Essentials → Scenes</strong>. Double-click on <strong>"-1_Starter_Scene"</strong> to open it.</div>
+      </div>
+    </div>
+
+    <div class="screenshot-box">
+      <div class="label">What you should see</div>
+      The Unity Editor with a 3D scene — a robot character on a white platform with blue sky, or a colourful playground. The Editor has panels on the left, right, centre, and bottom.
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#10003;</div>
+      <div><strong>Checkpoint:</strong> "I can see a 3D scene in the Unity Editor. I'm ready to explore!"</div>
+    </div>
+
+    <div class="callout callout-trouble">
+      <div class="icon">&#9888;</div>
+      <div><strong>Troubleshooting:</strong>
+        <ul class="sub-list">
+          <li><strong>Project won't open?</strong> Check your Unity version is <strong>2022.3.x</strong> (not 2021 or Unity 6)</li>
+          <li><strong>Stuck on "Importing..."?</strong> Be patient — first import genuinely takes 3-5 minutes</li>
+          <li><strong>Unity Hub says "No valid editor"?</strong> You need to install Unity 2022.3 via Hub → Installs → Install Editor</li>
+          <li><strong>Unity Learn won't sign in?</strong> Try incognito/private window, or clear cookies</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- TUTORIAL 3: Explore the Editor Interface            -->
+<!-- ════════════════════════════════════════════════════ -->
+<section class="tut-section" data-colour="blue" data-xp="10" id="tut3">
+  <div class="tut-header" onclick="toggleSection(this)">
+    <div class="tut-num">3</div>
+    <div class="tut-info">
+      <div class="tut-title">Explore the Editor Interface</div>
+      <div class="tut-time">~15 min &bull; Learn what every window does, open a scene, select objects, and enter Play mode.</div>
+    </div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="vocab">
+      <h4>Key Terms for This Section</h4>
+      <dl>
+        <dt>Scene</dt><dd>A single level or environment in your game. A project can have many scenes.</dd>
+        <dt>GameObject</dt><dd>Anything that exists in a scene — a character, a light, a camera, a box, the ground.</dd>
+        <dt>Component</dt><dd>A property attached to a GameObject that gives it behaviour — e.g. a "Transform" component stores its position.</dd>
+        <dt>Play Mode</dt><dd>When you press Play, Unity runs your game inside the editor so you can test it.</dd>
+      </dl>
+    </div>
+
+    <p style="color:var(--muted);margin-bottom:14px;">Make sure you're looking at the <strong>-1_Starter_Scene</strong> (the one with the robot). If not, go to the Project window → <strong>Assets → _Unity Essentials → Scenes</strong> → double-click <strong>"-1_Starter_Scene"</strong>.</p>
+
+    <!-- 3.1: Set Default Layout -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.1</div>
+      <div class="step-content"><strong>Set the Default Layout.</strong> Look at the very <strong>top-right corner</strong> of the Unity window. You'll see a dropdown that says something like "Default" or "Tutorials". Click it and select <strong>"Default"</strong>.
+        <div class="detail">This makes sure your screen layout matches this tutorial. If the layout looks weird or windows are in strange places, this resets everything.</div>
+      </div>
+    </div>
+
+    <!-- 3.2: Identify 6 windows -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.2</div>
+      <div class="step-content">Now identify the <strong>6 main windows</strong>. Look at your screen and find each one:
+        <ul class="sub-list">
+          <li><strong>Hierarchy</strong> (LEFT side) — A text list of every GameObject in the current scene. Think of it like a "table of contents" for your game world.</li>
+          <li><strong>Scene View</strong> (BIG CENTRE panel) — Your 3D editing canvas. This is where you see, move, and build things. It has a toolbar at the top with tools.</li>
+          <li><strong>Game View</strong> (same area as Scene View, look for the TAB) — Click the "Game" tab next to "Scene" to switch. This shows what the player will actually see through the camera.</li>
+          <li><strong>Inspector</strong> (RIGHT side) — Shows the details/properties of whatever object you have selected. If nothing is selected, it's blank.</li>
+          <li><strong>Project Window</strong> (BOTTOM panel) — Your file explorer. Shows all folders and files in your project — scenes, images, scripts, etc.</li>
+          <li><strong>Console</strong> (BOTTOM, look for the tab next to "Project") — Where Unity displays error messages (red), warnings (yellow), and info messages (white).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="screenshot-box">
+      <div class="label">Your screen layout should look like this</div>
+      LEFT: Hierarchy (list of objects) | CENTRE: Scene/Game View (3D world) | RIGHT: Inspector (properties) | BOTTOM: Project window + Console tabs
+    </div>
+
+    <!-- 3.3: Open a scene from Project window -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.3</div>
+      <div class="step-content"><strong>Open a scene from the Project window.</strong> In the <strong>Project window</strong> (bottom panel):
+        <ul class="sub-list">
+          <li>Look at the left column — it shows folders. Click the triangle next to <strong>"Assets"</strong> to expand it.</li>
+          <li>Click the triangle next to <strong>"_Unity Essentials"</strong></li>
+          <li>Click on the <strong>"Scenes"</strong> folder</li>
+          <li>In the right side of the Project window, you'll see scene files. <strong>Double-click "-1_Starter_Scene"</strong> to open it.</li>
+        </ul>
+        <div class="detail">Scene files have a Unity logo icon. Double-clicking a scene loads it into the editor. You should see the robot character appear in the Scene view.</div>
+      </div>
+    </div>
+
+    <!-- 3.4: Click objects in Hierarchy -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.4</div>
+      <div class="step-content"><strong>Click objects in the Hierarchy.</strong> In the Hierarchy (left panel), you'll see names like "Robot", "Ground", "Stairs", "Star", "Boxes", etc.
+        <ul class="sub-list">
+          <li><strong>Single-click</strong> on <strong>"Robot"</strong> — look at the Inspector (right). It now shows the Robot's properties!</li>
+          <li><strong>Single-click</strong> on <strong>"Stairs"</strong> — the Inspector changes to show the Stairs' properties.</li>
+          <li><strong>Double-click</strong> on <strong>"Stairs"</strong> — the Scene view camera <strong>zooms in</strong> to frame the stairs. This is called "framing".</li>
+          <li><strong>Double-click</strong> on <strong>"Robot"</strong> — the camera frames the robot.</li>
+        </ul>
+        <div class="detail"><strong>Double-click = Frame.</strong> This is super useful! Whenever you want to find an object, just double-click its name in the Hierarchy and the camera flies to it.</div>
+      </div>
+    </div>
+
+    <!-- 3.5: Click objects in Scene View -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.5</div>
+      <div class="step-content"><strong>Click objects in the Scene View.</strong> Now try the reverse — click directly on an object in the 3D view:
+        <ul class="sub-list">
+          <li>Click on the <strong>robot character</strong> in the 3D scene view</li>
+          <li>Look at the <strong>Hierarchy</strong> — the robot's name is now highlighted/selected!</li>
+          <li>Look at the <strong>Inspector</strong> — it shows the robot's components</li>
+        </ul>
+        <div class="detail"><strong>They're linked!</strong> Clicking in the Hierarchy selects it in the Scene, and clicking in the Scene selects it in the Hierarchy. The Inspector always shows whichever object is currently selected.</div>
+      </div>
+    </div>
+
+    <!-- 3.6: Look around with right-click -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.6</div>
+      <div class="step-content"><strong>Look around the scene.</strong> Put your mouse cursor over the <strong>Scene View</strong> (centre panel).
+        <ul class="sub-list">
+          <li>Hold <span class="key">Right Mouse Button</span> and <strong>drag</strong> your mouse left and right</li>
+          <li>The view rotates like you're turning your head — this is the <strong>View Tool</strong></li>
+          <li>Let go of the right mouse button</li>
+          <li>Now press the <span class="key">Arrow keys</span> on your keyboard to move forward, backward, left, right</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 3.7: Use Pan tool -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.7</div>
+      <div class="step-content"><strong>Try the Pan tool.</strong> Look at the <strong>floating toolbar</strong> in the upper-left corner of the Scene View. The first button (hand icon) is the <strong>Pan tool</strong>.
+        <ul class="sub-list">
+          <li>Click the <strong>hand icon</strong> (or press <span class="key">Q</span>)</li>
+          <li>Now <strong>left-click and drag</strong> in the Scene View — the camera slides left/right/up/down</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 3.8: Enter Play Mode -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.8</div>
+      <div class="step-content"><strong>Enter Play Mode!</strong> Find the <strong>Play button</strong> — it's the &#9654; triangle at the <strong>very top centre</strong> of the Unity window.
+        <ul class="sub-list">
+          <li>Click the <strong>&#9654; Play button</strong></li>
+          <li>The view switches to the <strong>Game View</strong> — you're now inside the game!</li>
+          <li>Use <span class="key">Arrow keys</span> or <span class="key">W</span><span class="key">A</span><span class="key">S</span><span class="key">D</span> to walk around</li>
+          <li>Press <span class="key">Space</span> to jump</li>
+          <li>Hold <span class="key">Shift</span> to run</li>
+          <li>Move your mouse to look around</li>
+          <li>Try to reach the <strong>star</strong> on top of the stairs (hint: it might be too high to reach right now!)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout callout-warning">
+      <div class="icon">&#9888;</div>
+      <div><strong>CRITICAL RULE:</strong> Always click the <strong>&#9632; Stop button</strong> when you're done testing! If you stay in Play Mode and make changes, <strong>those changes will be LOST</strong> when you exit. Unity does NOT save changes made during Play Mode.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.9</div>
+      <div class="step-content"><strong>Exit Play Mode.</strong> Click the <strong>&#9632; Stop button</strong> (same position as Play, now shows a square).</div>
+    </div>
+
+    <!-- 3.10: Edit in Inspector -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.10</div>
+      <div class="step-content"><strong>Edit a property in the Inspector.</strong> Let's move the star so you can actually reach it:
+        <ul class="sub-list">
+          <li>In the Hierarchy, <strong>double-click "Star"</strong> to frame it</li>
+          <li>Look at the Inspector on the right — at the top you'll see <strong>Transform</strong> with Position X, Y, Z values</li>
+          <li><strong>Reduce the Y Position</strong> by 1 or 2 (click the number, type a lower value). This moves the star down closer to the platform.</li>
+          <li>You can also <strong>reduce the X Position</strong> by 1 or 2 to move it closer</li>
+        </ul>
+        <div class="detail"><strong>Undo:</strong> Made a mistake? Press <span class="key">Ctrl</span>+<span class="key">Z</span> to undo. You can undo multiple times.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.11</div>
+      <div class="step-content"><strong>Test your change.</strong> Click <strong>&#9654; Play</strong> again. Walk up the stairs. Can you collect the star now? Click <strong>&#9632; Stop</strong> when done.</div>
+    </div>
+
+    <!-- 3.12: Save -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.12</div>
+      <div class="step-content"><strong>Save your scene.</strong> Press <span class="key">Ctrl</span>+<span class="key">S</span>.
+        <div class="detail">Look at the Hierarchy window — if you see an asterisk <strong>*</strong> next to the scene name, it means you have unsaved changes. After saving, the asterisk disappears.</div>
+      </div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#10003;</div>
+      <div><strong>Checkpoint:</strong> "I can name all 6 windows. I can select objects. I can enter and exit Play Mode. I saved my scene."</div>
+    </div>
+
+    <div class="callout callout-tip">
+      <div class="icon">&#128161;</div>
+      <div><strong>Lost in the scene?</strong> Double-click ANY object name in the Hierarchy and the camera will fly to frame it. This is your lifeline!</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- TUTORIAL 4: Master 3D Scene Navigation              -->
+<!-- ════════════════════════════════════════════════════ -->
+<section class="tut-section" data-colour="purple" data-xp="10" id="tut4">
+  <div class="tut-header" onclick="toggleSection(this)">
+    <div class="tut-num">4</div>
+    <div class="tut-info">
+      <div class="tut-title">Master 3D Scene Navigation</div>
+      <div class="tut-time">~15 min &bull; Scavenger hunt! Find 4 hidden numbers using Flythrough, Orbit, Zoom, and Focus.</div>
+    </div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="vocab">
+      <h4>Navigation Controls You'll Learn</h4>
+      <dl>
+        <dt>Flythrough</dt><dd>Hold right-click + WASD to fly like a first-person game. Best for exploring big areas.</dd>
+        <dt>Orbit</dt><dd>Alt + left-click drag to spin the camera around an object. Best for inspecting something from all angles.</dd>
+        <dt>Zoom</dt><dd>Scroll wheel to move closer/further. Quick and easy.</dd>
+        <dt>Frame / Focus</dt><dd>Select an object, press F. Camera jumps to centre on that object. Your "reset button".</dd>
+        <dt>Pan</dt><dd>Middle mouse button drag to slide the camera sideways.</dd>
+      </dl>
+    </div>
+
+    <!-- 4.1: Open Playground scene -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.1</div>
+      <div class="step-content"><strong>Open the Playground scene.</strong> In the Project window (bottom):
+        <ul class="sub-list">
+          <li>Navigate to <strong>Assets → _Unity Essentials → Scenes</strong></li>
+          <li>Double-click <strong>"1_Playground_Navigation_Scene"</strong></li>
+          <li>If Unity asks to save the current scene, click <strong>"Save"</strong></li>
+        </ul>
+        <div class="detail">A colourful playground will appear with swings, a picnic area, a play structure, and a firepit. This is your navigation training ground!</div>
+      </div>
+    </div>
+
+    <!-- 4.2: Explore Hierarchy -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.2</div>
+      <div class="step-content"><strong>Explore the playground areas.</strong> In the Hierarchy, find <strong>"Playground_Areas"</strong> and click the <strong>triangle &#9654;</strong> to expand it. You'll see:
+        <ul class="sub-list">
+          <li><strong>01_Swingset</strong> — double-click it. The camera frames the swings.</li>
+          <li><strong>02_Picnic_Area</strong> — double-click it. The camera frames the picnic tables.</li>
+          <li><strong>03_Play_Structure</strong> — double-click it. The camera frames the big play structure.</li>
+          <li><strong>04_Firepit</strong> — double-click it. The camera frames the firepit.</li>
+          <li>Now double-click <strong>"Playground_Areas"</strong> (the parent) to see them all at once.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 4.3: Flythrough -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.3</div>
+      <div class="step-content"><strong>FLYTHROUGH MODE</strong> — This is the most fun navigation mode! Put your cursor over the Scene View, then:
+        <ul class="sub-list">
+          <li>Hold <span class="key">Right Mouse Button</span> — your cursor turns into an eye</li>
+          <li>While holding right-click, press <span class="key">W</span> to fly <strong>forward</strong></li>
+          <li>Press <span class="key">S</span> to fly <strong>backward</strong></li>
+          <li>Press <span class="key">A</span> to fly <strong>left</strong></li>
+          <li>Press <span class="key">D</span> to fly <strong>right</strong></li>
+          <li>Press <span class="key">E</span> to fly <strong>up</strong></li>
+          <li>Press <span class="key">Q</span> to fly <strong>down</strong></li>
+          <li>Move your <strong>mouse</strong> while holding right-click to <strong>look around</strong></li>
+        </ul>
+        <div class="detail"><strong>Tip:</strong> Tap keys lightly for small movements. Hold keys for continuous flight. It feels like a first-person game — WASD + mouse, just like Minecraft or Fortnite creative mode!</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.4</div>
+      <div class="step-content"><strong>Practice Flythrough.</strong> Use right-click + WASD to fly to the <strong>swingset</strong>. Then fly to the <strong>firepit</strong>. Then fly up high and look down at the whole playground.
+        <div class="detail"><strong>Got lost?</strong> Double-click any object in the Hierarchy (like "01_Swingset") to snap back to it. This is your safety net.</div>
+      </div>
+    </div>
+
+    <!-- 4.5: Frame/Focus -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.5</div>
+      <div class="step-content"><strong>FRAME / FOCUS</strong> — Select an object, then press <span class="key">F</span>:
+        <ul class="sub-list">
+          <li>Click on the <strong>grill/BBQ</strong> in the picnic area (click it in the Scene view, or click its name in the Hierarchy)</li>
+          <li>Press <span class="key">F</span> — the camera <strong>zooms to centre</strong> on the grill</li>
+          <li>Press <span class="key">F</span> again — it zooms <strong>closer</strong></li>
+          <li>Try this with different objects: select something, press F</li>
+        </ul>
+        <div class="detail"><strong>This is the most important shortcut.</strong> Whenever you can't find something, or the camera is in a weird place, just select any object and press F. It always works.</div>
+      </div>
+    </div>
+
+    <!-- 4.6: Zoom -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.6</div>
+      <div class="step-content"><strong>ZOOM</strong> — Use the <strong>scroll wheel</strong> on your mouse:
+        <ul class="sub-list">
+          <li>Scroll <strong>up</strong> = zoom IN (closer)</li>
+          <li>Scroll <strong>down</strong> = zoom OUT (further away)</li>
+          <li>Try zooming in close to the grill — can you see inside it?</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 4.7: Orbit -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.7</div>
+      <div class="step-content"><strong>ORBIT</strong> — Spin the camera around a fixed point:
+        <ul class="sub-list">
+          <li>Click on the <strong>play structure</strong> (the big climbing thing) to select it</li>
+          <li>Press <span class="key">F</span> to frame it</li>
+          <li>Now hold <span class="key">Alt</span> + <span class="key">Left Mouse Button</span> and <strong>drag</strong></li>
+          <li>The camera spins <strong>around</strong> the play structure while staying pointed at it</li>
+          <li>Try orbiting all the way around to see the back, the bottom, the sides</li>
+        </ul>
+        <div class="detail"><strong>Orbit vs Flythrough:</strong> Orbit keeps the camera pointed at one object and spins around it. Flythrough lets you fly anywhere freely. Use orbit when you want to inspect one specific thing from all angles.</div>
+      </div>
+    </div>
+
+    <!-- 4.8: Pan -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.8</div>
+      <div class="step-content"><strong>PAN</strong> — Slide the camera without rotating:
+        <ul class="sub-list">
+          <li>Hold <span class="key">Middle Mouse Button</span> (press down on the scroll wheel) and <strong>drag</strong></li>
+          <li>The camera slides left/right/up/down without turning</li>
+        </ul>
+        <div class="detail"><strong>No middle mouse button?</strong> On a laptop trackpad, try holding <span class="key">Alt</span> + <span class="key">Right Mouse Button</span> and dragging instead.</div>
+      </div>
+    </div>
+
+    <!-- 4.9: Scavenger hunt -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.9</div>
+      <div class="step-content"><strong>SCAVENGER HUNT!</strong> There are <strong>4 hidden numbers</strong> in the playground scene. Each number is a single digit. Together they form a 4-digit code. Use your new navigation skills to find them:
+        <ul class="sub-list">
+          <li><strong>Number 1:</strong> Hidden on the <strong>swingset</strong> — use Flythrough to get close, then look at the back of the top bar</li>
+          <li><strong>Number 2:</strong> Hidden on/inside the <strong>grill/BBQ</strong> — select it, press F to frame, then zoom in close with scroll wheel</li>
+          <li><strong>Number 3:</strong> Hidden on the <strong>play structure</strong> — use Orbit (Alt + left-click drag) to see the bottom surface</li>
+          <li><strong>Number 4:</strong> Hidden around the <strong>firepit</strong> — try using the Scene view gizmo (the colourful cube in the upper-right corner of Scene view) to change viewing angles</li>
+        </ul>
+        <div class="detail"><strong>Write down each number</strong> as you find it. You'll need all 4 digits to enter the code. Hint: the code is the year Unity was founded!</div>
+      </div>
+    </div>
+
+    <!-- 4.10: Enter the code -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.10</div>
+      <div class="step-content"><strong>Enter the code.</strong> Click <strong>&#9654; Play</strong> to enter Play Mode. You'll see a text box that says "Enter 4-digit code...". Type your 4-digit code and press Enter.
+        <ul class="sub-list">
+          <li><strong>Correct code?</strong> You'll see fireworks! &#127878;</li>
+          <li><strong>Wrong code?</strong> Go back and double-check your numbers</li>
+        </ul>
+        Click <strong>&#9632; Stop</strong> to exit Play Mode when done.
+      </div>
+    </div>
+
+    <!-- 4.11: Practice round -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.11</div>
+      <div class="step-content"><strong>Practice round.</strong> Before moving on, practice each control 3 more times:
+        <ul class="sub-list">
+          <li>&#9744; <strong>Flythrough</strong> (Right-click + WASD) — fly around the whole playground</li>
+          <li>&#9744; <strong>Frame/Focus</strong> (select + F) — frame 3 different objects</li>
+          <li>&#9744; <strong>Orbit</strong> (Alt + Left-click drag) — orbit around 2 different objects</li>
+          <li>&#9744; <strong>Zoom</strong> (scroll wheel) — zoom in and out on something</li>
+          <li>&#9744; <strong>Pan</strong> (Middle mouse drag) — slide the view around</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#10003;</div>
+      <div><strong>Checkpoint:</strong> "I can Flythrough, Orbit, Zoom, Focus, and Pan. I found the 4-digit code!"</div>
+    </div>
+
+    <div class="callout callout-tip">
+      <div class="icon">&#128161;</div>
+      <div><strong>Pro Tip:</strong> If you ever get completely lost in any scene — camera in a weird spot, everything looks grey, can't find anything — just go to the Hierarchy, click any object, press <span class="key">F</span>, and you'll snap right back to it. This works 100% of the time.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- TUTORIAL 5: Pass the Scene View Flying Test          -->
+<!-- ════════════════════════════════════════════════════ -->
+<section class="tut-section" data-colour="amber" data-xp="10" id="tut5">
+  <div class="tut-header" onclick="toggleSection(this)">
+    <div class="tut-num">5</div>
+    <div class="tut-info">
+      <div class="tut-title">Pass the Scene View Flying Test</div>
+      <div class="tut-time">~10 min &bull; Fly through rings using Flythrough mode — like an obstacle course for your camera!</div>
+    </div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <p style="color:var(--muted);margin-bottom:14px;">Make sure you're still in the <strong>1_Playground_Navigation_Scene</strong>.</p>
+
+    <!-- 5.1: Enable Rings -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">5.1</div>
+      <div class="step-content"><strong>Activate the rings.</strong> In the <strong>Hierarchy</strong> (left panel), find the GameObject called <strong>"Rings"</strong>.
+        <ul class="sub-list">
+          <li>Click on <strong>"Rings"</strong> to select it</li>
+          <li>Look at the <strong>Inspector</strong> (right panel) — at the very top, next to the name "Rings", there's a <strong>checkbox ☐</strong></li>
+          <li><strong>Tick the checkbox</strong> to enable it &#9745;</li>
+          <li>Red/coloured ring hoops should appear in the Scene View!</li>
+        </ul>
+        <div class="detail"><strong>Why was it hidden?</strong> The Rings GameObject was disabled (unticked) to keep the scene clean during the earlier tutorials. Ticking the checkbox makes it visible.</div>
+      </div>
+    </div>
+
+    <!-- 5.2: Frame Ring 1 -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">5.2</div>
+      <div class="step-content"><strong>Find the first ring.</strong> Expand the <strong>"Rings"</strong> object in the Hierarchy (click the triangle). You'll see <strong>Ring_1, Ring_2, Ring_3</strong>, etc.
+        <ul class="sub-list">
+          <li>Double-click <strong>"Ring_1"</strong> to frame it — a red hoop should appear in your view</li>
+          <li>Use <strong>Orbit</strong> (Alt + left-click drag) to position yourself <strong>behind</strong> Ring_1, facing toward Ring_2</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 5.3: Method 1 - Frame & Orbit -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">5.3</div>
+      <div class="step-content"><strong>Method 1: Frame, Orbit, Zoom.</strong> A slower but more controlled approach:
+        <ul class="sub-list">
+          <li>Press <span class="key">F</span> to frame the ring</li>
+          <li>Use <strong>Alt + left-click drag</strong> to orbit behind it</li>
+          <li>Use <strong>scroll wheel</strong> to zoom through the ring's centre</li>
+          <li>Move to the next ring and repeat</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 5.4: Method 2 - Flythrough -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">5.4</div>
+      <div class="step-content"><strong>Method 2: Flythrough (recommended!).</strong> Much faster once you get the hang of it:
+        <ul class="sub-list">
+          <li>Hold <span class="key">Right Mouse Button</span></li>
+          <li>Use <span class="key">W</span> to fly forward through each ring</li>
+          <li>Use <span class="key">A</span><span class="key">D</span> to steer left/right</li>
+          <li>Use <span class="key">Q</span><span class="key">E</span> to fly down/up</li>
+          <li>Move your <strong>mouse</strong> to aim at the next ring</li>
+          <li>Fly through ALL the rings in order!</li>
+        </ul>
+        <div class="detail"><strong>Speed control:</strong> Use the scroll wheel while in Flythrough mode (while holding right-click) to adjust your flying speed. Scroll up = faster, scroll down = slower.</div>
+      </div>
+    </div>
+
+    <!-- 5.5: Retry -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">5.5</div>
+      <div class="step-content"><strong>Retry until comfortable.</strong> Don't worry if you miss rings or go the wrong way!
+        <ul class="sub-list">
+          <li>Go back to Ring_1 (double-click it in Hierarchy) and try again</li>
+          <li>Each attempt builds <strong>muscle memory</strong> — it gets easier every time</li>
+          <li>Try to complete all rings at least <strong>3 times</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 5.6: Disable Rings -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">5.6</div>
+      <div class="step-content"><strong>When finished:</strong> Click on <strong>"Rings"</strong> in the Hierarchy. In the Inspector, <strong>untick the checkbox</strong> to hide the rings again. This keeps the scene clean for the next tutorial.</div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#10003;</div>
+      <div><strong>Checkpoint:</strong> "I flew through the rings at least once!" <em>or</em> "I attempted the flying test at least 3 times and I'm getting better."</div>
+    </div>
+
+    <div class="callout callout-challenge">
+      <div class="icon">&#127918;</div>
+      <div><strong>Speed Challenge:</strong> Time yourself! Can you fly through all the rings in under 60 seconds? Under 30 seconds? Challenge a classmate to beat your time.</div>
+    </div>
+
+    <div class="callout callout-tip">
+      <div class="icon">&#128161;</div>
+      <div><strong>Can't find a ring?</strong> Expand "Rings" in the Hierarchy, double-click on the ring number you're looking for (e.g. "Ring_5"), and the camera will frame it. Then orbit behind it and continue.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- TUTORIAL 6: Design a Mural in the Scene View        -->
+<!-- ════════════════════════════════════════════════════ -->
+<section class="tut-section" data-colour="pink" data-xp="10" id="tut6">
+  <div class="tut-header" onclick="toggleSection(this)">
+    <div class="tut-num">6</div>
+    <div class="tut-info">
+      <div class="tut-title">Design a Mural in the Scene View</div>
+      <div class="tut-time">~20 min &bull; Use Move, Rotate, and Scale to arrange tangram puzzle pieces into a mural!</div>
+    </div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="vocab">
+      <h4>Transform Tools</h4>
+      <dl>
+        <dt>Move (W)</dt><dd>Drag coloured arrows (red=X, green=Y, blue=Z) to move objects along one axis. Drag the coloured squares between arrows to move along two axes at once.</dd>
+        <dt>Rotate (E)</dt><dd>Drag coloured rings/circles (red, green, blue) to spin objects. For the mural, you'll mostly use the green ring (Y-axis = flat rotation).</dd>
+        <dt>Scale (R)</dt><dd>Drag coloured squares to resize objects. Centre cube scales uniformly.</dd>
+        <dt>Global vs Local</dt><dd>Global = axes stay fixed (X is always right, Z is always forward). Local = axes rotate with the object. Use Global for the mural.</dd>
+      </dl>
+    </div>
+
+    <!-- 6.1: Enable Mural -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">6.1</div>
+      <div class="step-content"><strong>Activate the Mural.</strong> In the Hierarchy, find the GameObject called <strong>"Mural"</strong>.
+        <ul class="sub-list">
+          <li>Click on <strong>"Mural"</strong> to select it</li>
+          <li>In the Inspector, <strong>tick the checkbox</strong> next to the name to enable it &#9745;</li>
+          <li>Colourful tangram puzzle pieces and a reference image should appear in the scene!</li>
+          <li><strong>Double-click "Mural"</strong> in the Hierarchy to frame all the puzzle pieces</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 6.2: Get top-down view -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">6.2</div>
+      <div class="step-content"><strong>Get a top-down view.</strong> You need to look straight down at the puzzle pieces:
+        <ul class="sub-list">
+          <li>Look at the <strong>Scene view gizmo</strong> — the colourful cube in the <strong>upper-right corner</strong> of the Scene View</li>
+          <li>Click the <strong>green cone</strong> (the one pointing UP, labelled "Y") — this snaps to a top-down view</li>
+          <li>You should now be looking straight down at the puzzle pieces</li>
+        </ul>
+        <div class="detail"><strong>Scene view gizmo:</strong> The colourful cube with cones shows which direction you're looking. Click any cone to snap to that axis view. Red = X (side), Green = Y (top), Blue = Z (front/back).</div>
+      </div>
+    </div>
+
+    <!-- 6.3: Set Global coordinates -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">6.3</div>
+      <div class="step-content"><strong>Set Global coordinates.</strong> Look at the Scene View toolbar (below the main menu). Find the dropdown that says either "Global" or "Local".
+        <ul class="sub-list">
+          <li>Click the dropdown and select <strong>"Global"</strong></li>
+          <li>This means the Move arrows will always point in the same direction, no matter how the object is rotated</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 6.4: Select Move Tool -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">6.4</div>
+      <div class="step-content"><strong>Switch to the Move Tool.</strong> Press <span class="key">W</span> on your keyboard (or click the second button in the Scene View floating toolbar — the one with 4 arrows).
+        <ul class="sub-list">
+          <li>When you select a puzzle piece, you'll see <strong>coloured arrows</strong> appear:</li>
+          <li><strong>Red arrow = X axis</strong> (left/right)</li>
+          <li><strong>Blue arrow = Z axis</strong> (forward/backward)</li>
+          <li><strong>Green arrow = Y axis</strong> (up/down — you won't use this much for the mural)</li>
+          <li>There are also <strong>coloured squares</strong> between the arrows — dragging these moves along <strong>two axes at once</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 6.5: Move your first piece -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">6.5</div>
+      <div class="step-content"><strong>Move your first piece!</strong>
+        <ul class="sub-list">
+          <li>Click on one of the <strong>large coloured triangles</strong> (a tangram piece) in the Scene View to select it</li>
+          <li>You'll see the Move arrows appear on it</li>
+          <li>Click and drag the <strong>red arrow</strong> to slide it left/right</li>
+          <li>Click and drag the <strong>blue arrow</strong> to slide it forward/backward</li>
+          <li>Or drag the <strong>small square</strong> between the red and blue arrows to slide freely on the ground plane</li>
+          <li>Move the piece to where you want it for your mural design</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 6.6: Rotate a piece -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">6.6</div>
+      <div class="step-content"><strong>Rotate a piece.</strong> Press <span class="key">E</span> to switch to the <strong>Rotate Tool</strong>.
+        <ul class="sub-list">
+          <li>Three coloured rings appear around the selected piece</li>
+          <li>Drag the <strong>green ring (Y-axis)</strong> to spin the piece flat on the ground — this is the one you'll use most</li>
+          <li><strong>Tip:</strong> Drag your mouse in a <strong>straight line</strong> (not a circle) for more precise rotation</li>
+          <li>The red and blue rings tilt the piece in 3D — experiment with these if you want!</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 6.7: Keyboard shortcut workflow -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">6.7</div>
+      <div class="step-content"><strong>Learn the keyboard shortcut workflow.</strong> The fastest way to work is:
+        <ul class="sub-list">
+          <li>Click a piece to select it</li>
+          <li>Press <span class="key">W</span> → Move it into position</li>
+          <li>Press <span class="key">E</span> → Rotate it to the right angle</li>
+          <li>Press <span class="key">W</span> → Fine-tune the position</li>
+          <li>Repeat for the next piece!</li>
+        </ul>
+        <div class="detail"><strong>Full tool shortcuts:</strong> <span class="key">Q</span> = Hand/View, <span class="key">W</span> = Move, <span class="key">E</span> = Rotate, <span class="key">R</span> = Scale. You'll use W and E the most.</div>
+      </div>
+    </div>
+
+    <!-- 6.8: Design your mural -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">6.8</div>
+      <div class="step-content"><strong>Design your mural!</strong> You can either:
+        <ul class="sub-list">
+          <li><strong>Follow the reference image</strong> (like a turtle or house design shown in the scene) — match the piece positions</li>
+          <li><strong>Create your own design</strong> — make a face, your initials, a rocket, a pattern, or anything you want!</li>
+          <li>Use <strong>at least 5 pieces</strong></li>
+          <li>Use <strong>both Move (W) and Rotate (E)</strong></li>
+        </ul>
+        <div class="detail"><strong>Undo mistakes:</strong> Press <span class="key">Ctrl</span>+<span class="key">Z</span> to undo. You can undo many steps. <strong>Scale (R):</strong> Want to make a piece bigger/smaller? Press R and drag the coloured handles.</div>
+      </div>
+    </div>
+
+    <!-- 6.9: Hide reference -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">6.9</div>
+      <div class="step-content"><strong>Hide the reference image.</strong> In the Hierarchy, expand "Mural" and find <strong>"Tangram_Reference"</strong>. Click on it, then in the Inspector, <strong>untick the checkbox</strong> to hide it. Now you can see just your mural!
+        <ul class="sub-list">
+          <li>Use <strong>Orbit</strong> (Alt + left-click drag) to view your mural from different angles</li>
+          <li>Right-click the Scene gizmo and re-enable <strong>"Perspective"</strong> if you want a 3D view</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 6.10: Screenshot -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">6.10</div>
+      <div class="step-content"><strong>Take a screenshot of your mural.</strong> Get a nice angle of your finished mural, then:
+        <ul class="sub-list">
+          <li>Press <span class="key">Win</span>+<span class="key">Shift</span>+<span class="key">S</span> (Windows Snip & Sketch)</li>
+          <li>Draw a rectangle around your mural in the Scene View</li>
+          <li>The screenshot is copied to your clipboard — you can paste it into Google Classroom later</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 6.11: Save -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">6.11</div>
+      <div class="step-content"><strong>Save your scene!</strong> Press <span class="key">Ctrl</span>+<span class="key">S</span>. Check the Hierarchy — the asterisk * should disappear.</div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#10003;</div>
+      <div><strong>Checkpoint:</strong> "My mural has at least 5 pieces. I used both Move (W) and Rotate (E). I took a screenshot."</div>
+    </div>
+
+    <div class="callout callout-extension">
+      <div class="icon">&#127942;</div>
+      <div><strong>Extension:</strong> Can you create a recognisable picture? Try making a face, a house, or your initials. Challenge: use Scale (R) to resize pieces too!</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- TUTORIAL 7: More Things to Try (Extension)          -->
+<!-- ════════════════════════════════════════════════════ -->
+<section class="tut-section" data-colour="red" data-xp="10" id="tut7">
+  <div class="tut-header" onclick="toggleSection(this)">
+    <div class="tut-num">7</div>
+    <div class="tut-info">
+      <div class="tut-title">More Things to Try (Extension)</div>
+      <div class="tut-time">If time permits &bull; 3 optional challenges of increasing difficulty</div>
+    </div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <p style="color:var(--muted);margin-bottom:14px;">These are <strong>bonus challenges</strong>. Only do them if you've finished Tutorials 2–6. Pick whichever sounds fun!</p>
+
+    <!-- 7.1: Easy - Rings Flythrough with Q/E -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">7.1</div>
+      <div class="step-content"><strong>EASY CHALLENGE: Rings Flythrough Round 2.</strong> Re-enable the Rings (tick its checkbox in the Inspector). This time, complete the rings course using <strong>Q and E</strong> for vertical movement — fly up and down, not just forward/left/right.
+        <ul class="sub-list">
+          <li>Right-click + <span class="key">W</span><span class="key">A</span><span class="key">S</span><span class="key">D</span> to fly</li>
+          <li><span class="key">E</span> = fly UP, <span class="key">Q</span> = fly DOWN</li>
+          <li>Adjust speed with scroll wheel while in Flythrough</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 7.2: Medium - Second Mural -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">7.2</div>
+      <div class="step-content"><strong>MEDIUM CHALLENGE: Create a Second Mural.</strong>
+        <ul class="sub-list">
+          <li>Select a puzzle piece, then press <span class="key">Ctrl</span>+<span class="key">D</span> to <strong>duplicate</strong> it</li>
+          <li>Move the duplicate to a new area using Move (W)</li>
+          <li>Create an entirely new design using duplicated pieces</li>
+          <li><strong>Pro tip:</strong> Use the top isometric view (click the green Y cone on the gizmo) for easier piece placement</li>
+          <li><strong>Pro tip:</strong> Drag the small square at the intersection of the Move tool arrows to move on two axes at once</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 7.3: Expert - Assemble tube slide -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">7.3</div>
+      <div class="step-content"><strong>EXPERT CHALLENGE: Assemble the Broken Tube Slide.</strong> Somewhere in the scene there are 3 broken pieces of a tube slide. Can you:
+        <ul class="sub-list">
+          <li>Find the 3 tube slide pieces in the Hierarchy</li>
+          <li>Switch to <strong>Local coordinates</strong> (dropdown near the Scene View toolbar)</li>
+          <li>Use Move (W) and Rotate (E) to assemble them back into a complete slide</li>
+          <li>Use the leg geometry as positioning guides</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 7.4: Complete the Quiz -->
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">7.4</div>
+      <div class="step-content"><strong>Complete the Quiz on Unity Learn.</strong> Go back to <strong>learn.unity.com</strong> and find the <strong>"Editor Essentials Quiz"</strong> at the end of the mission. It's a short quiz to test what you've learned. Pass it to earn your badge!</div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#10003;</div>
+      <div><strong>Checkpoint:</strong> "I've completed at least one bonus challenge and/or the quiz!"</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════ SUBMISSION GUIDE ═══════════ -->
+<div class="footer-section">
+  <h2>SUBMISSION GUIDE</h2>
+  <p style="margin-bottom:12px;color:var(--muted);">How to take screenshots and submit your work to Google Classroom.</p>
+  <ol class="submission-steps">
+    <li>Go to <strong>learn.unity.com</strong> and navigate to your Editor Essentials mission progress page. Take a screenshot showing which tutorials you completed: press <span class="key">Win</span>+<span class="key">Shift</span>+<span class="key">S</span>, draw a rectangle around the progress, then save it.</li>
+    <li>Open Unity and get a nice view of your <strong>mural</strong> in the Scene View. Take a screenshot of it the same way.</li>
+    <li>Open <strong>Google Classroom</strong> and find today's assignment.</li>
+    <li>Click <strong>"Add or create" → "File"</strong> and upload both screenshots. Or click <strong>"Add or create" → "Link"</strong> and paste your Unity Learn profile URL.</li>
+    <li>Click <strong>"Turn in"</strong> — you're done!</li>
+  </ol>
+</div>
+
+<!-- ═══════════ QUICK REFERENCE CARD ═══════════ -->
+<div class="footer-section">
+  <h2>QUICK REFERENCE — KEYBOARD SHORTCUTS</h2>
+
+  <h3>Navigation (Scene View)</h3>
+  <div class="shortcut-grid">
+    <div class="shortcut-item"><span class="action">Flythrough</span><span class="keys">RMB + WASD</span></div>
+    <div class="shortcut-item"><span class="action">Fly up / down</span><span class="keys">E / Q (in Flythrough)</span></div>
+    <div class="shortcut-item"><span class="action">Look around</span><span class="keys">RMB + drag</span></div>
+    <div class="shortcut-item"><span class="action">Orbit</span><span class="keys">Alt + LMB drag</span></div>
+    <div class="shortcut-item"><span class="action">Pan</span><span class="keys">MMB drag</span></div>
+    <div class="shortcut-item"><span class="action">Zoom</span><span class="keys">Scroll wheel</span></div>
+    <div class="shortcut-item"><span class="action">Frame / Focus</span><span class="keys">Select + F</span></div>
+    <div class="shortcut-item"><span class="action">Flythrough speed</span><span class="keys">Scroll (in Flythrough)</span></div>
+  </div>
+
+  <h3>Transform Tools</h3>
+  <div class="shortcut-grid">
+    <div class="shortcut-item"><span class="action">Hand / View tool</span><span class="keys">Q</span></div>
+    <div class="shortcut-item"><span class="action">Move</span><span class="keys">W</span></div>
+    <div class="shortcut-item"><span class="action">Rotate</span><span class="keys">E</span></div>
+    <div class="shortcut-item"><span class="action">Scale</span><span class="keys">R</span></div>
+    <div class="shortcut-item"><span class="action">Duplicate object</span><span class="keys">Ctrl + D</span></div>
+    <div class="shortcut-item"><span class="action">Delete object</span><span class="keys">Delete</span></div>
+  </div>
+
+  <h3>General</h3>
+  <div class="shortcut-grid">
+    <div class="shortcut-item"><span class="action">Undo</span><span class="keys">Ctrl + Z</span></div>
+    <div class="shortcut-item"><span class="action">Redo</span><span class="keys">Ctrl + Y</span></div>
+    <div class="shortcut-item"><span class="action">Save scene</span><span class="keys">Ctrl + S</span></div>
+    <div class="shortcut-item"><span class="action">Play / Stop</span><span class="keys">Ctrl + P</span></div>
+    <div class="shortcut-item"><span class="action">Screenshot</span><span class="keys">Win + Shift + S</span></div>
+    <div class="shortcut-item"><span class="action">Reset layout</span><span class="keys">Window &gt; Layouts &gt; Default</span></div>
+  </div>
+</div>
+
+<!-- ═══════════ PROGRESS TRACKER ═══════════ -->
+<div class="footer-section">
+  <h2>PROGRESS TRACKER</h2>
+  <p style="margin-bottom:16px;color:var(--muted);">Tick off each tutorial as you complete it. Aim for Tutorials 2–6 minimum!</p>
+  <div class="progress-grid">
+    <div class="progress-card">
+      <input type="checkbox" class="master-check" data-tut="2" onchange="updateMasterProgress(this)">
+      <span class="pc-label">Tutorial 2 — Open Project</span>
+      <span class="pc-xp">10 XP</span>
+    </div>
+    <div class="progress-card">
+      <input type="checkbox" class="master-check" data-tut="3" onchange="updateMasterProgress(this)">
+      <span class="pc-label">Tutorial 3 — Editor Interface</span>
+      <span class="pc-xp">10 XP</span>
+    </div>
+    <div class="progress-card">
+      <input type="checkbox" class="master-check" data-tut="4" onchange="updateMasterProgress(this)">
+      <span class="pc-label">Tutorial 4 — 3D Navigation</span>
+      <span class="pc-xp">10 XP</span>
+    </div>
+    <div class="progress-card">
+      <input type="checkbox" class="master-check" data-tut="5" onchange="updateMasterProgress(this)">
+      <span class="pc-label">Tutorial 5 — Flying Test</span>
+      <span class="pc-xp">10 XP</span>
+    </div>
+    <div class="progress-card">
+      <input type="checkbox" class="master-check" data-tut="6" onchange="updateMasterProgress(this)">
+      <span class="pc-label">Tutorial 6 — Mural Design</span>
+      <span class="pc-xp">10 XP</span>
+    </div>
+    <div class="progress-card">
+      <input type="checkbox" class="master-check" data-tut="7" onchange="updateMasterProgress(this)">
+      <span class="pc-label">Tutorial 7 — Extension</span>
+      <span class="pc-xp">10 XP</span>
+    </div>
+  </div>
+</div>
+
+<!-- Buttons -->
+<div class="btn-row no-print">
+  <button class="btn btn-neon" onclick="window.print()">&#128424; Save as PDF</button>
+  <button class="btn btn-blue" onclick="expandAll()">Expand All Sections</button>
+  <button class="btn btn-ghost" onclick="resetAll()">Reset Progress</button>
+</div>
+
+</div><!-- /container -->
+
+<script>
+function toggleSection(header){
+  header.closest('.tut-section').classList.toggle('open');
+}
+function expandAll(){
+  document.querySelectorAll('.tut-section').forEach(s=>s.classList.add('open'));
+}
+function updateProgress(){
+  const checks=document.querySelectorAll('.step-check input[type="checkbox"]');
+  const total=checks.length;
+  const done=[...checks].filter(c=>c.checked).length;
+  const pct=total?Math.round(done/total*100):0;
+  document.getElementById('progress-bar').style.width=pct+'%';
+}
+function updateXP(){
+  const masters=document.querySelectorAll('.master-check');
+  let xp=0;
+  masters.forEach(m=>{if(m.checked) xp+=10;});
+  document.getElementById('xp-display').textContent=xp;
+}
+function updateMasterProgress(cb){updateXP();}
+function resetAll(){
+  if(!confirm('Reset all checkboxes and progress?')) return;
+  document.querySelectorAll('input[type="checkbox"]').forEach(c=>c.checked=false);
+  document.getElementById('progress-bar').style.width='0%';
+  document.getElementById('xp-display').textContent='0';
+}
+</script>
+</body>
+</html>

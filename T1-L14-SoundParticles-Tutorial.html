@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T1-L14 — Sound &amp; Particles Tutorial</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:15px;line-height:1.7;}a{color:var(--blue);}
+#progress-bar-wrap{position:fixed;top:0;left:0;width:100%;height:6px;background:var(--dark);z-index:9999;}#progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--neon),var(--blue));transition:width .4s;}
+.hero{text-align:center;padding:80px 20px 40px;background:linear-gradient(180deg,rgba(74,222,128,.08) 0%,transparent 100%);}.hero h1{font-family:var(--font-head);font-size:2.4rem;font-weight:900;background:linear-gradient(135deg,var(--neon),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px;}.hero .sub{color:var(--muted);font-size:.95rem;margin-bottom:24px;}.hero .meta{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;}.hero .tag{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.8rem;color:var(--muted);}.hero .tag b{color:var(--neon);}
+.xp-tracker{display:flex;justify-content:center;align-items:center;gap:16px;margin:30px auto;padding:16px 24px;background:var(--dark);border:1px solid var(--border);border-radius:12px;max-width:500px;}.xp-tracker .xp-label{font-family:var(--font-head);font-size:1rem;color:var(--amber);}.xp-tracker .xp-val{font-family:var(--font-head);font-size:1.6rem;font-weight:900;color:var(--neon);}.xp-tracker .xp-max{color:var(--muted);font-size:.85rem;}
+.container{max-width:880px;margin:0 auto;padding:0 20px 60px;}
+.tut-section{margin:40px 0;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--dark);}.tut-header{padding:20px 24px;display:flex;align-items:center;gap:16px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border);}.tut-header .tut-num{font-family:var(--font-head);font-size:1.6rem;font-weight:900;color:var(--navy);background:var(--neon);border-radius:10px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}.tut-section[data-colour="blue"] .tut-num{background:var(--blue);}.tut-section[data-colour="purple"] .tut-num{background:var(--purple);}.tut-section[data-colour="amber"] .tut-num{background:var(--amber);}.tut-section[data-colour="pink"] .tut-num{background:var(--pink);}.tut-header .tut-info{flex:1;}.tut-header .tut-title{font-family:var(--font-head);font-size:1.05rem;font-weight:700;color:var(--white);}.tut-header .tut-time{font-size:.8rem;color:var(--muted);margin-top:2px;}.tut-header .xp-badge{font-family:var(--font-head);background:rgba(251,191,36,.15);color:var(--amber);padding:4px 12px;border-radius:8px;font-size:.85rem;font-weight:700;flex-shrink:0;}.tut-header .chevron{color:var(--muted);font-size:1.4rem;transition:transform .3s;flex-shrink:0;}.tut-section.open .chevron{transform:rotate(90deg);}.tut-body{padding:0 24px 24px;display:none;}.tut-section.open .tut-body{display:block;}
+.step{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid rgba(51,65,85,.5);}.step:last-child{border-bottom:none;}.step-check{flex-shrink:0;margin-top:3px;}.step-check input[type="checkbox"]{width:20px;height:20px;accent-color:var(--neon);cursor:pointer;}.step-num{font-family:var(--font-head);font-size:.75rem;color:var(--neon);background:rgba(74,222,128,.1);border-radius:6px;padding:2px 8px;height:fit-content;flex-shrink:0;margin-top:2px;}.step-content{flex:1;}.step-content strong{color:var(--neon);}.step-content .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:1px 8px;font-size:.85rem;color:var(--amber);font-weight:700;margin:0 2px;}.step-content .sub-list{margin:8px 0 0 0;list-style:none;}.step-content .sub-list li{padding:4px 0;color:var(--muted);font-size:.9rem;}.step-content .sub-list li::before{content:'\25B8 ';color:var(--blue);}.step-content .sub-list li strong{color:var(--white);}
+.detail{margin:6px 0 0 0;padding:8px 12px;background:rgba(15,23,42,.6);border-left:3px solid var(--blue);border-radius:0 6px 6px 0;font-size:.88rem;color:var(--muted);}.detail strong{color:var(--blue);}
+.code-block{margin:10px 0;padding:14px 18px;background:#0a0e1a;border:1px solid var(--border);border-radius:10px;font-family:var(--font-body);font-size:.88rem;line-height:1.6;overflow-x:auto;white-space:pre;color:var(--neon);}.code-block .kw{color:var(--blue);}.code-block .ty{color:var(--purple);}.code-block .st{color:var(--amber);}.code-block .cm{color:var(--muted);font-style:italic;}.code-block .fn{color:var(--pink);}
+.callout{margin:16px 0;padding:14px 18px;border-radius:10px;font-size:.9rem;display:flex;gap:12px;align-items:flex-start;}.callout .icon{font-size:1.2rem;flex-shrink:0;}.callout-checkpoint{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);}.callout-checkpoint .icon{color:var(--neon);}.callout-trouble{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);}.callout-trouble .icon{color:var(--red);}.callout-tip{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);}.callout-tip .icon{color:var(--blue);}.callout-challenge{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);}.callout-challenge .icon{color:var(--amber);}.callout-extension{background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);}.callout-extension .icon{color:var(--purple);}
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);border-radius:10px;}.vocab h4{font-family:var(--font-head);font-size:.8rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:.88rem;}.vocab dt{color:var(--amber);font-weight:700;}.vocab dd{color:var(--muted);}
+.footer-section{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;}.footer-section h2{font-family:var(--font-head);font-size:1.2rem;margin-bottom:16px;color:var(--neon);}
+.progress-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;}.progress-card{display:flex;align-items:center;gap:12px;padding:12px;background:var(--navy);border-radius:10px;border:1px solid var(--border);}.progress-card input[type="checkbox"]{width:22px;height:22px;accent-color:var(--neon);}.progress-card .pc-label{flex:1;font-size:.9rem;}.progress-card .pc-xp{font-family:var(--font-head);color:var(--amber);font-size:.85rem;}
+.btn{display:inline-block;padding:10px 24px;border-radius:8px;border:none;font-family:var(--font-head);font-size:.85rem;cursor:pointer;font-weight:700;transition:transform .15s;}.btn:hover{transform:translateY(-2px);}.btn-neon{background:var(--neon);color:var(--navy);}.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted);}.btn-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;justify-content:center;}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;-webkit-text-fill-color:#111!important;}body{font-size:10pt;}#progress-bar-wrap,.btn-row,.no-print{display:none!important;}.tut-section{break-inside:avoid;}.tut-section.open .tut-body,.tut-body{display:block!important;}.tut-header .chevron{display:none;}.code-block{background:#f4f4f4!important;color:#111!important;}.code-block .kw,.code-block .ty,.code-block .fn,.code-block .st,.code-block .cm{color:#333!important;}}
+</style>
+</head>
+<body>
+<div id="progress-bar-wrap"><div id="progress-bar"></div></div>
+
+<div class="hero">
+  <h1>MISSION 14: Sound &amp; Particles</h1>
+  <p class="sub">Add audio effects, background music, and particle systems to bring your game to life</p>
+  <div class="meta">
+    <span class="tag"><b>Lesson 14</b> of 22</span>
+    <span class="tag"><b>75 min</b> session</span>
+    <span class="tag"><b>50 XP</b> available</span>
+    <span class="tag">Week 9 — Wed</span>
+  </div>
+</div>
+
+<div class="xp-tracker">
+  <span class="xp-label">XP EARNED:</span>
+  <span class="xp-val" id="xp-display">0</span>
+  <span class="xp-max">/ 50 XP</span>
+</div>
+
+<div class="container">
+
+<!-- ======================== SECTION 1 ======================== -->
+<div class="tut-section open" id="section-1" data-colour="neon">
+  <div class="tut-header" onclick="toggleSection(1)">
+    <div class="tut-num">1</div>
+    <div class="tut-info"><div class="tut-title">Audio Basics in Unity</div><div class="tut-time">~12 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="vocab">
+      <h4>Key Vocabulary</h4>
+      <dl>
+        <dt>AudioSource</dt><dd>A component that plays audio clips — like a speaker attached to a GameObject</dd>
+        <dt>AudioClip</dt><dd>An imported sound file (WAV, MP3, OGG) stored in your Assets</dd>
+        <dt>AudioListener</dt><dd>The "ear" of the game — usually on the Main Camera. Only one per scene!</dd>
+        <dt>SFX</dt><dd>Sound Effects — short sounds triggered by events (jump, collect, hit)</dd>
+        <dt>BGM</dt><dd>Background Music — longer tracks that loop continuously during gameplay</dd>
+      </dl>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.1</div>
+      <div class="step-content">
+        <strong>Download free sound effects.</strong> Visit one of these free sound sites:
+        <ul class="sub-list">
+          <li><strong>freesound.org</strong> — huge library of CC0 sounds (requires free account)</li>
+          <li><strong>kenney.nl/assets</strong> → search "Audio" — game-ready sound packs, no account needed</li>
+          <li><strong>opengameart.org</strong> → browse "Music" and "Sound Effect" categories</li>
+          <li><strong>Teacher resource pack</strong> — check Google Classroom for a .zip of curated sounds</li>
+        </ul>
+        <div class="detail"><strong>Tip:</strong> Download at least 4 sounds — a jump sound, a coin/collect sound, a damage/hit sound, and a background music track. WAV or OGG format is best for Unity.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.2</div>
+      <div class="step-content">
+        <strong>Create an Audio folder.</strong> In your Project window, right-click in Assets → <strong>Create → Folder</strong> → name it <strong>"Audio"</strong>. Inside Audio, create two sub-folders: <strong>"SFX"</strong> and <strong>"Music"</strong>.
+        <div class="detail"><strong>Folder structure:</strong> Assets/Audio/SFX/ (for short sounds) and Assets/Audio/Music/ (for background tracks). Staying organised is a professional habit!</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.3</div>
+      <div class="step-content">
+        <strong>Import your sounds.</strong> Drag your downloaded audio files from File Explorer into the appropriate folder (SFX or Music) in the Project window. Unity will import them as <strong>AudioClip</strong> assets.
+        <div class="detail"><strong>Check import settings:</strong> Click on an imported audio file. In the Inspector you'll see options like <strong>Load Type</strong> (Decompress On Load for SFX, Streaming for music) and <strong>Compression Format</strong> (Vorbis is a good default). For now, leave these as default.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.4</div>
+      <div class="step-content">
+        <strong>Understand the Audio pipeline.</strong> Unity audio works like this:
+        <ul class="sub-list">
+          <li><strong>AudioClip</strong> = the sound file (like a CD)</li>
+          <li><strong>AudioSource</strong> = the player/speaker (plays the clip)</li>
+          <li><strong>AudioListener</strong> = the ear (on the Camera — already there by default!)</li>
+        </ul>
+        <div class="detail"><strong>Important:</strong> You can have many AudioSources in a scene, but only <strong>ONE AudioListener</strong>. Unity will warn you if you accidentally add two. The AudioListener is already on your Main Camera — don't add another one.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.5</div>
+      <div class="step-content">
+        <strong>Add background music.</strong> Create an empty GameObject: <span class="key">Ctrl+Shift+N</span> → name it <strong>"BGM"</strong>. In the Inspector, click <strong>Add Component → Audio Source</strong>.
+        <ul class="sub-list">
+          <li>Drag your music AudioClip into the <strong>AudioClip</strong> field</li>
+          <li>Tick <strong>Play On Awake</strong> ✓ (starts when scene loads)</li>
+          <li>Tick <strong>Loop</strong> ✓ (music repeats forever)</li>
+          <li>Set <strong>Volume</strong> to about <strong>0.3</strong> (30% — background music should be subtle)</li>
+        </ul>
+        <div class="detail"><strong>Test it:</strong> Press Play. You should hear your background music. If it's too loud, lower the Volume slider. If you hear nothing, check that the AudioClip is assigned and the AudioListener exists on the Camera.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.6</div>
+      <div class="step-content">
+        <strong>Preview sounds in the Editor.</strong> You can listen to any AudioClip without pressing Play: click the audio file in the Project window, then click the <strong>Play button</strong> in the Inspector preview at the bottom. The waveform display shows you the sound's shape.
+      </div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#9989;</div>
+      <div><strong>Checkpoint:</strong> You have an Audio folder with SFX and Music sub-folders, background music is playing when you press Play, and you know what AudioSource, AudioClip, and AudioListener do.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== SECTION 2 ======================== -->
+<div class="tut-section" id="section-2" data-colour="blue">
+  <div class="tut-header" onclick="toggleSection(2)">
+    <div class="tut-num">2</div>
+    <div class="tut-info"><div class="tut-title">Playing Sound Effects with Code</div><div class="tut-time">~15 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.1</div>
+      <div class="step-content">
+        <strong>Add an AudioSource to your Player.</strong> Select your Player GameObject in the Hierarchy. Click <strong>Add Component → Audio Source</strong>. This time:
+        <ul class="sub-list">
+          <li><strong>Uncheck</strong> Play On Awake (we don't want it playing automatically)</li>
+          <li><strong>Uncheck</strong> Loop (SFX should play once)</li>
+          <li>Leave the AudioClip field <strong>empty</strong> — we'll assign clips through code</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.2</div>
+      <div class="step-content">
+        <strong>Open your PlayerController script.</strong> We need to add variables for our sound clips and a reference to the AudioSource. Add these variables at the top of your class:
+        <div class="code-block"><span class="cm">// --- Audio ---</span>
+<span class="kw">public</span> <span class="ty">AudioClip</span> jumpSound;
+<span class="kw">public</span> <span class="ty">AudioClip</span> collectSound;
+<span class="kw">public</span> <span class="ty">AudioClip</span> hurtSound;
+<span class="kw">private</span> <span class="ty">AudioSource</span> audioSource;</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.3</div>
+      <div class="step-content">
+        <strong>Get the AudioSource in Start().</strong> Add this line inside your <strong>Start()</strong> method:
+        <div class="code-block"><span class="kw">void</span> <span class="fn">Start</span>()
+{
+    <span class="cm">// ... your existing Start code ...</span>
+    audioSource = <span class="fn">GetComponent</span>&lt;<span class="ty">AudioSource</span>&gt;();
+}</div>
+        <div class="detail"><strong>Why GetComponent?</strong> This finds the AudioSource we just added to the Player GameObject and stores a reference so we can use it in our code. It's the same pattern we used for Rigidbody2D!</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.4</div>
+      <div class="step-content">
+        <strong>Play the jump sound.</strong> Find the part of your code where the player jumps (where you apply force/velocity). Add this line right after the jump:
+        <div class="code-block"><span class="cm">// Inside your jump logic, after applying force:</span>
+<span class="kw">if</span> (jumpSound != <span class="kw">null</span>)
+{
+    audioSource.<span class="fn">PlayOneShot</span>(jumpSound);
+}</div>
+        <div class="detail"><strong>PlayOneShot vs Play:</strong> <code>PlayOneShot(clip)</code> lets you play a sound <em>without interrupting</em> other sounds on the same AudioSource. <code>Play()</code> stops the current sound first. Always use <strong>PlayOneShot</strong> for SFX so sounds can overlap!</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.5</div>
+      <div class="step-content">
+        <strong>Play the collect sound.</strong> Find your <strong>OnTriggerEnter2D</strong> method where you collect coins. Add the sound before or after <code>Destroy(other.gameObject)</code>:
+        <div class="code-block"><span class="kw">void</span> <span class="fn">OnTriggerEnter2D</span>(<span class="ty">Collider2D</span> other)
+{
+    <span class="kw">if</span> (other.<span class="fn">CompareTag</span>(<span class="st">"Coin"</span>))
+    {
+        score++;
+        <span class="kw">if</span> (collectSound != <span class="kw">null</span>)
+        {
+            audioSource.<span class="fn">PlayOneShot</span>(collectSound);
+        }
+        <span class="fn">Destroy</span>(other.gameObject);
+    }
+}</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.6</div>
+      <div class="step-content">
+        <strong>Play the hurt sound.</strong> Find where you handle damage (enemy collision or hazard). Add the hurt sound:
+        <div class="code-block"><span class="cm">// Inside enemy/hazard collision logic:</span>
+<span class="kw">if</span> (hurtSound != <span class="kw">null</span>)
+{
+    audioSource.<span class="fn">PlayOneShot</span>(hurtSound);
+}</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.7</div>
+      <div class="step-content">
+        <strong>Assign the clips in the Inspector.</strong> Save your script (<span class="key">Ctrl+S</span>). Go back to Unity. Select the Player. In the Inspector, you'll see three new fields: <strong>Jump Sound</strong>, <strong>Collect Sound</strong>, <strong>Hurt Sound</strong>. Drag the appropriate AudioClip from your Audio/SFX folder into each field.
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.8</div>
+      <div class="step-content">
+        <strong>Test all three sounds.</strong> Press <span class="key">Ctrl+P</span> to play. Jump — you should hear the jump sound. Collect a coin — collect sound. Touch an enemy — hurt sound. If a sound is too loud/quiet, select the AudioClip and adjust the volume in code: <code>audioSource.PlayOneShot(jumpSound, 0.7f)</code> (the second parameter is volume 0-1).
+      </div>
+    </div>
+
+    <div class="callout callout-trouble">
+      <div class="icon">&#9888;</div>
+      <div><strong>No sound?</strong> Check: (1) AudioClip is assigned in Inspector, (2) AudioSource exists on Player, (3) Play On Awake is unchecked, (4) null check is correct (jumpSound != null), (5) Computer volume is up, (6) AudioListener exists on Camera.</div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#9989;</div>
+      <div><strong>Checkpoint:</strong> Your player makes sounds when jumping, collecting coins, and taking damage. You understand PlayOneShot and how AudioClip variables work.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== SECTION 3 ======================== -->
+<div class="tut-section" id="section-3" data-colour="purple">
+  <div class="tut-header" onclick="toggleSection(3)">
+    <div class="tut-num">3</div>
+    <div class="tut-info"><div class="tut-title">SoundManager — Centralised Audio</div><div class="tut-time">~15 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.1</div>
+      <div class="step-content">
+        <strong>Why a SoundManager?</strong> Right now, only the Player can play sounds. But what if an enemy explodes? Or a coin sparkles? We need a <strong>central sound system</strong> that any script can access.
+        <div class="detail"><strong>Design Pattern — Singleton:</strong> A SoundManager uses the <strong>Singleton pattern</strong>: only one instance exists in the entire game, and any script can access it through <code>SoundManager.Instance</code>. This is the same pattern used in professional games!</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.2</div>
+      <div class="step-content">
+        <strong>Create the SoundManager script.</strong> In Project window: right-click Scripts folder → <strong>Create → C# Script</strong> → name it <strong>"SoundManager"</strong>. Double-click to open and replace ALL the code with:
+        <div class="code-block"><span class="kw">using</span> UnityEngine;
+
+<span class="kw">public class</span> <span class="ty">SoundManager</span> : <span class="ty">MonoBehaviour</span>
+{
+    <span class="cm">// --- Singleton ---</span>
+    <span class="kw">public static</span> <span class="ty">SoundManager</span> Instance;
+
+    <span class="cm">// --- Audio Sources ---</span>
+    <span class="kw">public</span> <span class="ty">AudioSource</span> sfxSource;   <span class="cm">// for sound effects</span>
+    <span class="kw">public</span> <span class="ty">AudioSource</span> musicSource; <span class="cm">// for background music</span>
+
+    <span class="cm">// --- Sound Clips ---</span>
+    <span class="kw">public</span> <span class="ty">AudioClip</span> jumpClip;
+    <span class="kw">public</span> <span class="ty">AudioClip</span> collectClip;
+    <span class="kw">public</span> <span class="ty">AudioClip</span> hurtClip;
+    <span class="kw">public</span> <span class="ty">AudioClip</span> gameOverClip;
+    <span class="kw">public</span> <span class="ty">AudioClip</span> buttonClip;
+
+    <span class="kw">void</span> <span class="fn">Awake</span>()
+    {
+        <span class="cm">// Singleton: if one already exists, destroy this copy</span>
+        <span class="kw">if</span> (Instance != <span class="kw">null</span> && Instance != <span class="kw">this</span>)
+        {
+            <span class="fn">Destroy</span>(gameObject);
+            <span class="kw">return</span>;
+        }
+        Instance = <span class="kw">this</span>;
+        <span class="fn">DontDestroyOnLoad</span>(gameObject);
+    }
+
+    <span class="kw">public void</span> <span class="fn">PlaySFX</span>(<span class="ty">AudioClip</span> clip, <span class="ty">float</span> volume = 1f)
+    {
+        <span class="kw">if</span> (clip != <span class="kw">null</span>)
+        {
+            sfxSource.<span class="fn">PlayOneShot</span>(clip, volume);
+        }
+    }
+
+    <span class="kw">public void</span> <span class="fn">PlayJump</span>()  { <span class="fn">PlaySFX</span>(jumpClip); }
+    <span class="kw">public void</span> <span class="fn">PlayCollect</span>() { <span class="fn">PlaySFX</span>(collectClip); }
+    <span class="kw">public void</span> <span class="fn">PlayHurt</span>()  { <span class="fn">PlaySFX</span>(hurtClip, 0.8f); }
+    <span class="kw">public void</span> <span class="fn">PlayGameOver</span>() { <span class="fn">PlaySFX</span>(gameOverClip); }
+    <span class="kw">public void</span> <span class="fn">PlayButton</span>() { <span class="fn">PlaySFX</span>(buttonClip, 0.5f); }
+
+    <span class="kw">public void</span> <span class="fn">SetMusicVolume</span>(<span class="ty">float</span> vol)
+    {
+        musicSource.volume = vol;
+    }
+
+    <span class="kw">public void</span> <span class="fn">ToggleMusic</span>()
+    {
+        musicSource.mute = !musicSource.mute;
+    }
+}</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.3</div>
+      <div class="step-content">
+        <strong>Set up the SoundManager GameObject.</strong> In Hierarchy:
+        <ul class="sub-list">
+          <li>Create an empty GameObject → name it <strong>"SoundManager"</strong></li>
+          <li>Add the <strong>SoundManager</strong> script component</li>
+          <li>Add <strong>TWO AudioSource</strong> components (click Add Component twice)</li>
+          <li>First AudioSource: leave as default (this will be sfxSource)</li>
+          <li>Second AudioSource: set <strong>Play On Awake ✓</strong>, <strong>Loop ✓</strong>, assign your music clip, volume <strong>0.3</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.4</div>
+      <div class="step-content">
+        <strong>Wire up the Inspector.</strong> Select the SoundManager GameObject. In the script component:
+        <ul class="sub-list">
+          <li>Drag the <strong>first AudioSource</strong> into <strong>Sfx Source</strong></li>
+          <li>Drag the <strong>second AudioSource</strong> into <strong>Music Source</strong></li>
+          <li>Drag each sound clip from Audio/SFX into the matching clip field</li>
+        </ul>
+        <div class="detail"><strong>Tip:</strong> You can drag components from the same GameObject. Click the little circle icon next to the field to see a picker, or drag directly from the Inspector header.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.5</div>
+      <div class="step-content">
+        <strong>Use the SoundManager from any script.</strong> Now update your PlayerController. Replace the old direct AudioSource calls with:
+        <div class="code-block"><span class="cm">// OLD way (remove these):</span>
+<span class="cm">// audioSource.PlayOneShot(jumpSound);</span>
+
+<span class="cm">// NEW way — call the SoundManager from anywhere:</span>
+<span class="ty">SoundManager</span>.Instance.<span class="fn">PlayJump</span>();
+<span class="ty">SoundManager</span>.Instance.<span class="fn">PlayCollect</span>();
+<span class="ty">SoundManager</span>.Instance.<span class="fn">PlayHurt</span>();</div>
+        <div class="detail"><strong>Why is this better?</strong> (1) Any script can play sounds — enemies, pickups, UI buttons. (2) All sound clips are managed in ONE place. (3) You can add volume controls and mute functionality easily. (4) DontDestroyOnLoad means music persists between scenes!</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.6</div>
+      <div class="step-content">
+        <strong>Delete the old BGM GameObject.</strong> Since the SoundManager now handles music, delete the old "BGM" GameObject from Section 1 (right-click → Delete). The SoundManager replaces it.
+      </div>
+    </div>
+
+    <div class="callout callout-tip">
+      <div class="icon">&#128161;</div>
+      <div><strong>Pro tip:</strong> You can remove the AudioSource and AudioClip variables from your PlayerController now if you want — the SoundManager handles everything. Keep your player script clean!</div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#9989;</div>
+      <div><strong>Checkpoint:</strong> SoundManager is set up with Singleton pattern, any script can call SoundManager.Instance.PlayJump() etc, and music plays through the centralised system.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== SECTION 4 ======================== -->
+<div class="tut-section" id="section-4" data-colour="amber">
+  <div class="tut-header" onclick="toggleSection(4)">
+    <div class="tut-num">4</div>
+    <div class="tut-info"><div class="tut-title">Particle Systems — Visual Effects</div><div class="tut-time">~20 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="vocab">
+      <h4>Key Vocabulary</h4>
+      <dl>
+        <dt>Particle System</dt><dd>A component that emits many small sprites/meshes to simulate effects like fire, smoke, sparks, and explosions</dd>
+        <dt>Emission</dt><dd>How many particles are spawned per second — higher = more dense effect</dd>
+        <dt>Lifetime</dt><dd>How long each particle exists before disappearing</dd>
+        <dt>Start Speed</dt><dd>How fast particles move when they are born</dd>
+        <dt>Simulation Space</dt><dd>World (particles stay in place) vs Local (particles move with the parent object)</dd>
+      </dl>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.1</div>
+      <div class="step-content">
+        <strong>Create a Dust particle effect.</strong> In the Hierarchy: right-click → <strong>Effects → Particle System</strong>. Name it <strong>"DustParticles"</strong>. You'll immediately see pink/magenta squares shooting upward — that's the default particle system!
+        <div class="detail"><strong>Why pink squares?</strong> The default material has no texture assigned. We'll fix this shortly. The magenta colour is Unity's way of saying "missing texture".</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.2</div>
+      <div class="step-content">
+        <strong>Configure the main module.</strong> Select DustParticles. In the Inspector, the Particle System has many expandable modules. Start with the <strong>main module</strong> (the one at the very top):
+        <ul class="sub-list">
+          <li><strong>Duration:</strong> 1.0 (how long the system runs in seconds)</li>
+          <li><strong>Looping:</strong> Uncheck ✗ (dust puffs should play once, not loop)</li>
+          <li><strong>Start Lifetime:</strong> 0.5 (particles vanish after 0.5 seconds)</li>
+          <li><strong>Start Speed:</strong> 2 (how fast particles shoot out)</li>
+          <li><strong>Start Size:</strong> 0.2 (small particles for dust)</li>
+          <li><strong>Start Color:</strong> Click and choose a sandy/brown colour</li>
+          <li><strong>Simulation Space:</strong> World (particles stay where emitted, not follow the player)</li>
+          <li><strong>Play On Awake:</strong> Uncheck ✗ (we'll trigger it from code)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.3</div>
+      <div class="step-content">
+        <strong>Configure Emission.</strong> Click the <strong>Emission</strong> module to expand it:
+        <ul class="sub-list">
+          <li><strong>Rate over Time:</strong> 0 (we don't want continuous emission)</li>
+          <li>Click the <strong>+</strong> under <strong>Bursts</strong> to add a burst</li>
+          <li><strong>Time:</strong> 0, <strong>Count:</strong> 15, <strong>Cycles:</strong> 1</li>
+        </ul>
+        <div class="detail"><strong>Rate vs Burst:</strong> "Rate over Time" emits particles continuously (good for smoke, fire). "Bursts" emit a bunch of particles all at once at a specific time (good for explosions, dust puffs, impacts).</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.4</div>
+      <div class="step-content">
+        <strong>Configure Shape.</strong> Click the <strong>Shape</strong> module:
+        <ul class="sub-list">
+          <li><strong>Shape:</strong> Circle (particles emit from a circle — perfect for landing dust)</li>
+          <li><strong>Radius:</strong> 0.3</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.5</div>
+      <div class="step-content">
+        <strong>Add Size over Lifetime.</strong> Check the <strong>Size over Lifetime</strong> module (click the checkbox to enable it). Click the curve graph. Choose the <strong>downward curve</strong> preset (top-right of the curve editor). This makes particles shrink as they age — much more natural looking.
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.6</div>
+      <div class="step-content">
+        <strong>Add Colour over Lifetime.</strong> Enable the <strong>Color over Lifetime</strong> module. Click the gradient bar. Set the <strong>right alpha marker</strong> (top-right of gradient) to <strong>0</strong>. This makes particles fade out as they age — they become transparent before disappearing.
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.7</div>
+      <div class="step-content">
+        <strong>Fix the material.</strong> Expand the <strong>Renderer</strong> module at the bottom. Change <strong>Material</strong> to <strong>Default-Particle</strong> (click the circle icon and search "Default-Particle"). The pink squares should now be soft white circles.
+        <div class="detail"><strong>Alternative:</strong> For 2D games, you can also use <strong>Sprites-Default</strong> material, which renders particles as flat sprites instead of 3D billboards.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.8</div>
+      <div class="step-content">
+        <strong>Make it a prefab.</strong> Drag DustParticles from Hierarchy into your Prefabs folder in the Project window. Now delete it from the Hierarchy — we'll spawn it through code.
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.9</div>
+      <div class="step-content">
+        <strong>Spawn dust when landing.</strong> Open your PlayerController. Add a variable and the spawn logic:
+        <div class="code-block"><span class="kw">public</span> <span class="ty">GameObject</span> dustPrefab;
+
+<span class="cm">// Call this method when the player lands on the ground</span>
+<span class="kw">void</span> <span class="fn">SpawnDust</span>()
+{
+    <span class="kw">if</span> (dustPrefab != <span class="kw">null</span>)
+    {
+        <span class="ty">GameObject</span> dust = <span class="fn">Instantiate</span>(dustPrefab,
+            transform.position, <span class="ty">Quaternion</span>.identity);
+        <span class="fn">Destroy</span>(dust, 1f); <span class="cm">// clean up after 1 second</span>
+    }
+}</div>
+        <div class="detail"><strong>When to call SpawnDust():</strong> Call it in your ground detection code — when the player was in the air (isGrounded was false) and just became grounded (isGrounded is now true). For example, in your ground check logic add: <code>if (!wasGrounded && isGrounded) SpawnDust();</code></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.10</div>
+      <div class="step-content">
+        <strong>Assign the prefab.</strong> Back in Unity, select your Player. Drag the DustParticles prefab from the Project window into the <strong>Dust Prefab</strong> field. Press Play and jump — you should see a puff of dust when you land!
+      </div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#9989;</div>
+      <div><strong>Checkpoint:</strong> You have a dust particle effect that spawns when the player lands. You understand the main Particle System modules: Emission, Shape, Size over Lifetime, Color over Lifetime, and Renderer.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== SECTION 5 ======================== -->
+<div class="tut-section" id="section-5" data-colour="pink">
+  <div class="tut-header" onclick="toggleSection(5)">
+    <div class="tut-num">5</div>
+    <div class="tut-info"><div class="tut-title">Extension — More Effects &amp; Polish</div><div class="tut-time">~13 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="callout callout-challenge">
+      <div class="icon">&#127942;</div>
+      <div><strong>Challenge time!</strong> You've mastered the basics. Now create more particle effects and audio polish to make your game feel professional.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">5.1</div>
+      <div class="step-content">
+        <strong>Coin Collect Sparkle.</strong> Create a new Particle System for collecting coins:
+        <ul class="sub-list">
+          <li>Looping: Off, Play On Awake: On (it plays immediately when spawned)</li>
+          <li>Start Lifetime: 0.6, Start Speed: 3, Start Size: 0.15</li>
+          <li>Start Color: <strong>Gold/Yellow</strong> (#FFD700)</li>
+          <li>Emission: Burst of 20 particles</li>
+          <li>Shape: Sphere, Radius: 0.2</li>
+          <li>Size over Lifetime: shrink curve</li>
+          <li>Colour over Lifetime: fade to transparent</li>
+          <li>Renderer: Default-Particle material</li>
+        </ul>
+        Save as prefab "CoinSparkle". Spawn it in your coin collection code: <code>Instantiate(coinSparkle, other.transform.position, Quaternion.identity)</code>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">5.2</div>
+      <div class="step-content">
+        <strong>Enemy Death Explosion.</strong> Create a more dramatic particle effect:
+        <ul class="sub-list">
+          <li>Start Color: Red/orange gradient</li>
+          <li>Emission: Burst of 30 particles</li>
+          <li>Start Speed: 4-6 (use "Random Between Two Constants")</li>
+          <li>Start Size: 0.1-0.3 (random)</li>
+          <li>Gravity Modifier: 0.5 (particles fall slightly)</li>
+        </ul>
+        <div class="detail"><strong>Random values:</strong> Click the dropdown arrow next to any Particle System value and choose "Random Between Two Constants" to add natural variation. This makes effects look much more organic!</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">5.3</div>
+      <div class="step-content">
+        <strong>Ambient particles.</strong> Create a subtle continuous particle effect for atmosphere:
+        <ul class="sub-list">
+          <li>Looping: On, Play On Awake: On</li>
+          <li>Emission Rate: 5 per second (very sparse)</li>
+          <li>Start Lifetime: 3-5 seconds</li>
+          <li>Start Speed: 0.5, Start Size: 0.05-0.1</li>
+          <li>Shape: Box (wide area, covers the screen)</li>
+          <li>Color: Soft white with low alpha</li>
+        </ul>
+        Place this in your scene as floating dust motes, falling leaves, or drifting snow depending on your game's theme.
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">5.4</div>
+      <div class="step-content">
+        <strong>Volume control with a UI slider.</strong> Add a Slider to your Canvas (right-click Canvas → UI → Slider). Position it in a corner. Create this method in SoundManager:
+        <div class="code-block"><span class="cm">// Add to SoundManager.cs</span>
+<span class="kw">public void</span> <span class="fn">OnVolumeChanged</span>(<span class="ty">float</span> value)
+{
+    <span class="ty">AudioListener</span>.volume = value; <span class="cm">// master volume 0-1</span>
+}</div>
+        Then on the Slider's <strong>On Value Changed</strong> event in the Inspector, drag the SoundManager and select <code>OnVolumeChanged</code>.
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">5.5</div>
+      <div class="step-content">
+        <strong>Trail Renderer for movement.</strong> Select your Player → <strong>Add Component → Trail Renderer</strong>. Configure:
+        <ul class="sub-list">
+          <li><strong>Width:</strong> Curve from 0.2 to 0 (tapers to nothing)</li>
+          <li><strong>Time:</strong> 0.3 (trail disappears after 0.3 seconds)</li>
+          <li><strong>Color:</strong> Gradient from your accent colour to transparent</li>
+          <li><strong>Material:</strong> Sprites-Default</li>
+          <li><strong>Min Vertex Distance:</strong> 0.05</li>
+        </ul>
+        <div class="detail"><strong>Result:</strong> Your player leaves a subtle coloured trail when moving. This is a classic "juice" technique used in games like Celeste and Hollow Knight!</div>
+      </div>
+    </div>
+
+    <div class="callout callout-extension">
+      <div class="icon">&#128640;</div>
+      <div><strong>Super Extension:</strong> Look up "game juice" or "game feel" on YouTube. Try adding screen shake when the player takes damage (move the camera briefly using Random.insideUnitCircle). Add pitch variation to your SFX: <code>sfxSource.pitch = Random.Range(0.9f, 1.1f)</code> before PlayOneShot to make each sound slightly different.</div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <div class="icon">&#9989;</div>
+      <div><strong>Checkpoint:</strong> You've created at least one additional particle effect (sparkle or explosion) and attempted at least one polish technique (volume slider, trail renderer, or ambient particles).</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== FOOTER ======================== -->
+<div class="footer-section">
+  <h2>Quick Reference</h2>
+  <dl style="display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-size:.9rem;">
+    <dt style="color:var(--amber)">AudioSource.PlayOneShot(clip)</dt><dd style="color:var(--muted)">Play a clip without stopping current audio</dd>
+    <dt style="color:var(--amber)">AudioSource.Play()</dt><dd style="color:var(--muted)">Play the assigned clip (stops current first)</dd>
+    <dt style="color:var(--amber)">DontDestroyOnLoad(gameObject)</dt><dd style="color:var(--muted)">Keep object alive when loading new scene</dd>
+    <dt style="color:var(--amber)">ParticleSystem.Play()</dt><dd style="color:var(--muted)">Manually trigger a particle system</dd>
+    <dt style="color:var(--amber)">Instantiate(prefab, pos, rot)</dt><dd style="color:var(--muted)">Spawn a prefab at position with rotation</dd>
+    <dt style="color:var(--amber)">AudioListener.volume</dt><dd style="color:var(--muted)">Master volume (0-1) for all audio</dd>
+  </dl>
+</div>
+
+<div class="footer-section">
+  <h2>Submission</h2>
+  <p style="color:var(--muted);font-size:.9rem;">Take a <strong>screenshot</strong> of your game running with visible particle effects. In Google Classroom, submit: (1) the screenshot, and (2) a short note listing which sounds and effects you added. Save your Unity project (<span class="key">Ctrl+S</span>).</p>
+</div>
+
+<div class="footer-section">
+  <h2>Progress Tracker</h2>
+  <div class="progress-grid">
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Audio folder + BGM playing</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">3 SFX playing from code</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">SoundManager singleton set up</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Dust particles on landing</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Extension effect completed</span><span class="pc-xp">+10 XP</span></div>
+  </div>
+</div>
+
+<div class="btn-row no-print">
+  <button class="btn btn-neon" onclick="expandAll()">Expand All</button>
+  <button class="btn btn-ghost" onclick="resetAll()">Reset Progress</button>
+</div>
+
+</div>
+
+<script>
+const TOTAL_SECTIONS=5,XP_PER_SECTION=10;let xp=0;
+function toggleSection(n){const s=document.getElementById('section-'+n);s.classList.toggle('open');}
+function expandAll(){document.querySelectorAll('.tut-section').forEach(s=>s.classList.add('open'));}
+function updateProgress(){const checks=document.querySelectorAll('.step-check input[type="checkbox"]');const total=checks.length;const done=[...checks].filter(c=>c.checked).length;document.getElementById('progress-bar').style.width=Math.round(done/total*100)+'%';updateXP();}
+function updateXP(){let total=0;for(let i=1;i<=TOTAL_SECTIONS;i++){const sec=document.getElementById('section-'+i);if(!sec)continue;const checks=sec.querySelectorAll('.step-check input[type="checkbox"]');const done=[...checks].filter(c=>c.checked).length;if(checks.length>0&&done===checks.length)total+=XP_PER_SECTION;}xp=total;document.getElementById('xp-display').textContent=xp;}
+function resetAll(){document.querySelectorAll('input[type="checkbox"]').forEach(c=>c.checked=false);updateProgress();}
+</script>
+</body>
+</html>

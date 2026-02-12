@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T1-L20 — Sprint 4: Playtest &amp; Final</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:15px;line-height:1.7;}a{color:var(--blue);}
+#progress-bar-wrap{position:fixed;top:0;left:0;width:100%;height:6px;background:var(--dark);z-index:9999;}#progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--neon),var(--blue));transition:width .4s;}
+.hero{text-align:center;padding:80px 20px 40px;background:linear-gradient(180deg,rgba(244,114,182,.08) 0%,transparent 100%);}.hero h1{font-family:var(--font-head);font-size:2.4rem;font-weight:900;background:linear-gradient(135deg,var(--pink),var(--red));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px;}.hero .sub{color:var(--muted);font-size:.95rem;margin-bottom:24px;}.hero .meta{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;}.hero .tag{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.8rem;color:var(--muted);}.hero .tag b{color:var(--pink);}
+.xp-tracker{display:flex;justify-content:center;align-items:center;gap:16px;margin:30px auto;padding:16px 24px;background:var(--dark);border:1px solid var(--border);border-radius:12px;max-width:500px;}.xp-tracker .xp-label{font-family:var(--font-head);font-size:1rem;color:var(--amber);}.xp-tracker .xp-val{font-family:var(--font-head);font-size:1.6rem;font-weight:900;color:var(--neon);}.xp-tracker .xp-max{color:var(--muted);font-size:.85rem;}
+.container{max-width:880px;margin:0 auto;padding:0 20px 60px;}
+.tut-section{margin:40px 0;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--dark);}.tut-header{padding:20px 24px;display:flex;align-items:center;gap:16px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border);}.tut-header .tut-num{font-family:var(--font-head);font-size:1.6rem;font-weight:900;color:var(--navy);background:var(--neon);border-radius:10px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}.tut-section[data-colour="blue"] .tut-num{background:var(--blue);}.tut-section[data-colour="purple"] .tut-num{background:var(--purple);}.tut-section[data-colour="amber"] .tut-num{background:var(--amber);}.tut-section[data-colour="pink"] .tut-num{background:var(--pink);}.tut-header .tut-info{flex:1;}.tut-header .tut-title{font-family:var(--font-head);font-size:1.05rem;font-weight:700;color:var(--white);}.tut-header .tut-time{font-size:.8rem;color:var(--muted);margin-top:2px;}.tut-header .xp-badge{font-family:var(--font-head);background:rgba(251,191,36,.15);color:var(--amber);padding:4px 12px;border-radius:8px;font-size:.85rem;font-weight:700;flex-shrink:0;}.tut-header .chevron{color:var(--muted);font-size:1.4rem;transition:transform .3s;flex-shrink:0;}.tut-section.open .chevron{transform:rotate(90deg);}.tut-body{padding:0 24px 24px;display:none;}.tut-section.open .tut-body{display:block;}
+.step{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid rgba(51,65,85,.5);}.step:last-child{border-bottom:none;}.step-check{flex-shrink:0;margin-top:3px;}.step-check input[type="checkbox"]{width:20px;height:20px;accent-color:var(--neon);cursor:pointer;}.step-num{font-family:var(--font-head);font-size:.75rem;color:var(--neon);background:rgba(74,222,128,.1);border-radius:6px;padding:2px 8px;height:fit-content;flex-shrink:0;margin-top:2px;}.step-content{flex:1;}.step-content strong{color:var(--neon);}
+.callout{margin:16px 0;padding:14px 18px;border-radius:10px;font-size:.9rem;display:flex;gap:12px;align-items:flex-start;}.callout .icon{font-size:1.2rem;flex-shrink:0;}.callout-checkpoint{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);}.callout-checkpoint .icon{color:var(--neon);}.callout-trouble{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);}.callout-trouble .icon{color:var(--red);}.callout-tip{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);}.callout-tip .icon{color:var(--blue);}.callout-challenge{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);}.callout-challenge .icon{color:var(--amber);}
+.sprint-card{margin:14px 0;padding:16px 18px;background:var(--navy);border:1px solid var(--border);border-radius:10px;}.sprint-card h4{font-family:var(--font-head);font-size:.85rem;margin-bottom:8px;}.sprint-card textarea{width:100%;min-height:50px;background:var(--dark);border:1px solid var(--border);border-radius:6px;padding:10px;color:var(--white);font-family:var(--font-body);font-size:.88rem;resize:vertical;}
+.footer-section{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;}.footer-section h2{font-family:var(--font-head);font-size:1.2rem;margin-bottom:16px;color:var(--neon);}
+.progress-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;}.progress-card{display:flex;align-items:center;gap:12px;padding:12px;background:var(--navy);border-radius:10px;border:1px solid var(--border);}.progress-card input[type="checkbox"]{width:22px;height:22px;accent-color:var(--neon);}.progress-card .pc-label{flex:1;font-size:.9rem;}.progress-card .pc-xp{font-family:var(--font-head);color:var(--amber);font-size:.85rem;}
+.btn{display:inline-block;padding:10px 24px;border-radius:8px;border:none;font-family:var(--font-head);font-size:.85rem;cursor:pointer;font-weight:700;transition:transform .15s;}.btn:hover{transform:translateY(-2px);}.btn-neon{background:var(--neon);color:var(--navy);}.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted);}.btn-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;justify-content:center;}
+.feedback-table{width:100%;border-collapse:collapse;margin:12px 0;}.feedback-table th,.feedback-table td{border:1px solid var(--border);padding:10px 12px;text-align:left;font-size:.88rem;}.feedback-table th{background:var(--navy);color:var(--amber);font-family:var(--font-head);font-size:.75rem;}.feedback-table td{background:var(--dark);}.feedback-table textarea{width:100%;min-height:35px;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:6px;color:var(--white);font-family:var(--font-body);font-size:.85rem;resize:vertical;}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;-webkit-text-fill-color:#111!important;}body{font-size:10pt;}#progress-bar-wrap,.btn-row,.no-print{display:none!important;}.tut-section{break-inside:avoid;}.tut-section.open .tut-body,.tut-body{display:block!important;}.tut-header .chevron{display:none;}}
+</style>
+</head>
+<body>
+<div id="progress-bar-wrap"><div id="progress-bar"></div></div>
+<div class="hero">
+  <h1>SPRINT 4: Playtest &amp; Final</h1>
+  <p class="sub">Final development session — bug fixes, last polish, and extended playtesting</p>
+  <div class="meta">
+    <span class="tag"><b>Lesson 20</b> of 22</span>
+    <span class="tag"><b>75 min</b> session</span>
+    <span class="tag"><b>50 XP</b> available</span>
+    <span class="tag">Week 12 — Wed</span>
+    <span class="tag" style="border-color:var(--pink);color:var(--pink);"><b>SPRINT 4 of 4 — FINAL</b></span>
+  </div>
+</div>
+<div class="xp-tracker"><span class="xp-label">XP EARNED:</span><span class="xp-val" id="xp-display">0</span><span class="xp-max">/ 50 XP</span></div>
+<div class="container">
+
+<!-- SECTION 1: Final Sprint Planning -->
+<div class="tut-section open" id="section-1" data-colour="neon">
+  <div class="tut-header" onclick="toggleSection(1)"><div class="tut-num">1</div><div class="tut-info"><div class="tut-title">Final Sprint Planning</div><div class="tut-time">~8 min</div></div><div class="xp-badge">+10 XP</div><div class="chevron">&#9654;</div></div>
+  <div class="tut-body">
+    <div class="callout callout-trouble"><div class="icon">&#128680;</div><div><strong>THIS IS YOUR LAST DEVELOPMENT SESSION.</strong> After today, your game is locked for the showcase (L21). There will be NO more build time. Use every minute wisely!</div></div>
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">1.1</div><div class="step-content"><strong>Open your project</strong> and review your Sprint 3 results. What's working? What's still broken?</div></div>
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">1.2</div><div class="step-content"><strong>Make your MUST-DO list.</strong> You have ~35 minutes of build time. Be realistic about what you can finish. List only what's absolutely essential.</div></div>
+    <div class="sprint-card"><h4 style="color:var(--pink);">My Final Sprint — MUST DO (max 3 items)</h4>
+      <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-content"><textarea placeholder="MUST DO 1: e.g., Fix game over — lives not resetting on restart"></textarea></div></div>
+      <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-content"><textarea placeholder="MUST DO 2: e.g., Add Main Menu if not done"></textarea></div></div>
+      <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-content"><textarea placeholder="MUST DO 3: e.g., Fix player falling through ground"></textarea></div></div>
+    </div>
+    <div class="sprint-card"><h4 style="color:var(--amber);">NICE TO HAVE (only if time allows)</h4>
+      <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-content"><textarea placeholder="Nice to have: e.g., Add background music, extra particles"></textarea></div></div>
+    </div>
+    <div class="callout callout-tip"><div class="icon">&#128161;</div><div><strong>Priority rule:</strong> Bug fixes &gt; missing menus &gt; missing features &gt; polish. A game that <em>works</em> with fewer features always beats a game that <em>crashes</em> with many features.</div></div>
+    <div class="callout callout-checkpoint"><div class="icon">&#9989;</div><div><strong>Checkpoint:</strong> Final sprint goals written. MUST-DO list is realistic (max 3 items).</div></div>
+  </div>
+</div>
+
+<!-- SECTION 2: Final Build Time -->
+<div class="tut-section" id="section-2" data-colour="blue">
+  <div class="tut-header" onclick="toggleSection(2)"><div class="tut-num">2</div><div class="tut-info"><div class="tut-title">Final Build Time — 35 Minutes</div><div class="tut-time">~35 min</div></div><div class="xp-badge">+10 XP</div><div class="chevron">&#9654;</div></div>
+  <div class="tut-body">
+    <div class="callout callout-challenge"><div class="icon">&#9200;</div><div><strong>FOCUSED WORK TIME.</strong> 35 minutes to finish your MUST-DO list. Do NOT start new features. Fix bugs and complete what's already started.</div></div>
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">2.1</div><div class="step-content"><strong>Work through your MUST-DO list in order.</strong> Item 1 first, then 2, then 3. Save after completing each item (Ctrl+S).</div></div>
+
+    <div class="callout callout-tip"><div class="icon">&#128161;</div><div><strong>Last-minute debugging tips:</strong>
+    <ul style="margin:6px 0 0 16px;line-height:2;">
+      <li><strong>NullReferenceException?</strong> — Check Inspector: is the field assigned? Drag the object in.</li>
+      <li><strong>Scene won't load?</strong> — File &rarr; Build Settings &rarr; Add Open Scenes for ALL scenes.</li>
+      <li><strong>Player falls through ground?</strong> — Check both objects have Colliders. Ground should NOT have isTrigger.</li>
+      <li><strong>Score not resetting?</strong> — Reset your static variables in Start() or on scene load.</li>
+      <li><strong>Sound not playing?</strong> — Check AudioSource component exists and AudioClip is assigned.</li>
+    </ul></div></div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">2.2</div><div class="step-content"><strong>15-minute check:</strong> How many MUST-DO items are complete?</div></div>
+    <div class="sprint-card"><h4 style="color:var(--blue);">Mid-Build Notes</h4><textarea placeholder="What's done? What's left? Any blockers?"></textarea></div>
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">2.3</div><div class="step-content"><strong>30-minute mark:</strong> STOP adding features. Start testing. Play your game from start to finish 3 times.</div></div>
+
+    <div class="callout callout-trouble"><div class="icon">&#128680;</div><div><strong>FINAL 5 MINUTES:</strong> Do NOT write any new code. Only test and save. Make sure the game runs without errors.</div></div>
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">2.4</div><div class="step-content"><strong>Final test checklist:</strong></div></div>
+
+    <table class="feedback-table">
+      <tr><th style="width:60%">Test</th><th>Pass?</th></tr>
+      <tr><td>Main Menu loads and Play button works</td><td><input type="checkbox" onchange="updateProgress()"></td></tr>
+      <tr><td>Gameplay works (move, jump, interact)</td><td><input type="checkbox" onchange="updateProgress()"></td></tr>
+      <tr><td>Score/lives display correctly</td><td><input type="checkbox" onchange="updateProgress()"></td></tr>
+      <tr><td>Game Over triggers when lives = 0</td><td><input type="checkbox" onchange="updateProgress()"></td></tr>
+      <tr><td>Game Over screen shows final score</td><td><input type="checkbox" onchange="updateProgress()"></td></tr>
+      <tr><td>Restart button works (resets score/lives)</td><td><input type="checkbox" onchange="updateProgress()"></td></tr>
+      <tr><td>Back to Menu button works</td><td><input type="checkbox" onchange="updateProgress()"></td></tr>
+      <tr><td>No console errors in red</td><td><input type="checkbox" onchange="updateProgress()"></td></tr>
+    </table>
+
+    <div class="callout callout-checkpoint"><div class="icon">&#9989;</div><div><strong>Checkpoint:</strong> MUST-DO list complete (or as much as possible). Game tested 3 times. No critical bugs.</div></div>
+  </div>
+</div>
+
+<!-- SECTION 3: Extended Playtest -->
+<div class="tut-section" id="section-3" data-colour="purple">
+  <div class="tut-header" onclick="toggleSection(3)"><div class="tut-num">3</div><div class="tut-info"><div class="tut-title">Extended Playtest — 15 Minutes</div><div class="tut-time">~15 min</div></div><div class="xp-badge">+10 XP</div><div class="chevron">&#9654;</div></div>
+  <div class="tut-body">
+    <div class="callout callout-challenge"><div class="icon">&#127918;</div><div><strong>PLAYTEST ROTATION.</strong> You will play 3 different games (5 min each). Give honest, specific, constructive feedback. This feedback will help your classmates AND prepares you for the showcase!</div></div>
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">3.1</div><div class="step-content"><strong>Stand up.</strong> Move to the computer on your LEFT. Play that game for 5 minutes.</div></div>
+
+    <div class="sprint-card"><h4 style="color:var(--purple);">Playtest 1 — Game by: _______________</h4>
+      <table class="feedback-table">
+        <tr><th>Question</th><th>Your Feedback</th></tr>
+        <tr><td>What's the best feature?</td><td><textarea placeholder="e.g., The jump feels great"></textarea></td></tr>
+        <tr><td>Any bugs found?</td><td><textarea placeholder="e.g., Score doesn't reset on restart"></textarea></td></tr>
+        <tr><td>Is the game complete? (menu → play → end)</td><td><textarea placeholder="Yes / No — missing: ..."></textarea></td></tr>
+        <tr><td>Fun rating (1-5 stars)</td><td><textarea placeholder="e.g., 4/5 — really fun but too easy"></textarea></td></tr>
+        <tr><td>One improvement suggestion</td><td><textarea placeholder="e.g., Add a sound when you die"></textarea></td></tr>
+      </table>
+    </div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">3.2</div><div class="step-content"><strong>Move LEFT again.</strong> Play the next game for 5 minutes.</div></div>
+
+    <div class="sprint-card"><h4 style="color:var(--blue);">Playtest 2 — Game by: _______________</h4>
+      <table class="feedback-table">
+        <tr><th>Question</th><th>Your Feedback</th></tr>
+        <tr><td>What's the best feature?</td><td><textarea placeholder=""></textarea></td></tr>
+        <tr><td>Any bugs found?</td><td><textarea placeholder=""></textarea></td></tr>
+        <tr><td>Is the game complete? (menu → play → end)</td><td><textarea placeholder=""></textarea></td></tr>
+        <tr><td>Fun rating (1-5 stars)</td><td><textarea placeholder=""></textarea></td></tr>
+        <tr><td>One improvement suggestion</td><td><textarea placeholder=""></textarea></td></tr>
+      </table>
+    </div>
+
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">3.3</div><div class="step-content"><strong>Move LEFT again.</strong> Play the third game for 5 minutes.</div></div>
+
+    <div class="sprint-card"><h4 style="color:var(--amber);">Playtest 3 — Game by: _______________</h4>
+      <table class="feedback-table">
+        <tr><th>Question</th><th>Your Feedback</th></tr>
+        <tr><td>What's the best feature?</td><td><textarea placeholder=""></textarea></td></tr>
+        <tr><td>Any bugs found?</td><td><textarea placeholder=""></textarea></td></tr>
+        <tr><td>Is the game complete? (menu → play → end)</td><td><textarea placeholder=""></textarea></td></tr>
+        <tr><td>Fun rating (1-5 stars)</td><td><textarea placeholder=""></textarea></td></tr>
+        <tr><td>One improvement suggestion</td><td><textarea placeholder=""></textarea></td></tr>
+      </table>
+    </div>
+
+    <div class="callout callout-checkpoint"><div class="icon">&#9989;</div><div><strong>Checkpoint:</strong> Played 3 different games. Gave constructive feedback for each.</div></div>
+  </div>
+</div>
+
+<!-- SECTION 4: Final Bug Fix -->
+<div class="tut-section" id="section-4" data-colour="amber">
+  <div class="tut-header" onclick="toggleSection(4)"><div class="tut-num">4</div><div class="tut-info"><div class="tut-title">Final Bug Fix &amp; Lock</div><div class="tut-time">~10 min</div></div><div class="xp-badge">+10 XP</div><div class="chevron">&#9654;</div></div>
+  <div class="tut-body">
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">4.1</div><div class="step-content"><strong>Return to your computer.</strong> Read the feedback left by your 3 playtesters.</div></div>
+    <div class="sprint-card"><h4 style="color:var(--red);">Feedback I Received</h4><textarea placeholder="Tester 1 said: &#10;Tester 2 said: &#10;Tester 3 said: " style="min-height:80px"></textarea></div>
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">4.2</div><div class="step-content"><strong>Fix the #1 most critical bug.</strong> Only the most important one. Do NOT add features.</div></div>
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">4.3</div><div class="step-content"><strong>Test one more time.</strong> Play from Main Menu through to Game Over. Does everything work?</div></div>
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">4.4</div><div class="step-content"><strong>SAVE YOUR PROJECT.</strong> Ctrl+S in the Scene. Then File &rarr; Save Project. Your game is now LOCKED for the showcase.</div></div>
+    <div class="callout callout-trouble"><div class="icon">&#128274;</div><div><strong>GAME LOCKED.</strong> From this point, no more changes. Next lesson (L21) you will present your game to the class. Lesson 22 is the final reflection.</div></div>
+    <div class="callout callout-checkpoint"><div class="icon">&#9989;</div><div><strong>Checkpoint:</strong> Critical bug fixed. Game saved. Ready for showcase!</div></div>
+  </div>
+</div>
+
+<!-- SECTION 5: Sprint Review & Showcase Prep -->
+<div class="tut-section" id="section-5" data-colour="pink">
+  <div class="tut-header" onclick="toggleSection(5)"><div class="tut-num">5</div><div class="tut-info"><div class="tut-title">Sprint Review &amp; Showcase Prep</div><div class="tut-time">~7 min</div></div><div class="xp-badge">+10 XP</div><div class="chevron">&#9654;</div></div>
+  <div class="tut-body">
+    <div class="sprint-card"><h4 style="color:var(--pink);">Final Sprint Review</h4><textarea placeholder="Sprint 4 — I completed: &#10;My game features: &#10;Total sprints completed (out of 4): &#10;Am I happy with my game? " style="min-height:100px"></textarea></div>
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">5.1</div><div class="step-content"><strong>Prepare your showcase pitch (30 seconds).</strong> Next lesson you may be asked to present. Write a short description of your game:</div></div>
+    <div class="sprint-card"><h4 style="color:var(--amber);">My Showcase Pitch</h4><textarea placeholder="My game is called ___. It's a ___ (genre) where the player ___. The coolest feature is ___. I'm most proud of ___." style="min-height:80px"></textarea></div>
+    <div class="step"><div class="step-check"><input type="checkbox" onchange="updateProgress()"></div><div class="step-num">5.2</div><div class="step-content"><strong>Take a final screenshot</strong> of your game in Play mode showing the best moment. Submit to Google Classroom with your sprint notes.</div></div>
+    <div class="callout callout-checkpoint"><div class="icon">&#9989;</div><div><strong>Checkpoint:</strong> Sprint review complete. Showcase pitch written. Screenshot submitted.</div></div>
+  </div>
+</div>
+
+<div class="footer-section">
+  <h2>Progress Tracker</h2>
+  <div class="progress-grid">
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Final sprint goals written</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">35 min build + testing done</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Playtested 3 classmates' games</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Final bug fix + game locked</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Showcase pitch + screenshot</span><span class="pc-xp">+10 XP</span></div>
+  </div>
+</div>
+<div class="btn-row no-print">
+  <button class="btn btn-neon" onclick="expandAll()">Expand All</button>
+  <button class="btn btn-ghost" onclick="resetAll()">Reset Progress</button>
+</div>
+</div>
+<script>
+const TOTAL_SECTIONS=5,XP_PER_SECTION=10;let xp=0;
+function toggleSection(n){const s=document.getElementById('section-'+n);s.classList.toggle('open');}
+function expandAll(){document.querySelectorAll('.tut-section').forEach(s=>s.classList.add('open'));}
+function updateProgress(){const checks=document.querySelectorAll('.step-check input[type="checkbox"]');const total=checks.length;const done=[...checks].filter(c=>c.checked).length;document.getElementById('progress-bar').style.width=Math.round(done/total*100)+'%';updateXP();}
+function updateXP(){let total=0;for(let i=1;i<=TOTAL_SECTIONS;i++){const sec=document.getElementById('section-'+i);if(!sec)continue;const checks=sec.querySelectorAll('.step-check input[type="checkbox"]');const done=[...checks].filter(c=>c.checked).length;if(checks.length>0&&done===checks.length)total+=XP_PER_SECTION;}xp=total;document.getElementById('xp-display').textContent=xp;}
+function resetAll(){document.querySelectorAll('input[type="checkbox"]').forEach(c=>c.checked=false);updateProgress();}
+</script>
+</body>
+</html>

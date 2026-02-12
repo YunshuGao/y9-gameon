@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T1-L11 — Sprite Art &amp; Animation Tutorial</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:15px;line-height:1.7;}a{color:var(--blue);text-decoration:none;}a:hover{text-decoration:underline;}
+#progress-bar-wrap{position:fixed;top:0;left:0;width:100%;height:6px;background:var(--dark);z-index:9999;}#progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--neon),var(--blue));transition:width .4s;}
+.hero{text-align:center;padding:80px 20px 40px;background:linear-gradient(180deg,rgba(74,222,128,.08) 0%,transparent 100%);}.hero h1{font-family:var(--font-head);font-size:2.4rem;font-weight:900;background:linear-gradient(135deg,var(--neon),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px;}.hero .sub{color:var(--muted);font-size:.95rem;margin-bottom:24px;}.hero .meta{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;}.hero .tag{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.8rem;color:var(--muted);}.hero .tag b{color:var(--neon);}
+.xp-tracker{display:flex;justify-content:center;align-items:center;gap:16px;margin:30px auto;padding:16px 24px;background:var(--dark);border:1px solid var(--border);border-radius:12px;max-width:500px;}.xp-tracker .xp-label{font-family:var(--font-head);font-size:1rem;color:var(--amber);}.xp-tracker .xp-val{font-family:var(--font-head);font-size:1.6rem;font-weight:900;color:var(--neon);}.xp-tracker .xp-max{color:var(--muted);font-size:.85rem;}
+.container{max-width:880px;margin:0 auto;padding:0 20px 60px;}
+.tut-section{margin:40px 0;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--dark);}.tut-header{padding:20px 24px;display:flex;align-items:center;gap:16px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border);}.tut-header .tut-num{font-family:var(--font-head);font-size:1.6rem;font-weight:900;color:var(--navy);background:var(--neon);border-radius:10px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}.tut-section[data-colour="blue"] .tut-num{background:var(--blue);}.tut-section[data-colour="purple"] .tut-num{background:var(--purple);}.tut-section[data-colour="amber"] .tut-num{background:var(--amber);}.tut-section[data-colour="pink"] .tut-num{background:var(--pink);}.tut-header .tut-info{flex:1;}.tut-header .tut-title{font-family:var(--font-head);font-size:1.05rem;font-weight:700;color:var(--white);}.tut-header .tut-time{font-size:.8rem;color:var(--muted);margin-top:2px;}.tut-header .xp-badge{font-family:var(--font-head);background:rgba(251,191,36,.15);color:var(--amber);padding:4px 12px;border-radius:8px;font-size:.85rem;font-weight:700;flex-shrink:0;}.tut-header .chevron{color:var(--muted);font-size:1.4rem;transition:transform .3s;flex-shrink:0;}.tut-section.open .chevron{transform:rotate(90deg);}.tut-body{padding:0 24px 24px;display:none;}.tut-section.open .tut-body{display:block;}
+.step{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid rgba(51,65,85,.5);}.step:last-child{border-bottom:none;}.step-check{flex-shrink:0;margin-top:3px;}.step-check input[type="checkbox"]{width:20px;height:20px;accent-color:var(--neon);cursor:pointer;}.step-num{font-family:var(--font-head);font-size:.75rem;color:var(--neon);background:rgba(74,222,128,.1);border-radius:6px;padding:2px 8px;height:fit-content;flex-shrink:0;margin-top:2px;}.step-content{flex:1;}.step-content strong{color:var(--neon);}.step-content .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:1px 8px;font-size:.85rem;color:var(--amber);font-weight:700;margin:0 2px;}.step-content .sub-list{margin:8px 0 0 0;list-style:none;}.step-content .sub-list li{padding:4px 0;color:var(--muted);font-size:.9rem;}.step-content .sub-list li::before{content:'\25B8 ';color:var(--blue);}.step-content .sub-list li strong{color:var(--white);}
+.detail{margin:6px 0 0 0;padding:8px 12px;background:rgba(15,23,42,.6);border-left:3px solid var(--blue);border-radius:0 6px 6px 0;font-size:.88rem;color:var(--muted);}.detail strong{color:var(--blue);}
+.code-block{margin:10px 0;padding:14px 18px;background:#0a0e1a;border:1px solid var(--border);border-radius:10px;font-family:var(--font-body);font-size:.88rem;line-height:1.6;overflow-x:auto;white-space:pre;color:var(--neon);}.code-block .kw{color:var(--blue);}.code-block .ty{color:var(--purple);}.code-block .st{color:var(--amber);}.code-block .cm{color:var(--muted);font-style:italic;}.code-block .fn{color:var(--pink);}
+.callout{margin:16px 0;padding:14px 18px;border-radius:10px;font-size:.9rem;display:flex;gap:12px;align-items:flex-start;}.callout .icon{font-size:1.2rem;flex-shrink:0;}.callout-checkpoint{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);}.callout-checkpoint .icon{color:var(--neon);}.callout-trouble{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);}.callout-trouble .icon{color:var(--red);}.callout-tip{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);}.callout-tip .icon{color:var(--blue);}.callout-challenge{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);}.callout-challenge .icon{color:var(--amber);}.callout-extension{background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);}.callout-extension .icon{color:var(--purple);}
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);border-radius:10px;}.vocab h4{font-family:var(--font-head);font-size:.8rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:.88rem;}.vocab dt{color:var(--amber);font-weight:700;}.vocab dd{color:var(--muted);}
+.footer-section{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;}.footer-section h2{font-family:var(--font-head);font-size:1.2rem;margin-bottom:16px;color:var(--neon);}
+.progress-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;}.progress-card{display:flex;align-items:center;gap:12px;padding:12px;background:var(--navy);border-radius:10px;border:1px solid var(--border);}.progress-card input[type="checkbox"]{width:22px;height:22px;accent-color:var(--neon);}.progress-card .pc-label{flex:1;font-size:.9rem;}.progress-card .pc-xp{font-family:var(--font-head);color:var(--amber);font-size:.85rem;}
+.btn{display:inline-block;padding:10px 24px;border-radius:8px;border:none;font-family:var(--font-head);font-size:.85rem;cursor:pointer;font-weight:700;transition:transform .15s;}.btn:hover{transform:translateY(-2px);}.btn-neon{background:var(--neon);color:var(--navy);}.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted);}.btn-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;justify-content:center;}
+.submission-steps{counter-reset:sub;}.submission-steps li{list-style:none;padding:8px 0;display:flex;gap:12px;align-items:flex-start;}.submission-steps li::before{counter-increment:sub;content:counter(sub);font-family:var(--font-head);font-size:.75rem;background:var(--blue);color:var(--navy);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;-webkit-text-fill-color:#111!important;}body{font-size:10pt;line-height:1.5;}#progress-bar-wrap,.btn-row,.no-print{display:none!important;}.hero{padding:20px 0;border-bottom:2px solid #111;}.hero h1{font-size:16pt;-webkit-text-fill-color:#111!important;background:none!important;}.tut-section{break-inside:avoid;border:1px solid #999;margin:12px 0;}.tut-section.open .tut-body,.tut-body{display:block!important;}.tut-header .chevron{display:none;}.tut-num{background:#ddd!important;color:#111!important;}.callout{border:1px solid #999;background:#f9f9f9!important;}.code-block{background:#f4f4f4!important;border:1px solid #999;color:#111!important;}.code-block .kw,.code-block .ty,.code-block .fn,.code-block .st,.code-block .cm{color:#333!important;}.footer-section{break-inside:avoid;border:1px solid #999;}}
+</style>
+</head>
+<body>
+<div id="progress-bar-wrap"><div id="progress-bar"></div></div>
+
+<div class="hero">
+  <h1>SPRITE ART &amp; ANIMATION</h1>
+  <p class="sub">Import sprite sheets, slice them up, and bring your characters to life with animation!</p>
+  <div class="meta">
+    <span class="tag"><b>Course:</b> Game On (9GAMZA)</span>
+    <span class="tag"><b>Lesson:</b> T1 — L11</span>
+    <span class="tag"><b>Time:</b> ~75 min</span>
+    <span class="tag"><b>Outcomes:</b> G5-1, G5-2, G5-4</span>
+  </div>
+</div>
+
+<div class="xp-tracker">
+  <span class="xp-label">TOTAL XP</span>
+  <span class="xp-val" id="xp-display">0</span>
+  <span class="xp-max">/ 50 XP</span>
+</div>
+
+<div class="container">
+
+<!-- ═══ SECTION 1: Sprite Sheets ═══ -->
+<div class="tut-section open" data-colour="neon" id="section-1">
+  <div class="tut-header" onclick="toggleSection(1)">
+    <div class="tut-num">1</div>
+    <div class="tut-info"><div class="tut-title">Understanding Sprite Sheets</div><div class="tut-time">~10 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="vocab">
+      <h4>Key Vocabulary</h4>
+      <dl>
+        <dt>Sprite Sheet</dt><dd>A single image containing multiple frames of animation arranged in a grid.</dd>
+        <dt>Frame</dt><dd>One single image in an animation sequence (like one photo in a flipbook).</dd>
+        <dt>Sprite Editor</dt><dd>Unity's tool for slicing a sprite sheet into individual frames.</dd>
+        <dt>Animation Clip</dt><dd>A file that stores the sequence and timing of frames for one animation.</dd>
+        <dt>Animator</dt><dd>A component that controls which animation clip plays and when to switch.</dd>
+      </dl>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.1</div>
+      <div class="step-content"><strong>What is a Sprite Sheet?</strong> A sprite sheet is ONE big image that contains many small images (frames) arranged in a grid. Think of it like a comic strip — each panel is one moment in time. When played quickly, they create animation!
+        <div class="detail"><strong>Why use sprite sheets?</strong> Loading one big image is MUCH faster than loading 20 small images. Professional games always use sprite sheets for performance.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.2</div>
+      <div class="step-content"><strong>Download a sprite sheet:</strong> Your teacher has provided sprite sheets on Google Classroom. Download the character sprite sheet (a PNG file with a grid of character poses).
+        <div class="detail"><strong>Free sprite resources:</strong> kenney.nl/assets, opengameart.org, itch.io/game-assets/free — all have free 2D sprite sheets you can use.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.3</div>
+      <div class="step-content"><strong>Import into Unity:</strong>
+        <ul class="sub-list">
+          <li>Create a folder in your Project: <strong>Right-click → Create → Folder → name "Sprites"</strong></li>
+          <li>Drag the PNG file from your Downloads into the <strong>Sprites folder</strong></li>
+          <li>Click on the imported image in the Project window</li>
+          <li>In the Inspector, change <strong>Sprite Mode</strong> from "Single" to <strong>"Multiple"</strong></li>
+          <li>Set <strong>Pixels Per Unit</strong> to match your game (16 for pixel art, 100 for HD)</li>
+          <li>Click <strong>Apply</strong> at the bottom of the Inspector</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.4</div>
+      <div class="step-content"><strong>Slice the Sprite Sheet:</strong>
+        <ul class="sub-list">
+          <li>With the sprite selected, click <strong>Sprite Editor</strong> (button in Inspector)</li>
+          <li>Click <strong>Slice</strong> (top-left dropdown)</li>
+          <li>Type: <strong>Grid By Cell Size</strong></li>
+          <li>Set the pixel size of each frame (e.g. 32x32 for pixel art, 64x64 for larger sprites)</li>
+          <li>Click <strong>Slice</strong> — you'll see blue rectangles around each frame</li>
+          <li>Click <strong>Apply</strong> (top-right)</li>
+          <li>Close the Sprite Editor</li>
+        </ul>
+        <div class="detail"><strong>How to know the cell size?</strong> Open the sprite sheet in an image viewer. If the whole image is 256x64 and has 4 frames across, each frame is 64x64.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">1.5</div>
+      <div class="step-content"><strong>Verify the slice:</strong> Click the arrow (▸) next to your sprite in the Project window. You should see individual frames listed: spritesheet_0, spritesheet_1, spritesheet_2, etc. These are your animation frames!</div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <span class="icon">&#10003;</span>
+      <span><strong>Checkpoint:</strong> My sprite sheet is imported with Sprite Mode = Multiple, and I can see individual frames when I expand it.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SECTION 2: Create Your First Animation ═══ -->
+<div class="tut-section" data-colour="blue" id="section-2">
+  <div class="tut-header" onclick="toggleSection(2)">
+    <div class="tut-num">2</div>
+    <div class="tut-info"><div class="tut-title">Create Your First Animation</div><div class="tut-time">~15 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.1</div>
+      <div class="step-content"><strong>Create an Animations folder:</strong> In your Project, <strong>Right-click → Create → Folder → name "Animations"</strong>. This keeps things organised.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.2</div>
+      <div class="step-content"><strong>Select animation frames:</strong> Expand your sprite sheet (click the ▸ arrow). Select the frames you want for your IDLE animation (e.g. the first 4 frames). Hold <span class="key">Shift</span> and click to select multiple frames.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.3</div>
+      <div class="step-content"><strong>Drag to Scene:</strong> Drag the selected frames into the Scene view (or onto your player object in the Hierarchy). Unity will ask you to save an animation clip. Save it as <strong>"Player_Idle"</strong> in your Animations folder.
+        <div class="detail"><strong>What Unity created:</strong> (1) An <strong>Animation Clip</strong> (.anim) — the frame sequence. (2) An <strong>Animator Controller</strong> (.controller) — manages which animation plays. (3) An <strong>Animator component</strong> on your GameObject.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.4</div>
+      <div class="step-content"><strong>Press Play!</strong> Your sprite should now animate! It loops through the frames automatically. If it's too fast, we'll adjust the speed next.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">2.5</div>
+      <div class="step-content"><strong>Adjust animation speed:</strong>
+        <ul class="sub-list">
+          <li>Open the Animation window: <strong>Window → Animation → Animation</strong></li>
+          <li>Select your player in the Hierarchy</li>
+          <li>You'll see the timeline with keyframes (diamond shapes)</li>
+          <li>Change <strong>Samples</strong> (top of Animation window) — lower = slower, higher = faster</li>
+          <li>Try <strong>12</strong> for a natural feel (12 frames per second)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout callout-tip">
+      <span class="icon">&#128161;</span>
+      <span><strong>Pro Tip:</strong> 12 FPS is the classic animation standard (Disney used 12-24 FPS). For pixel art games, 8-12 FPS looks great. For smooth modern art, use 15-24 FPS.</span>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <span class="icon">&#10003;</span>
+      <span><strong>Checkpoint:</strong> My player has an idle animation playing at a comfortable speed.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SECTION 3: Multiple Animations ═══ -->
+<div class="tut-section" data-colour="purple" id="section-3">
+  <div class="tut-header" onclick="toggleSection(3)">
+    <div class="tut-num">3</div>
+    <div class="tut-info"><div class="tut-title">Multiple Animations &amp; Animator</div><div class="tut-time">~15 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.1</div>
+      <div class="step-content"><strong>Create a Run animation:</strong> Select the "run" frames from your sprite sheet (different row or section). Drag them onto your player in the Hierarchy (NOT the Scene). Save as <strong>"Player_Run"</strong>.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.2</div>
+      <div class="step-content"><strong>Create a Jump animation:</strong> If your sprite sheet has jump frames, select them and drag onto the player. Save as <strong>"Player_Jump"</strong>. If no jump frames exist, that's OK — we'll use the idle for now.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.3</div>
+      <div class="step-content"><strong>Open the Animator:</strong> Go to <strong>Window → Animation → Animator</strong>. Select your player. You'll see coloured boxes (states) connected by arrows (transitions).
+        <div class="detail"><strong>Animator Controller:</strong> This is a state machine. Each box is a state (idle, run, jump). Arrows are transitions (switch from idle to run when moving). The orange box is the DEFAULT state.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.4</div>
+      <div class="step-content"><strong>Create a parameter:</strong> In the Animator window, click the <strong>Parameters</strong> tab (left side). Click <strong>+ → Float</strong>, name it <strong>"Speed"</strong>. This will control which animation plays.
+        <div class="detail"><strong>Why a float?</strong> Speed can be 0 (idle), 0.5 (walking), or 3.0 (running). A float gives smooth values, not just on/off.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.5</div>
+      <div class="step-content"><strong>Create transitions:</strong>
+        <ul class="sub-list">
+          <li>Right-click <strong>Player_Idle</strong> box → <strong>Make Transition</strong> → click on <strong>Player_Run</strong></li>
+          <li>Click the arrow between them. In Inspector, find <strong>Conditions</strong></li>
+          <li>Click <strong>+</strong> → set condition: <strong>Speed → Greater → 0.1</strong></li>
+          <li>Uncheck <strong>"Has Exit Time"</strong> (we want instant transitions)</li>
+          <li>Set <strong>Transition Duration</strong> to <strong>0</strong></li>
+          <li>Now right-click <strong>Player_Run</strong> → Make Transition → <strong>Player_Idle</strong></li>
+          <li>Condition: <strong>Speed → Less → 0.1</strong>, no exit time, duration 0</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">3.6</div>
+      <div class="step-content"><strong>Connect to your script:</strong> Open your PlayerController script. Add these:
+<div class="code-block"><span class="cm">// At the top with other variables</span>
+<span class="kw">private</span> <span class="ty">Animator</span> anim;
+
+<span class="cm">// In Start()</span>
+anim = <span class="fn">GetComponent</span>&lt;<span class="ty">Animator</span>&gt;();
+
+<span class="cm">// In Update(), after calculating movement</span>
+<span class="ty">float</span> moveInput = <span class="ty">Input</span>.<span class="fn">GetAxis</span>(<span class="st">"Horizontal"</span>);
+anim.<span class="fn">SetFloat</span>(<span class="st">"Speed"</span>, <span class="ty">Mathf</span>.<span class="fn">Abs</span>(moveInput));</div>
+        <div class="detail"><strong>Mathf.Abs</strong> gives the absolute value — so moving left (-1) or right (+1) both give Speed = 1. The animator uses this to switch between idle (0) and run (&gt;0.1).</div>
+      </div>
+    </div>
+
+    <div class="callout callout-trouble">
+      <span class="icon">&#9888;</span>
+      <span><strong>Animation glitching?</strong> Check: (1) "Has Exit Time" is UNCHECKED on both transitions. (2) Transition Duration = 0. (3) Parameter name matches EXACTLY ("Speed" not "speed").</span>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <span class="icon">&#10003;</span>
+      <span><strong>Checkpoint:</strong> My player plays idle when still and run animation when moving.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SECTION 4: Sprite Flipping & Jump Animation ═══ -->
+<div class="tut-section" data-colour="amber" id="section-4">
+  <div class="tut-header" onclick="toggleSection(4)">
+    <div class="tut-num">4</div>
+    <div class="tut-info"><div class="tut-title">Sprite Flipping &amp; Jump State</div><div class="tut-time">~20 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.1</div>
+      <div class="step-content"><strong>Flip the sprite when moving left:</strong> Most sprite sheets only show the character facing RIGHT. We need to flip when moving left. Add this to your Update:
+<div class="code-block"><span class="cm">// Flip sprite based on direction</span>
+<span class="kw">if</span> (moveInput > <span class="st">0</span>)
+{
+    transform.localScale = <span class="kw">new</span> <span class="ty">Vector3</span>(<span class="st">1</span>, <span class="st">1</span>, <span class="st">1</span>);
+}
+<span class="kw">else if</span> (moveInput &lt; <span class="st">0</span>)
+{
+    transform.localScale = <span class="kw">new</span> <span class="ty">Vector3</span>(<span class="st">-1</span>, <span class="st">1</span>, <span class="st">1</span>);
+}</div>
+        <div class="detail"><strong>How it works:</strong> Setting X scale to -1 mirrors the sprite horizontally. The Y and Z stay at 1. When moving right, X = 1 (normal). When moving left, X = -1 (flipped).</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.2</div>
+      <div class="step-content"><strong>Add jump animation state:</strong> Back in the Animator:
+        <ul class="sub-list">
+          <li>Click <strong>Parameters → + → Bool</strong>, name it <strong>"IsJumping"</strong></li>
+          <li>Create transition: <strong>Any State → Player_Jump</strong></li>
+          <li>Condition: <strong>IsJumping = true</strong></li>
+          <li>Create transition: <strong>Player_Jump → Player_Idle</strong></li>
+          <li>Condition: <strong>IsJumping = false</strong></li>
+          <li>Both transitions: uncheck Has Exit Time, Transition Duration = 0</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.3</div>
+      <div class="step-content"><strong>Set IsJumping in your script:</strong>
+<div class="code-block"><span class="cm">// When jumping (inside your jump code)</span>
+anim.<span class="fn">SetBool</span>(<span class="st">"IsJumping"</span>, <span class="st">true</span>);
+
+<span class="cm">// When landing (in OnCollisionEnter2D, after isGrounded = true)</span>
+anim.<span class="fn">SetBool</span>(<span class="st">"IsJumping"</span>, <span class="st">false</span>);</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.4</div>
+      <div class="step-content"><strong>Replace your placeholder sprite:</strong> Now that you have animated sprites, replace the default square/circle placeholder:
+        <ul class="sub-list">
+          <li>Select your player in the Hierarchy</li>
+          <li>The Sprite Renderer should now show the first frame of your animation</li>
+          <li>If not, drag the first idle frame into the Sprite field</li>
+          <li>Adjust the <strong>scale</strong> if the new sprite is too big or small</li>
+          <li>Adjust the <strong>collider size</strong> to fit the new sprite (Edit Collider button)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-check"><input type="checkbox" onchange="updateProgress()"></div>
+      <div class="step-num">4.5</div>
+      <div class="step-content"><strong>Test everything:</strong>
+        <ul class="sub-list">
+          <li>Press Play</li>
+          <li>Stand still → idle animation plays</li>
+          <li>Move left/right → run animation plays, sprite flips correctly</li>
+          <li>Jump → jump animation plays, returns to idle on landing</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout callout-checkpoint">
+      <span class="icon">&#10003;</span>
+      <span><strong>Checkpoint:</strong> My player has idle, run, and jump animations. The sprite flips when changing direction.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SECTION 5: Extension Challenges ═══ -->
+<div class="tut-section" data-colour="pink" id="section-5">
+  <div class="tut-header" onclick="toggleSection(5)">
+    <div class="tut-num">5</div>
+    <div class="tut-info"><div class="tut-title">Extension Challenges</div><div class="tut-time">~15 min</div></div>
+    <div class="xp-badge">+10 XP</div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="tut-body">
+
+    <div class="callout callout-extension">
+      <span class="icon">&#127942;</span>
+      <span><strong>Challenge 1: Death Animation</strong> — Create a "Player_Death" animation clip. Add an "IsDead" bool parameter. When lives reach 0, set IsDead = true, play the death animation, then reload the scene using <code>SceneManager.LoadScene(SceneManager.GetActiveScene().name);</code> (add <code>using UnityEngine.SceneManagement;</code> at the top).</span>
+    </div>
+
+    <div class="callout callout-extension">
+      <span class="icon">&#127942;</span>
+      <span><strong>Challenge 2: Animated Coins</strong> — Create a spinning coin animation using your coin sprite. Select multiple coin frames → drag onto the Coin prefab. The coins will now spin in place! Much more professional looking.</span>
+    </div>
+
+    <div class="callout callout-extension">
+      <span class="icon">&#127942;</span>
+      <span><strong>Challenge 3: Enemy Animations</strong> — Import an enemy sprite sheet. Slice it, create walk/attack animations. Add an Animator with idle/walk states. Attach to your enemy prefab. Make enemies look alive!</span>
+    </div>
+
+    <div class="callout callout-extension">
+      <span class="icon">&#127942;</span>
+      <span><strong>Challenge 4: Animation Events</strong> — In the Animation window, right-click the timeline → Add Animation Event. This calls a method at a specific frame — perfect for playing a footstep sound at the exact right moment!</span>
+    </div>
+
+    <div class="callout callout-challenge">
+      <span class="icon">&#128640;</span>
+      <span><strong>Boss Challenge:</strong> Create a complete animation set: Idle, Run, Jump, Fall, Land, Attack, and Death. Set up proper transitions between all states. Use blend trees for smooth run speed transitions!</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<div class="footer-section">
+  <h2>Submission Guide</h2>
+  <ul class="submission-steps">
+    <li>Save your Unity project (<span class="key">Ctrl+S</span>)</li>
+    <li>Record a short GIF or video of your animated character (idle → run → jump)</li>
+    <li>Upload to Google Classroom</li>
+  </ul>
+</div>
+
+<div class="footer-section">
+  <h2>Quick Reference</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:.88rem;">
+    <div><strong style="color:var(--neon)">Sprite Mode:</strong> <span style="color:var(--muted)">Single (one sprite) / Multiple (sprite sheet)</span></div>
+    <div><strong style="color:var(--neon)">Sprite Editor:</strong> <span style="color:var(--muted)">Slice → Grid By Cell Size → Apply</span></div>
+    <div><strong style="color:var(--blue)">Create Animation:</strong> <span style="color:var(--muted)">Select frames → drag to Scene/Hierarchy</span></div>
+    <div><strong style="color:var(--blue)">Animation Speed:</strong> <span style="color:var(--muted)">Animation window → Samples value</span></div>
+    <div><strong style="color:var(--purple)">Transition:</strong> <span style="color:var(--muted)">Right-click state → Make Transition</span></div>
+    <div><strong style="color:var(--purple)">Condition:</strong> <span style="color:var(--muted)">Click arrow → Inspector → Conditions</span></div>
+    <div><strong style="color:var(--amber)">SetFloat:</strong> <span style="color:var(--muted)">anim.SetFloat("Speed", value)</span></div>
+    <div><strong style="color:var(--amber)">SetBool:</strong> <span style="color:var(--muted)">anim.SetBool("IsJumping", true/false)</span></div>
+  </div>
+</div>
+
+<div class="footer-section">
+  <h2>Progress Tracker</h2>
+  <div class="progress-grid">
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Sprite sheet imported & sliced</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Idle animation plays</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Run animation with transitions</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Sprite flipping + jump animation</span><span class="pc-xp">+10 XP</span></div>
+    <div class="progress-card"><input type="checkbox"><span class="pc-label">Extension challenge done</span><span class="pc-xp">+10 XP</span></div>
+  </div>
+</div>
+
+<div class="btn-row no-print">
+  <button class="btn btn-neon" onclick="expandAll()">Expand All</button>
+  <button class="btn btn-ghost" onclick="resetAll()">Reset Progress</button>
+</div>
+
+</div>
+
+<script>
+const TOTAL_SECTIONS=5,XP_PER_SECTION=10;let xp=0;
+function toggleSection(n){const s=document.getElementById('section-'+n);s.classList.toggle('open');}
+function expandAll(){document.querySelectorAll('.tut-section').forEach(s=>s.classList.add('open'));}
+function updateProgress(){const checks=document.querySelectorAll('.step-check input[type="checkbox"]');const total=checks.length;const done=[...checks].filter(c=>c.checked).length;document.getElementById('progress-bar').style.width=Math.round(done/total*100)+'%';updateXP();}
+function updateXP(){let total=0;for(let i=1;i<=TOTAL_SECTIONS;i++){const sec=document.getElementById('section-'+i);if(!sec)continue;const checks=sec.querySelectorAll('.step-check input[type="checkbox"]');const done=[...checks].filter(c=>c.checked).length;if(checks.length>0&&done===checks.length)total+=XP_PER_SECTION;}xp=total;document.getElementById('xp-display').textContent=xp;}
+function resetAll(){document.querySelectorAll('input[type="checkbox"]').forEach(c=>c.checked=false);updateProgress();}
+</script>
+</body>
+</html>
