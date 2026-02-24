@@ -1,173 +1,198 @@
 <!DOCTYPE html>
-<html lang="en-AU">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kenney Asset Guide — Year 9 Game On</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
-<style>
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Roboto Mono',monospace;background:#0f172a;color:#f1f5f9;min-height:100vh;padding:2rem 1rem;}
-.container{max-width:900px;margin:0 auto;}
-h1{text-align:center;font-family:'Orbitron',sans-serif;font-size:2.2rem;margin-bottom:.3rem;background:linear-gradient(135deg,#4ade80,#38bdf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.subtitle{text-align:center;color:#94a3b8;font-size:1rem;margin-bottom:.6rem;}
-.back-link{text-align:center;margin-bottom:2rem;}
-.back-link a{color:#38bdf8;text-decoration:none;font-size:.9rem;}
-.back-link a:hover{text-decoration:underline;}
-.intro-box{max-width:700px;margin:0 auto 2.5rem;padding:16px 22px;background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.25);border-radius:12px;color:#94a3b8;font-size:.88rem;line-height:1.7;}
-.intro-box strong{color:#4ade80;}
-.intro-box code{background:#1e293b;padding:2px 6px;border-radius:4px;color:#fbbf24;font-size:.85rem;}
-.phase{margin-bottom:2rem;}
-.phase-title{font-family:'Orbitron',sans-serif;font-size:1.05rem;font-weight:700;color:#4ade80;margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:1px solid #334155;}
-.tutorials{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.6rem;}
-.tutorial-link{display:block;padding:.8rem 1rem;background:#1e293b;border:1px solid #334155;border-radius:8px;color:#f1f5f9;text-decoration:none;transition:all .2s;}
-.tutorial-link:hover{background:#252545;border-color:#4ade80;transform:translateY(-1px);}
-.tutorial-link.no-guide{opacity:.5;pointer-events:none;}
-.lesson-num{font-size:.75rem;color:#4ade80;font-weight:600;}
-.lesson-title{font-size:.95rem;margin-top:.2rem;}
-.lesson-note{font-size:.7rem;color:#94a3b8;margin-top:.15rem;}
-.asset-tag{display:inline-block;background:rgba(251,191,36,.12);color:#fbbf24;padding:2px 8px;border-radius:4px;font-size:.65rem;font-weight:600;margin-top:4px;}
-.folder-tree{max-width:700px;margin:0 auto 2.5rem;padding:18px 22px;background:#1e293b;border:1px solid #334155;border-radius:12px;font-size:.82rem;line-height:1.8;color:#94a3b8;}
-.folder-tree strong{color:#38bdf8;}
-.folder-tree .comment{color:#64748b;}
-.footer{text-align:center;margin-top:3rem;color:#475569;font-size:.8rem;}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Year 9 Game On — Unity Tutorials</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #0f0f23;
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 0.3rem;
+            background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            text-align: center;
+            color: #888;
+            font-size: 1rem;
+            margin-bottom: 2.5rem;
+        }
+        .phase {
+            margin-bottom: 2rem;
+        }
+        .phase-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #00d4ff;
+            margin-bottom: 0.8rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 1px solid #2a2a4a;
+        }
+        .tutorials {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 0.6rem;
+        }
+        .tutorial-link {
+            display: block;
+            padding: 0.8rem 1rem;
+            background: #1a1a2e;
+            border: 1px solid #2a2a4a;
+            border-radius: 8px;
+            color: #e0e0e0;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .tutorial-link:hover {
+            background: #252545;
+            border-color: #7b2ff7;
+            transform: translateY(-1px);
+        }
+        .lesson-num {
+            font-size: 0.75rem;
+            color: #7b2ff7;
+            font-weight: 600;
+        }
+        .lesson-title {
+            font-size: 0.95rem;
+            margin-top: 0.2rem;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: #555;
+            font-size: 0.8rem;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-    <h1>Kenney Asset Guide</h1>
-    <p class="subtitle">Which files to use for each Unity lesson</p>
-    <div class="back-link"><a href="../index.html">&larr; Back to Tutorial Hub</a></div>
+    <div class="container">
+        <h1>🎮 Year 9 Game On</h1>
+        <p class="subtitle">Unity Game Development Tutorials — Term 1</p>
 
-    <div class="intro-box">
-        <strong>What is this?</strong> This guide tells you exactly which files from the <strong>Kenney Platformer Art Deluxe</strong> pack to import for each lesson. Each page shows the file names, where to find them, how to set them up in Unity, and what they should look like in your scene.<br><br>
-        <strong>Rule of thumb:</strong> Only import what you need for the current lesson. You can always add more later!<br><br>
-        <strong>Asset pack licence:</strong> CC0 (Public Domain) — free for any use, no credit required.
-    </div>
+        <div style="text-align:center;margin-bottom:2rem;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;">
+            <a href="ls/index.html" style="display:inline-block;padding:10px 24px;background:linear-gradient(135deg,#fbbf24,#f472b6);color:#0f0f23;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.95rem;transition:transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">📋 Learning Support Worksheets (Canva &amp; Scratch)</a>
+            <a href="ka/index.html" style="display:inline-block;padding:10px 24px;background:linear-gradient(135deg,#4ade80,#38bdf8);color:#0f0f23;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.95rem;transition:transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">🎨 Kenney Asset Guide (Which Files to Import)</a>
+        </div>
 
-    <div class="folder-tree">
-        <strong>Kenney Pack Folder Structure:</strong><br>
-        <code>kenney_platformer-art-deluxe/</code><br>
-        &nbsp;&nbsp;&boxvr;&nbsp;<code>Base pack/</code> <span class="comment">&larr; Start here! Player, Enemies, Items, Tiles, HUD</span><br>
-        &nbsp;&nbsp;&boxvr;&nbsp;<code>Extra animations and enemies/</code> <span class="comment">&larr; More characters &amp; 20+ enemy types</span><br>
-        &nbsp;&nbsp;&boxvr;&nbsp;<code>Buildings expansion/</code> <span class="comment">&larr; Building-themed tiles</span><br>
-        &nbsp;&nbsp;&boxvr;&nbsp;<code>Candy expansion/</code> <span class="comment">&larr; Candy-themed tiles</span><br>
-        &nbsp;&nbsp;&boxvr;&nbsp;<code>Ice expansion/</code> <span class="comment">&larr; Ice/winter tiles</span><br>
-        &nbsp;&nbsp;&boxvr;&nbsp;<code>Mushroom expansion/</code> <span class="comment">&larr; Mushroom tiles + 4 backgrounds</span><br>
-        &nbsp;&nbsp;&boxur;&nbsp;<code>Request pack/</code> <span class="comment">&larr; Extra tiles</span>
-    </div>
-
-    <!-- PHASE 1 -->
-    <div class="phase">
-        <div class="phase-title">Phase 1: Unity Foundations (Weeks 3-5)</div>
-        <div class="tutorials">
-            <div class="tutorial-link no-guide">
-                <span class="lesson-num">Lesson 3</span>
-                <div class="lesson-title">Editor Essentials</div>
-                <div class="lesson-note">No Kenney assets needed — uses Unity's built-in 3D template</div>
-            </div>
-            <a class="tutorial-link" href="KA-L04-Sprites.html">
-                <span class="lesson-num">Lesson 4</span>
-                <div class="lesson-title">2D Sprites — First Imports</div>
-                <span class="asset-tag">bg.png &bull; player &bull; tiles &bull; decorations</span>
-            </a>
-            <a class="tutorial-link" href="KA-L05-Physics.html">
-                <span class="lesson-num">Lesson 5</span>
-                <div class="lesson-title">Physics — Components Setup</div>
-                <span class="asset-tag">box.png &bull; bomb.png &bull; optional extras</span>
-            </a>
-            <div class="tutorial-link no-guide">
-                <span class="lesson-num">Lesson 6</span>
-                <div class="lesson-title">C# Scripting</div>
-                <div class="lesson-note">No new assets — uses existing player from L04/L05</div>
+        <div class="phase">
+            <div class="phase-title">🔧 Phase 1: Unity Foundations (Weeks 3–5)</div>
+            <div class="tutorials">
+                <a class="tutorial-link" href="T1-L03-EditorEssentials-Tutorial.html">
+                    <span class="lesson-num">Lesson 3</span>
+                    <div class="lesson-title">Editor Essentials</div>
+                </a>
+                <a class="tutorial-link" href="T1-L04-2DSprites-Tutorial.html">
+                    <span class="lesson-num">Lesson 4</span>
+                    <div class="lesson-title">2D Sprites</div>
+                </a>
+                <a class="tutorial-link" href="T1-L05-Physics-Tutorial.html">
+                    <span class="lesson-num">Lesson 5</span>
+                    <div class="lesson-title">Physics</div>
+                </a>
+                <a class="tutorial-link" href="T1-L06-CSharp-Tutorial.html">
+                    <span class="lesson-num">Lesson 6</span>
+                    <div class="lesson-title">C# Scripting Basics</div>
+                </a>
             </div>
         </div>
-    </div>
 
-    <!-- PHASE 2 -->
-    <div class="phase">
-        <div class="phase-title">Phase 2: Core Mechanics (Weeks 6-8)</div>
-        <div class="tutorials">
-            <div class="tutorial-link no-guide">
-                <span class="lesson-num">Lesson 7</span>
-                <div class="lesson-title">Variables</div>
-                <div class="lesson-note">No new assets — code-only lesson using existing project</div>
-            </div>
-            <a class="tutorial-link" href="KA-L08-Conditionals.html">
-                <span class="lesson-num">Lesson 8</span>
-                <div class="lesson-title">Conditionals — Platforms &amp; Collectibles</div>
-                <span class="asset-tag">platform tiles &bull; spikes &bull; coins</span>
-            </a>
-            <div class="tutorial-link no-guide">
-                <span class="lesson-num">Lesson 9</span>
-                <div class="lesson-title">Game Design</div>
-                <div class="lesson-note">Planning lesson — no Unity work, but see preview images!</div>
-            </div>
-            <a class="tutorial-link" href="KA-L10-Prefabs.html">
-                <span class="lesson-num">Lesson 10</span>
-                <div class="lesson-title">Prefabs — Coins, Gems &amp; Enemies</div>
-                <span class="asset-tag">coins &bull; gems &bull; keys &bull; slime &bull; fly &bull; bat</span>
-            </a>
-            <a class="tutorial-link" href="KA-L11-Animation.html">
-                <span class="lesson-num">Lesson 11</span>
-                <div class="lesson-title">Sprite Animation — Spritesheets</div>
-                <span class="asset-tag">walk frames &bull; spritesheets &bull; alien characters</span>
-            </a>
-            <a class="tutorial-link" href="KA-L12-Tilemap.html">
-                <span class="lesson-num">Lesson 12</span>
-                <div class="lesson-title">Tilemap — Complete Tilesets</div>
-                <span class="asset-tag">grass &bull; dirt &bull; castle &bull; sand &bull; snow &bull; ice &bull; candy</span>
-            </a>
-        </div>
-    </div>
-
-    <!-- PHASE 3 -->
-    <div class="phase">
-        <div class="phase-title">Phase 3: Polish &amp; UI (Weeks 9-10)</div>
-        <div class="tutorials">
-            <a class="tutorial-link" href="KA-L13-UI.html">
-                <span class="lesson-num">Lesson 13</span>
-                <div class="lesson-title">UI — HUD Hearts, Icons &amp; Portraits</div>
-                <span class="asset-tag">hearts &bull; coin icon &bull; keys &bull; numbers &bull; portraits</span>
-            </a>
-            <div class="tutorial-link no-guide">
-                <span class="lesson-num">Lesson 14</span>
-                <div class="lesson-title">Sound &amp; Particles</div>
-                <div class="lesson-note">Audio from kenney.nl/assets — particles created in Unity</div>
-            </div>
-            <a class="tutorial-link" href="KA-L15-Menus.html">
-                <span class="lesson-num">Lesson 15</span>
-                <div class="lesson-title">Menus — Backgrounds &amp; Decorations</div>
-                <span class="asset-tag">backgrounds &bull; hills &bull; clouds &bull; player showcase</span>
-            </a>
-            <div class="tutorial-link no-guide">
-                <span class="lesson-num">Lesson 16</span>
-                <div class="lesson-title">Game Design Document</div>
-                <div class="lesson-note">Documentation lesson — no Unity work</div>
+        <div class="phase">
+            <div class="phase-title">⚙️ Phase 2: Core Mechanics (Weeks 6–8)</div>
+            <div class="tutorials">
+                <a class="tutorial-link" href="T1-L07-Variables-Tutorial.html">
+                    <span class="lesson-num">Lesson 7</span>
+                    <div class="lesson-title">Variables & Data Types</div>
+                </a>
+                <a class="tutorial-link" href="T1-L08-Conditionals-Tutorial.html">
+                    <span class="lesson-num">Lesson 8</span>
+                    <div class="lesson-title">Conditionals</div>
+                </a>
+                <a class="tutorial-link" href="T1-L09-GameDesign-Tutorial.html">
+                    <span class="lesson-num">Lesson 9</span>
+                    <div class="lesson-title">Game Design</div>
+                </a>
+                <a class="tutorial-link" href="T1-L10-Prefabs-Tutorial.html">
+                    <span class="lesson-num">Lesson 10</span>
+                    <div class="lesson-title">Prefabs</div>
+                </a>
+                <a class="tutorial-link" href="T1-L11-SpriteAnimation-Tutorial.html">
+                    <span class="lesson-num">Lesson 11</span>
+                    <div class="lesson-title">Sprite Animation</div>
+                </a>
+                <a class="tutorial-link" href="T1-L12-Tilemap-Tutorial.html">
+                    <span class="lesson-num">Lesson 12</span>
+                    <div class="lesson-title">Tilemap</div>
+                </a>
             </div>
         </div>
-    </div>
 
-    <!-- PHASE 4 -->
-    <div class="phase">
-        <div class="phase-title">Phase 4: Build Sprint &amp; Showcase (Weeks 11-13)</div>
-        <div class="tutorials">
-            <a class="tutorial-link" href="KA-Sprint-Complete.html">
-                <span class="lesson-num">Lessons 17-20</span>
-                <div class="lesson-title">Sprint — Complete Asset Shopping List</div>
-                <span class="asset-tag">EVERYTHING &bull; full reference &bull; all packs</span>
-            </a>
-            <div class="tutorial-link no-guide">
-                <span class="lesson-num">Lesson 21-22</span>
-                <div class="lesson-title">Showcase &amp; Reflection</div>
-                <div class="lesson-note">Presentation &amp; reflection — no new assets</div>
+        <div class="phase">
+            <div class="phase-title">🎨 Phase 3: Polish & UI (Weeks 9–10)</div>
+            <div class="tutorials">
+                <a class="tutorial-link" href="T1-L13-UI-Tutorial.html">
+                    <span class="lesson-num">Lesson 13</span>
+                    <div class="lesson-title">UI Systems</div>
+                </a>
+                <a class="tutorial-link" href="T1-L14-SoundParticles-Tutorial.html">
+                    <span class="lesson-num">Lesson 14</span>
+                    <div class="lesson-title">Sound & Particles</div>
+                </a>
+                <a class="tutorial-link" href="T1-L15-GameOverMenus-Tutorial.html">
+                    <span class="lesson-num">Lesson 15</span>
+                    <div class="lesson-title">Game Over & Menus</div>
+                </a>
+                <a class="tutorial-link" href="T1-L16-GDD-Tutorial.html">
+                    <span class="lesson-num">Lesson 16</span>
+                    <div class="lesson-title">Game Design Document</div>
+                </a>
             </div>
         </div>
-    </div>
 
-    <div class="footer">
-        Kenney Asset Guide — Year 9 Game On — Arthur Phillip High School — 2026
+        <div class="phase">
+            <div class="phase-title">🚀 Phase 4: Build Sprint & Showcase (Weeks 11–13)</div>
+            <div class="tutorials">
+                <a class="tutorial-link" href="T1-L17-Sprint1-Tutorial.html">
+                    <span class="lesson-num">Lesson 17</span>
+                    <div class="lesson-title">Sprint 1</div>
+                </a>
+                <a class="tutorial-link" href="T1-L18-Sprint2-Tutorial.html">
+                    <span class="lesson-num">Lesson 18</span>
+                    <div class="lesson-title">Sprint 2</div>
+                </a>
+                <a class="tutorial-link" href="T1-L19-Sprint3-Tutorial.html">
+                    <span class="lesson-num">Lesson 19</span>
+                    <div class="lesson-title">Sprint 3</div>
+                </a>
+                <a class="tutorial-link" href="T1-L20-Sprint4-Tutorial.html">
+                    <span class="lesson-num">Lesson 20</span>
+                    <div class="lesson-title">Sprint 4</div>
+                </a>
+                <a class="tutorial-link" href="T1-L21-Showcase-Tutorial.html">
+                    <span class="lesson-num">Lesson 21</span>
+                    <div class="lesson-title">Showcase</div>
+                </a>
+                <a class="tutorial-link" href="T1-L22-Reflection-Tutorial.html">
+                    <span class="lesson-num">Lesson 22</span>
+                    <div class="lesson-title">Reflection</div>
+                </a>
+            </div>
+        </div>
+
+        <div class="footer">
+            Year 9 Game On — Arthur Phillip High School — 2026
+        </div>
     </div>
-</div>
 </body>
 </html>
