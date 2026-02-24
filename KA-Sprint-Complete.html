@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sprint: Complete Asset Reference | Kenney Asset Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Roboto+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:15px;line-height:1.7;}a{color:var(--blue);text-decoration:none;}a:hover{text-decoration:underline;}.hero{text-align:center;padding:60px 20px 30px;background:linear-gradient(180deg,rgba(74,222,128,.08) 0%,transparent 100%);}.hero h1{font-family:var(--font-head);font-size:2rem;font-weight:900;background:linear-gradient(135deg,var(--neon),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;}.hero .sub{color:var(--muted);font-size:.9rem;margin-bottom:16px;}.hero .meta{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}.hero .tag{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-size:.78rem;color:var(--muted);}.hero .tag b{color:var(--neon);}.nav-row{display:flex;justify-content:center;gap:16px;margin:20px 0;flex-wrap:wrap;}.nav-row a{font-size:.85rem;}.container{max-width:880px;margin:0 auto;padding:0 20px 60px;}.section{margin:30px 0;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--dark);}.section-header{padding:18px 22px;display:flex;align-items:center;gap:14px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border);}.section-header .num{font-family:var(--font-head);font-size:1.4rem;font-weight:900;color:var(--navy);background:var(--neon);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}.section-header .info{flex:1;}.section-header .title{font-family:var(--font-head);font-size:1rem;font-weight:700;}.section-header .time{font-size:.78rem;color:var(--muted);margin-top:2px;}.section-header .chevron{color:var(--muted);font-size:1.3rem;transition:transform .3s;flex-shrink:0;}.section.open .chevron{transform:rotate(90deg);}.section-body{padding:0 22px 22px;display:none;}.section.open .section-body{display:block;}.file-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.85rem;}.file-table th{text-align:left;padding:8px 12px;background:var(--navy);color:var(--amber);font-family:var(--font-head);font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;}.file-table td{padding:8px 12px;border-bottom:1px solid rgba(51,65,85,.5);}.file-table tr:last-child td{border-bottom:none;}.file-table .file{color:var(--neon);font-weight:600;}.file-table .path{color:var(--muted);font-size:.8rem;}.callout{margin:14px 0;padding:12px 16px;border-radius:10px;font-size:.88rem;display:flex;gap:10px;align-items:flex-start;}.callout .icon{font-size:1.1rem;flex-shrink:0;}.callout-tip{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);}.callout-tip .icon{color:var(--blue);}.callout-warn{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);}.callout-warn .icon{color:var(--amber);}.callout-success{background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.25);}.callout-success .icon{color:var(--neon);}.ascii-scene{margin:14px 0;padding:16px 20px;background:var(--navy);border:1px solid var(--border);border-radius:10px;font-family:monospace;font-size:.78rem;line-height:1.6;color:var(--muted);white-space:pre;overflow-x:auto;}.step-list{list-style:none;counter-reset:steps;margin:12px 0;}.step-list li{counter-increment:steps;padding:8px 0;display:flex;gap:10px;align-items:flex-start;border-bottom:1px solid rgba(51,65,85,.3);font-size:.88rem;}.step-list li:last-child{border-bottom:none;}.step-list li::before{content:counter(steps);font-family:var(--font-head);font-size:.7rem;background:var(--neon);color:var(--navy);border-radius:50%;min-width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;}.step-list li strong{color:var(--neon);}h3{font-family:var(--font-head);font-size:.9rem;color:var(--blue);margin:18px 0 8px;text-transform:uppercase;letter-spacing:.5px;}.footer{text-align:center;margin-top:40px;color:#475569;font-size:.8rem;}
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<div class="hero">
+  <h1>SPRINT: COMPLETE ASSET REFERENCE</h1>
+  <p class="sub">Everything available in the Kenney Platformer Art Deluxe pack for your final game</p>
+  <div class="meta">
+    <span class="tag"><b>Sprint</b> &mdash; Lessons 17&ndash;20</span>
+    <span class="tag"><b>Complete</b> Asset Shopping List</span>
+    <span class="tag"><b>Unity 2D</b> &mdash; Year 9</span>
+    <span class="tag"><b>Kenney Assets</b></span>
+  </div>
+</div>
+
+<!-- ============ NAV ROW ============ -->
+<div class="nav-row">
+  <a href="index.html">&larr; Asset Guide Hub</a>
+  <a href="KA-L15-Menus.html">&larr; L15 Menus</a>
+</div>
+
+<!-- ============ MAIN CONTENT ============ -->
+<div class="container">
+
+  <!-- ======== SECTION 1: Player Characters ======== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">1</div>
+      <div class="info">
+        <div class="title">Player Characters &mdash; Pick ONE Set</div>
+        <div class="time">Base pack players + Alien characters with extra animations</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <h3>Base Pack Players</h3>
+      <p style="color:var(--muted);font-size:.85rem;margin-bottom:8px;">Path: <span class="file">Base pack/Player/</span></p>
+
+      <table class="file-table">
+        <tr>
+          <th>Character</th>
+          <th>Sprites Available</th>
+        </tr>
+        <tr>
+          <td class="file">Player 1</td>
+          <td>p1_stand, <strong style="color:var(--amber);">p1_walk/ folder (11 frames)</strong>, p1_jump, p1_duck, p1_hurt, p1_front</td>
+        </tr>
+        <tr>
+          <td class="file">Player 2</td>
+          <td>p2_stand, <strong style="color:var(--amber);">p2_walk/ folder (11 frames)</strong>, p2_jump, p2_duck, p2_hurt, p2_front</td>
+        </tr>
+        <tr>
+          <td class="file">Player 3</td>
+          <td>p3_stand, <strong style="color:var(--amber);">p3_walk/ folder (11 frames)</strong>, p3_jump, p3_duck, p3_hurt, p3_front</td>
+        </tr>
+      </table>
+
+      <div class="ascii-scene">Base pack/Player/
+  ├── p1_stand.png      p1_jump.png      p1_duck.png
+  ├── p1_hurt.png       p1_front.png
+  ├── p1_walk/
+  │     ├── p1_walk01.png ... p1_walk11.png   (11 frames)
+  ├── p2_stand.png      p2_jump.png      p2_duck.png
+  ├── p2_hurt.png       p2_front.png
+  ├── p2_walk/
+  │     ├── p2_walk01.png ... p2_walk11.png
+  ├── p3_stand.png      p3_jump.png      p3_duck.png
+  ├── p3_hurt.png       p3_front.png
+  └── p3_walk/
+        └── p3_walk01.png ... p3_walk11.png</div>
+
+      <h3>Alien Characters (Extra Animations)</h3>
+      <p style="color:var(--muted);font-size:.85rem;margin-bottom:8px;">Path: <span class="file">Extra animations and enemies/Alien sprites/</span></p>
+
+      <div class="callout callout-tip">
+        <span class="icon">&#9733;</span>
+        <span>Aliens come in <strong>5 colours</strong>: Beige, Blue, Green, Pink, Yellow. Each colour has <strong>10 sprite states</strong> &mdash; more animation options than the base pack players!</span>
+      </div>
+
+      <table class="file-table">
+        <tr>
+          <th>Colour</th>
+          <th>Sprites (each colour has all of these)</th>
+        </tr>
+        <tr>
+          <td class="file">Beige</td>
+          <td rowspan="5" style="vertical-align:middle;">
+            stand, walk1, walk2, jump, duck, hurt, climb1, climb2, swim1, swim2
+          </td>
+        </tr>
+        <tr><td class="file">Blue</td></tr>
+        <tr><td class="file">Green</td></tr>
+        <tr><td class="file">Pink</td></tr>
+        <tr><td class="file">Yellow</td></tr>
+      </table>
+
+      <div class="ascii-scene">Extra animations and enemies/Alien sprites/
+  ├── alienBeige_stand.png   alienBeige_walk1.png   alienBeige_walk2.png
+  ├── alienBeige_jump.png    alienBeige_duck.png    alienBeige_hurt.png
+  ├── alienBeige_climb1.png  alienBeige_climb2.png
+  ├── alienBeige_swim1.png   alienBeige_swim2.png
+  ├── alienBlue_stand.png    alienBlue_walk1.png    ...
+  ├── alienGreen_...         alienPink_...          alienYellow_...</div>
+
+      <div class="callout callout-warn">
+        <span class="icon">&#9888;</span>
+        <span><strong>Pick ONE character set</strong> for your game. Mixing player sprites from different sets will look inconsistent. Stick with either a Base Pack player (p1/p2/p3) OR one Alien colour.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======== SECTION 2: Enemies ======== -->
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">2</div>
+      <div class="info">
+        <div class="title">Enemies &mdash; Pick 2&ndash;4</div>
+        <div class="time">Base enemies + Advanced enemy sprites with full animations</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <h3>Base Pack Enemies</h3>
+      <p style="color:var(--muted);font-size:.85rem;margin-bottom:8px;">Path: <span class="file">Base pack/Enemies/</span></p>
+
+      <table class="file-table">
+        <tr>
+          <th>Enemy</th>
+          <th>Sprites</th>
+          <th>Type</th>
+          <th>Difficulty</th>
+        </tr>
+        <tr>
+          <td class="file">Slime</td>
+          <td>slimeWalk1, slimeWalk2, slimeDead</td>
+          <td>Ground</td>
+          <td style="color:var(--neon);">Easy</td>
+        </tr>
+        <tr>
+          <td class="file">Fly</td>
+          <td>flyFly1, flyFly2, flyDead</td>
+          <td>Air</td>
+          <td style="color:var(--amber);">Medium</td>
+        </tr>
+        <tr>
+          <td class="file">Snail</td>
+          <td>snailWalk1, snailWalk2, snailShell</td>
+          <td>Ground</td>
+          <td style="color:var(--neon);">Easy</td>
+        </tr>
+        <tr>
+          <td class="file">Fish</td>
+          <td>fishSwim1, fishSwim2, fishDead</td>
+          <td>Water</td>
+          <td style="color:var(--purple);">Special</td>
+        </tr>
+      </table>
+
+      <h3>Advanced Enemies (Extra Animations)</h3>
+      <p style="color:var(--muted);font-size:.85rem;margin-bottom:8px;">Path: <span class="file">Extra animations and enemies/Enemy sprites/</span></p>
+
+      <div class="callout callout-tip">
+        <span class="icon">&#9733;</span>
+        <span>Advanced enemies have <strong>full animation sets</strong>: idle, move, dead, and hit sprites. Much more polished than the base pack enemies!</span>
+      </div>
+
+      <table class="file-table">
+        <tr>
+          <th>Enemy</th>
+          <th>Sprites</th>
+          <th>Type</th>
+        </tr>
+        <tr>
+          <td class="file">Bat</td>
+          <td>bat, bat_dead, bat_hit</td>
+          <td>Air</td>
+        </tr>
+        <tr>
+          <td class="file">Bee</td>
+          <td>bee, bee_move, bee_dead, bee_hit</td>
+          <td>Air</td>
+        </tr>
+        <tr>
+          <td class="file">Spider</td>
+          <td>spider, spider_move, spider_dead, spider_hit</td>
+          <td>Ground / Ceiling</td>
+        </tr>
+        <tr>
+          <td class="file">Ghost</td>
+          <td>ghost, ghost_dead, ghost_hit</td>
+          <td>Air / Special</td>
+        </tr>
+        <tr>
+          <td class="file">Snake</td>
+          <td>snake, snake_move, snake_dead, snake_hit</td>
+          <td>Ground</td>
+        </tr>
+        <tr>
+          <td class="file">Frog</td>
+          <td>frog, frog_move, frog_dead, frog_hit</td>
+          <td>Ground</td>
+        </tr>
+        <tr>
+          <td class="file">Mouse</td>
+          <td>mouse, mouse_move, mouse_dead, mouse_hit</td>
+          <td>Ground</td>
+        </tr>
+        <tr>
+          <td class="file">Worm</td>
+          <td>worm, worm_move, worm_dead, worm_hit</td>
+          <td>Ground</td>
+        </tr>
+        <tr>
+          <td class="file">Ladybug</td>
+          <td>ladyBug, ladyBug_move, ladyBug_dead, ladyBug_hit</td>
+          <td>Ground</td>
+        </tr>
+        <tr>
+          <td class="file">Slime (Green)</td>
+          <td>slime, slime_move, slime_dead, slime_hit</td>
+          <td>Ground</td>
+        </tr>
+        <tr>
+          <td class="file">Slime (Blue)</td>
+          <td>slimeBlue, slimeBlue_move, slimeBlue_dead, slimeBlue_hit</td>
+          <td>Ground</td>
+        </tr>
+        <tr>
+          <td class="file">Snake Slime</td>
+          <td>snakeSlime, snakeSlime_move, snakeSlime_dead, snakeSlime_hit</td>
+          <td>Ground</td>
+        </tr>
+        <tr>
+          <td class="file">Snake Lava</td>
+          <td>snakeLava, snakeLava_move, snakeLava_dead, snakeLava_hit</td>
+          <td>Ground / Lava</td>
+        </tr>
+        <tr>
+          <td class="file">Piranha</td>
+          <td>piranha, piranha_move, piranha_dead, piranha_hit</td>
+          <td>Water</td>
+        </tr>
+        <tr>
+          <td class="file">Barnacle</td>
+          <td>barnacle, barnacle_dead, barnacle_hit</td>
+          <td>Wall / Static</td>
+        </tr>
+        <tr>
+          <td class="file">Grass Block</td>
+          <td>grassBlock, grassBlock_dead, grassBlock_hit</td>
+          <td>Camouflage</td>
+        </tr>
+        <tr>
+          <td class="file">Slime Block</td>
+          <td>slimeBlock, slimeBlock_dead, slimeBlock_hit</td>
+          <td>Camouflage</td>
+        </tr>
+        <tr>
+          <td class="file">Spinner (Half)</td>
+          <td>spinnerHalf, spinnerHalf_dead, spinnerHalf_hit</td>
+          <td>Hazard</td>
+        </tr>
+        <tr>
+          <td class="file">Spinner</td>
+          <td>spinner, spinner_dead, spinner_hit</td>
+          <td>Hazard</td>
+        </tr>
+      </table>
+
+      <div class="callout callout-warn">
+        <span class="icon">&#9888;</span>
+        <span><strong>Don't overload your game!</strong> Pick 2&ndash;4 enemies that suit your level themes. A ground enemy, an air enemy, and one special type is a solid combination.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======== SECTION 3: Collectibles ======== -->
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">3</div>
+      <div class="info">
+        <div class="title">Collectibles</div>
+        <div class="time">Coins, gems, keys, power-ups &mdash; all from Base pack/Items/</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <p style="color:var(--muted);font-size:.85rem;margin-bottom:8px;">Path: <span class="file">Base pack/Items/</span></p>
+
+      <h3>Coins &amp; Gems</h3>
+      <table class="file-table">
+        <tr>
+          <th>File</th>
+          <th>Suggested Value</th>
+          <th>Use</th>
+        </tr>
+        <tr>
+          <td class="file">coinBronze.png</td>
+          <td>1 point</td>
+          <td>Common &mdash; scattered everywhere</td>
+        </tr>
+        <tr>
+          <td class="file">coinSilver.png</td>
+          <td>5 points</td>
+          <td>Uncommon &mdash; slightly hidden</td>
+        </tr>
+        <tr>
+          <td class="file">coinGold.png</td>
+          <td>10 points</td>
+          <td>Rare &mdash; reward for exploration</td>
+        </tr>
+        <tr>
+          <td class="file">gemBlue.png, gemGreen.png</td>
+          <td>25 points</td>
+          <td>Valuable &mdash; hard to reach spots</td>
+        </tr>
+        <tr>
+          <td class="file">gemRed.png, gemYellow.png</td>
+          <td>50 points</td>
+          <td>Premium &mdash; secret areas only</td>
+        </tr>
+        <tr>
+          <td class="file">star.png</td>
+          <td>Special</td>
+          <td>Level completion star / bonus</td>
+        </tr>
+      </table>
+
+      <h3>Keys &amp; Locks</h3>
+      <table class="file-table">
+        <tr>
+          <th>File</th>
+          <th>Purpose</th>
+        </tr>
+        <tr>
+          <td class="file">keyBlue.png</td>
+          <td>Unlocks blue doors / locks</td>
+        </tr>
+        <tr>
+          <td class="file">keyGreen.png</td>
+          <td>Unlocks green doors / locks</td>
+        </tr>
+        <tr>
+          <td class="file">keyRed.png</td>
+          <td>Unlocks red doors / locks</td>
+        </tr>
+        <tr>
+          <td class="file">keyYellow.png</td>
+          <td>Unlocks yellow doors / locks</td>
+        </tr>
+      </table>
+
+      <h3>Power-Ups</h3>
+      <table class="file-table">
+        <tr>
+          <th>File</th>
+          <th>Purpose</th>
+        </tr>
+        <tr>
+          <td class="file">mushroomRed.png</td>
+          <td>Extra life</td>
+        </tr>
+        <tr>
+          <td class="file">mushroomBrown.png</td>
+          <td>Power-up (define your own effect!)</td>
+        </tr>
+      </table>
+
+      <div class="callout callout-tip">
+        <span class="icon">&#128161;</span>
+        <span><strong>Point values are suggestions.</strong> Adjust them to match your GDD. The important thing is having a <strong>clear progression</strong>: common items worth less, rare items worth more.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======== SECTION 4: Level Tiles by Theme ======== -->
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">4</div>
+      <div class="info">
+        <div class="title">Level Tiles by Theme</div>
+        <div class="time">Every tileset available &mdash; base themes + expansion packs</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <div class="callout callout-tip">
+        <span class="icon">&#128161;</span>
+        <span>Every theme follows the <strong>same tile naming pattern</strong>. Once you learn one theme, you know them all! The pattern is: <strong>[theme][TileType].png</strong></span>
+      </div>
+
+      <h3>Tile Types Available Per Theme</h3>
+      <div class="ascii-scene">Every theme includes these tile variants:
+
+  Mid           Left          Right         Center
+  Half          HalfLeft      HalfMid       HalfRight
+  CliffLeft     CliffRight    CliffLeftAlt  CliffRightAlt
+  HillLeft      HillRight     HillLeft2     HillRight2
+  LedgeLeft     LedgeRight
+
+Example for Grass:
+  grassMid.png   grassLeft.png   grassRight.png   grassCenter.png
+  grassHalf.png  grassHalfLeft.png  grassHalfMid.png  grassHalfRight.png
+  grassCliffLeft.png  grassCliffRight.png  ... etc.</div>
+
+      <h3>Base Themes</h3>
+      <p style="color:var(--muted);font-size:.85rem;margin-bottom:8px;">Path: <span class="file">Base pack/Tiles/</span></p>
+
+      <table class="file-table">
+        <tr>
+          <th>Theme</th>
+          <th>Prefix</th>
+          <th>Best For</th>
+        </tr>
+        <tr>
+          <td class="file">Grass</td>
+          <td>grass</td>
+          <td>Outdoor levels, forests, starting areas</td>
+        </tr>
+        <tr>
+          <td class="file">Dirt</td>
+          <td>dirt</td>
+          <td>Underground, caves, earthy areas</td>
+        </tr>
+        <tr>
+          <td class="file">Sand</td>
+          <td>sand</td>
+          <td>Desert, beach, arid levels</td>
+        </tr>
+        <tr>
+          <td class="file">Snow</td>
+          <td>snow</td>
+          <td>Winter, ice, mountain levels</td>
+        </tr>
+        <tr>
+          <td class="file">Stone</td>
+          <td>stone</td>
+          <td>Dungeons, ruins, rocky terrain</td>
+        </tr>
+        <tr>
+          <td class="file">Castle</td>
+          <td>castle</td>
+          <td>Castle interiors, fortresses, boss areas</td>
+        </tr>
+      </table>
+
+      <h3>Expansion Themes</h3>
+
+      <table class="file-table">
+        <tr>
+          <th>Theme</th>
+          <th>Pack Path</th>
+          <th>Best For</th>
+        </tr>
+        <tr>
+          <td class="file">Ice</td>
+          <td class="path">Ice expansion/Tiles/</td>
+          <td>Frozen caves, slippery surfaces</td>
+        </tr>
+        <tr>
+          <td class="file">Candy</td>
+          <td class="path">Candy expansion/Tiles/</td>
+          <td>Sweet themed worlds, fun/quirky levels</td>
+        </tr>
+        <tr>
+          <td class="file">Buildings</td>
+          <td class="path">Buildings expansion/Tiles/</td>
+          <td>City levels, rooftop stages, urban areas</td>
+        </tr>
+        <tr>
+          <td class="file">Mushroom</td>
+          <td class="path">Mushroom expansion/Tiles/</td>
+          <td>Fantasy forest, magical worlds</td>
+        </tr>
+      </table>
+
+      <div class="callout callout-warn">
+        <span class="icon">&#9888;</span>
+        <span><strong>Remember:</strong> All Kenney tiles are <strong>70&times;70 pixels</strong>. Set <strong>Pixels Per Unit to 70</strong> and <strong>Filter Mode to Point</strong> on every tile you import!</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======== SECTION 5: Level Props & Hazards ======== -->
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">5</div>
+      <div class="info">
+        <div class="title">Level Props &amp; Hazards</div>
+        <div class="time">Interactive objects, dangers, doors, ladders, liquids, and more</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <h3>Hazards &amp; Damage</h3>
+      <table class="file-table">
+        <tr>
+          <th>File</th>
+          <th>Purpose</th>
+          <th>Path</th>
+        </tr>
+        <tr>
+          <td class="file">spikes.png</td>
+          <td>Damage zone &mdash; instant hurt on contact</td>
+          <td class="path">Base pack/Items/</td>
+        </tr>
+        <tr>
+          <td class="file">bomb.png, bombFlash.png</td>
+          <td>Explosive &mdash; timed or triggered</td>
+          <td class="path">Base pack/Items/</td>
+        </tr>
+        <tr>
+          <td class="file">fireball.png</td>
+          <td>Projectile &mdash; shot by enemies or traps</td>
+          <td class="path">Base pack/Items/</td>
+        </tr>
+      </table>
+
+      <h3>Interactive Props</h3>
+      <table class="file-table">
+        <tr>
+          <th>File</th>
+          <th>Purpose</th>
+          <th>Path</th>
+        </tr>
+        <tr>
+          <td class="file">springboardUp.png, springboardDown.png</td>
+          <td>Bounce pad &mdash; launches player</td>
+          <td class="path">Base pack/Items/</td>
+        </tr>
+        <tr>
+          <td class="file">buttonBlue.png, buttonGreen.png, buttonRed.png, buttonYellow.png</td>
+          <td>Buttons &mdash; trigger events</td>
+          <td class="path">Base pack/Items/</td>
+        </tr>
+        <tr>
+          <td class="file">switchLeft.png, switchMid.png, switchRight.png</td>
+          <td>Switches &mdash; toggle states</td>
+          <td class="path">Base pack/Items/</td>
+        </tr>
+        <tr>
+          <td class="file">weight.png, weightChained.png</td>
+          <td>Weights &mdash; pressure plates / puzzles</td>
+          <td class="path">Base pack/Items/</td>
+        </tr>
+        <tr>
+          <td class="file">chain.png</td>
+          <td>Decoration / climbable chain</td>
+          <td class="path">Base pack/Items/</td>
+        </tr>
+        <tr>
+          <td class="file">flagBlue.png, flagGreen.png, flagRed.png, flagYellow.png</td>
+          <td>Flags &mdash; checkpoints or markers</td>
+          <td class="path">Base pack/Items/</td>
+        </tr>
+      </table>
+
+      <h3>Doors &amp; Locks</h3>
+      <table class="file-table">
+        <tr>
+          <th>File</th>
+          <th>Purpose</th>
+          <th>Path</th>
+        </tr>
+        <tr>
+          <td class="file">door_openMid.png, door_openTop.png</td>
+          <td>Open door (2 tiles tall)</td>
+          <td class="path">Base pack/Tiles/</td>
+        </tr>
+        <tr>
+          <td class="file">door_closedMid.png, door_closedTop.png</td>
+          <td>Closed door (2 tiles tall)</td>
+          <td class="path">Base pack/Tiles/</td>
+        </tr>
+        <tr>
+          <td class="file">lock_blue.png, lock_green.png, lock_red.png, lock_yellow.png</td>
+          <td>Coloured locks &mdash; match with keys</td>
+          <td class="path">Base pack/Tiles/</td>
+        </tr>
+      </table>
+
+      <h3>Ladders, Ropes &amp; Bridges</h3>
+      <table class="file-table">
+        <tr>
+          <th>File</th>
+          <th>Purpose</th>
+          <th>Path</th>
+        </tr>
+        <tr>
+          <td class="file">ladder_mid.png, ladder_top.png</td>
+          <td>Ladders &mdash; vertical climbing</td>
+          <td class="path">Base pack/Tiles/</td>
+        </tr>
+        <tr>
+          <td class="file">ropeVertical.png, ropeHorizontal.png</td>
+          <td>Ropes &mdash; climbing / swinging</td>
+          <td class="path">Base pack/Tiles/</td>
+        </tr>
+        <tr>
+          <td class="file">bridge.png, bridgeLogs.png</td>
+          <td>Bridges &mdash; crossing gaps</td>
+          <td class="path">Base pack/Tiles/</td>
+        </tr>
+      </table>
+
+      <h3>Liquids</h3>
+      <table class="file-table">
+        <tr>
+          <th>File</th>
+          <th>Purpose</th>
+          <th>Path</th>
+        </tr>
+        <tr>
+          <td class="file">liquidWaterTop.png</td>
+          <td>Water surface &mdash; swimming or hazard</td>
+          <td class="path">Base pack/Tiles/</td>
+        </tr>
+        <tr>
+          <td class="file">liquidLavaTop.png</td>
+          <td>Lava surface &mdash; instant death hazard</td>
+          <td class="path">Base pack/Tiles/</td>
+        </tr>
+      </table>
+
+      <h3>Crates &amp; Boxes</h3>
+      <table class="file-table">
+        <tr>
+          <th>File</th>
+          <th>Purpose</th>
+          <th>Path</th>
+        </tr>
+        <tr>
+          <td class="file">box.png</td>
+          <td>Standard crate &mdash; pushable / breakable</td>
+          <td class="path">Base pack/Tiles/</td>
+        </tr>
+        <tr>
+          <td class="file">boxAlt.png</td>
+          <td>Alternative crate style</td>
+          <td class="path">Base pack/Tiles/</td>
+        </tr>
+        <tr>
+          <td class="file">boxCoin.png</td>
+          <td>Coin crate &mdash; break to get coins</td>
+          <td class="path">Base pack/Tiles/</td>
+        </tr>
+        <tr>
+          <td class="file">boxItem.png</td>
+          <td>Item crate &mdash; break to get power-up</td>
+          <td class="path">Base pack/Tiles/</td>
+        </tr>
+        <tr>
+          <td class="file">boxExplosive.png</td>
+          <td>Explosive crate &mdash; dangerous!</td>
+          <td class="path">Base pack/Tiles/</td>
+        </tr>
+      </table>
+
+      <h3>Signs, Fences &amp; Structures</h3>
+      <table class="file-table">
+        <tr>
+          <th>File</th>
+          <th>Purpose</th>
+          <th>Path</th>
+        </tr>
+        <tr>
+          <td class="file">sign.png, signExit.png, signLeft.png, signRight.png</td>
+          <td>Signs &mdash; directional markers</td>
+          <td class="path">Base pack/Tiles/</td>
+        </tr>
+        <tr>
+          <td class="file">fence.png, fenceBroken.png</td>
+          <td>Fences &mdash; boundaries / decoration</td>
+          <td class="path">Base pack/Tiles/</td>
+        </tr>
+        <tr>
+          <td class="file">tochLit.png, tochLit2.png, torch.png</td>
+          <td>Torches &mdash; lighting / atmosphere</td>
+          <td class="path">Base pack/Tiles/</td>
+        </tr>
+        <tr>
+          <td class="file">window.png</td>
+          <td>Windows &mdash; castle / building detail</td>
+          <td class="path">Base pack/Tiles/</td>
+        </tr>
+      </table>
+
+    </div>
+  </div>
+
+  <!-- ======== SECTION 6: Backgrounds ======== -->
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">6</div>
+      <div class="info">
+        <div class="title">Backgrounds</div>
+        <div class="time">Sky and world backgrounds for your levels</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <table class="file-table">
+        <tr>
+          <th>File</th>
+          <th>Description</th>
+          <th>Path</th>
+        </tr>
+        <tr>
+          <td class="file">bg.png</td>
+          <td>Default sky &mdash; works with any theme</td>
+          <td class="path">Base pack/</td>
+        </tr>
+        <tr>
+          <td class="file">bg_castle.png</td>
+          <td>Castle sky &mdash; darker, moody atmosphere</td>
+          <td class="path">Base pack/</td>
+        </tr>
+        <tr>
+          <td class="file">bg_grasslands.png</td>
+          <td>Grasslands &mdash; green rolling hills</td>
+          <td class="path">Mushroom expansion/Backgrounds/</td>
+        </tr>
+        <tr>
+          <td class="file">bg_desert.png</td>
+          <td>Desert &mdash; sandy dunes, warm tones</td>
+          <td class="path">Mushroom expansion/Backgrounds/</td>
+        </tr>
+        <tr>
+          <td class="file">bg_castle.png</td>
+          <td>Dark castle &mdash; dramatic sky</td>
+          <td class="path">Mushroom expansion/Backgrounds/</td>
+        </tr>
+        <tr>
+          <td class="file">bg_shroom.png</td>
+          <td>Mushroom world &mdash; fantasy setting</td>
+          <td class="path">Mushroom expansion/Backgrounds/</td>
+        </tr>
+      </table>
+
+      <div class="callout callout-tip">
+        <span class="icon">&#128161;</span>
+        <span><strong>Background setup in Unity:</strong> Create a large Quad or UI Image, assign the background sprite, and place it on a <strong>Background sorting layer</strong> behind everything else. Set the camera's background colour to match the edges of the image.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======== SECTION 7: HUD Assets ======== -->
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">7</div>
+      <div class="info">
+        <div class="title">HUD Assets</div>
+        <div class="time">Hearts, score icons, player portraits, number sprites</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <p style="color:var(--muted);font-size:.85rem;margin-bottom:8px;">Path: <span class="file">Base pack/HUD/</span></p>
+
+      <h3>Lives Display</h3>
+      <table class="file-table">
+        <tr>
+          <th>File</th>
+          <th>Purpose</th>
+        </tr>
+        <tr>
+          <td class="file">hud_heartFull.png</td>
+          <td>Full heart &mdash; one life point</td>
+        </tr>
+        <tr>
+          <td class="file">hud_heartHalf.png</td>
+          <td>Half heart &mdash; half life point</td>
+        </tr>
+        <tr>
+          <td class="file">hud_heartEmpty.png</td>
+          <td>Empty heart &mdash; lost life point</td>
+        </tr>
+      </table>
+
+      <h3>Score &amp; Collectible Icons</h3>
+      <table class="file-table">
+        <tr>
+          <th>File</th>
+          <th>Purpose</th>
+        </tr>
+        <tr>
+          <td class="file">hud_coins.png</td>
+          <td>Score icon &mdash; display next to coin count</td>
+        </tr>
+        <tr>
+          <td class="file">hud_gem_blue.png, hud_gem_green.png, hud_gem_red.png, hud_gem_yellow.png</td>
+          <td>Gem counters &mdash; track collected gems</td>
+        </tr>
+      </table>
+
+      <h3>Key Inventory</h3>
+      <table class="file-table">
+        <tr>
+          <th>File</th>
+          <th>Purpose</th>
+        </tr>
+        <tr>
+          <td class="file">hud_keyBlue.png, hud_keyGreen.png, hud_keyRed.png, hud_keyYellow.png</td>
+          <td>Key icons &mdash; show collected keys</td>
+        </tr>
+        <tr>
+          <td class="file">hud_keyBlue_disabled.png, hud_keyGreen_disabled.png, etc.</td>
+          <td>Disabled key icons &mdash; keys not yet collected</td>
+        </tr>
+      </table>
+
+      <h3>Player Portraits</h3>
+      <table class="file-table">
+        <tr>
+          <th>File</th>
+          <th>Purpose</th>
+        </tr>
+        <tr>
+          <td class="file">hud_p1.png, hud_p1Alt.png</td>
+          <td>Player 1 portrait + alternate</td>
+        </tr>
+        <tr>
+          <td class="file">hud_p2.png, hud_p2Alt.png</td>
+          <td>Player 2 portrait + alternate</td>
+        </tr>
+        <tr>
+          <td class="file">hud_p3.png, hud_p3Alt.png</td>
+          <td>Player 3 portrait + alternate</td>
+        </tr>
+      </table>
+
+      <h3>Number Sprites</h3>
+      <table class="file-table">
+        <tr>
+          <th>File</th>
+          <th>Purpose</th>
+        </tr>
+        <tr>
+          <td class="file">hud_0.png through hud_9.png</td>
+          <td>Digit sprites (0&ndash;9) &mdash; build any number display</td>
+        </tr>
+        <tr>
+          <td class="file">hud_x.png</td>
+          <td>Multiply symbol &mdash; e.g. &ldquo;&times; 3&rdquo; for lives</td>
+        </tr>
+      </table>
+
+      <div class="callout callout-tip">
+        <span class="icon">&#128161;</span>
+        <span><strong>HUD sprites go on a Canvas</strong> in Unity. Use <strong>Screen Space &ndash; Overlay</strong> so the HUD always stays on screen regardless of camera movement. Anchor elements to corners so they work at different resolutions.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======== SECTION 8: Decorations ======== -->
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">8</div>
+      <div class="info">
+        <div class="title">Decorations</div>
+        <div class="time">Clouds, bushes, plants, rocks, hills &mdash; bring your levels to life</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <h3>Foreground Decorations</h3>
+      <p style="color:var(--muted);font-size:.85rem;margin-bottom:8px;">Path: <span class="file">Base pack/Items/</span></p>
+
+      <table class="file-table">
+        <tr>
+          <th>File</th>
+          <th>Description</th>
+          <th>Path</th>
+        </tr>
+        <tr>
+          <td class="file">cloud1.png, cloud2.png, cloud3.png</td>
+          <td>Clouds &mdash; 3 different shapes</td>
+          <td class="path">Base pack/Items/</td>
+        </tr>
+        <tr>
+          <td class="file">bush.png</td>
+          <td>Bush &mdash; ground decoration</td>
+          <td class="path">Base pack/Items/</td>
+        </tr>
+        <tr>
+          <td class="file">plant.png, plantPurple.png</td>
+          <td>Plants &mdash; green and purple variants</td>
+          <td class="path">Base pack/Items/</td>
+        </tr>
+        <tr>
+          <td class="file">rock.png</td>
+          <td>Rock &mdash; ground detail</td>
+          <td class="path">Base pack/Items/</td>
+        </tr>
+        <tr>
+          <td class="file">cactus.png</td>
+          <td>Cactus &mdash; desert decoration</td>
+          <td class="path">Base pack/Items/</td>
+        </tr>
+        <tr>
+          <td class="file">snowhill.png</td>
+          <td>Snow mound &mdash; winter decoration</td>
+          <td class="path">Base pack/Items/</td>
+        </tr>
+      </table>
+
+      <h3>Background Hills</h3>
+      <p style="color:var(--muted);font-size:.85rem;margin-bottom:8px;">Path: <span class="file">Base pack/Tiles/</span></p>
+
+      <table class="file-table">
+        <tr>
+          <th>File</th>
+          <th>Description</th>
+          <th>Path</th>
+        </tr>
+        <tr>
+          <td class="file">hill_small.png, hill_large.png</td>
+          <td>Background hills &mdash; green, rounded</td>
+          <td class="path">Base pack/Tiles/</td>
+        </tr>
+        <tr>
+          <td class="file">hill_smallAlt.png, hill_largeAlt.png</td>
+          <td>Alt hills &mdash; different shade / style</td>
+          <td class="path">Base pack/Tiles/</td>
+        </tr>
+        <tr>
+          <td class="file">rockHillLeft.png, rockHillRight.png</td>
+          <td>Rock hills &mdash; left and right halves</td>
+          <td class="path">Base pack/Tiles/</td>
+        </tr>
+      </table>
+
+      <div class="callout callout-tip">
+        <span class="icon">&#128161;</span>
+        <span><strong>Layering tip:</strong> Place decorations on a <strong>Decoration sorting layer</strong> between the Background and the main Tilemap. Clouds can slowly drift using a simple script for added atmosphere.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======== FINAL CALLOUT ======== -->
+  <div class="callout callout-success" style="margin-top:30px;">
+    <span class="icon">&#10004;</span>
+    <span><strong>This is your complete toolkit!</strong> You do not need to use everything here. Pick only what fits YOUR game design from your GDD. A focused game with fewer, well-used assets is always better than a cluttered game that uses everything. Refer back to this page whenever you need to find a specific asset during your sprint.</span>
+  </div>
+
+</div>
+
+<!-- ============ BOTTOM NAV ============ -->
+<div class="nav-row">
+  <a href="index.html">&larr; Asset Guide Hub</a>
+  <a href="KA-L15-Menus.html">&larr; L15 Menus</a>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<div class="footer">
+  Kenney Asset Guide &mdash; Year 9 Game Development &mdash; Sprint: Complete Asset Reference<br>
+  Assets: <a href="https://kenney.nl" target="_blank" rel="noopener">kenney.nl</a> (CC0 Public Domain)
+</div>
+
+<script>
+function toggle(el){el.closest('.section').classList.toggle('open');}
+</script>
+</body>
+</html>

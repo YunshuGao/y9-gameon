@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kenney Asset Guide — L15: Menus: Backgrounds &amp; Decorations</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:15px;line-height:1.7;}a{color:var(--blue);text-decoration:none;}a:hover{text-decoration:underline;}.hero{text-align:center;padding:60px 20px 30px;background:linear-gradient(180deg,rgba(74,222,128,.08) 0%,transparent 100%);}.hero h1{font-family:var(--font-head);font-size:2rem;font-weight:900;background:linear-gradient(135deg,var(--neon),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;}.hero .sub{color:var(--muted);font-size:.9rem;margin-bottom:16px;}.hero .meta{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}.hero .tag{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-size:.78rem;color:var(--muted);}.hero .tag b{color:var(--neon);}.nav-row{display:flex;justify-content:center;gap:16px;margin:20px 0;flex-wrap:wrap;}.nav-row a{font-size:.85rem;}.container{max-width:880px;margin:0 auto;padding:0 20px 60px;}.section{margin:30px 0;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--dark);}.section-header{padding:18px 22px;display:flex;align-items:center;gap:14px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border);}.section-header .num{font-family:var(--font-head);font-size:1.4rem;font-weight:900;color:var(--navy);background:var(--neon);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}.section-header .info{flex:1;}.section-header .title{font-family:var(--font-head);font-size:1rem;font-weight:700;}.section-header .time{font-size:.78rem;color:var(--muted);margin-top:2px;}.section-header .chevron{color:var(--muted);font-size:1.3rem;transition:transform .3s;flex-shrink:0;}.section.open .chevron{transform:rotate(90deg);}.section-body{padding:0 22px 22px;display:none;}.section.open .section-body{display:block;}.file-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.85rem;}.file-table th{text-align:left;padding:8px 12px;background:var(--navy);color:var(--amber);font-family:var(--font-head);font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;}.file-table td{padding:8px 12px;border-bottom:1px solid rgba(51,65,85,.5);}.file-table tr:last-child td{border-bottom:none;}.file-table .file{color:var(--neon);font-weight:600;}.file-table .path{color:var(--muted);font-size:.8rem;}.callout{margin:14px 0;padding:12px 16px;border-radius:10px;font-size:.88rem;display:flex;gap:10px;align-items:flex-start;}.callout .icon{font-size:1.1rem;flex-shrink:0;}.callout-tip{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);}.callout-tip .icon{color:var(--blue);}.callout-warn{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);}.callout-warn .icon{color:var(--amber);}.callout-success{background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.25);}.callout-success .icon{color:var(--neon);}.ascii-scene{margin:14px 0;padding:16px 20px;background:var(--navy);border:1px solid var(--border);border-radius:10px;font-family:monospace;font-size:.78rem;line-height:1.6;color:var(--muted);white-space:pre;overflow-x:auto;}.step-list{list-style:none;counter-reset:steps;margin:12px 0;}.step-list li{counter-increment:steps;padding:8px 0;display:flex;gap:10px;align-items:flex-start;border-bottom:1px solid rgba(51,65,85,.3);font-size:.88rem;}.step-list li:last-child{border-bottom:none;}.step-list li::before{content:counter(steps);font-family:var(--font-head);font-size:.7rem;background:var(--neon);color:var(--navy);border-radius:50%;min-width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;}.step-list li strong{color:var(--neon);}h3{font-family:var(--font-head);font-size:.9rem;color:var(--blue);margin:18px 0 8px;text-transform:uppercase;letter-spacing:.5px;}.footer{text-align:center;margin-top:40px;color:#475569;font-size:.8rem;}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ HERO ═══════════ -->
+<div class="hero">
+  <h1>MENUS: BACKGROUNDS &amp; DECORATIONS</h1>
+  <p class="sub">Sprites for main menu, game over, and pause screens</p>
+  <div class="meta">
+    <span class="tag"><b>Lesson 15</b></span>
+    <span class="tag">Kenney Platformer Pack</span>
+    <span class="tag">UI / Menus</span>
+    <span class="tag">~20 min read</span>
+  </div>
+</div>
+
+<!-- ═══════════ NAV ═══════════ -->
+<div class="nav-row">
+  <a href="index.html">&larr; Asset Guide Hub</a>
+  <a href="KA-L13-UI.html">&larr; L13 UI</a>
+  <a href="KA-Sprint-Reference.html">Next: Sprint Complete Reference &rarr;</a>
+</div>
+
+<div class="container">
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 1 — Main Menu Background Options               -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="section open">
+  <div class="section-header" onclick="toggle(this)">
+    <div class="num">1</div>
+    <div class="info">
+      <div class="title">Main Menu Background Options</div>
+      <div class="time">Background images for your title screen</div>
+    </div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="section-body">
+    <p>Kenney provides several background images you can use behind your main menu. Pick one that matches the mood of your game.</p>
+
+    <table class="file-table">
+      <thead>
+        <tr><th>File</th><th>Location</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="file">bg.png</td>
+          <td class="path">Base pack/</td>
+          <td>Default sky &mdash; bright, cheerful</td>
+        </tr>
+        <tr>
+          <td class="file">bg_castle.png</td>
+          <td class="path">Base pack/</td>
+          <td>Castle sky &mdash; darker, dramatic</td>
+        </tr>
+        <tr>
+          <td class="file">bg_grasslands.png</td>
+          <td class="path">Mushroom expansion/Backgrounds/</td>
+          <td>Green countryside</td>
+        </tr>
+        <tr>
+          <td class="file">bg_desert.png</td>
+          <td class="path">Mushroom expansion/Backgrounds/</td>
+          <td>Sandy desert</td>
+        </tr>
+        <tr>
+          <td class="file">bg_shroom.png</td>
+          <td class="path">Mushroom expansion/Backgrounds/</td>
+          <td>Fantasy mushroom world</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Two Ways to Use Backgrounds on Menus</h3>
+
+    <div class="callout callout-tip">
+      <span class="icon">&#128204;</span>
+      <div>
+        <strong>Option A: Camera Background</strong><br>
+        Select <strong>Main Camera</strong> in your menu scene &rarr; Inspector &rarr; change <strong>Background</strong> colour to a solid colour that matches the sky. This works if your background sprite fills the entire camera view.
+      </div>
+    </div>
+
+    <div class="callout callout-tip">
+      <span class="icon">&#128204;</span>
+      <div>
+        <strong>Option B: UI Panel (Recommended)</strong><br>
+        Create a <strong>UI &rarr; Panel</strong> stretched to fill the entire screen. In the Inspector, set the <strong>Source Image</strong> to your chosen background sprite. This gives you more control over layering and keeps everything inside the Canvas.
+      </div>
+    </div>
+
+    <div class="callout callout-warn">
+      <span class="icon">&#9888;&#65039;</span>
+      <div>
+        <strong>Import Reminder:</strong> Make sure your background sprites are imported with <strong>Texture Type: Sprite (2D and UI)</strong> in the Inspector, otherwise they won't appear in the Source Image dropdown.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 2 — Main Menu Decorations                      -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header" onclick="toggle(this)">
+    <div class="num">2</div>
+    <div class="info">
+      <div class="title">Main Menu Decorations</div>
+      <div class="time">Sprites to make your title screen look polished</div>
+    </div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="section-body">
+    <p>Layer these decorative sprites on top of your background to build a visually engaging main menu.</p>
+
+    <table class="file-table">
+      <thead>
+        <tr><th>File</th><th>Location</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="file">hill_large.png</td>
+          <td class="path">Base pack/Tiles/</td>
+          <td>Landscape silhouette</td>
+        </tr>
+        <tr>
+          <td class="file">hill_small.png</td>
+          <td class="path">Base pack/Tiles/</td>
+          <td>Smaller hill</td>
+        </tr>
+        <tr>
+          <td class="file">cloud1.png / cloud2.png / cloud3.png</td>
+          <td class="path">Base pack/Items/</td>
+          <td>Floating clouds</td>
+        </tr>
+        <tr>
+          <td class="file">star.png</td>
+          <td class="path">Base pack/Items/</td>
+          <td>Decorative stars</td>
+        </tr>
+        <tr>
+          <td class="file">flagGreen.png</td>
+          <td class="path">Base pack/Items/</td>
+          <td>&ldquo;Start&rdquo; visual cue</td>
+        </tr>
+        <tr>
+          <td class="file">p1_front.png</td>
+          <td class="path">Base pack/Player/</td>
+          <td>Character showcase</td>
+        </tr>
+        <tr>
+          <td class="file">p2_front.png</td>
+          <td class="path">Base pack/Player/</td>
+          <td>Character showcase</td>
+        </tr>
+        <tr>
+          <td class="file">p3_front.png</td>
+          <td class="path">Base pack/Player/</td>
+          <td>Character showcase</td>
+        </tr>
+        <tr>
+          <td class="file">grassMid.png (multiple)</td>
+          <td class="path">Base pack/Tiles/</td>
+          <td>Ground strip at bottom</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Suggested Main Menu Layout</h3>
+
+    <div class="ascii-scene">&#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;
+&#9474;           bg.png (background)              &#9474;
+&#9474;                                            &#9474;
+&#9474;   cloud1     MY AWESOME GAME     cloud2    &#9474;
+&#9474;            "A platformer adventure"        &#9474;
+&#9474;                                            &#9474;
+&#9474;               [  PLAY  ]                   &#9474;
+&#9474;               [  QUIT  ]                   &#9474;
+&#9474;                                            &#9474;
+&#9474;   p1_front   p2_front   p3_front           &#9474;
+&#9474; &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;      &#9474;
+&#9474; hill_large  grassMid tiles    hill_small   &#9474;
+&#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;</div>
+
+    <div class="callout callout-tip">
+      <span class="icon">&#128161;</span>
+      <div>
+        <strong>Layering Tip:</strong> In the Canvas, objects lower in the Hierarchy are drawn on top. Place your background panel first, then hills, then characters, then buttons. This way the buttons always appear in front.
+      </div>
+    </div>
+
+    <div class="callout callout-success">
+      <span class="icon">&#10004;&#65039;</span>
+      <div>
+        <strong>Pro Move:</strong> Add a simple script to slowly move the clouds left/right using <code>transform.Translate()</code> in <code>Update()</code> for a subtle animated effect on your menu screen.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 3 — Game Over Screen Assets                    -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header" onclick="toggle(this)">
+    <div class="num">3</div>
+    <div class="info">
+      <div class="title">Game Over Screen Assets</div>
+      <div class="time">Sprites and colours for the defeat screen</div>
+    </div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="section-body">
+    <p>The game over screen should feel different from the main menu &mdash; darker, moodier, and clearly communicate that the player has lost.</p>
+
+    <table class="file-table">
+      <thead>
+        <tr><th>File</th><th>Location</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="file">p1_hurt.png</td>
+          <td class="path">Base pack/Player/</td>
+          <td>Defeated character (use your chosen player)</td>
+        </tr>
+        <tr>
+          <td class="file">bg_castle.png</td>
+          <td class="path">Base pack/ or Mushroom/Backgrounds/</td>
+          <td>Dark moody background</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-tip">
+      <span class="icon">&#127912;</span>
+      <div>
+        <strong>Colour Tip:</strong> Use a dark or red background for game over &mdash; it communicates &ldquo;you lost&rdquo; visually. Set the camera background to dark red (<code>#3a0a0a</code>) for maximum impact.
+      </div>
+    </div>
+
+    <h3>Suggested Game Over Layout</h3>
+
+    <div class="ascii-scene">&#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;
+&#9474;         (dark red/castle background)       &#9474;
+&#9474;                                            &#9474;
+&#9474;              GAME OVER                     &#9474;
+&#9474;                                            &#9474;
+&#9474;         [hurt player sprite]               &#9474;
+&#9474;                                            &#9474;
+&#9474;            Score: 42                       &#9474;
+&#9474;            Best: 128                       &#9474;
+&#9474;                                            &#9474;
+&#9474;           [ PLAY AGAIN ]                   &#9474;
+&#9474;           [ MAIN MENU  ]                   &#9474;
+&#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;</div>
+
+    <div class="callout callout-warn">
+      <span class="icon">&#9888;&#65039;</span>
+      <div>
+        <strong>Scene Loading:</strong> Your &ldquo;Play Again&rdquo; button will need <code>SceneManager.LoadScene()</code> to reload the game scene. Your &ldquo;Main Menu&rdquo; button loads the menu scene. Make sure both scenes are added in <strong>Build Settings</strong>.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 4 — Pause Menu                                 -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header" onclick="toggle(this)">
+    <div class="num">4</div>
+    <div class="info">
+      <div class="title">Pause Menu</div>
+      <div class="time">Overlay panel that freezes gameplay</div>
+    </div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="section-body">
+    <p>No Kenney assets are specifically needed for the pause menu &mdash; it is a semi-transparent UI Panel overlay that sits on top of gameplay. However, you can add a few decorative touches:</p>
+
+    <table class="file-table">
+      <thead>
+        <tr><th>File</th><th>Location</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="file">star.png</td>
+          <td class="path">Base pack/Items/</td>
+          <td>Decorative element on pause screen</td>
+        </tr>
+        <tr>
+          <td class="file">hud_p1.png</td>
+          <td class="path">Base pack/HUD/</td>
+          <td>Player portrait for pause screen</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-tip">
+      <span class="icon">&#128204;</span>
+      <div>
+        <strong>How the Pause Panel Works:</strong> The pause panel uses a dark semi-transparent <strong>Image</strong> component with colour <code>RGBA(0, 0, 0, 200)</code> stretched across the entire Canvas. Buttons for <strong>Resume</strong> and <strong>Main Menu</strong> sit on top of this overlay.
+      </div>
+    </div>
+
+    <h3>Building the Pause Menu</h3>
+    <ol class="step-list">
+      <li>In your game scene, create <strong>UI &rarr; Panel</strong> as a child of the Canvas.</li>
+      <li>Set the Panel&rsquo;s <strong>Image colour</strong> to <code>RGBA(0, 0, 0, 200)</code> &mdash; this gives a dark, see-through overlay.</li>
+      <li>Stretch the Panel to fill the entire screen using the <strong>Anchor Presets</strong> (hold Alt and click the bottom-right stretch option).</li>
+      <li>Add <strong>UI &rarr; Text</strong> child with &ldquo;PAUSED&rdquo; as the text, centred near the top.</li>
+      <li>Add two <strong>UI &rarr; Button</strong> children: one for <strong>Resume</strong>, one for <strong>Main Menu</strong>.</li>
+      <li>In your pause script, toggle the panel with <code>pausePanel.SetActive(true/false)</code> and set <code>Time.timeScale = 0</code> to freeze gameplay.</li>
+    </ol>
+
+    <div class="callout callout-warn">
+      <span class="icon">&#9888;&#65039;</span>
+      <div>
+        <strong>Don&rsquo;t Forget:</strong> When resuming, set <code>Time.timeScale = 1</code> to unfreeze gameplay. If you forget this, everything stays frozen even after closing the pause menu!
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 5 — Win Screen Assets (Extension)              -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header" onclick="toggle(this)">
+    <div class="num">5</div>
+    <div class="info">
+      <div class="title">Win Screen Assets (Extension)</div>
+      <div class="time">Celebrate the player's victory</div>
+    </div>
+    <div class="chevron">&#9654;</div>
+  </div>
+  <div class="section-body">
+    <p>The win screen should feel rewarding and celebratory &mdash; the opposite mood to the game over screen.</p>
+
+    <table class="file-table">
+      <thead>
+        <tr><th>File</th><th>Location</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="file">flagGreen.png / flagRed.png</td>
+          <td class="path">Base pack/Items/</td>
+          <td>Victory flag</td>
+        </tr>
+        <tr>
+          <td class="file">star.png</td>
+          <td class="path">Base pack/Items/</td>
+          <td>Celebration</td>
+        </tr>
+        <tr>
+          <td class="file">gemRed.png</td>
+          <td class="path">Base pack/Items/</td>
+          <td>Achievement display</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-success">
+      <span class="icon">&#127881;</span>
+      <div>
+        <strong>Win Screen Suggestions:</strong> Use a bright background (like <code>bg.png</code> or <code>bg_grasslands.png</code>), add confetti particles using Unity&rsquo;s Particle System, and display a large &ldquo;YOU WIN!&rdquo; text with a gold or green colour.
+      </div>
+    </div>
+
+    <h3>Extension Ideas</h3>
+    <ol class="step-list">
+      <li>Display the player&rsquo;s final <strong>score</strong> and <strong>time taken</strong> prominently.</li>
+      <li>Show collected <strong>gemRed.png</strong> icons next to an achievement count (e.g. &ldquo;Gems: 12/15&rdquo;).</li>
+      <li>Add a <strong>star rating</strong> system &mdash; display 1, 2, or 3 star.png images based on performance.</li>
+      <li>Include a <strong>&ldquo;Next Level&rdquo;</strong> button if your game has multiple levels.</li>
+      <li>Use <strong>flagGreen.png</strong> as a large centrepiece decoration behind the victory text.</li>
+    </ol>
+
+    <div class="callout callout-tip">
+      <span class="icon">&#128161;</span>
+      <div>
+        <strong>Particle Confetti:</strong> Create an empty GameObject, add a <strong>Particle System</strong>, set the shape to &ldquo;Box&rdquo; across the top of the screen, and use small coloured squares as the particle material. Set gravity to pull them downwards for a confetti effect.
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<!-- ═══════════ BOTTOM NAV ═══════════ -->
+<div class="nav-row">
+  <a href="index.html">&larr; Asset Guide Hub</a>
+  <a href="KA-L13-UI.html">&larr; L13 UI</a>
+  <a href="KA-Sprint-Reference.html">Next: Sprint Complete Reference &rarr;</a>
+</div>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<p class="footer">Kenney Asset Guide &bull; Lesson 15: Menus &mdash; Backgrounds &amp; Decorations &bull; Year 9 Game Development</p>
+
+<script>
+function toggle(el){el.closest('.section').classList.toggle('open');}
+</script>
+</body>
+</html>

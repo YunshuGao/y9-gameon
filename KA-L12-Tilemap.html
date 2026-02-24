@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 12: Tilemap &mdash; Complete Tilesets | Kenney Asset Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Roboto+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:15px;line-height:1.7;}a{color:var(--blue);text-decoration:none;}a:hover{text-decoration:underline;}.hero{text-align:center;padding:60px 20px 30px;background:linear-gradient(180deg,rgba(74,222,128,.08) 0%,transparent 100%);}.hero h1{font-family:var(--font-head);font-size:2rem;font-weight:900;background:linear-gradient(135deg,var(--neon),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;}.hero .sub{color:var(--muted);font-size:.9rem;margin-bottom:16px;}.hero .meta{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}.hero .tag{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-size:.78rem;color:var(--muted);}.hero .tag b{color:var(--neon);}.nav-row{display:flex;justify-content:center;gap:16px;margin:20px 0;flex-wrap:wrap;}.nav-row a{font-size:.85rem;}.container{max-width:880px;margin:0 auto;padding:0 20px 60px;}.section{margin:30px 0;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--dark);}.section-header{padding:18px 22px;display:flex;align-items:center;gap:14px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border);}.section-header .num{font-family:var(--font-head);font-size:1.4rem;font-weight:900;color:var(--navy);background:var(--neon);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}.section-header .info{flex:1;}.section-header .title{font-family:var(--font-head);font-size:1rem;font-weight:700;}.section-header .time{font-size:.78rem;color:var(--muted);margin-top:2px;}.section-header .chevron{color:var(--muted);font-size:1.3rem;transition:transform .3s;flex-shrink:0;}.section.open .chevron{transform:rotate(90deg);}.section-body{padding:0 22px 22px;display:none;}.section.open .section-body{display:block;}.file-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.85rem;}.file-table th{text-align:left;padding:8px 12px;background:var(--navy);color:var(--amber);font-family:var(--font-head);font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;}.file-table td{padding:8px 12px;border-bottom:1px solid rgba(51,65,85,.5);}.file-table tr:last-child td{border-bottom:none;}.file-table .file{color:var(--neon);font-weight:600;}.file-table .path{color:var(--muted);font-size:.8rem;}.callout{margin:14px 0;padding:12px 16px;border-radius:10px;font-size:.88rem;display:flex;gap:10px;align-items:flex-start;}.callout .icon{font-size:1.1rem;flex-shrink:0;}.callout-tip{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);}.callout-tip .icon{color:var(--blue);}.callout-warn{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);}.callout-warn .icon{color:var(--amber);}.callout-success{background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.25);}.callout-success .icon{color:var(--neon);}.callout-danger{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);}.callout-danger .icon{color:var(--red);}.ascii-scene{margin:14px 0;padding:16px 20px;background:var(--navy);border:1px solid var(--border);border-radius:10px;font-family:monospace;font-size:.78rem;line-height:1.6;color:var(--muted);white-space:pre;overflow-x:auto;}.step-list{list-style:none;counter-reset:steps;margin:12px 0;}.step-list li{counter-increment:steps;padding:8px 0;display:flex;gap:10px;align-items:flex-start;border-bottom:1px solid rgba(51,65,85,.3);font-size:.88rem;}.step-list li:last-child{border-bottom:none;}.step-list li::before{content:counter(steps);font-family:var(--font-head);font-size:.7rem;background:var(--neon);color:var(--navy);border-radius:50%;min-width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;}.step-list li strong{color:var(--neon);}.key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:1px 7px;font-size:.82rem;color:var(--amber);font-weight:700;}h3{font-family:var(--font-head);font-size:.9rem;color:var(--blue);margin:18px 0 8px;text-transform:uppercase;letter-spacing:.5px;}.footer{text-align:center;margin-top:40px;color:#475569;font-size:.8rem;}
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<div class="hero">
+  <h1>TILEMAP: COMPLETE TILESETS</h1>
+  <p class="sub">Every tile you need to paint levels &mdash; grass, dirt, castle, sand, snow, and more</p>
+  <div class="meta">
+    <span class="tag"><b>Lesson 12</b></span>
+    <span class="tag"><b>Tilemap</b> &mdash; Complete Tilesets</span>
+    <span class="tag"><b>Unity 2D</b> &mdash; Year 9</span>
+    <span class="tag"><b>Kenney Assets</b></span>
+  </div>
+</div>
+
+<!-- ============ NAV ROW ============ -->
+<div class="nav-row">
+  <a href="index.html">&larr; Asset Guide Hub</a>
+  <a href="KA-L11-Animation.html">&larr; L11 Animation</a>
+  <a href="KA-L13-UI.html">Next: L13 UI &rarr;</a>
+</div>
+
+<!-- ============ MAIN CONTENT ============ -->
+<div class="container">
+
+  <!-- ======== SECTION 1: CRITICAL Import Settings ======== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">1</div>
+      <div class="info">
+        <div class="title">CRITICAL: Import Settings for Tiles</div>
+        <div class="time">Get this wrong and everything breaks</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <div class="callout callout-danger">
+        <span class="icon">&#9888;</span>
+        <span>
+          <strong>You MUST configure these settings before using any Kenney tiles!</strong><br>
+          Kenney tiles are <strong>70&times;70 pixels</strong> each. Unity defaults to 100 Pixels Per Unit, which will make your tiles the wrong size and leave gaps everywhere.<br><br>
+          <strong>Required settings for EVERY tile import:</strong><br>
+          &bull; <strong>Pixels Per Unit: 70</strong> &mdash; matches Kenney's 70&times;70 tile size<br>
+          &bull; <strong>Filter Mode: Point (no filter)</strong> &mdash; keeps pixel art crisp with no blurring<br>
+          &bull; <strong>Sprite Mode: Single</strong> &mdash; each tile image is one complete tile
+        </span>
+      </div>
+
+      <h3>Step-by-Step Import Setup</h3>
+      <ol class="step-list">
+        <li>Select <strong>ALL tile images</strong> you imported (<span class="key">Shift</span>+click to multi-select in Project window)</li>
+        <li>In the Inspector &rarr; set <strong>Pixels Per Unit: 70</strong></li>
+        <li>Set <strong>Filter Mode: Point (no filter)</strong></li>
+        <li>Click <strong>Apply</strong> at the bottom of the Inspector</li>
+      </ol>
+
+      <div class="callout callout-warn">
+        <span class="icon">&#9888;</span>
+        <span><strong>Tiles look too big or too small?</strong> The Pixels Per Unit is wrong. <strong>70</strong> is the magic number for Kenney tiles! If you see gaps between tiles or they overlap, double-check this setting on every tile sprite.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======== SECTION 2: Grass World Tiles ======== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">2</div>
+      <div class="info">
+        <div class="title">Grass World Tiles (Starter Set)</div>
+        <div class="time">The most common tileset &mdash; perfect for your first level</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <p>Location: <span style="color:var(--amber);">Base pack/Tiles/</span></p>
+
+      <h3>Surface Tiles</h3>
+      <table class="file-table">
+        <tr><th>File</th><th>Description</th><th>Usage</th></tr>
+        <tr><td class="file">grassMid.png</td><td>Flat grass top</td><td>Main ground surface</td></tr>
+        <tr><td class="file">grassLeft.png</td><td>Grass left edge</td><td>Left end of platform</td></tr>
+        <tr><td class="file">grassRight.png</td><td>Grass right edge</td><td>Right end of platform</td></tr>
+        <tr><td class="file">grassHalf.png</td><td>Thin grass platform</td><td>Floating platforms</td></tr>
+        <tr><td class="file">grassHalfLeft.png</td><td>Thin platform left</td><td>Float platform left edge</td></tr>
+        <tr><td class="file">grassHalfMid.png</td><td>Thin platform middle</td><td>Float platform middle</td></tr>
+        <tr><td class="file">grassHalfRight.png</td><td>Thin platform right</td><td>Float platform right edge</td></tr>
+      </table>
+
+      <h3>Underground Fill</h3>
+      <table class="file-table">
+        <tr><th>File</th><th>Description</th><th>Usage</th></tr>
+        <tr><td class="file">grassCenter.png</td><td>Solid dirt fill</td><td>Below grass surface</td></tr>
+        <tr><td class="file">dirtCenter.png</td><td>Alternative dirt</td><td>Underground fill</td></tr>
+        <tr><td class="file">dirtMid.png</td><td>Dirt with top edge</td><td>Visible dirt surface</td></tr>
+      </table>
+
+      <h3>Cliff / Wall Tiles</h3>
+      <table class="file-table">
+        <tr><th>File</th><th>Description</th><th>Usage</th></tr>
+        <tr><td class="file">grassCliffLeft.png</td><td>Left cliff face</td><td>Tall wall</td></tr>
+        <tr><td class="file">grassCliffRight.png</td><td>Right cliff face</td><td>Tall wall</td></tr>
+      </table>
+
+      <h3>Hills / Slopes</h3>
+      <table class="file-table">
+        <tr><th>File</th><th>Description</th><th>Usage</th></tr>
+        <tr><td class="file">grassHillLeft.png</td><td>Slope up-right</td><td>Decorative hill</td></tr>
+        <tr><td class="file">grassHillRight.png</td><td>Slope up-left</td><td>Decorative hill</td></tr>
+      </table>
+
+      <h3>Ledge Tiles</h3>
+      <table class="file-table">
+        <tr><th>File</th><th>Description</th><th>Usage</th></tr>
+        <tr><td class="file">grassLedgeLeft.png</td><td>Overhang left</td><td>Ceiling / overhang</td></tr>
+        <tr><td class="file">grassLedgeRight.png</td><td>Overhang right</td><td>Ceiling / overhang</td></tr>
+      </table>
+
+      <div class="ascii-scene">
+  How grass tiles fit together:
+
+  grassLeft   grassMid   grassMid   grassMid   grassRight
+  +----------+----------+----------+----------+----------+
+  |~~~~~~~~~~|~~~~~~~~~~|~~~~~~~~~~|~~~~~~~~~~|~~~~~~~~~~|
+  |  grass   |  grass   |  grass   |  grass   |  grass   |
+  +----------+----------+----------+----------+----------+
+  |grassCliff|grassCentr|grassCentr|grassCentr|grassCliff|
+  |  Left    |  (fill)  |  (fill)  |  (fill)  |  Right   |
+  +----------+----------+----------+----------+----------+</div>
+
+      <div class="callout callout-tip">
+        <span class="icon">&#128161;</span>
+        <span><strong>Build pattern:</strong> Use <strong>grassLeft</strong> on the left end, repeat <strong>grassMid</strong> across the middle, and <strong>grassRight</strong> on the right end. Fill below with <strong>grassCenter</strong>. This is the same pattern for every world theme!</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======== SECTION 3: Other World Themes ======== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">3</div>
+      <div class="info">
+        <div class="title">Other World Themes</div>
+        <div class="time">Same naming pattern, different visual styles</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <div class="callout callout-success">
+        <span class="icon">&#9989;</span>
+        <span><strong>Every theme follows the SAME naming pattern!</strong> Just swap the prefix. If you know the grass tiles, you know them all: <strong>[theme]Mid</strong>, <strong>[theme]Left</strong>, <strong>[theme]Right</strong>, <strong>[theme]Half</strong>, <strong>[theme]Center</strong>, <strong>[theme]CliffLeft/Right</strong>, <strong>[theme]HillLeft/Right</strong>, <strong>[theme]LedgeLeft/Right</strong>.</span>
+      </div>
+
+      <h3>Castle Theme</h3>
+      <table class="file-table">
+        <tr><th>Prefix</th><th>Tiles Included</th><th>Location</th></tr>
+        <tr><td class="file">castle</td><td>castleMid, castleLeft, castleRight, castleHalf, castleCenter, castleCliffLeft, castleCliffRight, castleHillLeft, castleHillRight, castleLedgeLeft, castleLedgeRight</td><td class="path">Base pack/Tiles/</td></tr>
+      </table>
+
+      <h3>Sand / Desert Theme</h3>
+      <table class="file-table">
+        <tr><th>Prefix</th><th>Tiles Included</th><th>Location</th></tr>
+        <tr><td class="file">sand</td><td>sandMid, sandLeft, sandRight, sandHalf, sandCenter, sandCliffLeft, sandCliffRight, sandHillLeft, sandHillRight, sandLedgeLeft, sandLedgeRight</td><td class="path">Base pack/Tiles/</td></tr>
+      </table>
+
+      <h3>Snow / Winter Theme</h3>
+      <table class="file-table">
+        <tr><th>Prefix</th><th>Tiles Included</th><th>Location</th></tr>
+        <tr><td class="file">snow</td><td>snowMid, snowLeft, snowRight, snowHalf, snowCenter, snowCliffLeft, snowCliffRight, snowHillLeft, snowHillRight, snowLedgeLeft, snowLedgeRight</td><td class="path">Base pack/Tiles/</td></tr>
+      </table>
+
+      <h3>Stone / Cave Theme</h3>
+      <table class="file-table">
+        <tr><th>Prefix</th><th>Tiles Included</th><th>Location</th></tr>
+        <tr><td class="file">stone</td><td>stoneMid, stoneLeft, stoneRight, stoneHalf, stoneCenter, stoneCliffLeft, stoneCliffRight, stoneHillLeft, stoneHillRight, stoneLedgeLeft, stoneLedgeRight, stoneWall</td><td class="path">Base pack/Tiles/</td></tr>
+      </table>
+
+      <h3>Expansion Pack Themes</h3>
+      <table class="file-table">
+        <tr><th>Theme</th><th>What You Get</th><th>Location</th></tr>
+        <tr><td class="file">Ice</td><td>Full tileset (same naming pattern with ice prefix)</td><td class="path">Ice expansion/Tiles/</td></tr>
+        <tr><td class="file">Candy</td><td>Full tileset (candy-themed platforms and fill)</td><td class="path">Candy expansion/Tiles/</td></tr>
+        <tr><td class="file">Buildings</td><td>Full tileset (urban/building-themed tiles)</td><td class="path">Buildings expansion/Tiles/</td></tr>
+        <tr><td class="file">Mushroom</td><td>Stems and caps (mushroom-themed platforms)</td><td class="path">Mushroom expansion/PNG/</td></tr>
+      </table>
+
+      <div class="callout callout-tip">
+        <span class="icon">&#128161;</span>
+        <span><strong>Mix and match!</strong> You can combine tiles from different themes in the same level. Use grass for the surface and stone for underground caves. The tiles are all the same 70&times;70 size so they fit together perfectly.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======== SECTION 4: Special Feature Tiles ======== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">4</div>
+      <div class="info">
+        <div class="title">Special Feature Tiles</div>
+        <div class="time">Ladders, water, lava, doors, signs, and more</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <h3>Ladders</h3>
+      <table class="file-table">
+        <tr><th>File</th><th>Location</th><th>Usage</th></tr>
+        <tr><td class="file">ladder_mid.png</td><td class="path">Base pack/Tiles/</td><td>Climbable ladder (middle section)</td></tr>
+        <tr><td class="file">ladder_top.png</td><td class="path">Base pack/Tiles/</td><td>Climbable ladder (top section)</td></tr>
+      </table>
+
+      <h3>Liquid Hazards</h3>
+      <table class="file-table">
+        <tr><th>File</th><th>Location</th><th>Usage</th></tr>
+        <tr><td class="file">liquidWaterTop.png</td><td class="path">Base pack/Tiles/</td><td>Water surface (top of water)</td></tr>
+        <tr><td class="file">liquidWater.png</td><td class="path">Base pack/Tiles/</td><td>Water body (fill below surface)</td></tr>
+        <tr><td class="file">liquidLavaTop.png</td><td class="path">Base pack/Tiles/</td><td>Lava surface (top of lava)</td></tr>
+        <tr><td class="file">liquidLava.png</td><td class="path">Base pack/Tiles/</td><td>Lava body (fill below surface)</td></tr>
+      </table>
+
+      <h3>Doors</h3>
+      <table class="file-table">
+        <tr><th>File</th><th>Location</th><th>Usage</th></tr>
+        <tr><td class="file">door_openMid.png, door_openTop.png</td><td class="path">Base pack/Tiles/</td><td>Open door (level exit)</td></tr>
+        <tr><td class="file">door_closedMid.png, door_closedTop.png</td><td class="path">Base pack/Tiles/</td><td>Locked door</td></tr>
+      </table>
+
+      <h3>Locks</h3>
+      <table class="file-table">
+        <tr><th>File</th><th>Location</th><th>Usage</th></tr>
+        <tr><td class="file">lock_blue.png</td><td class="path">Base pack/Tiles/</td><td>Blue lock</td></tr>
+        <tr><td class="file">lock_green.png</td><td class="path">Base pack/Tiles/</td><td>Green lock</td></tr>
+        <tr><td class="file">lock_red.png</td><td class="path">Base pack/Tiles/</td><td>Red lock</td></tr>
+        <tr><td class="file">lock_yellow.png</td><td class="path">Base pack/Tiles/</td><td>Yellow lock</td></tr>
+      </table>
+
+      <h3>Bridges</h3>
+      <table class="file-table">
+        <tr><th>File</th><th>Location</th><th>Usage</th></tr>
+        <tr><td class="file">bridge.png</td><td class="path">Base pack/Tiles/</td><td>Wooden bridge</td></tr>
+        <tr><td class="file">bridgeLogs.png</td><td class="path">Base pack/Tiles/</td><td>Log bridge</td></tr>
+      </table>
+
+      <h3>Torches &amp; Windows</h3>
+      <table class="file-table">
+        <tr><th>File</th><th>Location</th><th>Usage</th></tr>
+        <tr><td class="file">tochLit.png</td><td class="path">Base pack/Tiles/</td><td>Lit torch (castle/dungeon)</td></tr>
+        <tr><td class="file">tochLit2.png</td><td class="path">Base pack/Tiles/</td><td>Lit torch variant</td></tr>
+        <tr><td class="file">torch.png</td><td class="path">Base pack/Tiles/</td><td>Unlit torch</td></tr>
+        <tr><td class="file">window.png</td><td class="path">Base pack/Tiles/</td><td>Castle window</td></tr>
+      </table>
+
+      <h3>Signs</h3>
+      <table class="file-table">
+        <tr><th>File</th><th>Location</th><th>Usage</th></tr>
+        <tr><td class="file">sign.png</td><td class="path">Base pack/Tiles/</td><td>Blank direction sign</td></tr>
+        <tr><td class="file">signExit.png</td><td class="path">Base pack/Tiles/</td><td>Exit sign</td></tr>
+        <tr><td class="file">signLeft.png</td><td class="path">Base pack/Tiles/</td><td>Arrow pointing left</td></tr>
+        <tr><td class="file">signRight.png</td><td class="path">Base pack/Tiles/</td><td>Arrow pointing right</td></tr>
+      </table>
+
+      <h3>Fences</h3>
+      <table class="file-table">
+        <tr><th>File</th><th>Location</th><th>Usage</th></tr>
+        <tr><td class="file">fence.png</td><td class="path">Base pack/Tiles/</td><td>Wooden fence</td></tr>
+        <tr><td class="file">fenceBroken.png</td><td class="path">Base pack/Tiles/</td><td>Broken fence</td></tr>
+      </table>
+
+    </div>
+  </div>
+
+  <!-- ======== SECTION 5: Backgrounds ======== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">5</div>
+      <div class="info">
+        <div class="title">Backgrounds for Your Tilemap Level</div>
+        <div class="time">Sky and scenery behind your tiles</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <table class="file-table">
+        <tr><th>File</th><th>Location</th><th>Description</th></tr>
+        <tr><td class="file">bg.png</td><td class="path">Base pack/</td><td>Default sky</td></tr>
+        <tr><td class="file">bg_castle.png</td><td class="path">Base pack/</td><td>Castle sky</td></tr>
+        <tr><td class="file">bg_grasslands.png</td><td class="path">Mushroom expansion/Backgrounds/</td><td>Green grasslands</td></tr>
+        <tr><td class="file">bg_desert.png</td><td class="path">Mushroom expansion/Backgrounds/</td><td>Desert</td></tr>
+        <tr><td class="file">bg_castle.png</td><td class="path">Mushroom expansion/Backgrounds/</td><td>Dark castle</td></tr>
+        <tr><td class="file">bg_shroom.png</td><td class="path">Mushroom expansion/Backgrounds/</td><td>Mushroom world</td></tr>
+      </table>
+
+      <div class="callout callout-tip">
+        <span class="icon">&#128161;</span>
+        <span><strong>Background setup:</strong> Drag the background image into your Scene, set its <strong>Order in Layer</strong> to <strong>-10</strong> (or any negative number) so it renders behind everything else. Scale it to fill your camera view.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======== SECTION 6: Tile Palette Setup ======== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">6</div>
+      <div class="info">
+        <div class="title">Tile Palette Setup Steps</div>
+        <div class="time">Create a palette and start painting your level</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <h3>Creating Your Tile Palette</h3>
+      <ol class="step-list">
+        <li>Go to <strong>Window &rarr; 2D &rarr; Tile Palette</strong></li>
+        <li>Click <strong>Create New Palette</strong> &rarr; name it <strong>"GrassTiles"</strong> (or your theme name)</li>
+        <li>Grid: <strong>Rectangle</strong>, Cell Size: <strong>Automatic</strong></li>
+        <li>Create an <strong>Assets/Palettes/</strong> folder and an <strong>Assets/TileAssets/</strong> folder</li>
+        <li>Drag <strong>all your tile PNGs</strong> into the Tile Palette window</li>
+        <li>Save tile assets to the <strong>TileAssets/</strong> folder when prompted</li>
+        <li>Start painting!</li>
+      </ol>
+
+      <h3>Painting Tool Shortcuts</h3>
+      <table class="file-table">
+        <tr><th>Key</th><th>Tool</th><th>What It Does</th></tr>
+        <tr><td><span class="key">B</span></td><td class="file">Paint Brush</td><td>Place one tile at a time</td></tr>
+        <tr><td><span class="key">U</span></td><td class="file">Box Fill</td><td>Drag to fill a rectangle with tiles</td></tr>
+        <tr><td><span class="key">D</span></td><td class="file">Eraser</td><td>Remove tiles</td></tr>
+        <tr><td><span class="key">I</span></td><td class="file">Eyedropper</td><td>Pick an existing tile from the scene</td></tr>
+        <tr><td><span class="key">G</span></td><td class="file">Flood Fill</td><td>Fill an entire area with one tile</td></tr>
+      </table>
+
+      <div class="callout callout-success">
+        <span class="icon">&#9989;</span>
+        <span><strong>Pro workflow:</strong> Select a tile in the palette, press <span class="key">B</span> to paint, hold <span class="key">Shift</span> to draw straight lines. Use <span class="key">U</span> (Box Fill) to quickly fill large underground areas with grassCenter or dirtCenter tiles.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======== SECTION 7: Collision Setup ======== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">7</div>
+      <div class="info">
+        <div class="title">Collision Setup</div>
+        <div class="time">Make your tiles solid so the player can walk on them</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <h3>Adding Collision to Your Tilemap</h3>
+      <ol class="step-list">
+        <li>Select the <strong>Ground Tilemap</strong> in the Hierarchy</li>
+        <li>Add Component &rarr; <strong>Tilemap Collider 2D</strong></li>
+        <li>Add Component &rarr; <strong>Composite Collider 2D</strong> (merges individual tile colliders into one smooth surface)</li>
+        <li>A <strong>Rigidbody 2D</strong> is auto-added &mdash; set <strong>Body Type: Static</strong></li>
+        <li>On the <strong>Tilemap Collider 2D</strong> component, check <strong>"Used By Composite"</strong></li>
+        <li>Set the Tag to <strong>"Ground"</strong></li>
+      </ol>
+
+      <div class="callout callout-danger">
+        <span class="icon">&#9888;</span>
+        <span><strong>Do NOT add colliders to background tilemaps!</strong> Only the Ground tilemap needs collision. If you add colliders to decorative or background tiles, your player will get stuck on invisible walls.</span>
+      </div>
+
+      <div class="callout callout-tip">
+        <span class="icon">&#128161;</span>
+        <span><strong>Why Composite Collider?</strong> Without it, every single tile has its own tiny box collider. Your player can catch on the edges between tiles and stutter. The Composite Collider merges them into one smooth shape.</span>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- end container -->
+
+<!-- ============ NAV FOOTER ============ -->
+<div class="nav-row">
+  <a href="index.html">&larr; Asset Guide Hub</a>
+  <a href="KA-L11-Animation.html">&larr; L11 Animation</a>
+  <a href="KA-L13-UI.html">Next: L13 UI &rarr;</a>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<p class="footer">Kenney Asset Guide &mdash; Year 9 Game On &mdash; 2026</p>
+
+<script>
+function toggle(el){el.closest('.section').classList.toggle('open');}
+</script>
+</body>
+</html>

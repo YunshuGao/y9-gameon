@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 10: Prefabs — Coins, Gems &amp; Enemies | Kenney Asset Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Roboto+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:15px;line-height:1.7;}a{color:var(--blue);text-decoration:none;}a:hover{text-decoration:underline;}.hero{text-align:center;padding:60px 20px 30px;background:linear-gradient(180deg,rgba(74,222,128,.08) 0%,transparent 100%);}.hero h1{font-family:var(--font-head);font-size:2rem;font-weight:900;background:linear-gradient(135deg,var(--neon),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;}.hero .sub{color:var(--muted);font-size:.9rem;margin-bottom:16px;}.hero .meta{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}.hero .tag{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-size:.78rem;color:var(--muted);}.hero .tag b{color:var(--neon);}.nav-row{display:flex;justify-content:center;gap:16px;margin:20px 0;flex-wrap:wrap;}.nav-row a{font-size:.85rem;}.container{max-width:880px;margin:0 auto;padding:0 20px 60px;}.section{margin:30px 0;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--dark);}.section-header{padding:18px 22px;display:flex;align-items:center;gap:14px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border);}.section-header .num{font-family:var(--font-head);font-size:1.4rem;font-weight:900;color:var(--navy);background:var(--neon);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}.section-header .info{flex:1;}.section-header .title{font-family:var(--font-head);font-size:1rem;font-weight:700;}.section-header .time{font-size:.78rem;color:var(--muted);margin-top:2px;}.section-header .chevron{color:var(--muted);font-size:1.3rem;transition:transform .3s;flex-shrink:0;}.section.open .chevron{transform:rotate(90deg);}.section-body{padding:0 22px 22px;display:none;}.section.open .section-body{display:block;}.file-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.85rem;}.file-table th{text-align:left;padding:8px 12px;background:var(--navy);color:var(--amber);font-family:var(--font-head);font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;}.file-table td{padding:8px 12px;border-bottom:1px solid rgba(51,65,85,.5);}.file-table tr:last-child td{border-bottom:none;}.file-table .file{color:var(--neon);font-weight:600;}.file-table .path{color:var(--muted);font-size:.8rem;}.callout{margin:14px 0;padding:12px 16px;border-radius:10px;font-size:.88rem;display:flex;gap:10px;align-items:flex-start;}.callout .icon{font-size:1.1rem;flex-shrink:0;}.callout-tip{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);}.callout-tip .icon{color:var(--blue);}.callout-warn{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);}.callout-warn .icon{color:var(--amber);}.callout-success{background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.25);}.callout-success .icon{color:var(--neon);}.callout-danger{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);}.callout-danger .icon{color:var(--red);}.ascii-scene{margin:14px 0;padding:16px 20px;background:var(--navy);border:1px solid var(--border);border-radius:10px;font-family:monospace;font-size:.78rem;line-height:1.6;color:var(--muted);white-space:pre;overflow-x:auto;}.step-list{list-style:none;counter-reset:steps;margin:12px 0;}.step-list li{counter-increment:steps;padding:8px 0;display:flex;gap:10px;align-items:flex-start;border-bottom:1px solid rgba(51,65,85,.3);font-size:.88rem;}.step-list li:last-child{border-bottom:none;}.step-list li::before{content:counter(steps);font-family:var(--font-head);font-size:.7rem;background:var(--neon);color:var(--navy);border-radius:50%;min-width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;}.step-list li strong{color:var(--neon);}.key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:1px 7px;font-size:.82rem;color:var(--amber);font-weight:700;}h3{font-family:var(--font-head);font-size:.9rem;color:var(--blue);margin:18px 0 8px;text-transform:uppercase;letter-spacing:.5px;}.footer{text-align:center;margin-top:40px;color:#475569;font-size:.8rem;}
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<div class="hero">
+  <h1>PREFABS: COINS, GEMS &amp; ENEMIES</h1>
+  <p class="sub">Create reusable game object templates from Kenney sprites</p>
+  <div class="meta">
+    <span class="tag"><b>Lesson 10</b></span>
+    <span class="tag"><b>Prefabs</b> &mdash; Reusable Templates</span>
+    <span class="tag"><b>Unity 2D</b> &mdash; Year 9</span>
+    <span class="tag"><b>Kenney Assets</b></span>
+  </div>
+</div>
+
+<!-- ============ NAV ROW ============ -->
+<div class="nav-row">
+  <a href="index.html">&larr; Asset Guide Hub</a>
+  <a href="KA-L08-Conditionals.html">&larr; L08 Conditionals</a>
+  <a href="KA-L11-Animation.html">Next: L11 Animation &rarr;</a>
+</div>
+
+<!-- ============ MAIN CONTENT ============ -->
+<div class="container">
+
+  <!-- ======== SECTION 1: Coin Prefab Assets ======== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">1</div>
+      <div class="info">
+        <div class="title">Coin Prefab Assets</div>
+        <div class="time">Sprites for collectible coins &amp; gems</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <h3>Available Coin &amp; Gem Sprites</h3>
+      <table class="file-table">
+        <tr><th>File</th><th>Location</th><th>Usage</th></tr>
+        <tr><td class="file">coinGold.png</td><td class="path">Base pack/Items/</td><td>Standard coin (+10 pts suggested)</td></tr>
+        <tr><td class="file">coinSilver.png</td><td class="path">Base pack/Items/</td><td>Medium coin (+5 pts)</td></tr>
+        <tr><td class="file">coinBronze.png</td><td class="path">Base pack/Items/</td><td>Common coin (+1 pt)</td></tr>
+        <tr><td class="file">gemBlue.png</td><td class="path">Base pack/Items/</td><td>Rare gem (+25 pts)</td></tr>
+        <tr><td class="file">gemRed.png</td><td class="path">Base pack/Items/</td><td>Ultra rare gem (+50 pts)</td></tr>
+        <tr><td class="file">gemGreen.png</td><td class="path">Base pack/Items/</td><td>Bonus gem (+25 pts)</td></tr>
+        <tr><td class="file">gemYellow.png</td><td class="path">Base pack/Items/</td><td>Bonus gem (+25 pts)</td></tr>
+      </table>
+
+      <h3>Create a Coin Prefab &mdash; Step by Step</h3>
+      <ol class="step-list">
+        <li>Drag <strong>coinGold.png</strong> into the Scene</li>
+        <li>Rename to <strong>"Coin"</strong> in Hierarchy</li>
+        <li>Add Component &rarr; <strong>Circle Collider 2D</strong> &rarr; tick <strong>Is Trigger</strong></li>
+        <li>Create Tag <strong>"Coin"</strong> (Inspector top &rarr; Tag &rarr; Add Tag)</li>
+        <li>Assign <strong>"Coin"</strong> tag to the object</li>
+        <li>Create <strong>Assets/Prefabs/</strong> folder</li>
+        <li>Drag the <strong>"Coin"</strong> from Hierarchy into <strong>Assets/Prefabs/</strong> &mdash; blue name = prefab!</li>
+        <li>Delete the scene instance (it lives in Prefabs now)</li>
+      </ol>
+
+      <div class="callout callout-tip">
+        <span class="icon">&#128161;</span>
+        <span><strong>Design choice!</strong> Should bronze=1, silver=5, gold=10, gems=25? This is YOUR game design decision! Different point values create different player experiences.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======== SECTION 2: Enemy Prefab Assets ======== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">2</div>
+      <div class="info">
+        <div class="title">Enemy Prefab Assets</div>
+        <div class="time">Sprites for enemy characters</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <h3>Basic Enemies (Base Pack)</h3>
+      <table class="file-table">
+        <tr><th>File</th><th>Location</th><th>Usage</th></tr>
+        <tr><td class="file">slimeWalk1.png</td><td class="path">Base pack/Enemies/</td><td>Ground enemy (Easy)</td></tr>
+        <tr><td class="file">flyFly1.png</td><td class="path">Base pack/Enemies/</td><td>Flying enemy (Medium)</td></tr>
+        <tr><td class="file">snailWalk1.png</td><td class="path">Base pack/Enemies/</td><td>Slow enemy (Easy)</td></tr>
+        <tr><td class="file">fishSwim1.png</td><td class="path">Base pack/Enemies/</td><td>Water enemy (Special)</td></tr>
+      </table>
+
+      <h3>Advanced Enemies (Extra Animations Pack)</h3>
+      <table class="file-table">
+        <tr><th>File</th><th>Location</th><th>Usage</th></tr>
+        <tr><td class="file">bat.png</td><td class="path">Extra.../Enemy sprites/</td><td>Dark areas (Medium)</td></tr>
+        <tr><td class="file">bee.png</td><td class="path">Extra.../Enemy sprites/</td><td>Outdoor (Medium)</td></tr>
+        <tr><td class="file">spider.png</td><td class="path">Extra.../Enemy sprites/</td><td>Cave/wall (Hard)</td></tr>
+        <tr><td class="file">ghost.png</td><td class="path">Extra.../Enemy sprites/</td><td>Castle (Hard)</td></tr>
+        <tr><td class="file">snake.png</td><td class="path">Extra.../Enemy sprites/</td><td>Desert (Medium)</td></tr>
+        <tr><td class="file">frog.png</td><td class="path">Extra.../Enemy sprites/</td><td>Forest (Hard)</td></tr>
+        <tr><td class="file">mouse.png</td><td class="path">Extra.../Enemy sprites/</td><td>Fast, small (Medium)</td></tr>
+        <tr><td class="file">worm.png</td><td class="path">Extra.../Enemy sprites/</td><td>Underground (Easy)</td></tr>
+        <tr><td class="file">ladyBug.png</td><td class="path">Extra.../Enemy sprites/</td><td>Outdoor (Easy)</td></tr>
+      </table>
+
+      <h3>Create an Enemy Prefab &mdash; Step by Step</h3>
+      <ol class="step-list">
+        <li>Drag <strong>slimeWalk1.png</strong> into Scene</li>
+        <li>Rename to <strong>"Enemy_Slime"</strong></li>
+        <li>Add <strong>Box Collider 2D</strong> &rarr; tick <strong>Is Trigger</strong></li>
+        <li>Add <strong>Rigidbody 2D</strong> (Dynamic, so it falls)</li>
+        <li>Create Tag <strong>"Enemy"</strong>, assign it</li>
+        <li>Drag into <strong>Assets/Prefabs/</strong></li>
+        <li>Delete scene instance</li>
+      </ol>
+
+      <div class="callout callout-warn">
+        <span class="icon">&#9888;&#65039;</span>
+        <span><strong>Rigidbody 2D</strong> makes the enemy affected by gravity. If you want enemies to float (like ghosts or bats), set Gravity Scale to <strong>0</strong> in the Rigidbody component.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======== SECTION 3: Power-Up Prefab Assets ======== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">3</div>
+      <div class="info">
+        <div class="title">Power-Up Prefab Assets</div>
+        <div class="time">Extension challenge &mdash; bonus collectibles</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <h3>Available Power-Up Sprites</h3>
+      <table class="file-table">
+        <tr><th>File</th><th>Location</th><th>Effect</th></tr>
+        <tr><td class="file">mushroomRed.png</td><td class="path">Base pack/Items/</td><td>Extra life</td></tr>
+        <tr><td class="file">mushroomBrown.png</td><td class="path">Base pack/Items/</td><td>Grow bigger</td></tr>
+        <tr><td class="file">star.png</td><td class="path">Base pack/Items/</td><td>Invincibility</td></tr>
+        <tr><td class="file">keyBlue.png</td><td class="path">Base pack/Items/</td><td>Unlock blue door</td></tr>
+        <tr><td class="file">keyRed.png</td><td class="path">Base pack/Items/</td><td>Unlock red door</td></tr>
+      </table>
+
+      <h3>Power-Up Prefab Setup</h3>
+      <ol class="step-list">
+        <li>Drag the power-up sprite into Scene</li>
+        <li>Add <strong>Circle Collider 2D</strong></li>
+        <li>Tick <strong>Is Trigger</strong> ON</li>
+        <li>Create and assign Tag: <strong>"PowerUp"</strong></li>
+        <li>Drag into <strong>Assets/Prefabs/</strong></li>
+      </ol>
+
+      <div class="callout callout-success">
+        <span class="icon">&#9989;</span>
+        <span><strong>Extension challenge:</strong> Power-ups are great for students who finish early. Each one needs its own C# script to define what happens on pickup!</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======== SECTION 4: Spawner Setup Quick Reference ======== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">4</div>
+      <div class="info">
+        <div class="title">Spawner Setup Quick Reference</div>
+        <div class="time">Configure invisible spawner objects</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <h3>Spawner Configuration</h3>
+      <table class="file-table">
+        <tr><th>Spawner Object</th><th>Position</th><th>Prefab</th><th>Spawn Interval</th></tr>
+        <tr><td class="file">CoinSpawner</td><td>Y = 6 (above screen)</td><td>Coin (Gold)</td><td>2 seconds</td></tr>
+        <tr><td class="file">EnemySpawner</td><td>Y = 6 (above screen)</td><td>Enemy_Slime</td><td>3 seconds</td></tr>
+      </table>
+
+      <div class="callout callout-tip">
+        <span class="icon">&#128161;</span>
+        <span>Create empty GameObjects for spawners: <strong>Right-click Hierarchy &rarr; Create Empty</strong>. They are invisible &mdash; they just run the Spawner script. Position them above the camera view so objects fall into the scene.</span>
+      </div>
+
+      <div class="ascii-scene">  Y=6  +-----------+  &lt;-- Spawner sits here (invisible)
+       |  CoinSpawner |
+       +-----------+
+            |
+            v  coins fall down
+  ========================  &lt;-- Top of camera view
+  |                      |
+  |    Player sees       |
+  |    coins falling     |
+  |    into the scene    |
+  |                      |
+  ========================  &lt;-- Bottom of camera view</div>
+
+    </div>
+  </div>
+
+  <!-- ======== SECTION 5: Prefab Component Checklist ======== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">5</div>
+      <div class="info">
+        <div class="title">Prefab Component Checklist</div>
+        <div class="time">Quick reference for all prefab types</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <h3>Component Setup Summary</h3>
+      <table class="file-table">
+        <tr>
+          <th>Prefab Type</th>
+          <th>Sprite</th>
+          <th>Collider</th>
+          <th>Is Trigger</th>
+          <th>Rigidbody</th>
+          <th>Tag</th>
+        </tr>
+        <tr>
+          <td class="file">Coin</td>
+          <td>coinGold.png</td>
+          <td>Circle 2D</td>
+          <td style="color:var(--neon);font-weight:700;">ON</td>
+          <td style="color:var(--muted);">Optional</td>
+          <td><span class="key">"Coin"</span></td>
+        </tr>
+        <tr>
+          <td class="file">Gem</td>
+          <td>gemBlue.png</td>
+          <td>Circle 2D</td>
+          <td style="color:var(--neon);font-weight:700;">ON</td>
+          <td style="color:var(--muted);">Optional</td>
+          <td><span class="key">"Coin"</span></td>
+        </tr>
+        <tr>
+          <td class="file">Enemy</td>
+          <td>slimeWalk1.png</td>
+          <td>Box 2D</td>
+          <td style="color:var(--neon);font-weight:700;">ON</td>
+          <td style="color:var(--amber);font-weight:700;">Dynamic</td>
+          <td><span class="key">"Enemy"</span></td>
+        </tr>
+        <tr>
+          <td class="file">Power-Up</td>
+          <td>star.png</td>
+          <td>Circle 2D</td>
+          <td style="color:var(--neon);font-weight:700;">ON</td>
+          <td style="color:var(--muted);">Optional</td>
+          <td><span class="key">"PowerUp"</span></td>
+        </tr>
+      </table>
+
+      <div class="callout callout-warn">
+        <span class="icon">&#9888;&#65039;</span>
+        <span><strong>Is Trigger must be ON</strong> for all collectibles and enemies. Without it, the player will physically bump into them instead of passing through and triggering the pickup/damage script.</span>
+      </div>
+
+      <div class="callout callout-danger">
+        <span class="icon">&#9940;</span>
+        <span><strong>Common mistake:</strong> Forgetting to assign the Tag. Your <code>OnTriggerEnter2D</code> script checks <code>CompareTag("Coin")</code> &mdash; if the tag is missing, nothing happens when the player touches the coin!</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============ NAV FOOTER ============ -->
+  <div class="nav-row">
+    <a href="index.html">&larr; Asset Guide Hub</a>
+    <a href="KA-L08-Conditionals.html">&larr; L08 Conditionals</a>
+    <a href="KA-L11-Animation.html">Next: L11 Animation &rarr;</a>
+  </div>
+
+  <!-- ============ FOOTER ============ -->
+  <div class="footer">
+    Kenney Asset Guide &mdash; Year 9 Game On &mdash; 2026
+  </div>
+
+</div>
+
+<script>
+function toggle(el){el.closest('.section').classList.toggle('open');}
+</script>
+</body>
+</html>

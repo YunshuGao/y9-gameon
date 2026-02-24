@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 13: UI &mdash; HUD Hearts, Icons &amp; Portraits | Kenney Asset Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Roboto+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:15px;line-height:1.7;}a{color:var(--blue);text-decoration:none;}a:hover{text-decoration:underline;}.hero{text-align:center;padding:60px 20px 30px;background:linear-gradient(180deg,rgba(74,222,128,.08) 0%,transparent 100%);}.hero h1{font-family:var(--font-head);font-size:2rem;font-weight:900;background:linear-gradient(135deg,var(--neon),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;}.hero .sub{color:var(--muted);font-size:.9rem;margin-bottom:16px;}.hero .meta{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}.hero .tag{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-size:.78rem;color:var(--muted);}.hero .tag b{color:var(--neon);}.nav-row{display:flex;justify-content:center;gap:16px;margin:20px 0;flex-wrap:wrap;}.nav-row a{font-size:.85rem;}.container{max-width:880px;margin:0 auto;padding:0 20px 60px;}.section{margin:30px 0;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--dark);}.section-header{padding:18px 22px;display:flex;align-items:center;gap:14px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border);}.section-header .num{font-family:var(--font-head);font-size:1.4rem;font-weight:900;color:var(--navy);background:var(--neon);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}.section-header .info{flex:1;}.section-header .title{font-family:var(--font-head);font-size:1rem;font-weight:700;}.section-header .time{font-size:.78rem;color:var(--muted);margin-top:2px;}.section-header .chevron{color:var(--muted);font-size:1.3rem;transition:transform .3s;flex-shrink:0;}.section.open .chevron{transform:rotate(90deg);}.section-body{padding:0 22px 22px;display:none;}.section.open .section-body{display:block;}.file-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.85rem;}.file-table th{text-align:left;padding:8px 12px;background:var(--navy);color:var(--amber);font-family:var(--font-head);font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;}.file-table td{padding:8px 12px;border-bottom:1px solid rgba(51,65,85,.5);}.file-table tr:last-child td{border-bottom:none;}.file-table .file{color:var(--neon);font-weight:600;}.file-table .path{color:var(--muted);font-size:.8rem;}.callout{margin:14px 0;padding:12px 16px;border-radius:10px;font-size:.88rem;display:flex;gap:10px;align-items:flex-start;}.callout .icon{font-size:1.1rem;flex-shrink:0;}.callout-tip{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);}.callout-tip .icon{color:var(--blue);}.callout-warn{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);}.callout-warn .icon{color:var(--amber);}.callout-success{background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.25);}.callout-success .icon{color:var(--neon);}.callout-danger{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);}.callout-danger .icon{color:var(--red);}.ascii-scene{margin:14px 0;padding:16px 20px;background:var(--navy);border:1px solid var(--border);border-radius:10px;font-family:monospace;font-size:.78rem;line-height:1.6;color:var(--muted);white-space:pre;overflow-x:auto;}.step-list{list-style:none;counter-reset:steps;margin:12px 0;}.step-list li{counter-increment:steps;padding:8px 0;display:flex;gap:10px;align-items:flex-start;border-bottom:1px solid rgba(51,65,85,.3);font-size:.88rem;}.step-list li:last-child{border-bottom:none;}.step-list li::before{content:counter(steps);font-family:var(--font-head);font-size:.7rem;background:var(--neon);color:var(--navy);border-radius:50%;min-width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;}.step-list li strong{color:var(--neon);}.key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:1px 7px;font-size:.82rem;color:var(--amber);font-weight:700;}h3{font-family:var(--font-head);font-size:.9rem;color:var(--blue);margin:18px 0 8px;text-transform:uppercase;letter-spacing:.5px;}.footer{text-align:center;margin-top:40px;color:#475569;font-size:.8rem;}
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<div class="hero">
+  <h1>UI: HUD HEARTS, ICONS &amp; PORTRAITS</h1>
+  <p class="sub">On-screen display assets for score, lives, keys, and player info</p>
+  <div class="meta">
+    <span class="tag"><b>Lesson 13</b></span>
+    <span class="tag"><b>UI</b> &mdash; HUD Elements</span>
+    <span class="tag"><b>Unity 2D</b> &mdash; Year 9</span>
+    <span class="tag"><b>Kenney Assets</b></span>
+  </div>
+</div>
+
+<!-- ============ NAV ROW ============ -->
+<div class="nav-row">
+  <a href="index.html">&larr; Asset Guide Hub</a>
+  <a href="KA-L12-Tilemap.html">&larr; L12 Tilemap</a>
+  <a href="KA-L15-Menus.html">Next: L15 Menus &rarr;</a>
+</div>
+
+<!-- ============ MAIN CONTENT ============ -->
+<div class="container">
+
+  <!-- ======== SECTION 1: Lives Display — Heart Sprites ======== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">1</div>
+      <div class="info">
+        <div class="title">Lives Display &mdash; Heart Sprites</div>
+        <div class="time">Full, half &amp; empty hearts for player lives</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <h3>Heart Sprite Files</h3>
+      <table class="file-table">
+        <tr><th>File</th><th>Location</th><th>Usage</th></tr>
+        <tr><td class="file">hud_heartFull.png</td><td class="path">Base pack/HUD/</td><td>Full heart &mdash; player has this life</td></tr>
+        <tr><td class="file">hud_heartHalf.png</td><td class="path">Base pack/HUD/</td><td>Half heart &mdash; half damage taken</td></tr>
+        <tr><td class="file">hud_heartEmpty.png</td><td class="path">Base pack/HUD/</td><td>Empty heart &mdash; life lost</td></tr>
+      </table>
+
+      <h3>Set Up Hearts in UI &mdash; Step by Step</h3>
+      <ol class="step-list">
+        <li>Import all 3 heart PNGs into <strong>Assets/Sprites/HUD/</strong></li>
+        <li>Right-click <strong>Canvas</strong> &rarr; UI &rarr; Image &rarr; rename <strong>"Heart1"</strong></li>
+        <li>Inspector &rarr; Image component &rarr; <strong>Source Image</strong> &rarr; drag <strong>hud_heartFull.png</strong></li>
+        <li>Check <strong>"Preserve Aspect Ratio"</strong></li>
+        <li>Set Width: <strong>40</strong>, Height: <strong>40</strong></li>
+        <li>Duplicate (<span class="key">Ctrl+D</span>) for <strong>Heart2</strong>, <strong>Heart3</strong></li>
+        <li>Add a parent <strong>Panel</strong> with <strong>Horizontal Layout Group</strong> to auto-space the hearts</li>
+      </ol>
+
+      <h3>HUD Layout Preview</h3>
+      <div class="ascii-scene">&#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;
+&#9474; [coin] Score: 42           [H] [H] [H]  &#9474;
+&#9474;                                          &#9474;
+&#9474;              (gameplay)                  &#9474;
+&#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;</div>
+
+      <h3>Lives Display Logic</h3>
+      <table class="file-table">
+        <tr><th>Lives Left</th><th>Heart 1</th><th>Heart 2</th><th>Heart 3</th><th>Result</th></tr>
+        <tr><td class="file">3 lives</td><td style="color:var(--neon);">heartFull</td><td style="color:var(--neon);">heartFull</td><td style="color:var(--neon);">heartFull</td><td>Full health</td></tr>
+        <tr><td class="file">2 lives</td><td style="color:var(--neon);">heartFull</td><td style="color:var(--neon);">heartFull</td><td style="color:var(--red);">heartEmpty</td><td>One hit taken</td></tr>
+        <tr><td class="file">1 life</td><td style="color:var(--neon);">heartFull</td><td style="color:var(--red);">heartEmpty</td><td style="color:var(--red);">heartEmpty</td><td>Danger!</td></tr>
+        <tr><td class="file">0 lives</td><td style="color:var(--red);">heartEmpty</td><td style="color:var(--red);">heartEmpty</td><td style="color:var(--red);">heartEmpty</td><td style="color:var(--red);font-weight:700;">GAME OVER</td></tr>
+      </table>
+
+      <div class="callout callout-tip">
+        <span class="icon">&#128161;</span>
+        <span><strong>How it works in code:</strong> Your script changes the <code>Source Image</code> on each Heart's Image component. When the player takes damage, swap <code>hud_heartFull</code> to <code>hud_heartEmpty</code> from right to left.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======== SECTION 2: Score Display — Coin Icon ======== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">2</div>
+      <div class="info">
+        <div class="title">Score Display &mdash; Coin Icon</div>
+        <div class="time">Coin sprite for the score counter</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <h3>Coin HUD Sprite</h3>
+      <table class="file-table">
+        <tr><th>File</th><th>Location</th><th>Usage</th></tr>
+        <tr><td class="file">hud_coins.png</td><td class="path">Base pack/HUD/</td><td>Coin icon for score counter</td></tr>
+      </table>
+
+      <h3>Setup</h3>
+      <ol class="step-list">
+        <li>Create a UI &rarr; <strong>Image</strong> on the Canvas and assign <strong>hud_coins.png</strong> as the Source Image</li>
+        <li>Place it next to a <strong>TextMeshPro</strong> text element (your ScoreText)</li>
+        <li>Anchor both to the <strong>top-left</strong> of the screen</li>
+        <li>Set the coin image Width: <strong>32</strong>, Height: <strong>32</strong></li>
+        <li>Use a <strong>Horizontal Layout Group</strong> parent to keep the icon and text aligned</li>
+      </ol>
+
+      <div class="callout callout-tip">
+        <span class="icon">&#128161;</span>
+        <span><strong>Anchoring matters!</strong> Set the anchor to top-left so the score stays in the corner on any screen size. Select the Image &rarr; click the Anchor Presets box (square icon in Rect Transform) &rarr; choose top-left.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======== SECTION 3: Gem Counter Icons ======== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">3</div>
+      <div class="info">
+        <div class="title">Gem Counter Icons</div>
+        <div class="time">Multiple gem types for collectible tracking</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <h3>Gem HUD Sprites</h3>
+      <table class="file-table">
+        <tr><th>File</th><th>Location</th><th>Usage</th></tr>
+        <tr><td class="file">hud_gem_blue.png</td><td class="path">Base pack/HUD/</td><td>Blue gem counter</td></tr>
+        <tr><td class="file">hud_gem_green.png</td><td class="path">Base pack/HUD/</td><td>Green gem counter</td></tr>
+        <tr><td class="file">hud_gem_red.png</td><td class="path">Base pack/HUD/</td><td>Red gem counter</td></tr>
+        <tr><td class="file">hud_gem_yellow.png</td><td class="path">Base pack/HUD/</td><td>Yellow gem counter</td></tr>
+      </table>
+
+      <div class="callout callout-tip">
+        <span class="icon">&#128161;</span>
+        <span><strong>Multiple collectible types:</strong> If your game has different gem types (e.g. collect 3 blue gems to unlock a door), use these icons next to separate counters. Each gem type can have its own TextMeshPro counter: <code>[blue gem] x2  [red gem] x1</code></span>
+      </div>
+
+      <div class="callout callout-warn">
+        <span class="icon">&#9888;&#65039;</span>
+        <span><strong>Keep it simple!</strong> Most Year 9 games only need 1 collectible type. Only add multiple gem counters if your game design requires it &mdash; don&rsquo;t add complexity for the sake of it.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======== SECTION 4: Key Inventory Display ======== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">4</div>
+      <div class="info">
+        <div class="title">Key Inventory Display</div>
+        <div class="time">Coloured &amp; greyed-out key icons for inventory</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <h3>Key HUD Sprites</h3>
+      <table class="file-table">
+        <tr><th>File</th><th>Location</th><th>State</th></tr>
+        <tr><td class="file">hud_keyBlue.png</td><td class="path">Base pack/HUD/</td><td style="color:var(--neon);">Blue key &mdash; collected</td></tr>
+        <tr><td class="file">hud_keyBlue_disabled.png</td><td class="path">Base pack/HUD/</td><td style="color:var(--muted);">Blue key &mdash; not collected (greyed out)</td></tr>
+        <tr><td class="file">hud_keyGreen.png</td><td class="path">Base pack/HUD/</td><td style="color:var(--neon);">Green key &mdash; collected</td></tr>
+        <tr><td class="file">hud_keyGreen_disabled.png</td><td class="path">Base pack/HUD/</td><td style="color:var(--muted);">Green key &mdash; not collected (greyed out)</td></tr>
+        <tr><td class="file">hud_keyRed.png</td><td class="path">Base pack/HUD/</td><td style="color:var(--neon);">Red key &mdash; collected</td></tr>
+        <tr><td class="file">hud_keyRed_disabled.png</td><td class="path">Base pack/HUD/</td><td style="color:var(--muted);">Red key &mdash; not collected (greyed out)</td></tr>
+        <tr><td class="file">hud_keyYellow.png</td><td class="path">Base pack/HUD/</td><td style="color:var(--neon);">Yellow key &mdash; collected</td></tr>
+        <tr><td class="file">hud_keyYellow_disabled.png</td><td class="path">Base pack/HUD/</td><td style="color:var(--muted);">Yellow key &mdash; not collected (greyed out)</td></tr>
+      </table>
+
+      <div class="callout callout-warn">
+        <span class="icon">&#9888;&#65039;</span>
+        <span><strong>Filename typo alert!</strong> The actual Kenney file is named <code>hud_keyGreen_disabled.png</code> but in some versions of the pack it may appear as <code>hud_keyGreem_disabled.png</code> (note the typo: "Greem" instead of "Green"). Check your files and rename if needed!</span>
+      </div>
+
+      <div class="callout callout-tip">
+        <span class="icon">&#128161;</span>
+        <span><strong>How key inventory works:</strong> Show the disabled (greyed-out) key icons by default. When the player collects a key, swap the Image source to the coloured version! This gives instant visual feedback that the player has picked up the key.</span>
+      </div>
+
+      <h3>Key Display Setup</h3>
+      <ol class="step-list">
+        <li>Create 3 UI &rarr; <strong>Image</strong> objects on Canvas: <strong>KeySlot_Blue</strong>, <strong>KeySlot_Red</strong>, <strong>KeySlot_Yellow</strong></li>
+        <li>Set each Source Image to the <strong>disabled</strong> (greyed) version by default</li>
+        <li>Group them in a Panel with <strong>Horizontal Layout Group</strong></li>
+        <li>Anchor to <strong>top-right</strong> below the hearts</li>
+        <li>In your pickup script, change <code>keySlotImage.sprite = hud_keyBlue;</code> when the player collects the blue key</li>
+      </ol>
+
+    </div>
+  </div>
+
+  <!-- ======== SECTION 5: Player Portraits ======== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">5</div>
+      <div class="info">
+        <div class="title">Player Portraits</div>
+        <div class="time">Character face icons for player identification</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <h3>Portrait Sprites</h3>
+      <table class="file-table">
+        <tr><th>File</th><th>Location</th><th>Usage</th></tr>
+        <tr><td class="file">hud_p1.png</td><td class="path">Base pack/HUD/</td><td>Player 1 portrait</td></tr>
+        <tr><td class="file">hud_p1Alt.png</td><td class="path">Base pack/HUD/</td><td>Player 1 alternative portrait</td></tr>
+        <tr><td class="file">hud_p2.png</td><td class="path">Base pack/HUD/</td><td>Player 2 portrait</td></tr>
+        <tr><td class="file">hud_p2Alt.png</td><td class="path">Base pack/HUD/</td><td>Player 2 alternative portrait</td></tr>
+        <tr><td class="file">hud_p3.png</td><td class="path">Base pack/HUD/</td><td>Player 3 portrait</td></tr>
+        <tr><td class="file">hud_p3Alt.png</td><td class="path">Base pack/HUD/</td><td>Player 3 alternative portrait</td></tr>
+      </table>
+
+      <h3>Portrait Setup</h3>
+      <ol class="step-list">
+        <li>Create a UI &rarr; <strong>Image</strong> on Canvas, rename <strong>"PlayerPortrait"</strong></li>
+        <li>Assign <strong>hud_p1.png</strong> as Source Image</li>
+        <li>Set Width: <strong>48</strong>, Height: <strong>48</strong>, check Preserve Aspect Ratio</li>
+        <li>Anchor to <strong>top-left</strong> corner</li>
+        <li>Position it to the left of the coin/score display</li>
+      </ol>
+
+      <div class="callout callout-tip">
+        <span class="icon">&#128161;</span>
+        <span><strong>Alt portraits:</strong> Use the alternative versions (p1Alt, p2Alt, p3Alt) to show damage state, power-up state, or let the player choose their character at a selection screen.</span>
+      </div>
+
+      <div class="callout callout-success">
+        <span class="icon">&#9989;</span>
+        <span><strong>Multiplayer idea:</strong> If building a 2-player game, use hud_p1 and hud_p2 to identify which player&rsquo;s HUD is which &mdash; place Player 1&rsquo;s info on the left and Player 2&rsquo;s on the right.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======== SECTION 6: Number Sprites (Optional) ======== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">6</div>
+      <div class="info">
+        <div class="title">Number Sprites (Optional)</div>
+        <div class="time">Arcade-style digit images &mdash; alternative to TextMeshPro</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <h3>Digit &amp; Symbol Sprites</h3>
+      <table class="file-table">
+        <tr><th>File</th><th>Location</th><th>Usage</th></tr>
+        <tr><td class="file">hud_0.png</td><td class="path">Base pack/HUD/</td><td>Digit 0</td></tr>
+        <tr><td class="file">hud_1.png</td><td class="path">Base pack/HUD/</td><td>Digit 1</td></tr>
+        <tr><td class="file">hud_2.png</td><td class="path">Base pack/HUD/</td><td>Digit 2</td></tr>
+        <tr><td class="file">hud_3.png</td><td class="path">Base pack/HUD/</td><td>Digit 3</td></tr>
+        <tr><td class="file">hud_4.png</td><td class="path">Base pack/HUD/</td><td>Digit 4</td></tr>
+        <tr><td class="file">hud_5.png</td><td class="path">Base pack/HUD/</td><td>Digit 5</td></tr>
+        <tr><td class="file">hud_6.png</td><td class="path">Base pack/HUD/</td><td>Digit 6</td></tr>
+        <tr><td class="file">hud_7.png</td><td class="path">Base pack/HUD/</td><td>Digit 7</td></tr>
+        <tr><td class="file">hud_8.png</td><td class="path">Base pack/HUD/</td><td>Digit 8</td></tr>
+        <tr><td class="file">hud_9.png</td><td class="path">Base pack/HUD/</td><td>Digit 9</td></tr>
+        <tr><td class="file">hud_x.png</td><td class="path">Base pack/HUD/</td><td>Multiply symbol (&times;)</td></tr>
+      </table>
+
+      <div class="callout callout-warn">
+        <span class="icon">&#9888;&#65039;</span>
+        <span><strong>For most students: use TextMeshPro text instead.</strong> It is much simpler to update a text string like <code>scoreText.text = "42";</code> than to swap individual digit images. Number sprites are an optional arcade-style visual upgrade for advanced students.</span>
+      </div>
+
+      <div class="callout callout-tip">
+        <span class="icon">&#128161;</span>
+        <span><strong>When to use number sprites:</strong> They give a retro arcade look (think classic Mario coin counters). To display "42", you would show <code>hud_4.png</code> next to <code>hud_2.png</code>. The <code>hud_x.png</code> (&times;) is useful for displays like "&times;3" for lives remaining.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======== SECTION 7: Complete HUD Layout ======== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">7</div>
+      <div class="info">
+        <div class="title">Complete HUD Layout</div>
+        <div class="time">Putting it all together &mdash; full screen overlay</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <h3>Full HUD Layout Diagram</h3>
+      <div class="ascii-scene">&#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;
+&#9474; [portrait] [coin] Score: 42   [H] [H] [H]     &#9474;
+&#9474;                               [key][key][key]  &#9474;
+&#9474;                                                &#9474;
+&#9474;                 (gameplay)                     &#9474;
+&#9474;                                                &#9474;
+&#9474;                               Timer: 01:23     &#9474;
+&#9474; &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552; Health Bar &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;  &#9474;
+&#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;</div>
+
+      <h3>Canvas Setup Rules</h3>
+      <ol class="step-list">
+        <li>All HUD sprites are <strong>UI Images</strong> placed on the <strong>Canvas</strong></li>
+        <li>Canvas Render Mode must be <strong>Screen Space &mdash; Overlay</strong></li>
+        <li>Overlay means the HUD floats <strong>on top</strong> of all gameplay &mdash; it never moves with the camera</li>
+        <li>Use <strong>Anchor Presets</strong> to pin elements to corners (top-left for score, top-right for hearts)</li>
+        <li>Group related elements (e.g. hearts, keys) inside <strong>Panels</strong> with Layout Groups</li>
+        <li>Set the Canvas Scaler to <strong>"Scale With Screen Size"</strong> so your HUD looks correct on all monitors</li>
+      </ol>
+
+      <div class="callout callout-success">
+        <span class="icon">&#9989;</span>
+        <span><strong>Key concept:</strong> Everything in this lesson goes on the <strong>Canvas</strong>, not in the game world. Canvas UI elements use screen coordinates (pixels), not world coordinates. They stay fixed on screen while the gameplay scrolls behind them.</span>
+      </div>
+
+      <div class="callout callout-danger">
+        <span class="icon">&#9940;</span>
+        <span><strong>Common mistake:</strong> Dragging HUD sprites directly into the Scene instead of onto the Canvas. If your hearts/coins appear in the game world and move with the camera, you placed them wrong &mdash; they must be children of the Canvas object.</span>
+      </div>
+
+      <div class="callout callout-warn">
+        <span class="icon">&#9888;&#65039;</span>
+        <span><strong>Hierarchy structure:</strong> Canvas &rarr; Panel_TopLeft (portrait + score) &rarr; Panel_TopRight (hearts + keys). Keep your Canvas hierarchy organised with named panels so you can find things later!</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============ NAV FOOTER ============ -->
+  <div class="nav-row">
+    <a href="index.html">&larr; Asset Guide Hub</a>
+    <a href="KA-L12-Tilemap.html">&larr; L12 Tilemap</a>
+    <a href="KA-L15-Menus.html">Next: L15 Menus &rarr;</a>
+  </div>
+
+  <!-- ============ FOOTER ============ -->
+  <div class="footer">
+    Kenney Asset Guide &mdash; Year 9 Game On &mdash; 2026
+  </div>
+
+</div>
+
+<script>
+function toggle(el){el.closest('.section').classList.toggle('open');}
+</script>
+</body>
+</html>

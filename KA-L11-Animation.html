@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 11: Sprite Animation &mdash; Spritesheets | Kenney Asset Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Roboto+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:15px;line-height:1.7;}a{color:var(--blue);text-decoration:none;}a:hover{text-decoration:underline;}.hero{text-align:center;padding:60px 20px 30px;background:linear-gradient(180deg,rgba(74,222,128,.08) 0%,transparent 100%);}.hero h1{font-family:var(--font-head);font-size:2rem;font-weight:900;background:linear-gradient(135deg,var(--neon),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;}.hero .sub{color:var(--muted);font-size:.9rem;margin-bottom:16px;}.hero .meta{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}.hero .tag{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-size:.78rem;color:var(--muted);}.hero .tag b{color:var(--neon);}.nav-row{display:flex;justify-content:center;gap:16px;margin:20px 0;flex-wrap:wrap;}.nav-row a{font-size:.85rem;}.container{max-width:880px;margin:0 auto;padding:0 20px 60px;}.section{margin:30px 0;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--dark);}.section-header{padding:18px 22px;display:flex;align-items:center;gap:14px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border);}.section-header .num{font-family:var(--font-head);font-size:1.4rem;font-weight:900;color:var(--navy);background:var(--neon);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}.section-header .info{flex:1;}.section-header .title{font-family:var(--font-head);font-size:1rem;font-weight:700;}.section-header .time{font-size:.78rem;color:var(--muted);margin-top:2px;}.section-header .chevron{color:var(--muted);font-size:1.3rem;transition:transform .3s;flex-shrink:0;}.section.open .chevron{transform:rotate(90deg);}.section-body{padding:0 22px 22px;display:none;}.section.open .section-body{display:block;}.file-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.85rem;}.file-table th{text-align:left;padding:8px 12px;background:var(--navy);color:var(--amber);font-family:var(--font-head);font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;}.file-table td{padding:8px 12px;border-bottom:1px solid rgba(51,65,85,.5);}.file-table tr:last-child td{border-bottom:none;}.file-table .file{color:var(--neon);font-weight:600;}.file-table .path{color:var(--muted);font-size:.8rem;}.callout{margin:14px 0;padding:12px 16px;border-radius:10px;font-size:.88rem;display:flex;gap:10px;align-items:flex-start;}.callout .icon{font-size:1.1rem;flex-shrink:0;}.callout-tip{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);}.callout-tip .icon{color:var(--blue);}.callout-warn{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);}.callout-warn .icon{color:var(--amber);}.callout-success{background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.25);}.callout-success .icon{color:var(--neon);}.callout-danger{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);}.callout-danger .icon{color:var(--red);}.ascii-scene{margin:14px 0;padding:16px 20px;background:var(--navy);border:1px solid var(--border);border-radius:10px;font-family:monospace;font-size:.78rem;line-height:1.6;color:var(--muted);white-space:pre;overflow-x:auto;}.step-list{list-style:none;counter-reset:steps;margin:12px 0;}.step-list li{counter-increment:steps;padding:8px 0;display:flex;gap:10px;align-items:flex-start;border-bottom:1px solid rgba(51,65,85,.3);font-size:.88rem;}.step-list li:last-child{border-bottom:none;}.step-list li::before{content:counter(steps);font-family:var(--font-head);font-size:.7rem;background:var(--neon);color:var(--navy);border-radius:50%;min-width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;}.step-list li strong{color:var(--neon);}.key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:1px 7px;font-size:.82rem;color:var(--amber);font-weight:700;}h3{font-family:var(--font-head);font-size:.9rem;color:var(--blue);margin:18px 0 8px;text-transform:uppercase;letter-spacing:.5px;}.footer{text-align:center;margin-top:40px;color:#475569;font-size:.8rem;}
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<div class="hero">
+  <h1>SPRITE ANIMATION: SPRITESHEETS</h1>
+  <p class="sub">Walk frames, spritesheets, and alien characters for animation</p>
+  <div class="meta">
+    <span class="tag"><b>Lesson 11</b></span>
+    <span class="tag"><b>Animation</b> &mdash; Spritesheets</span>
+    <span class="tag"><b>Unity 2D</b> &mdash; Year 9</span>
+    <span class="tag"><b>Kenney Assets</b></span>
+  </div>
+</div>
+
+<!-- ============ NAV ROW ============ -->
+<div class="nav-row">
+  <a href="index.html">&larr; Asset Guide Hub</a>
+  <a href="KA-L10-Prefabs.html">&larr; L10 Prefabs</a>
+  <a href="KA-L12-Tilemap.html">Next: L12 Tilemap &rarr;</a>
+</div>
+
+<!-- ============ MAIN CONTENT ============ -->
+<div class="container">
+
+  <!-- ======== SECTION 1: Option A — Base Pack Walk Frames ======== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">1</div>
+      <div class="info">
+        <div class="title">Option A: Base Pack Walk Frames (EASIER)</div>
+        <div class="time">Individual walk frame images &mdash; simplest approach</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <p>This is the <strong>easiest approach</strong> to sprite animation in Unity. The Kenney base pack provides each animation frame as a separate image file. You simply select all the frames, drag them onto your character, and Unity creates the animation for you automatically. No slicing or configuration needed.</p>
+
+      <h3>Player 1 Animation Files</h3>
+      <p>Location: <span class="key">Base pack/Player/</span></p>
+      <table class="file-table">
+        <tr><th>File</th><th>Description</th></tr>
+        <tr><td class="file">p1_stand.png</td><td>Idle pose (single frame)</td></tr>
+        <tr><td class="file">p1_walk/ folder</td><td>11 walk frames (p1_walk01.png to p1_walk11.png)</td></tr>
+        <tr><td class="file">p1_jump.png</td><td>Jump pose (single frame)</td></tr>
+        <tr><td class="file">p1_duck.png</td><td>Crouch pose (single frame)</td></tr>
+        <tr><td class="file">p1_hurt.png</td><td>Damage pose (single frame)</td></tr>
+      </table>
+
+      <div class="callout callout-tip">
+        <span class="icon">&#128161;</span>
+        <span>The same files exist for <strong>p2_</strong> and <strong>p3_</strong> prefixes. You can use any of the three player characters &mdash; they all have the same animation set with different appearances.</span>
+      </div>
+
+      <h3>Create Walk Animation</h3>
+      <ol class="step-list">
+        <li>Import the <strong>ENTIRE p1_walk/ folder</strong> into <strong>Assets/Sprites/Player/</strong> in your Unity project</li>
+        <li>In Unity, select <strong>ALL walk frames</strong> &mdash; click <strong>p1_walk01</strong>, then hold <span class="key">Shift</span> and click <strong>p1_walk11</strong> to select all 11 frames</li>
+        <li><strong>Drag them ALL</strong> onto the Player GameObject in the Hierarchy panel</li>
+        <li>A Save dialog appears &mdash; save the animation as <strong>"Player_Walk"</strong> in an <strong>Assets/Animations/</strong> folder (create it if needed)</li>
+        <li>Unity <strong>auto-creates</strong> an Animation Clip + Animator Controller for you</li>
+        <li>Open the Animation window: <strong>Window &rarr; Animation &rarr; Animation</strong></li>
+        <li>Change <strong>Samples</strong> to <strong>12</strong> for smooth pixel art animation speed</li>
+      </ol>
+
+      <h3>Create Idle Animation</h3>
+      <ol class="step-list">
+        <li>Select <strong>ONLY p1_stand.png</strong> in the Project panel</li>
+        <li><strong>Drag</strong> it onto the Player GameObject in the Hierarchy</li>
+        <li>Save the animation as <strong>"Player_Idle"</strong></li>
+      </ol>
+
+      <h3>Create Jump Animation</h3>
+      <ol class="step-list">
+        <li>Select <strong>p1_jump.png</strong>, drag it onto the Player, and save as <strong>"Player_Jump"</strong></li>
+      </ol>
+
+      <div class="callout callout-tip">
+        <span class="icon">&#128161;</span>
+        <span>You can repeat the same process for <strong>p1_duck.png</strong> (crouch) and <strong>p1_hurt.png</strong> (damage) to build a complete animation set. Each single-frame image becomes a one-frame animation clip.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======== SECTION 2: Option B — Base Pack Spritesheet ======== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">2</div>
+      <div class="info">
+        <div class="title">Option B: Base Pack Spritesheet (MORE ADVANCED)</div>
+        <div class="time">All frames packed into a single image &mdash; requires slicing</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <p>For students who want to try the spritesheet approach, the Kenney base pack also includes all animation frames packed into a single image. This is more advanced but is how professional games typically handle sprites.</p>
+
+      <h3>Spritesheet Files</h3>
+      <table class="file-table">
+        <tr><th>File</th><th>Location</th><th>Description</th></tr>
+        <tr><td class="file">p1_spritesheet.png</td><td class="path">Base pack/Player/</td><td>All frames in one image</td></tr>
+        <tr><td class="file">p1_spritesheet.txt</td><td class="path">Base pack/Player/</td><td>Frame size/position data</td></tr>
+      </table>
+
+      <h3>Slice the Spritesheet</h3>
+      <ol class="step-list">
+        <li><strong>Import</strong> p1_spritesheet.png into your Unity project</li>
+        <li>Select it, then in the <strong>Inspector</strong> change <strong>Sprite Mode</strong> to <strong>Multiple</strong></li>
+        <li>Click the <strong>Sprite Editor</strong> button</li>
+        <li>In the Sprite Editor, click <strong>Slice</strong> &rarr; set Type to <strong>Grid By Cell Size</strong> &rarr; enter <strong>72 x 97</strong> pixels</li>
+        <li>Click the <strong>Slice</strong> button, then <strong>Apply</strong> at the top, then close the editor</li>
+        <li><strong>Expand</strong> the spritesheet in the Project panel &mdash; you will see all the individual frames appear as child sprites</li>
+        <li><strong>Select the walk frames</strong> from the expanded list, then <strong>drag them onto the Player</strong> in the Hierarchy to create the animation</li>
+      </ol>
+
+      <div class="callout callout-warn">
+        <span class="icon">&#9888;&#65039;</span>
+        <span>The spritesheet approach is trickier because you need to figure out the correct cell size. If frames look wrong (cut off or overlapping), try different pixel sizes. The <strong>.txt file</strong> included alongside the spritesheet has the exact pixel coordinates for each frame &mdash; open it in a text editor to check.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======== SECTION 3: Option C — Alien Characters ======== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">3</div>
+      <div class="info">
+        <div class="title">Option C: Alien Characters (RECOMMENDED &mdash; Most Animations!)</div>
+        <div class="time">Full animation set with climb &amp; swim states</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <p>The Kenney alien character sprites are the <strong>recommended choice</strong> for animation because they come with the most animation states. Each alien colour has individual frame images that are easy to work with (like Option A) plus bonus climb and swim animations.</p>
+
+      <p>Location: <span class="key">Extra animations and enemies/Alien sprites/</span></p>
+
+      <h3>5 Colours Available</h3>
+      <p><strong style="color:var(--amber)">Beige</strong> &bull; <strong style="color:var(--blue)">Blue</strong> &bull; <strong style="color:var(--neon)">Green</strong> &bull; <strong style="color:var(--pink)">Pink</strong> &bull; <strong style="color:var(--amber)">Yellow</strong></p>
+
+      <h3>Full Animation Set (alienBeige example)</h3>
+      <table class="file-table">
+        <tr><th>File</th><th>Description</th></tr>
+        <tr><td class="file">alienBeige_stand.png</td><td>Idle pose</td></tr>
+        <tr><td class="file">alienBeige_walk1.png</td><td>Walk frame 1</td></tr>
+        <tr><td class="file">alienBeige_walk2.png</td><td>Walk frame 2</td></tr>
+        <tr><td class="file">alienBeige_jump.png</td><td>Jump pose</td></tr>
+        <tr><td class="file">alienBeige_duck.png</td><td>Crouch pose</td></tr>
+        <tr><td class="file">alienBeige_hurt.png</td><td>Damage pose</td></tr>
+        <tr><td class="file">alienBeige_climb1.png</td><td>Climbing frame 1</td></tr>
+        <tr><td class="file">alienBeige_climb2.png</td><td>Climbing frame 2</td></tr>
+        <tr><td class="file">alienBeige_swim1.png</td><td>Swimming frame 1</td></tr>
+        <tr><td class="file">alienBeige_swim2.png</td><td>Swimming frame 2</td></tr>
+      </table>
+
+      <div class="callout callout-success">
+        <span class="icon">&#9989;</span>
+        <span>The alien characters have <strong>MORE animation states</strong> (climb, swim) than the base players. Great for games with ladders or water! Replace "Beige" with Blue, Green, Pink, or Yellow for other colours &mdash; the file naming pattern is identical.</span>
+      </div>
+
+      <h3>Pre-Made Spritesheets Also Available</h3>
+      <p>If you prefer the spritesheet workflow (Option B style), pre-made spritesheets for each alien are located at:</p>
+      <p><span class="key">Extra animations and enemies/Spritesheets/alienBeige.png</span></p>
+      <p>Each spritesheet comes with a matching <strong>.xml</strong> file containing the exact slice data for each frame.</p>
+
+    </div>
+  </div>
+
+  <!-- ======== SECTION 4: Animator Controller Setup ======== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">4</div>
+      <div class="info">
+        <div class="title">Animator Controller Setup</div>
+        <div class="time">State machine, parameters &amp; transitions</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <p>After creating your animation clips, you need to set up the <strong>Animator Controller</strong> to switch between them. The Animator uses a state machine &mdash; each animation is a "state", and you define rules (transitions) for when to change states.</p>
+
+      <h3>State Machine Diagram</h3>
+      <div class="ascii-scene">
+                    &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;
+         Speed&gt;0.1  &#9474; Player_Walk &#9474;  Speed&lt;0.1
+    &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9658;&#9474;             &#9474;&#9668;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;
+    &#9474;               &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;               &#9474;
+&#9484;&#9472;&#9472;&#9472;&#9524;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;                          &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9524;&#9472;&#9472;&#9472;&#9472;&#9488;
+&#9474; Player_Idle &#9474;&#9668;&#9472;&#9472;&#9472; Any State &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9474; Player_Jump &#9474;
+&#9474;  (Default)  &#9474;      IsJumping=true      &#9474;             &#9474;
+&#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;                          &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;
+                   IsJumping=false</div>
+
+      <h3>Animator Parameters to Create</h3>
+      <table class="file-table">
+        <tr><th>Parameter</th><th>Type</th><th>Purpose</th></tr>
+        <tr><td class="file">Speed</td><td>Float</td><td>0 = idle, &gt;0.1 = walking/running</td></tr>
+        <tr><td class="file">IsJumping</td><td>Bool</td><td>true when the player is airborne</td></tr>
+      </table>
+
+      <h3>Setting Up Transitions</h3>
+      <ol class="step-list">
+        <li>Open the <strong>Animator</strong> window: <strong>Window &rarr; Animation &rarr; Animator</strong></li>
+        <li>Right-click <strong>Player_Idle</strong> &rarr; <strong>Make Transition</strong> &rarr; click on <strong>Player_Walk</strong></li>
+        <li>Select the transition arrow. In the Inspector, <strong>uncheck "Has Exit Time"</strong></li>
+        <li>Set <strong>Transition Duration</strong> to <strong>0</strong> (instant switch, no blending)</li>
+        <li>Under Conditions, click <strong>+</strong> &rarr; set <strong>Speed</strong> / <strong>Greater</strong> / <strong>0.1</strong></li>
+        <li>Create the reverse transition: <strong>Player_Walk &rarr; Player_Idle</strong> with condition <strong>Speed</strong> / <strong>Less</strong> / <strong>0.1</strong></li>
+        <li>For jumping: right-click <strong>Any State</strong> &rarr; <strong>Make Transition</strong> &rarr; <strong>Player_Jump</strong> with condition <strong>IsJumping</strong> = <strong>true</strong></li>
+        <li>Transition from <strong>Player_Jump &rarr; Player_Idle</strong> with condition <strong>IsJumping</strong> = <strong>false</strong></li>
+      </ol>
+
+      <div class="callout callout-warn">
+        <span class="icon">&#9888;&#65039;</span>
+        <span>Always <strong>uncheck "Has Exit Time"</strong> and set <strong>Transition Duration to 0</strong> for every transition. If you forget, your animations will feel sluggish and delayed &mdash; the character will finish the old animation before switching.</span>
+      </div>
+
+      <div class="callout callout-tip">
+        <span class="icon">&#128161;</span>
+        <span>The Parameters tab is on the left side of the Animator window. Click the <strong>+</strong> button to add new Float or Bool parameters. These are the values your movement script will control at runtime.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======== SECTION 5: Enemy Animation Frames ======== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">5</div>
+      <div class="info">
+        <div class="title">Enemy Animation Frames</div>
+        <div class="time">Extension challenge &mdash; animate enemies too</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <p>For an <strong>extension challenge</strong>, you can animate enemies using the same drag-and-drop method you learned for the player character. Each enemy has individual frame images for different states.</p>
+
+      <p>Location: <span class="key">Extra animations and enemies/Enemy sprites/</span></p>
+
+      <h3>Enemy Sprite Files</h3>
+      <table class="file-table">
+        <tr><th>Enemy</th><th>Idle</th><th>Move</th><th>Dead</th><th>Hit</th></tr>
+        <tr><td class="file">Slime</td><td>slime.png</td><td>slime_walk.png</td><td>slime_dead.png</td><td>slime_hit.png</td></tr>
+        <tr><td class="file">Bat</td><td>bat.png</td><td>bat_fly.png</td><td>bat_dead.png</td><td>bat_hit.png</td></tr>
+        <tr><td class="file">Bee</td><td>bee.png</td><td>bee_fly.png</td><td>bee_dead.png</td><td>bee_hit.png</td></tr>
+        <tr><td class="file">Spider</td><td>spider.png</td><td>spider_walk1/2.png</td><td>spider_dead.png</td><td>spider_hit.png</td></tr>
+        <tr><td class="file">Snake</td><td>snake.png</td><td>snake_walk.png</td><td>snake_dead.png</td><td>snake_hit.png</td></tr>
+        <tr><td class="file">Ghost</td><td>ghost.png</td><td>ghost_normal.png</td><td>ghost_dead.png</td><td>ghost_hit.png</td></tr>
+      </table>
+
+      <div class="callout callout-tip">
+        <span class="icon">&#128161;</span>
+        <span>Use the same workflow as the player: select the frames for one animation state, drag them onto the enemy GameObject, and save the clip. Create an Animator Controller for each enemy type with Idle, Move, Dead, and Hit states.</span>
+      </div>
+
+      <div class="callout callout-success">
+        <span class="icon">&#9989;</span>
+        <span>The <strong>Spider</strong> has two walk frames (spider_walk1.png and spider_walk2.png) for a more detailed crawling animation. All other enemies use single-frame movement states, which still work well for simple 2D games.</span>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- end container -->
+
+<!-- ============ NAV FOOTER ============ -->
+<div class="nav-row">
+  <a href="index.html">&larr; Asset Guide Hub</a>
+  <a href="KA-L10-Prefabs.html">&larr; L10 Prefabs</a>
+  <a href="KA-L12-Tilemap.html">Next: L12 Tilemap &rarr;</a>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<div class="footer">
+  <p>Kenney Asset Guide &mdash; Year 9 Game Development &mdash; 2026</p>
+</div>
+
+<script>
+function toggle(el){el.closest('.section').classList.toggle('open');}
+</script>
+</body>
+</html>

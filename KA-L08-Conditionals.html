@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KA-L08 Conditionals: Platforms &amp; Collectibles</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Roboto+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:15px;line-height:1.7;}a{color:var(--blue);text-decoration:none;}a:hover{text-decoration:underline;}.hero{text-align:center;padding:60px 20px 30px;background:linear-gradient(180deg,rgba(74,222,128,.08) 0%,transparent 100%);}.hero h1{font-family:var(--font-head);font-size:2rem;font-weight:900;background:linear-gradient(135deg,var(--neon),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;}.hero .sub{color:var(--muted);font-size:.9rem;margin-bottom:16px;}.hero .meta{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}.hero .tag{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-size:.78rem;color:var(--muted);}.hero .tag b{color:var(--neon);}.nav-row{display:flex;justify-content:center;gap:16px;margin:20px 0;flex-wrap:wrap;}.nav-row a{font-size:.85rem;}.container{max-width:880px;margin:0 auto;padding:0 20px 60px;}.section{margin:30px 0;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--dark);}.section-header{padding:18px 22px;display:flex;align-items:center;gap:14px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border);}.section-header .num{font-family:var(--font-head);font-size:1.4rem;font-weight:900;color:var(--navy);background:var(--neon);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}.section-header .info{flex:1;}.section-header .title{font-family:var(--font-head);font-size:1rem;font-weight:700;}.section-header .time{font-size:.78rem;color:var(--muted);margin-top:2px;}.section-header .chevron{color:var(--muted);font-size:1.3rem;transition:transform .3s;flex-shrink:0;}.section.open .chevron{transform:rotate(90deg);}.section-body{padding:0 22px 22px;display:none;}.section.open .section-body{display:block;}.file-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.85rem;}.file-table th{text-align:left;padding:8px 12px;background:var(--navy);color:var(--amber);font-family:var(--font-head);font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;}.file-table td{padding:8px 12px;border-bottom:1px solid rgba(51,65,85,.5);}.file-table tr:last-child td{border-bottom:none;}.file-table .file{color:var(--neon);font-weight:600;}.file-table .path{color:var(--muted);font-size:.8rem;}.callout{margin:14px 0;padding:12px 16px;border-radius:10px;font-size:.88rem;display:flex;gap:10px;align-items:flex-start;}.callout .icon{font-size:1.1rem;flex-shrink:0;}.callout-tip{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);}.callout-tip .icon{color:var(--blue);}.callout-warn{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);}.callout-warn .icon{color:var(--amber);}.callout-success{background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.25);}.callout-success .icon{color:var(--neon);}.callout-danger{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);}.callout-danger .icon{color:var(--red);}.ascii-scene{margin:14px 0;padding:16px 20px;background:var(--navy);border:1px solid var(--border);border-radius:10px;font-family:monospace;font-size:.78rem;line-height:1.6;color:var(--muted);white-space:pre;overflow-x:auto;}.step-list{list-style:none;counter-reset:steps;margin:12px 0;}.step-list li{counter-increment:steps;padding:8px 0;display:flex;gap:10px;align-items:flex-start;border-bottom:1px solid rgba(51,65,85,.3);font-size:.88rem;}.step-list li:last-child{border-bottom:none;}.step-list li::before{content:counter(steps);font-family:var(--font-head);font-size:.7rem;background:var(--neon);color:var(--navy);border-radius:50%;min-width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;}.step-list li strong{color:var(--neon);}.key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:1px 7px;font-size:.82rem;color:var(--amber);font-weight:700;}h3{font-family:var(--font-head);font-size:.9rem;color:var(--blue);margin:18px 0 8px;text-transform:uppercase;letter-spacing:.5px;}.footer{text-align:center;margin-top:40px;color:#475569;font-size:.8rem;}
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+    <h1>CONDITIONALS: PLATFORMS &amp; COLLECTIBLES</h1>
+    <p class="sub">New tiles for platform building and first collectible sprites</p>
+    <div class="meta">
+        <span class="tag"><b>Lesson 8</b></span>
+        <span class="tag">Kenney Asset Guide</span>
+        <span class="tag">Year 9 Game Dev</span>
+        <span class="tag">Unity 2D</span>
+    </div>
+</div>
+
+<!-- ===== NAV ===== -->
+<div class="nav-row">
+    <a href="index.html">&larr; Asset Guide Hub</a>
+    <a href="KA-L05-Physics.html">&larr; L05 Physics</a>
+    <a href="KA-L10-Prefabs.html">Next: L10 Prefabs &rarr;</a>
+</div>
+
+<!-- ===== CONTENT ===== -->
+<div class="container">
+
+    <!-- SECTION 1 -->
+    <div class="section open">
+        <div class="section-header" onclick="toggle(this)">
+            <div class="num">1</div>
+            <div class="info">
+                <div class="title">New Platform Tiles</div>
+                <div class="time">Building a proper platformer level with jumps</div>
+            </div>
+            <div class="chevron">&#9654;</div>
+        </div>
+        <div class="section-body">
+            <p>These tiles let you build floating platforms at different heights so the player has somewhere to jump to. Mix grass, stone, and castle styles for visual variety.</p>
+
+            <h3>Platform Tile Files</h3>
+            <table class="file-table">
+                <tr><th>File</th><th>Location</th><th>Purpose</th></tr>
+                <tr><td class="file">grassHalf.png</td><td class="path">Base pack/Tiles/</td><td>Thin floating platform (middle)</td></tr>
+                <tr><td class="file">grassHalfLeft.png</td><td class="path">Base pack/Tiles/</td><td>Thin platform left edge</td></tr>
+                <tr><td class="file">grassHalfMid.png</td><td class="path">Base pack/Tiles/</td><td>Thin platform middle section</td></tr>
+                <tr><td class="file">grassHalfRight.png</td><td class="path">Base pack/Tiles/</td><td>Thin platform right edge</td></tr>
+                <tr><td class="file">stoneMid.png</td><td class="path">Base pack/Tiles/</td><td>Stone platform (visual variety)</td></tr>
+                <tr><td class="file">stoneLeft.png</td><td class="path">Base pack/Tiles/</td><td>Stone platform left edge</td></tr>
+                <tr><td class="file">stoneRight.png</td><td class="path">Base pack/Tiles/</td><td>Stone platform right edge</td></tr>
+                <tr><td class="file">stoneHalf.png</td><td class="path">Base pack/Tiles/</td><td>Thin stone platform</td></tr>
+                <tr><td class="file">castleMid.png</td><td class="path">Base pack/Tiles/</td><td>Castle platform</td></tr>
+                <tr><td class="file">castleLeft.png</td><td class="path">Base pack/Tiles/</td><td>Castle platform left</td></tr>
+                <tr><td class="file">castleRight.png</td><td class="path">Base pack/Tiles/</td><td>Castle platform right</td></tr>
+            </table>
+
+            <h3>Import Steps</h3>
+            <ol class="step-list">
+                <li>Drag all platform tile PNGs into <strong>Assets/Sprites/Tiles/</strong> in your Unity Project window</li>
+                <li>Place tiles in the Scene to build floating platforms at different heights</li>
+                <li>Select each platform tile in the Scene &rarr; <strong>Add Component</strong> &rarr; <strong>Box Collider 2D</strong></li>
+                <li>In the Inspector, set <strong>Tag</strong> to <strong>"Ground"</strong> for every platform tile</li>
+            </ol>
+
+            <div class="callout callout-warn">
+                <span class="icon">&#9888;</span>
+                <span>Every platform tile needs a <strong>Box Collider 2D</strong> so the player can stand on it, and must be tagged <strong>"Ground"</strong> so the jump detection (isGrounded) works correctly.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="section open">
+        <div class="section-header" onclick="toggle(this)">
+            <div class="num">2</div>
+            <div class="info">
+                <div class="title">Hazard Sprites</div>
+                <div class="time">Dangers that test the player's platforming skill</div>
+            </div>
+            <div class="chevron">&#9654;</div>
+        </div>
+        <div class="section-body">
+            <p>Hazards give the platformer stakes. Spikes and lava punish missed jumps, while springboards add bounce mechanics.</p>
+
+            <h3>Hazard Files</h3>
+            <table class="file-table">
+                <tr><th>File</th><th>Location</th><th>Purpose</th></tr>
+                <tr><td class="file">spikes.png</td><td class="path">Base pack/Items/</td><td>Visual danger indicator</td></tr>
+                <tr><td class="file">springboardUp.png</td><td class="path">Base pack/Items/</td><td>Bounce pad (up position)</td></tr>
+                <tr><td class="file">springboardDown.png</td><td class="path">Base pack/Items/</td><td>Bounce pad (pressed)</td></tr>
+                <tr><td class="file">liquidLavaTop.png</td><td class="path">Base pack/Tiles/</td><td>Lava surface</td></tr>
+                <tr><td class="file">liquidLava.png</td><td class="path">Base pack/Tiles/</td><td>Lava body</td></tr>
+            </table>
+
+            <h3>Setup Steps</h3>
+            <ol class="step-list">
+                <li>Drag hazard PNGs into <strong>Assets/Sprites/Tiles/</strong> (or create an <strong>Assets/Sprites/Hazards/</strong> subfolder)</li>
+                <li>Place <strong>spikes</strong> on top of platforms where you want danger zones</li>
+                <li>Select spikes in the Scene &rarr; <strong>Add Component</strong> &rarr; <strong>Box Collider 2D</strong></li>
+                <li>In the Box Collider 2D, tick <strong>Is Trigger: ON</strong></li>
+                <li>Set the <strong>Tag</strong> to <strong>"DeathZone"</strong> (or create a custom <strong>"Hazard"</strong> tag)</li>
+            </ol>
+
+            <div class="callout callout-danger">
+                <span class="icon">&#9760;</span>
+                <span><strong>Is Trigger must be ON</strong> for hazards. A regular collider would block the player like a wall. A trigger lets the player enter it, which fires <code>OnTriggerEnter2D</code> in your script so you can respond (e.g., respawn).</span>
+            </div>
+
+            <div class="callout callout-tip">
+                <span class="icon">&#128161;</span>
+                <span>Spikes are visual -- the player sees them and knows to avoid that area. The invisible trigger collider underneath is what actually detects the collision.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="section open">
+        <div class="section-header" onclick="toggle(this)">
+            <div class="num">3</div>
+            <div class="info">
+                <div class="title">First Collectibles</div>
+                <div class="time">Extension challenge -- collecting coins and gems</div>
+            </div>
+            <div class="chevron">&#9654;</div>
+        </div>
+        <div class="section-body">
+            <p>Collectibles reward exploration and give the player a reason to reach every platform. These become important when we build Prefabs in L10.</p>
+
+            <h3>Collectible Files</h3>
+            <table class="file-table">
+                <tr><th>File</th><th>Location</th><th>Purpose</th></tr>
+                <tr><td class="file">coinGold.png</td><td class="path">Base pack/Items/</td><td>Standard collectible</td></tr>
+                <tr><td class="file">gemBlue.png</td><td class="path">Base pack/Items/</td><td>Bonus collectible</td></tr>
+            </table>
+
+            <h3>Setup Steps</h3>
+            <ol class="step-list">
+                <li>Drag <strong>coinGold.png</strong> and <strong>gemBlue.png</strong> into <strong>Assets/Sprites/Items/</strong></li>
+                <li>Place a coin in the Scene above a platform (somewhere the player has to jump to reach)</li>
+                <li>Select the coin &rarr; <strong>Add Component</strong> &rarr; <strong>Circle Collider 2D</strong></li>
+                <li>In the Circle Collider 2D, tick <strong>Is Trigger: ON</strong></li>
+                <li>Set the <strong>Tag</strong> to <strong>"Coin"</strong></li>
+            </ol>
+
+            <div class="callout callout-success">
+                <span class="icon">&#9733;</span>
+                <span>We use a <strong>Circle Collider 2D</strong> for coins (not Box) because coins are round. The trigger detects when the player overlaps the coin, and your script can then destroy the coin and add to the score.</span>
+            </div>
+
+            <div class="callout callout-tip">
+                <span class="icon">&#128161;</span>
+                <span>In <strong>L10 (Prefabs)</strong>, you will turn coins into reusable prefabs so you can scatter dozens across the level without setting each one up individually.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 4 -->
+    <div class="section open">
+        <div class="section-header" onclick="toggle(this)">
+            <div class="num">4</div>
+            <div class="info">
+                <div class="title">Platform Level Layout</div>
+                <div class="time">How to arrange tiles into a proper platformer level</div>
+            </div>
+            <div class="chevron">&#9654;</div>
+        </div>
+        <div class="section-body">
+            <p>Here is a sample multi-platform layout showing how tiles, collectibles, and hazards work together. Use this as a starting reference for building your own level.</p>
+
+            <div class="ascii-scene">                              coinGold
+                         ═══════════════    stoneHalf (elevated)
+              coinGold
+         ═══════════════                    grassHalf (mid-height)
+    coinGold
+═══════════════════════════════════════     main ground (grassMid)
+    spikes          spikes
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓     DeathZone (invisible, below)</div>
+
+            <div class="callout callout-warn">
+                <span class="icon">&#9888;</span>
+                <span><strong>Tag ALL platform tiles as "Ground"</strong> so the jump mechanic (<code>isGrounded</code>) works. If you forget, the player can't jump! This includes grassHalf, stoneHalf, castleMid, and every other platform piece.</span>
+            </div>
+
+            <div class="callout callout-tip">
+                <span class="icon">&#128161;</span>
+                <span>The <strong>DeathZone</strong> at the bottom is an invisible trigger collider that spans the entire level width, placed below the lowest visible platform. If the player falls off, they hit this zone and respawn.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 5 -->
+    <div class="section open">
+        <div class="section-header" onclick="toggle(this)">
+            <div class="num">5</div>
+            <div class="info">
+                <div class="title">Tag Cheat Sheet</div>
+                <div class="time">Quick reference for all tags used so far</div>
+            </div>
+            <div class="chevron">&#9654;</div>
+        </div>
+        <div class="section-body">
+            <p>Tags are how your C# scripts identify what the player has collided with. Here is every tag you should have set up by the end of Lesson 8.</p>
+
+            <table class="file-table">
+                <tr><th>Tag</th><th>Apply To</th><th>Created In</th></tr>
+                <tr><td class="file">"Ground"</td><td>All grass tiles, stone tiles, castle tiles, platforms</td><td>L05 / L08</td></tr>
+                <tr><td class="file">"DeathZone"</td><td>Invisible trigger below level, spikes</td><td>L08</td></tr>
+                <tr><td class="file">"Coin"</td><td>coinGold.png, gemBlue.png</td><td>L08 extension</td></tr>
+            </table>
+
+            <div class="callout callout-warn">
+                <span class="icon">&#9888;</span>
+                <span>Tags are <strong>case-sensitive</strong> in Unity! <code>"Ground"</code> is not the same as <code>"ground"</code>. Make sure the tag in the Inspector matches exactly what your script checks for.</span>
+            </div>
+
+            <div class="callout callout-success">
+                <span class="icon">&#9733;</span>
+                <span>To create a custom tag: select any GameObject &rarr; Inspector &rarr; Tag dropdown &rarr; <strong>Add Tag...</strong> &rarr; click <strong>+</strong> &rarr; type the tag name &rarr; Save. Then go back and assign it to your object.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== NAV FOOTER ===== -->
+    <div class="nav-row">
+        <a href="index.html">&larr; Asset Guide Hub</a>
+        <a href="KA-L05-Physics.html">&larr; L05 Physics</a>
+        <a href="KA-L10-Prefabs.html">Next: L10 Prefabs &rarr;</a>
+    </div>
+
+    <!-- ===== PAGE FOOTER ===== -->
+    <div class="footer">
+        Kenney Asset Guide &mdash; Year 9 Game Development &mdash; Lesson 8: Conditionals
+    </div>
+
+</div>
+
+<script>
+function toggle(el){el.closest('.section').classList.toggle('open');}
+</script>
+</body>
+</html>

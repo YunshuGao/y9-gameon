@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KA-L04 — 2D Sprites: First Asset Imports</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:15px;line-height:1.7;}
+a{color:var(--blue);text-decoration:none;}a:hover{text-decoration:underline;}
+.hero{text-align:center;padding:60px 20px 30px;background:linear-gradient(180deg,rgba(74,222,128,.08) 0%,transparent 100%);}
+.hero h1{font-family:var(--font-head);font-size:2rem;font-weight:900;background:linear-gradient(135deg,var(--neon),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;}
+.hero .sub{color:var(--muted);font-size:.9rem;margin-bottom:16px;}
+.hero .meta{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}
+.hero .tag{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-size:.78rem;color:var(--muted);}
+.hero .tag b{color:var(--neon);}
+.nav-row{display:flex;justify-content:center;gap:16px;margin:20px 0;flex-wrap:wrap;}
+.nav-row a{font-size:.85rem;color:var(--blue);}
+.container{max-width:880px;margin:0 auto;padding:0 20px 60px;}
+.section{margin:30px 0;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--dark);}
+.section-header{padding:18px 22px;display:flex;align-items:center;gap:14px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border);}
+.section-header .num{font-family:var(--font-head);font-size:1.4rem;font-weight:900;color:var(--navy);background:var(--neon);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.section-header .info{flex:1;}
+.section-header .title{font-family:var(--font-head);font-size:1rem;font-weight:700;}
+.section-header .time{font-size:.78rem;color:var(--muted);margin-top:2px;}
+.section-header .chevron{color:var(--muted);font-size:1.3rem;transition:transform .3s;flex-shrink:0;}
+.section.open .chevron{transform:rotate(90deg);}
+.section-body{padding:0 22px 22px;display:none;}
+.section.open .section-body{display:block;}
+.file-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.85rem;}
+.file-table th{text-align:left;padding:8px 12px;background:var(--navy);color:var(--amber);font-family:var(--font-head);font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;}
+.file-table td{padding:8px 12px;border-bottom:1px solid rgba(51,65,85,.5);}
+.file-table tr:last-child td{border-bottom:none;}
+.file-table .file{color:var(--neon);font-weight:600;}
+.file-table .path{color:var(--muted);font-size:.8rem;}
+.callout{margin:14px 0;padding:12px 16px;border-radius:10px;font-size:.88rem;display:flex;gap:10px;align-items:flex-start;}
+.callout .icon{font-size:1.1rem;flex-shrink:0;}
+.callout-tip{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);}
+.callout-tip .icon{color:var(--blue);}
+.callout-warn{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);}
+.callout-warn .icon{color:var(--amber);}
+.callout-success{background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.25);}
+.callout-success .icon{color:var(--neon);}
+.callout-danger{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);}
+.callout-danger .icon{color:var(--red);}
+.setting-grid{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;margin:10px 0;font-size:.85rem;}
+.setting-grid dt{color:var(--amber);font-weight:700;}
+.setting-grid dd{color:var(--muted);}
+.ascii-scene{margin:14px 0;padding:16px 20px;background:var(--navy);border:1px solid var(--border);border-radius:10px;font-family:'Roboto Mono',monospace;font-size:.78rem;line-height:1.6;color:var(--muted);white-space:pre;overflow-x:auto;}
+.ascii-scene .label{color:var(--amber);font-size:.7rem;}
+.step-list{list-style:none;counter-reset:steps;margin:12px 0;}
+.step-list li{counter-increment:steps;padding:8px 0;display:flex;gap:10px;align-items:flex-start;border-bottom:1px solid rgba(51,65,85,.3);font-size:.88rem;}
+.step-list li:last-child{border-bottom:none;}
+.step-list li::before{content:counter(steps);font-family:var(--font-head);font-size:.7rem;background:var(--neon);color:var(--navy);border-radius:50%;min-width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;}
+.step-list li strong{color:var(--neon);}
+.key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:1px 7px;font-size:.82rem;color:var(--amber);font-weight:700;margin:0 2px;}
+h3{font-family:var(--font-head);font-size:.9rem;color:var(--blue);margin:18px 0 8px;text-transform:uppercase;letter-spacing:.5px;}
+.footer{text-align:center;margin-top:40px;color:#475569;font-size:.8rem;}
+@media(max-width:600px){.file-table{font-size:.78rem;}.file-table th,.file-table td{padding:6px 8px;}}
+</style>
+</head>
+<body>
+
+<!-- ==================== HERO ==================== -->
+<div class="hero">
+  <h1>KA-L04 — 2D Sprites: First Asset Imports</h1>
+  <p class="sub">Your first step into the visual world — importing Kenney sprites into Unity</p>
+  <div class="meta">
+    <span class="tag"><b>Lesson 4</b></span>
+    <span class="tag">Kenney Platformer Art Deluxe</span>
+    <span class="tag">Beginner Friendly</span>
+    <span class="tag">~30 min</span>
+  </div>
+</div>
+
+<div class="nav-row">
+  <a href="index.html">&larr; Back to Asset Guide Hub</a>
+  <a href="KA-L05-Physics.html">Next: L05 Physics Assets &rarr;</a>
+</div>
+
+<div class="container">
+
+  <div class="callout callout-tip">
+    <span class="icon">&#128161;</span>
+    <div>This lesson walks you through importing your very first sprites into Unity. By the end, you will have a background, a player character, ground tiles, and decorations — everything you need for a basic platformer scene.</div>
+  </div>
+
+  <!-- ==================== SECTION 1 ==================== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">1</div>
+      <div class="info">
+        <div class="title">Create Your Folders First</div>
+        <div class="time">Organisation before importing &mdash; 3 min</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <p>Before you drag anything into Unity, set up a clean folder structure. This keeps your project organised and makes finding files easy later on.</p>
+
+      <h3>Folder Structure to Create</h3>
+
+      <div class="ascii-scene"><span class="label">[ Your Unity Project Panel ]</span>
+
+Assets/
+  &#9500;&#9472;&#9472; Sprites/
+  &#9474;     &#9500;&#9472;&#9472; Player/
+  &#9474;     &#9500;&#9472;&#9472; Backgrounds/
+  &#9474;     &#9500;&#9472;&#9472; Tiles/
+  &#9474;     &#9492;&#9472;&#9472; Items/
+  &#9492;&#9472;&#9472; Scenes/</div>
+
+      <h3>How to Create Folders</h3>
+      <ol class="step-list">
+        <li>In Unity, look at the <strong>Project</strong> window at the bottom of the screen.</li>
+        <li>Make sure you are inside the <strong>Assets</strong> folder (click it once to select it).</li>
+        <li><strong>Right-click</strong> in the empty space of the Project window.</li>
+        <li>Choose <strong>Create &rarr; Folder</strong>.</li>
+        <li>Name the folder <strong>Sprites</strong> and press <span class="key">Enter</span>.</li>
+        <li>Double-click into <strong>Sprites</strong>, then repeat to create: <strong>Player</strong>, <strong>Backgrounds</strong>, <strong>Tiles</strong>, and <strong>Items</strong>.</li>
+        <li>Go back to <strong>Assets</strong> and create one more folder called <strong>Scenes</strong>.</li>
+      </ol>
+
+      <div class="callout callout-warn">
+        <span class="icon">&#9888;&#65039;</span>
+        <div><strong>Spelling matters!</strong> Always double-check folder names. Unity is case-sensitive on some platforms and typos now cause confusion later.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== SECTION 2 ==================== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">2</div>
+      <div class="info">
+        <div class="title">Import Your Background</div>
+        <div class="time">Your first sprite import &mdash; 5 min</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <h3>File to Import</h3>
+      <table class="file-table">
+        <thead>
+          <tr><th>File</th><th>Location</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="file">bg.png</td>
+            <td class="path">Base pack/</td>
+            <td>Sky background for your level</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Import Steps</h3>
+      <ol class="step-list">
+        <li>Open <strong>File Explorer</strong> on your computer (outside Unity).</li>
+        <li>Navigate to your downloaded Kenney pack: <strong>kenney_platformer-art-deluxe/Base pack/</strong></li>
+        <li>Find <strong>bg.png</strong> and drag it from File Explorer into the <strong>Assets/Sprites/Backgrounds/</strong> folder in Unity's Project window.</li>
+        <li>Wait for Unity to import — you will see a small loading bar at the bottom.</li>
+        <li>Click on the imported <strong>bg.png</strong> file in Unity to view its settings in the <strong>Inspector</strong> panel.</li>
+      </ol>
+
+      <h3>Unity Inspector Settings</h3>
+      <p>With bg.png selected, check these settings in the Inspector panel on the right:</p>
+      <dl class="setting-grid">
+        <dt>Texture Type</dt>
+        <dd>Sprite (2D and UI)</dd>
+        <dt>Filter Mode</dt>
+        <dd>Bilinear</dd>
+      </dl>
+
+      <div class="callout callout-warn">
+        <span class="icon">&#9888;&#65039;</span>
+        <div>If you change any settings, you <strong>must</strong> click the <strong>Apply</strong> button at the bottom of the Inspector. Otherwise your changes will be lost!</div>
+      </div>
+
+      <h3>Add Background to Your Scene</h3>
+      <ol class="step-list">
+        <li>Drag <strong>bg.png</strong> from the Project window into the <strong>Scene View</strong> (the big window in the centre).</li>
+        <li>With the background selected, look at the <strong>Inspector &rarr; Sprite Renderer</strong> component.</li>
+        <li>Click <strong>Sorting Layer &rarr; Add Sorting Layer</strong> and create a new layer called <strong>Background</strong>.</li>
+        <li>Go back to your bg object and set its Sorting Layer to <strong>Background</strong>.</li>
+        <li>Press <span class="key">R</span> to activate the <strong>Scale</strong> tool, then drag the handles to stretch the background across the full camera view.</li>
+      </ol>
+
+      <div class="callout callout-tip">
+        <span class="icon">&#128161;</span>
+        <div>Press <span class="key">F</span> while a sprite is selected in the Hierarchy to quickly frame/focus the camera on it in the Scene View.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== SECTION 3 ==================== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">3</div>
+      <div class="info">
+        <div class="title">Import Your Player Character</div>
+        <div class="time">Choose your hero &mdash; 5 min</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <p>Pick <strong>one</strong> character to be your player. You can always change later, but start with one.</p>
+
+      <h3>Choose ONE File</h3>
+      <table class="file-table">
+        <thead>
+          <tr><th>File</th><th>Location</th><th>Character</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="file">p1_front.png</td>
+            <td class="path">Base pack/Player/</td>
+            <td>Pink/beige character</td>
+          </tr>
+          <tr>
+            <td class="file">p2_front.png</td>
+            <td class="path">Base pack/Player/</td>
+            <td>Girl with pink hair</td>
+          </tr>
+          <tr>
+            <td class="file">p3_front.png</td>
+            <td class="path">Base pack/Player/</td>
+            <td>Boy with green hat</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Import and Setup Steps</h3>
+      <ol class="step-list">
+        <li>In File Explorer, navigate to <strong>kenney_platformer-art-deluxe/Base pack/Player/</strong></li>
+        <li>Drag your chosen <strong>p1_front.png</strong>, <strong>p2_front.png</strong>, or <strong>p3_front.png</strong> into <strong>Assets/Sprites/Player/</strong> in Unity.</li>
+        <li>Drag the imported sprite from the Project window into the <strong>Scene View</strong>.</li>
+        <li>In the Inspector &rarr; Sprite Renderer, set the <strong>Sorting Layer</strong> to a new layer called <strong>Player</strong>.</li>
+        <li>Position the character so they are standing on the ground area (you can move them with the <strong>Move</strong> tool — press <span class="key">W</span>).</li>
+        <li>In the <strong>Hierarchy</strong> window (top-left), click on your character's name and rename it to <strong>Player</strong>.</li>
+      </ol>
+
+      <div class="callout callout-success">
+        <span class="icon">&#9989;</span>
+        <div><strong>Nice!</strong> You now have a background and a player character in your scene. Things are starting to look like a game!</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== SECTION 4 ==================== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">4</div>
+      <div class="info">
+        <div class="title">Import Ground Tiles</div>
+        <div class="time">Building the ground your player stands on &mdash; 8 min</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <h3>Files to Import</h3>
+      <table class="file-table">
+        <thead>
+          <tr><th>File</th><th>Location</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="file">grassMid.png</td>
+            <td class="path">Base pack/Tiles/</td>
+            <td>Flat grass surface</td>
+          </tr>
+          <tr>
+            <td class="file">grassLeft.png</td>
+            <td class="path">Base pack/Tiles/</td>
+            <td>Left edge of platform</td>
+          </tr>
+          <tr>
+            <td class="file">grassRight.png</td>
+            <td class="path">Base pack/Tiles/</td>
+            <td>Right edge of platform</td>
+          </tr>
+          <tr>
+            <td class="file">dirtCenter.png</td>
+            <td class="path">Base pack/Tiles/</td>
+            <td>Underground fill</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Import and Arrange Steps</h3>
+      <ol class="step-list">
+        <li>In File Explorer, navigate to <strong>kenney_platformer-art-deluxe/Base pack/Tiles/</strong></li>
+        <li>Select all four tile files (<strong>grassMid.png</strong>, <strong>grassLeft.png</strong>, <strong>grassRight.png</strong>, <strong>dirtCenter.png</strong>) and drag them into <strong>Assets/Sprites/Tiles/</strong> in Unity.</li>
+        <li>Drag <strong>grassLeft.png</strong> from the Project window into the Scene View — this is the left edge of your platform.</li>
+        <li>Drag <strong>grassMid.png</strong> next to it — this is the middle section. Select it and press <span class="key">Ctrl</span>+<span class="key">D</span> to duplicate it. Repeat to create several middle tiles.</li>
+        <li>Drag <strong>grassRight.png</strong> and place it at the right end — this caps off the platform.</li>
+        <li>Drag <strong>dirtCenter.png</strong> below the grass tiles to fill in the underground.</li>
+        <li>Select all your ground tiles, and in the Inspector &rarr; Sprite Renderer, set the <strong>Sorting Layer</strong> to a new layer called <strong>Midground</strong>.</li>
+      </ol>
+
+      <div class="callout callout-tip">
+        <span class="icon">&#128161;</span>
+        <div><strong>Pro tip:</strong> Hold <span class="key">V</span> while moving a tile to activate <strong>Vertex Snapping</strong> — this snaps tiles perfectly edge-to-edge with no gaps. Drag from one corner of the tile to the matching corner of its neighbour.</div>
+      </div>
+
+      <div class="callout callout-warn">
+        <span class="icon">&#9888;&#65039;</span>
+        <div><strong>Gaps between tiles?</strong> If you see thin lines between tiles, zoom in and nudge them closer. Vertex Snapping (<span class="key">V</span>) is the easiest fix. Tiny gaps are a very common beginner mistake — don't worry!</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== SECTION 5 ==================== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">5</div>
+      <div class="info">
+        <div class="title">Add Decorations</div>
+        <div class="time">Making your scene look alive &mdash; 5 min</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <h3>Decoration Files to Import</h3>
+      <table class="file-table">
+        <thead>
+          <tr><th>File</th><th>Location</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="file">cloud1.png, cloud2.png, cloud3.png</td>
+            <td class="path">Base pack/Items/</td>
+            <td>Sky clouds</td>
+          </tr>
+          <tr>
+            <td class="file">bush.png</td>
+            <td class="path">Base pack/Items/</td>
+            <td>Ground decoration</td>
+          </tr>
+          <tr>
+            <td class="file">plant.png, plantPurple.png</td>
+            <td class="path">Base pack/Items/</td>
+            <td>Ground decoration</td>
+          </tr>
+          <tr>
+            <td class="file">rock.png</td>
+            <td class="path">Base pack/Items/</td>
+            <td>Ground decoration</td>
+          </tr>
+          <tr>
+            <td class="file">cactus.png</td>
+            <td class="path">Base pack/Items/</td>
+            <td>Ground decoration</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Import and Place Steps</h3>
+      <ol class="step-list">
+        <li>In File Explorer, navigate to <strong>kenney_platformer-art-deluxe/Base pack/Items/</strong></li>
+        <li>Select all the decoration files listed above and drag them into <strong>Assets/Sprites/Items/</strong> in Unity.</li>
+        <li>Drag the <strong>cloud</strong> sprites into your Scene View and position them in the sky area. Set their Sorting Layer to <strong>Background</strong>.</li>
+        <li>Drag <strong>bush.png</strong>, <strong>plant.png</strong>, <strong>plantPurple.png</strong>, <strong>rock.png</strong>, and <strong>cactus.png</strong> into the scene. Place them on top of or near the ground tiles.</li>
+        <li>Set all ground decorations (bushes, plants, rocks, cactus) to the <strong>Midground</strong> Sorting Layer.</li>
+      </ol>
+
+      <div class="callout callout-success">
+        <span class="icon">&#9989;</span>
+        <div><strong>Looking good!</strong> Scatter decorations naturally — don't line them up perfectly. Real environments have variety. Try different sizes and positions to make it feel organic.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== SECTION 6 ==================== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">6</div>
+      <div class="info">
+        <div class="title">Sorting Layers — The Layer Cake</div>
+        <div class="time">Understanding draw order &mdash; 4 min</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <p>In 2D games, <strong>Sorting Layers</strong> control what draws in front of what. Think of it like layers of a cake — the bottom layer is the furthest back, and the top layer is closest to the camera.</p>
+
+      <h3>Create Your Sorting Layers</h3>
+      <p>Go to <strong>Edit &rarr; Project Settings &rarr; Tags and Layers</strong>, expand <strong>Sorting Layers</strong>, and create these layers in this exact order:</p>
+
+      <table class="file-table">
+        <thead>
+          <tr><th>Order</th><th>Layer Name</th><th>What Goes Here</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1</strong> (furthest back)</td>
+            <td class="file">Background</td>
+            <td>bg.png, clouds</td>
+          </tr>
+          <tr>
+            <td><strong>2</strong></td>
+            <td class="file">Midground</td>
+            <td>Ground tiles, bushes, plants, rocks</td>
+          </tr>
+          <tr>
+            <td><strong>3</strong></td>
+            <td class="file">Foreground</td>
+            <td>Items that appear in front of the player</td>
+          </tr>
+          <tr>
+            <td><strong>4</strong> (closest to camera)</td>
+            <td class="file">Player</td>
+            <td>Your character sprite</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-warn">
+        <span class="icon">&#9888;&#65039;</span>
+        <div><strong>Order matters!</strong> Layers at the <strong>top</strong> of the list in Project Settings render <strong>behind</strong> layers at the bottom. Background must be above Midground in the list, and Player must be at the very bottom.</div>
+      </div>
+
+      <h3>Visual Reference</h3>
+      <div class="ascii-scene"><span class="label">[ How Sorting Layers Stack — Side View ]</span>
+
+    CAMERA (your eyes)
+       |
+       v
+  +-----------+   Layer 4: Player
+  |  &#9786; Player  |   (closest to camera)
+  +-----------+
+       |
+  +-----------+   Layer 3: Foreground
+  | coins, etc|   (in front of player — use later)
+  +-----------+
+       |
+  +-----------+   Layer 2: Midground
+  | ######### |   ground tiles, bushes, plants
+  | ######### |
+  +-----------+
+       |
+  +-----------+   Layer 1: Background
+  |  ~  sky   |   bg.png, clouds
+  |    ~ ~    |
+  +-----------+   (furthest from camera)</div>
+
+      <h3>What Your Scene Should Look Like</h3>
+      <div class="ascii-scene"><span class="label">[ Top-Down View of Your Scene ]</span>
+
+           cloud1          cloud3
+      cloud2
+  +-------------------------------------+
+  |          ~~  SKY (bg.png)  ~~       |
+  |                                     |
+  |               &#9786;  &lt;-- Player       |
+  |  bush   plant | rock   cactus       |
+  |===LLLLMMMMMMMMMMMMMMMMMMMRRR========|
+  |   DDDDDDDDDDDDDDDDDDDDDDDD        |
+  +-------------------------------------+
+
+  L = grassLeft   M = grassMid   R = grassRight
+  D = dirtCenter</div>
+
+      <div class="callout callout-tip">
+        <span class="icon">&#128161;</span>
+        <div>If your player disappears behind the ground, the Sorting Layer is wrong. Select your Player in the Hierarchy, go to Sprite Renderer, and make sure it is set to the <strong>Player</strong> sorting layer.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== SECTION 7 ==================== -->
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">7</div>
+      <div class="info">
+        <div class="title">Extension Assets</div>
+        <div class="time">Extra files for extension challenges &mdash; optional</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <p>Finished early? Import these extra assets to make your scene even more detailed.</p>
+
+      <h3>Extra Files</h3>
+      <table class="file-table">
+        <thead>
+          <tr><th>File</th><th>Location</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="file">hill_small.png, hill_large.png</td>
+            <td class="path">Base pack/Tiles/</td>
+            <td>Background hills</td>
+          </tr>
+          <tr>
+            <td class="file">sign.png, signLeft.png, signRight.png</td>
+            <td class="path">Base pack/Tiles/</td>
+            <td>Direction signs</td>
+          </tr>
+          <tr>
+            <td class="file">fence.png, fenceBroken.png</td>
+            <td class="path">Base pack/Tiles/</td>
+            <td>Decorative fences</td>
+          </tr>
+          <tr>
+            <td class="file">coinGold.png</td>
+            <td class="path">Base pack/Items/</td>
+            <td>Preview of collectibles</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-tip">
+        <span class="icon">&#128161;</span>
+        <div><strong>Hills</strong> work great on the <strong>Background</strong> layer — place them between the sky and the ground to add depth. <strong>Signs</strong> and <strong>fences</strong> go on the <strong>Midground</strong> layer next to your platforms.</div>
+      </div>
+
+      <div class="callout callout-success">
+        <span class="icon">&#9989;</span>
+        <div><strong>coinGold.png</strong> is just a preview for now — we will set up proper collectibles with scripting in a later lesson!</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== FOOTER NAV ==================== -->
+  <div class="nav-row" style="margin-top:40px;">
+    <a href="index.html">&larr; Back to Asset Guide Hub</a>
+    <a href="KA-L05-Physics.html">Next: L05 Physics Assets &rarr;</a>
+  </div>
+
+  <div class="footer">
+    Game On Yr 9 &mdash; Kenney Asset Guides &mdash; 2026
+  </div>
+
+</div>
+
+<script>
+function toggle(el){el.closest('.section').classList.toggle('open');}
+</script>
+</body>
+</html>

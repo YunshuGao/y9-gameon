@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KA-L05 Physics: Asset Setup — Kenney Asset Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Roboto+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:15px;line-height:1.7;}
+a{color:var(--blue);text-decoration:none;}a:hover{text-decoration:underline;}
+.hero{text-align:center;padding:60px 20px 30px;background:linear-gradient(180deg,rgba(74,222,128,.08) 0%,transparent 100%);}
+.hero h1{font-family:var(--font-head);font-size:2rem;font-weight:900;background:linear-gradient(135deg,var(--neon),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;}
+.hero .sub{color:var(--muted);font-size:.9rem;margin-bottom:16px;}
+.hero .meta{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}
+.hero .tag{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-size:.78rem;color:var(--muted);}
+.hero .tag b{color:var(--neon);}
+.nav-row{display:flex;justify-content:center;gap:16px;margin:20px 0;flex-wrap:wrap;}
+.nav-row a{font-size:.85rem;color:var(--blue);}
+.container{max-width:880px;margin:0 auto;padding:0 20px 60px;}
+.section{margin:30px 0;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--dark);}
+.section-header{padding:18px 22px;display:flex;align-items:center;gap:14px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border);}
+.section-header .num{font-family:var(--font-head);font-size:1.4rem;font-weight:900;color:var(--navy);background:var(--neon);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.section-header .info{flex:1;}
+.section-header .title{font-family:var(--font-head);font-size:1rem;font-weight:700;}
+.section-header .time{font-size:.78rem;color:var(--muted);margin-top:2px;}
+.section-header .chevron{color:var(--muted);font-size:1.3rem;transition:transform .3s;flex-shrink:0;}
+.section.open .chevron{transform:rotate(90deg);}
+.section-body{padding:0 22px 22px;display:none;}
+.section.open .section-body{display:block;}
+.file-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.85rem;}
+.file-table th{text-align:left;padding:8px 12px;background:var(--navy);color:var(--amber);font-family:var(--font-head);font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;}
+.file-table td{padding:8px 12px;border-bottom:1px solid rgba(51,65,85,.5);}
+.file-table tr:last-child td{border-bottom:none;}
+.file-table .file{color:var(--neon);font-weight:600;}
+.file-table .path{color:var(--muted);font-size:.8rem;}
+.callout{margin:14px 0;padding:12px 16px;border-radius:10px;font-size:.88rem;display:flex;gap:10px;align-items:flex-start;}
+.callout .icon{font-size:1.1rem;flex-shrink:0;}
+.callout-tip{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);}
+.callout-tip .icon{color:var(--blue);}
+.callout-warn{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);}
+.callout-warn .icon{color:var(--amber);}
+.callout-success{background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.25);}
+.callout-success .icon{color:var(--neon);}
+.callout-danger{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);}
+.callout-danger .icon{color:var(--red);}
+.setting-grid{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;margin:10px 0;font-size:.85rem;}
+.setting-grid dt{color:var(--amber);font-weight:700;}
+.setting-grid dd{color:var(--muted);}
+.ascii-scene{margin:14px 0;padding:16px 20px;background:var(--navy);border:1px solid var(--border);border-radius:10px;font-family:monospace;font-size:.78rem;line-height:1.6;color:var(--muted);white-space:pre;overflow-x:auto;}
+.step-list{list-style:none;counter-reset:steps;margin:12px 0;}
+.step-list li{counter-increment:steps;padding:8px 0;display:flex;gap:10px;align-items:flex-start;border-bottom:1px solid rgba(51,65,85,.3);font-size:.88rem;}
+.step-list li:last-child{border-bottom:none;}
+.step-list li::before{content:counter(steps);font-family:var(--font-head);font-size:.7rem;background:var(--neon);color:var(--navy);border-radius:50%;min-width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;}
+.step-list li strong{color:var(--neon);}
+.key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:1px 7px;font-size:.82rem;color:var(--amber);font-weight:700;}
+h3{font-family:var(--font-head);font-size:.9rem;color:var(--blue);margin:18px 0 8px;text-transform:uppercase;letter-spacing:.5px;}
+.footer{text-align:center;margin-top:40px;color:#475569;font-size:.8rem;}
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<div class="hero">
+  <h1>PHYSICS: ASSET SETUP</h1>
+  <p class="sub">Which sprites get which physics components</p>
+  <div class="meta">
+    <span class="tag"><b>Course:</b> Game On</span>
+    <span class="tag"><b>Lesson:</b> T1-L05</span>
+    <span class="tag"><b>Type:</b> Companion to main tutorial</span>
+  </div>
+</div>
+
+<!-- ============ NAV ============ -->
+<div class="nav-row">
+  <a href="index.html">&larr; Back to Asset Guide</a>
+  <a href="KA-L04-Sprites.html">&larr; L04 Sprites</a>
+  <a href="KA-L08-Conditionals.html">Next: L08 Conditionals &rarr;</a>
+</div>
+
+<!-- ============ MAIN ============ -->
+<div class="container">
+
+  <!-- ====== SECTION 1 ====== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">1</div>
+      <div class="info">
+        <div class="title">No New Imports Needed</div>
+        <div class="time">Same assets from L04</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+      <p>Good news — this lesson uses the <strong>exact same Kenney assets</strong> you already imported in Lesson 4. You do not need to download or import anything new.</p>
+
+      <div class="callout callout-success">
+        <span class="icon">&#10003;</span>
+        <div>Your <strong>Sprites</strong> folder should already contain your player sprite (p1/p2/p3_front.png) and your ground/platform tiles from the previous lesson. If it does, you are ready to go.</div>
+      </div>
+
+      <p>The entire focus of Lesson 5 is adding <strong>physics components</strong> to the sprites that are already in your scene. Components are added through the Unity Inspector — no file imports required.</p>
+
+      <div class="callout callout-tip">
+        <span class="icon">&#128161;</span>
+        <div><strong>What are Components?</strong> In Unity, a component is a piece of functionality you attach to a GameObject. Think of the sprite as the "body" and the component as its "abilities" — Rigidbody 2D gives it gravity, Collider 2D makes it solid.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== SECTION 2 ====== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">2</div>
+      <div class="info">
+        <div class="title">Which Sprites Get Which Components</div>
+        <div class="time">The physics setup cheat sheet</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+      <p>Not every sprite gets the same components. Here is exactly what to add to each sprite in your scene:</p>
+
+      <table class="file-table">
+        <thead>
+          <tr>
+            <th>Your Sprite</th>
+            <th>Component to Add</th>
+            <th>Key Settings</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="file">Player (p1/p2/p3_front.png)</td>
+            <td>Rigidbody 2D</td>
+            <td>Body Type: <strong>Dynamic</strong>, Gravity Scale: <strong>1</strong></td>
+          </tr>
+          <tr>
+            <td class="file">Player (p1/p2/p3_front.png)</td>
+            <td>Capsule Collider 2D</td>
+            <td>Matches character shape, rounded bottom prevents edge-catching</td>
+          </tr>
+          <tr>
+            <td class="file">Each grass ground tile</td>
+            <td>Box Collider 2D</td>
+            <td>No Rigidbody needed — static by default</td>
+          </tr>
+          <tr>
+            <td class="file">Each platform tile</td>
+            <td>Box Collider 2D</td>
+            <td>No Rigidbody needed</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-tip">
+        <span class="icon">&#128161;</span>
+        <div><strong>Why Capsule for the player?</strong> The rounded bottom of a Capsule Collider prevents the character from catching on tile edges when walking across multiple ground tiles. This is the industry standard for humanoid characters in 2D games.</div>
+      </div>
+
+      <div class="callout callout-warn">
+        <span class="icon">&#9888;</span>
+        <div><strong>Do NOT add Rigidbody 2D to the ground tiles!</strong> If you do, they will fall when you press Play. Ground tiles are <strong>static by default</strong> — they only need a Box Collider 2D so that other objects (like the player) can land on them.</div>
+      </div>
+
+      <h3>How to Add a Component</h3>
+      <ul class="step-list">
+        <li>Click on the <strong>Player sprite</strong> in the Hierarchy to select it</li>
+        <li>In the <strong>Inspector</strong> panel (right side), click <strong>Add Component</strong></li>
+        <li>Type <strong>"Rigidbody 2D"</strong> in the search box and click it to add</li>
+        <li>Click <strong>Add Component</strong> again, search for <strong>"Capsule Collider 2D"</strong> and add it</li>
+        <li>Now click each <strong>ground tile</strong> and add <strong>Box Collider 2D</strong> the same way</li>
+        <li>Press <span class="key">Ctrl</span> + <span class="key">S</span> to save your scene</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ====== SECTION 3 ====== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">3</div>
+      <div class="info">
+        <div class="title">Optional: Fun Physics Objects</div>
+        <div class="time">Replace boring shapes with Kenney sprites</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+      <p>For the <strong>Great Fall Lab</strong> experiment, you CAN replace the boring white circles and squares from the tutorial with actual Kenney sprites. This makes your physics experiments look way better!</p>
+
+      <h3>Suggested Kenney Sprites for Physics Objects</h3>
+      <table class="file-table">
+        <thead>
+          <tr>
+            <th>File</th>
+            <th>Location</th>
+            <th>Use For</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="file">box.png</td>
+            <td class="path">Base pack / Tiles /</td>
+            <td>Crate for physics experiments</td>
+          </tr>
+          <tr>
+            <td class="file">boxAlt.png</td>
+            <td class="path">Base pack / Tiles /</td>
+            <td>Alternative crate look</td>
+          </tr>
+          <tr>
+            <td class="file">boxExplosive.png</td>
+            <td class="path">Base pack / Tiles /</td>
+            <td>Visual variety (looks explosive!)</td>
+          </tr>
+          <tr>
+            <td class="file">bomb.png</td>
+            <td class="path">Base pack / Items /</td>
+            <td>Round falling object (replaces white circle)</td>
+          </tr>
+          <tr>
+            <td class="file">coinGold.png</td>
+            <td class="path">Base pack / Items /</td>
+            <td>Round bouncing object</td>
+          </tr>
+          <tr>
+            <td class="file">weight.png</td>
+            <td class="path">Base pack / Items /</td>
+            <td>Heavy-looking falling object</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Steps to Use a Kenney Sprite as a Physics Object</h3>
+      <ul class="step-list">
+        <li>Instead of creating a white Circle sprite, drag <strong>bomb.png</strong> from the Project panel into the Scene</li>
+        <li>Rename the GameObject to <strong>"Ball"</strong> in the Inspector</li>
+        <li>Add <strong>Circle Collider 2D</strong> + <strong>Rigidbody 2D</strong> (Body Type: Dynamic)</li>
+        <li>Position it above the ground and press <span class="key">Play</span> — it falls with gravity!</li>
+      </ul>
+
+      <div class="callout callout-success">
+        <span class="icon">&#127790;</span>
+        <div><strong>Experiment!</strong> Try using box.png with a <strong>Box Collider 2D</strong> + <strong>Rigidbody 2D</strong> and drop it from a height. Stack several crates and watch them tumble!</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== SECTION 4 ====== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">4</div>
+      <div class="info">
+        <div class="title">Physics Materials — Visual Guide</div>
+        <div class="time">Created in Unity, applied to Kenney sprites</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+      <p>Physics Materials are <strong>created inside Unity</strong> (right-click in Project panel &rarr; Create &rarr; Physics Material 2D). They are NOT files from Kenney. However, they dramatically change how your Kenney sprites behave.</p>
+
+      <h3>Recommended Physics Materials</h3>
+      <table class="file-table">
+        <thead>
+          <tr>
+            <th>Material Name</th>
+            <th>Settings</th>
+            <th>Best With</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="file">Bouncy</td>
+            <td>Bounciness: <strong>0.8</strong>, Friction: <strong>0.3</strong></td>
+            <td>bomb.png, coinGold.png</td>
+          </tr>
+          <tr>
+            <td class="file">Ice</td>
+            <td>Bounciness: <strong>0</strong>, Friction: <strong>0</strong></td>
+            <td>Any ground tile (makes it slippery)</td>
+          </tr>
+          <tr>
+            <td class="file">SuperBounce</td>
+            <td>Bounciness: <strong>1</strong>, Friction: <strong>0.1</strong></td>
+            <td>Any small object</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>How to Apply a Physics Material</h3>
+      <ul class="step-list">
+        <li>Right-click in your <strong>Project panel</strong> &rarr; Create &rarr; <strong>Physics Material 2D</strong></li>
+        <li>Name it (e.g. <strong>"Bouncy"</strong>) and set the Bounciness and Friction values in the Inspector</li>
+        <li>Select the GameObject you want to apply it to (e.g. the bomb)</li>
+        <li>Find its <strong>Collider 2D</strong> component in the Inspector, locate the <strong>Material</strong> slot</li>
+        <li>Drag your Physics Material 2D from the Project panel into the <strong>Material</strong> slot</li>
+      </ul>
+
+      <div class="callout callout-tip">
+        <span class="icon">&#128161;</span>
+        <div><strong>Try this!</strong> Apply the "Ice" material to your grass ground tiles — the player will slide around like on ice! Great for experimenting with how friction changes gameplay feel.</div>
+      </div>
+
+      <div class="callout callout-warn">
+        <span class="icon">&#9888;</span>
+        <div><strong>Physics Material 2D vs Physics Material</strong> — Make sure you create a <strong>Physics Material 2D</strong> (not just "Physics Material"). The non-2D version is for 3D games and will not work with your 2D colliders.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== SECTION 5 ====== -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="num">5</div>
+      <div class="info">
+        <div class="title">Quick Reference: Physics Cheat Sheet</div>
+        <div class="time">Everything you need to remember</div>
+      </div>
+      <div class="chevron">&#9654;</div>
+    </div>
+    <div class="section-body">
+
+      <h3>Core Concepts</h3>
+      <dl class="setting-grid">
+        <dt>Rigidbody 2D</dt>
+        <dd>Makes a sprite FALL (responds to gravity)</dd>
+        <dt>Collider 2D</dt>
+        <dd>Makes a sprite SOLID (stops things from passing through)</dd>
+        <dt>Both Together</dt>
+        <dd>You need BOTH for physics to work on an object</dd>
+      </dl>
+
+      <h3>Body Types Explained</h3>
+      <dl class="setting-grid">
+        <dt>Dynamic</dt>
+        <dd>Moves with gravity and forces — use for the player, falling objects, physics crates</dd>
+        <dt>Static</dt>
+        <dd>Never moves — use for ground tiles, walls, platforms (default when no Rigidbody is added)</dd>
+        <dt>Kinematic</dt>
+        <dd>Moved by code only, ignores gravity — use for moving platforms, elevators</dd>
+      </dl>
+
+      <h3>Collider Shapes</h3>
+      <dl class="setting-grid">
+        <dt>Box Collider 2D</dt>
+        <dd>Rectangle shape — ground tiles, crates, platforms</dd>
+        <dt>Circle Collider 2D</dt>
+        <dd>Circle shape — bombs, coins, balls</dd>
+        <dt>Capsule Collider 2D</dt>
+        <dd>Rounded rectangle — player characters (prevents edge-catching)</dd>
+      </dl>
+
+      <div class="ascii-scene">
+   PHYSICS SETUP OVERVIEW
+   ========================
+
+   [Player Sprite]          [Ground Tile]          [Crate / Bomb]
+   + Rigidbody 2D           + Box Collider 2D      + Rigidbody 2D
+     (Dynamic, Gravity=1)     (no Rigidbody!)        (Dynamic, Gravity=1)
+   + Capsule Collider 2D                           + Box or Circle Collider 2D
+
+   RESULT:                  RESULT:                RESULT:
+   Falls, lands on          Stays put,             Falls, bounces,
+   ground, can jump         blocks things          collides with stuff</div>
+
+      <div class="callout callout-danger">
+        <span class="icon">&#9762;</span>
+        <div><strong>Most Common Mistake:</strong> Adding Rigidbody 2D to the ground. If your ground falls away when you press Play, select the ground tile, find the Rigidbody 2D component, right-click it, and choose <strong>Remove Component</strong>.</div>
+      </div>
+
+      <div class="callout callout-success">
+        <span class="icon">&#10003;</span>
+        <div><strong>Quick Test:</strong> Press <span class="key">Play</span>. Your player should fall and land on the ground. If it falls through, the ground is missing its Box Collider 2D. If it does not fall at all, the player is missing its Rigidbody 2D.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ BOTTOM NAV ============ -->
+  <div class="nav-row">
+    <a href="KA-L04-Sprites.html">&larr; L04 Sprites</a>
+    <a href="index.html">Asset Guide Hub</a>
+    <a href="KA-L08-Conditionals.html">L08 Conditionals &rarr;</a>
+  </div>
+
+  <div class="footer">Kenney Asset Guide &mdash; Year 9 Game On &mdash; 2026</div>
+
+</div>
+
+<script>
+function toggle(el){el.closest('.section').classList.toggle('open');}
+</script>
+</body>
+</html>
