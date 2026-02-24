@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L22 Reflection — Game On Year 9 (Learning Support)</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:18px;line-height:1.8;}a{color:var(--blue);}
+.hero{text-align:center;padding:60px 20px 30px;}.hero h1{font-family:var(--font-head);font-size:2rem;color:var(--neon);margin-bottom:8px;}.hero .sub{color:var(--muted);font-size:1rem;margin-bottom:16px;}.hero .badges{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}.hero .badge{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.85rem;color:var(--muted);}.hero .badge b{color:var(--neon);}.ls-badge{display:inline-block;background:var(--amber);color:var(--navy);font-family:var(--font-head);font-weight:700;padding:6px 18px;border-radius:8px;font-size:.85rem;margin-top:14px;}
+.container{max-width:800px;margin:0 auto;padding:0 20px 60px;}
+.nav-links{display:flex;justify-content:space-between;margin:20px 0;font-size:.85rem;}.nav-links a{color:var(--blue);text-decoration:none;}.nav-links a:hover{text-decoration:underline;}
+.section{margin:30px 0;padding:24px;border:2px solid var(--border);border-radius:16px;background:var(--dark);}.section h2{font-family:var(--font-head);font-size:1.3rem;color:var(--neon);margin-bottom:16px;display:flex;align-items:center;gap:12px;}.section h2 .num{background:var(--neon);color:var(--navy);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.step{padding:14px 0;border-bottom:1px solid rgba(51,65,85,.5);font-size:1.05rem;display:flex;gap:12px;align-items:flex-start;}.step:last-child{border-bottom:none;}.step input[type="checkbox"]{width:24px;height:24px;accent-color:var(--neon);flex-shrink:0;margin-top:4px;cursor:pointer;}.step strong{color:var(--neon);}.step .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:2px 10px;font-size:.9rem;color:var(--amber);font-weight:700;}
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.3);border-radius:10px;}.vocab h4{font-family:var(--font-head);font-size:.85rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.95rem;}.vocab dt{color:var(--amber);font-weight:700;}.vocab dd{color:var(--muted);}
+.buddy{margin:14px 0;padding:14px 18px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.3);border-radius:10px;font-size:1rem;}.buddy::before{content:'BUDDY TIP: ';font-family:var(--font-head);color:var(--blue);font-weight:700;font-size:.85rem;}
+.stop-check{margin:16px 0;padding:16px 18px;background:rgba(74,222,128,.1);border:2px solid var(--neon);border-radius:10px;font-size:1.05rem;text-align:center;}.stop-check::before{content:'STOP AND CHECK ';font-family:var(--font-head);color:var(--neon);font-weight:700;font-size:.9rem;}
+.help-box{margin:14px 0;padding:14px 18px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);border-radius:10px;font-size:1rem;}.help-box::before{content:'NEED HELP? ';font-family:var(--font-head);color:var(--amber);font-weight:700;font-size:.85rem;}
+.canva-step{margin:10px 0;padding:12px 16px;background:rgba(74,222,128,.05);border-left:4px solid var(--neon);border-radius:0 8px 8px 0;font-size:1rem;}.canva-step .action{color:var(--neon);font-weight:700;}.canva-step .result{color:var(--muted);font-style:italic;font-size:.9rem;display:block;margin-top:4px;}
+.gdd-field-ls{margin:12px 0;padding:14px 18px;background:rgba(15,23,42,.5);border:2px solid var(--border);border-radius:10px;}.gdd-field-ls .label{font-family:var(--font-head);font-size:.9rem;color:var(--neon);font-weight:700;margin-bottom:6px;}.gdd-field-ls .hint{font-size:.95rem;color:var(--muted);font-style:italic;margin-bottom:8px;}.gdd-field-ls .write-area{background:rgba(15,23,42,.6);border:1px dashed var(--muted);border-radius:6px;padding:12px;min-height:50px;color:var(--muted);font-style:italic;font-size:.9rem;}
+.skill-grid{display:grid;grid-template-columns:1fr auto auto auto auto;gap:4px;margin:14px 0;font-size:.9rem;}.skill-grid .header{font-family:var(--font-head);font-size:.7rem;color:var(--amber);text-align:center;padding:8px 4px;}.skill-grid .skill-name{padding:10px;background:rgba(15,23,42,.5);border-radius:6px;display:flex;align-items:center;}.skill-grid .rating{text-align:center;padding:10px;background:rgba(15,23,42,.5);border-radius:6px;display:flex;align-items:center;justify-content:center;}.skill-grid .rating input[type="radio"]{width:20px;height:20px;accent-color:var(--neon);cursor:pointer;}
+.celebrate{margin:20px 0;padding:24px;background:linear-gradient(135deg,rgba(74,222,128,.1),rgba(56,189,248,.1));border:2px solid var(--neon);border-radius:16px;text-align:center;font-size:1.1rem;}.celebrate h3{font-family:var(--font-head);color:var(--neon);font-size:1.2rem;margin-bottom:10px;}
+.footer{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;text-align:center;}.footer h2{font-family:var(--font-head);font-size:1.1rem;color:var(--neon);margin-bottom:12px;}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;}body{font-size:14pt;}.hero h1{color:#111!important;}.section{break-inside:avoid;border:2px solid #333;}.canva-step{border-left:3px solid #333;}.nav-links{display:none;}.skill-grid{font-size:10pt;}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>REFLECTION</h1>
+  <p class="sub">Look back at your journey and celebrate what you learned!</p>
+  <div class="badges">
+    <span class="badge"><b>T1 &mdash; L22</b></span>
+    <span class="badge"><b>~75 min</b></span>
+    <span class="badge"><b>Tool:</b> Paper / Google Classroom</span>
+    <span class="badge"><b>Outcomes:</b> G5-1, G5-5</span>
+  </div>
+  <span class="ls-badge">LEARNING SUPPORT</span>
+</div>
+
+<div class="container">
+
+  <nav class="nav-links">
+    <a href="LS-L21-Showcase.html">&larr; Previous Lesson</a>
+    <a href="index.html">Back to All Lessons</a>
+  </nav>
+
+  <!-- ===== SECTION 1 ===== -->
+  <div class="section">
+    <h2><span class="num">1</span> Your Game Design Journey</h2>
+    <p style="margin-bottom:14px;">Look at everything you did this term! Tick each lesson you remember completing.</p>
+
+    <div class="step">
+      <input type="checkbox" id="j03"><label for="j03"><strong>L03:</strong> Learned what games are made of. Created first Canva design.</label>
+    </div>
+    <div class="step">
+      <input type="checkbox" id="j04"><label for="j04"><strong>L04:</strong> Designed a hero, enemy, and collectible sprite.</label>
+    </div>
+    <div class="step">
+      <input type="checkbox" id="j05"><label for="j05"><strong>L05:</strong> Built a game world with layers and backgrounds.</label>
+    </div>
+    <div class="step">
+      <input type="checkbox" id="j06"><label for="j06"><strong>L06:</strong> Learned game logic and made a sprite move in Scratch.</label>
+    </div>
+    <div class="step">
+      <input type="checkbox" id="j07"><label for="j07"><strong>L07:</strong> Added a score variable to Scratch. Designed a HUD.</label>
+    </div>
+    <div class="step">
+      <input type="checkbox" id="j08"><label for="j08"><strong>L08:</strong> Made games that make decisions with if-then blocks.</label>
+    </div>
+    <div class="step">
+      <input type="checkbox" id="j09"><label for="j09"><strong>L09:</strong> Planned your own game &mdash; title, genre, mechanics.</label>
+    </div>
+    <div class="step">
+      <input type="checkbox" id="j10"><label for="j10"><strong>L10:</strong> Created reusable game pieces and placed them in your level.</label>
+    </div>
+    <div class="step">
+      <input type="checkbox" id="j11"><label for="j11"><strong>L11:</strong> Learned how animation works and drew animation frames.</label>
+    </div>
+    <div class="step">
+      <input type="checkbox" id="j12"><label for="j12"><strong>L12:</strong> Built a complete game level on a grid.</label>
+    </div>
+    <div class="step">
+      <input type="checkbox" id="j13"><label for="j13"><strong>L13:</strong> Designed 3 game screens &mdash; title, gameplay, game over.</label>
+    </div>
+    <div class="step">
+      <input type="checkbox" id="j14"><label for="j14"><strong>L14:</strong> Planned all the sounds and effects for your game.</label>
+    </div>
+    <div class="step">
+      <input type="checkbox" id="j15"><label for="j15"><strong>L15:</strong> Created a game flow diagram and How to Play screen.</label>
+    </div>
+    <div class="step">
+      <input type="checkbox" id="j16"><label for="j16"><strong>L16:</strong> Completed your Game Design Document (assessment!).</label>
+    </div>
+    <div class="step">
+      <input type="checkbox" id="j17"><label for="j17"><strong>L17&ndash;L20:</strong> Built and polished your game design portfolio over 4 sprints.</label>
+    </div>
+    <div class="step">
+      <input type="checkbox" id="j21"><label for="j21"><strong>L21:</strong> Presented your work at the showcase!</label>
+    </div>
+
+    <div class="stop-check">I completed this whole journey! That's amazing.</div>
+  </div>
+
+  <!-- ===== SECTION 2 ===== -->
+  <div class="section">
+    <h2><span class="num">2</span> Reflection Questions</h2>
+    <p style="margin-bottom:14px;">Answer each question with at least <strong>2&ndash;3 sentences</strong>.</p>
+
+    <div class="gdd-field-ls">
+      <div class="label">Q1: What are you MOST PROUD of from this term? Why?</div>
+      <div class="hint">It could be a specific design, a skill you learned, or just finishing the whole course.</div>
+      <div class="write-area">Write your answer here...</div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">Q2: What was the HARDEST part for you? How did you deal with it?</div>
+      <div class="hint">Was it learning Canva? Coming up with ideas? Staying focused? Presenting?</div>
+      <div class="write-area">Write your answer here...</div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">Q3: What did you learn about GAME DESIGN that you didn't know before?</div>
+      <div class="hint">Think about genres, core mechanics, level design, UI, sound...</div>
+      <div class="write-area">Write your answer here...</div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">Q4: What ADVICE would you give to next year's Year 9 students doing this course?</div>
+      <div class="hint">What do you wish someone had told you at the start?</div>
+      <div class="write-area">Write your answer here...</div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 3 ===== -->
+  <div class="section">
+    <h2><span class="num">3</span> Skills Self-Assessment</h2>
+    <p style="margin-bottom:14px;">For each skill, select the level that best describes you right now.</p>
+
+    <!-- Canva Skills -->
+    <h3 style="font-family:var(--font-head);font-size:1rem;color:var(--purple);margin:20px 0 10px;">Canva Skills</h3>
+    <div class="skill-grid">
+      <div class="header"></div>
+      <div class="header">Beginner</div>
+      <div class="header">Learning</div>
+      <div class="header">Confident</div>
+      <div class="header">Expert</div>
+
+      <div class="skill-name">Creating designs and choosing colours</div>
+      <div class="rating"><input type="radio" name="canva1" value="beginner"></div>
+      <div class="rating"><input type="radio" name="canva1" value="learning"></div>
+      <div class="rating"><input type="radio" name="canva1" value="confident"></div>
+      <div class="rating"><input type="radio" name="canva1" value="expert"></div>
+
+      <div class="skill-name">Using shapes and elements to build characters</div>
+      <div class="rating"><input type="radio" name="canva2" value="beginner"></div>
+      <div class="rating"><input type="radio" name="canva2" value="learning"></div>
+      <div class="rating"><input type="radio" name="canva2" value="confident"></div>
+      <div class="rating"><input type="radio" name="canva2" value="expert"></div>
+
+      <div class="skill-name">Working with layers and backgrounds</div>
+      <div class="rating"><input type="radio" name="canva3" value="beginner"></div>
+      <div class="rating"><input type="radio" name="canva3" value="learning"></div>
+      <div class="rating"><input type="radio" name="canva3" value="confident"></div>
+      <div class="rating"><input type="radio" name="canva3" value="expert"></div>
+
+      <div class="skill-name">Creating presentations with multiple pages</div>
+      <div class="rating"><input type="radio" name="canva4" value="beginner"></div>
+      <div class="rating"><input type="radio" name="canva4" value="learning"></div>
+      <div class="rating"><input type="radio" name="canva4" value="confident"></div>
+      <div class="rating"><input type="radio" name="canva4" value="expert"></div>
+
+      <div class="skill-name">Downloading and sharing designs</div>
+      <div class="rating"><input type="radio" name="canva5" value="beginner"></div>
+      <div class="rating"><input type="radio" name="canva5" value="learning"></div>
+      <div class="rating"><input type="radio" name="canva5" value="confident"></div>
+      <div class="rating"><input type="radio" name="canva5" value="expert"></div>
+    </div>
+
+    <!-- Design Skills -->
+    <h3 style="font-family:var(--font-head);font-size:1rem;color:var(--purple);margin:20px 0 10px;">Design Skills</h3>
+    <div class="skill-grid">
+      <div class="header"></div>
+      <div class="header">Beginner</div>
+      <div class="header">Learning</div>
+      <div class="header">Confident</div>
+      <div class="header">Expert</div>
+
+      <div class="skill-name">Understanding game genres and mechanics</div>
+      <div class="rating"><input type="radio" name="design1" value="beginner"></div>
+      <div class="rating"><input type="radio" name="design1" value="learning"></div>
+      <div class="rating"><input type="radio" name="design1" value="confident"></div>
+      <div class="rating"><input type="radio" name="design1" value="expert"></div>
+
+      <div class="skill-name">Designing game characters</div>
+      <div class="rating"><input type="radio" name="design2" value="beginner"></div>
+      <div class="rating"><input type="radio" name="design2" value="learning"></div>
+      <div class="rating"><input type="radio" name="design2" value="confident"></div>
+      <div class="rating"><input type="radio" name="design2" value="expert"></div>
+
+      <div class="skill-name">Planning game levels</div>
+      <div class="rating"><input type="radio" name="design3" value="beginner"></div>
+      <div class="rating"><input type="radio" name="design3" value="learning"></div>
+      <div class="rating"><input type="radio" name="design3" value="confident"></div>
+      <div class="rating"><input type="radio" name="design3" value="expert"></div>
+
+      <div class="skill-name">Designing UI screens (menus, HUD)</div>
+      <div class="rating"><input type="radio" name="design4" value="beginner"></div>
+      <div class="rating"><input type="radio" name="design4" value="learning"></div>
+      <div class="rating"><input type="radio" name="design4" value="confident"></div>
+      <div class="rating"><input type="radio" name="design4" value="expert"></div>
+
+      <div class="skill-name">Planning sounds and effects</div>
+      <div class="rating"><input type="radio" name="design5" value="beginner"></div>
+      <div class="rating"><input type="radio" name="design5" value="learning"></div>
+      <div class="rating"><input type="radio" name="design5" value="confident"></div>
+      <div class="rating"><input type="radio" name="design5" value="expert"></div>
+    </div>
+
+    <!-- Learning Skills -->
+    <h3 style="font-family:var(--font-head);font-size:1rem;color:var(--purple);margin:20px 0 10px;">Learning Skills</h3>
+    <div class="skill-grid">
+      <div class="header"></div>
+      <div class="header">Beginner</div>
+      <div class="header">Learning</div>
+      <div class="header">Confident</div>
+      <div class="header">Expert</div>
+
+      <div class="skill-name">Following step-by-step instructions</div>
+      <div class="rating"><input type="radio" name="learn1" value="beginner"></div>
+      <div class="rating"><input type="radio" name="learn1" value="learning"></div>
+      <div class="rating"><input type="radio" name="learn1" value="confident"></div>
+      <div class="rating"><input type="radio" name="learn1" value="expert"></div>
+
+      <div class="skill-name">Working with a partner</div>
+      <div class="rating"><input type="radio" name="learn2" value="beginner"></div>
+      <div class="rating"><input type="radio" name="learn2" value="learning"></div>
+      <div class="rating"><input type="radio" name="learn2" value="confident"></div>
+      <div class="rating"><input type="radio" name="learn2" value="expert"></div>
+
+      <div class="skill-name">Managing my time during sprints</div>
+      <div class="rating"><input type="radio" name="learn3" value="beginner"></div>
+      <div class="rating"><input type="radio" name="learn3" value="learning"></div>
+      <div class="rating"><input type="radio" name="learn3" value="confident"></div>
+      <div class="rating"><input type="radio" name="learn3" value="expert"></div>
+
+      <div class="skill-name">Presenting my work to others</div>
+      <div class="rating"><input type="radio" name="learn4" value="beginner"></div>
+      <div class="rating"><input type="radio" name="learn4" value="learning"></div>
+      <div class="rating"><input type="radio" name="learn4" value="confident"></div>
+      <div class="rating"><input type="radio" name="learn4" value="expert"></div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 4 ===== -->
+  <div class="section">
+    <h2><span class="num">4</span> Course Feedback</h2>
+    <p style="margin-bottom:14px;">Help us make the course better!</p>
+
+    <div class="gdd-field-ls">
+      <div class="label">My Favourite Lesson</div>
+      <div class="write-area">My favourite lesson was ___ because ___</div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">My Least Favourite Lesson</div>
+      <div class="write-area">My least favourite lesson was ___ because ___</div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">Tutorial Difficulty</div>
+      <div class="write-area">The tutorials were (too easy / just right / too hard) because ___</div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">One Thing I Would Change</div>
+      <div class="write-area">One thing I would change about this course is ___</div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 5 ===== -->
+  <div class="section">
+    <h2><span class="num">5</span> What's Next?</h2>
+    <p style="margin-bottom:14px;">You now have real game design skills that are used in the games industry. Here are some paths you can explore:</p>
+
+    <div class="canva-step">
+      <span class="action">If you enjoyed the DESIGN side:</span>
+      <span class="result">Look into graphic design, UI/UX design, concept art</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">If you enjoyed the LOGIC side (Scratch):</span>
+      <span class="result">Look into coding with Python, JavaScript, or Unity</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">If you enjoyed the PLANNING side:</span>
+      <span class="result">Look into project management, game production</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Keep creating!</span>
+      <span class="result">You can keep using Canva and Scratch for free to create more projects!</span>
+    </div>
+
+    <div class="celebrate">
+      <h3>Congratulations!</h3>
+      <p>You have completed the Year 9 Game On course. You are now a game designer. Be proud of your portfolio &mdash; it shows real design thinking, creativity, and hard work. Well done!</p>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 6 ===== -->
+  <div class="section">
+    <h2><span class="num">6</span> Submit Your Work</h2>
+
+    <div class="step">
+      <input type="checkbox" id="sub1"><label for="sub1"><strong>Submit</strong> your reflection answers to <strong>Google Classroom</strong></label>
+    </div>
+    <div class="step">
+      <input type="checkbox" id="sub2"><label for="sub2">Make sure your <strong>final portfolio</strong> is also submitted (from L20)</label>
+    </div>
+
+    <div class="help-box">If you're not sure how to submit, ask your teacher or a classmate for help.</div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <div class="footer">
+    <h2>Course Complete!</h2>
+    <p>Thank you for being part of Game On. Keep designing, keep creating, keep playing!</p>
+  </div>
+
+  <nav class="nav-links">
+    <a href="LS-L21-Showcase.html">&larr; Previous Lesson</a>
+    <a href="index.html">Back to All Lessons</a>
+  </nav>
+
+</div>
+</body>
+</html>

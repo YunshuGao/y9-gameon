@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LS-L06 — How Games Think (Learning Support)</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:18px;line-height:1.8;}a{color:var(--blue);}
+.hero{text-align:center;padding:60px 20px 30px;}.hero h1{font-family:var(--font-head);font-size:2rem;color:var(--neon);margin-bottom:8px;}.hero .sub{color:var(--muted);font-size:1rem;margin-bottom:16px;}.hero .badges{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}.hero .badge{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.85rem;color:var(--muted);}.hero .badge b{color:var(--neon);}.ls-badge{display:inline-block;background:var(--amber);color:var(--navy);font-family:var(--font-head);font-weight:700;padding:6px 18px;border-radius:8px;font-size:.85rem;margin-top:14px;}
+.container{max-width:800px;margin:0 auto;padding:0 20px 60px;}
+.nav-links{display:flex;justify-content:space-between;margin:20px 0;font-size:.85rem;}.nav-links a{color:var(--blue);text-decoration:none;}.nav-links a:hover{text-decoration:underline;}
+.section{margin:30px 0;padding:24px;border:2px solid var(--border);border-radius:16px;background:var(--dark);}.section h2{font-family:var(--font-head);font-size:1.3rem;color:var(--neon);margin-bottom:16px;display:flex;align-items:center;gap:12px;}.section h2 .num{background:var(--neon);color:var(--navy);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.step{padding:14px 0;border-bottom:1px solid rgba(51,65,85,.5);font-size:1.05rem;display:flex;gap:12px;align-items:flex-start;}.step:last-child{border-bottom:none;}.step input[type="checkbox"]{width:24px;height:24px;accent-color:var(--neon);flex-shrink:0;margin-top:4px;cursor:pointer;}.step strong{color:var(--neon);}.step .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:2px 10px;font-size:.9rem;color:var(--amber);font-weight:700;}
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.3);border-radius:10px;}.vocab h4{font-family:var(--font-head);font-size:.85rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.95rem;}.vocab dt{color:var(--amber);font-weight:700;}.vocab dd{color:var(--muted);}
+.buddy{margin:14px 0;padding:14px 18px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.3);border-radius:10px;font-size:1rem;}.buddy::before{content:'BUDDY TIP: ';font-family:var(--font-head);color:var(--blue);font-weight:700;font-size:.85rem;}
+.stop-check{margin:16px 0;padding:16px 18px;background:rgba(74,222,128,.1);border:2px solid var(--neon);border-radius:10px;font-size:1.05rem;text-align:center;}.stop-check::before{content:'STOP AND CHECK ';font-family:var(--font-head);color:var(--neon);font-weight:700;font-size:.9rem;}
+.help-box{margin:14px 0;padding:14px 18px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);border-radius:10px;font-size:1rem;}.help-box::before{content:'NEED HELP? ';font-family:var(--font-head);color:var(--amber);font-weight:700;font-size:.85rem;}
+.scratch-step{margin:10px 0;padding:12px 16px;background:rgba(56,189,248,.05);border-left:4px solid var(--blue);border-radius:0 8px 8px 0;font-size:1rem;}.scratch-step .action{color:var(--blue);font-weight:700;}.scratch-step .result{color:var(--muted);font-style:italic;font-size:.9rem;display:block;margin-top:4px;}
+.block-example{margin:12px 0;padding:16px;background:var(--navy);border:2px solid var(--border);border-radius:12px;font-size:1rem;text-align:center;}.block-example .block{display:inline-block;padding:8px 16px;margin:4px;border-radius:8px;font-weight:700;font-size:.95rem;}.block-event{background:#ffbf00;color:#000;}.block-motion{background:#4c97ff;color:#fff;}.block-looks{background:#9966ff;color:#fff;}.block-control{background:#ffab19;color:#000;}
+.gdd-field-ls{margin:12px 0;padding:14px 18px;background:rgba(15,23,42,.5);border:2px solid var(--border);border-radius:10px;}.gdd-field-ls .label{font-family:var(--font-head);font-size:.9rem;color:var(--neon);font-weight:700;margin-bottom:6px;}.gdd-field-ls .hint{font-size:.95rem;color:var(--muted);font-style:italic;margin-bottom:8px;}.gdd-field-ls .write-area{background:rgba(15,23,42,.6);border:1px dashed var(--muted);border-radius:6px;padding:12px;min-height:50px;color:var(--muted);font-style:italic;font-size:.9rem;}
+.footer{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;text-align:center;}.footer h2{font-family:var(--font-head);font-size:1.1rem;color:var(--neon);margin-bottom:12px;}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;}body{font-size:14pt;}.hero h1{color:#111!important;}.section{break-inside:avoid;border:2px solid #333;}.scratch-step{border-left:3px solid #333;}.nav-links{display:none;}.block-example .block{border:1px solid #333;}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>HOW GAMES THINK</h1>
+  <p class="sub">Learn how games follow instructions — and try Scratch for the first time!</p>
+  <div class="badges">
+    <span class="badge"><b>Lesson:</b> T1 — L06</span>
+    <span class="badge"><b>Time:</b> ~75 min</span>
+    <span class="badge"><b>Tool:</b> Scratch</span>
+    <span class="badge"><b>Outcomes:</b> G5-1, G5-2, G5-4</span>
+  </div>
+  <span class="ls-badge">LEARNING SUPPORT VERSION</span>
+</div>
+
+<div class="container">
+
+<div class="nav-links">
+  <a href="LS-L05-GameWorlds.html">&larr; Previous Lesson</a>
+  <a href="LS-L07-GameRules.html">Next Lesson &rarr;</a>
+</div>
+
+<!-- ── SECTION 1: What Is Game Logic? ── -->
+<div class="section">
+  <h2><span class="num">1</span> What Is Game Logic?</h2>
+
+  <div class="vocab">
+    <h4>Words to Know</h4>
+    <dl>
+      <dt>Logic</dt><dd>A set of rules that the computer follows — like a recipe for what to do</dd>
+      <dt>Code</dt><dd>Instructions written for a computer — tells the game what to do</dd>
+      <dt>Event</dt><dd>Something that happens — like pressing a key or clicking the mouse</dd>
+      <dt>Block</dt><dd>In Scratch, a coloured puzzle piece that gives one instruction</dd>
+      <dt>Sprite</dt><dd>In Scratch, a character or object on the screen</dd>
+    </dl>
+  </div>
+
+  <div class="step"><input type="checkbox"><span>Every game follows <strong>instructions</strong>. When you press the right arrow key, the character moves right. When you press space, the character jumps. Someone had to <strong>write those instructions</strong>.</span></div>
+
+  <div class="step"><input type="checkbox"><span>In this class, other students write instructions using <strong>C# code</strong> in Unity. It looks like this:<br>
+    <code style="color:var(--amber);font-size:.9rem;">if (Input.GetKey("right")) { player.MoveRight(); }</code></span></div>
+
+  <div class="step"><input type="checkbox"><span>We will use <strong>Scratch</strong> instead! Scratch uses <strong>colourful blocks</strong> that snap together like puzzle pieces. Same idea, but easier to see and understand!</span></div>
+
+  <div class="block-example">
+    <span class="block block-event">when right arrow key pressed</span>
+    <span class="block block-motion">move 10 steps</span>
+  </div>
+
+  <div class="step"><input type="checkbox"><span>Both do the <strong>same thing</strong>: "When the player presses the right arrow, move right." The only difference is how we write the instructions.</span></div>
+
+  <div class="buddy">Talk to your partner: Can you think of 3 things that happen in a game when you press a button? (e.g. press A = jump)</div>
+
+  <div class="stop-check">I understand that games follow instructions, and Scratch uses blocks instead of typed code.</div>
+</div>
+
+<!-- ── SECTION 2: Getting Started with Scratch ── -->
+<div class="section">
+  <h2><span class="num">2</span> Getting Started with Scratch</h2>
+
+  <div class="step"><input type="checkbox"><span>Open your web browser and go to:</span></div>
+
+  <div class="scratch-step">
+    <span class="action">Type: scratch.mit.edu</span> and press <span class="key">Enter</span>
+    <span class="result">You will see the Scratch website. It has an orange cat logo.</span>
+  </div>
+
+  <div class="step"><input type="checkbox"><span><strong>Create an account</strong> (or sign in if you already have one):</span></div>
+
+  <div class="scratch-step">
+    <span class="action">Step 1:</span> Click <span class="key">Join Scratch</span> (top-right corner).
+    <span class="result">A sign-up window will appear.</span>
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 2:</span> Choose a username (e.g. your first name + a number like <strong>Alex2026</strong>). Choose a password you will remember. Follow the steps to finish.
+    <span class="result">You now have a Scratch account! You can save your projects.</span>
+  </div>
+
+  <div class="help-box">Stuck on creating an account? Raise your hand. Your teacher or SLSO can help you set up your Scratch account.</div>
+
+  <div class="step"><input type="checkbox"><span><strong>Start a new project:</strong></span></div>
+
+  <div class="scratch-step">
+    <span class="action">Step 3:</span> Click <span class="key">Create</span> at the top of the page.
+    <span class="result">The Scratch editor opens! You will see an orange cat (the default sprite) on the right side of the screen.</span>
+  </div>
+
+  <div class="step"><input type="checkbox"><span><strong>Learn the Scratch screen.</strong> It has 3 main areas:</span></div>
+
+  <div class="step"><input type="checkbox"><span>
+    <strong>Left side — Block Palette:</strong> This is where all the colourful instruction blocks live. They are sorted by colour:<br>
+    - <span style="color:#4c97ff;">Blue = Motion</span> (moving)<br>
+    - <span style="color:#9966ff;">Purple = Looks</span> (appearance)<br>
+    - <span style="color:#ffbf00;">Yellow = Events</span> (when something happens)<br>
+    - <span style="color:#ffab19;">Orange = Control</span> (decisions, loops)</span></div>
+
+  <div class="step"><input type="checkbox"><span>
+    <strong>Middle — Coding Area:</strong> This is where you drag blocks to build your instructions. Blocks snap together like puzzle pieces.</span></div>
+
+  <div class="step"><input type="checkbox"><span>
+    <strong>Right side — Stage:</strong> This is where you see your game running. The cat lives here. Click the <strong>green flag</strong> to run your code. Click the <strong>red stop sign</strong> to stop.</span></div>
+
+  <div class="stop-check">I am logged into Scratch and I can see the cat, the blocks, and the stage.</div>
+</div>
+
+<!-- ── SECTION 3: Make the Cat Move ── -->
+<div class="section">
+  <h2><span class="num">3</span> Make the Cat Move!</h2>
+
+  <div class="step"><input type="checkbox"><span>Let's make the cat move when you press arrow keys. Follow these steps <strong>exactly</strong>:</span></div>
+
+  <div class="step"><input type="checkbox"><span><strong>Move RIGHT:</strong></span></div>
+
+  <div class="scratch-step">
+    <span class="action">Step 1:</span> In the Block Palette (left side), click on <span class="key">Events</span> (yellow section).
+    <span class="result">You will see yellow blocks appear.</span>
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 2:</span> Find the block that says <strong>"when [space] key pressed"</strong>. Drag it into the Coding Area (middle).
+    <span class="result">The block appears in the coding area.</span>
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 3:</span> Click the word <span class="key">space</span> on the block. A dropdown menu appears. Choose <span class="key">right arrow</span>.
+    <span class="result">The block now says "when right arrow key pressed".</span>
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 4:</span> Click on <span class="key">Motion</span> (blue section) in the Block Palette.
+    <span class="result">Blue blocks appear.</span>
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 5:</span> Find <strong>"move [10] steps"</strong>. Drag it and snap it under the yellow "when right arrow key pressed" block.
+    <span class="result">The blocks snap together! Your first instruction is ready.</span>
+  </div>
+
+  <div class="block-example">
+    <span class="block block-event">when right arrow key pressed</span><br>
+    <span class="block block-motion">move 10 steps</span>
+  </div>
+
+  <div class="step"><input type="checkbox"><span><strong>Test it!</strong> Press the <strong>right arrow key</strong> on your keyboard. The cat should move to the right!</span></div>
+
+  <div class="help-box">Cat not moving? Make sure the blocks are snapped together (no gap between them). Also make sure you clicked on the Stage area first.</div>
+
+  <div class="stop-check">I can press the right arrow key and the cat moves to the right!</div>
+</div>
+
+<!-- ── SECTION 4: Add More Movement ── -->
+<div class="section">
+  <h2><span class="num">4</span> Add Left, Up, and Down</h2>
+
+  <div class="step"><input type="checkbox"><span>Now add movement for <strong>all 4 arrow keys</strong>. You need to create 3 more block stacks:</span></div>
+
+  <div class="step"><input type="checkbox"><span><strong>Move LEFT:</strong><br>
+    1. Drag a new <strong>"when [left arrow] key pressed"</strong> event block<br>
+    2. Snap a <strong>"move [-10] steps"</strong> block under it (change 10 to <strong>-10</strong> — the minus sign means go backwards/left)</span></div>
+
+  <div class="scratch-step">
+    <span class="action">Tip:</span> Click the number <span class="key">10</span> in the move block and type <span class="key">-10</span> to make the cat move left.
+    <span class="result">Negative numbers = move in the opposite direction.</span>
+  </div>
+
+  <div class="step"><input type="checkbox"><span><strong>Move UP:</strong><br>
+    1. Drag a new <strong>"when [up arrow] key pressed"</strong> event block<br>
+    2. In the blue Motion blocks, find <strong>"change y by [10]"</strong> and snap it underneath<br>
+    (y = up and down. Positive number = go UP)</span></div>
+
+  <div class="step"><input type="checkbox"><span><strong>Move DOWN:</strong><br>
+    1. Drag a new <strong>"when [down arrow] key pressed"</strong> event block<br>
+    2. Snap a <strong>"change y by [-10]"</strong> block underneath<br>
+    (Negative number = go DOWN)</span></div>
+
+  <div class="step"><input type="checkbox"><span><strong>Test all 4 directions!</strong> Press each arrow key and check the cat moves the right way.</span></div>
+
+  <div class="buddy">Challenge your partner: Can you make the cat go to all 4 corners of the stage using only the arrow keys?</div>
+
+  <div class="stop-check">My cat can move in all 4 directions: right, left, up, and down.</div>
+</div>
+
+<!-- ── SECTION 5: Save Your Project ── -->
+<div class="section">
+  <h2><span class="num">5</span> Save and Name Your Project</h2>
+
+  <div class="step"><input type="checkbox"><span><strong>Name your project:</strong></span></div>
+
+  <div class="scratch-step">
+    <span class="action">Step 1:</span> At the top of the screen, you will see text that says "Untitled". Click on it.
+    <span class="result">The text becomes editable.</span>
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 2:</span> Type: <span class="key">L06 - My First Scratch Project - [Your Name]</span>
+    <span class="result">Your project is named and saved automatically!</span>
+  </div>
+
+  <div class="step"><input type="checkbox"><span><strong>Extension (if you have extra time):</strong> Try changing the number of steps (e.g. 20 instead of 10) to make the cat move faster. What happens if you use 50? What about 2?</span></div>
+
+  <div class="gdd-field-ls">
+    <div class="label">What I Learned</div>
+    <div class="hint">Write 1-2 sentences about what you learned today.</div>
+    <div class="write-area">Today I learned that games follow instructions called... In Scratch, I made the cat...</div>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<div class="footer">
+  <h2>Well Done!</h2>
+  <p>You made a sprite move with keyboard controls in Scratch! You now understand how games follow instructions.</p>
+  <p style="color:var(--muted);font-size:.9rem;margin-top:12px;">Submit: Take a screenshot of your Scratch project (showing the blocks) and upload it to Google Classroom.</p>
+</div>
+
+<div class="nav-links">
+  <a href="LS-L05-GameWorlds.html">&larr; Previous Lesson</a>
+  <a href="LS-L07-GameRules.html">Next Lesson &rarr;</a>
+</div>
+
+</div><!-- /container -->
+</body>
+</html>

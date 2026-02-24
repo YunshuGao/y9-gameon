@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LS L17 — Sprint 1: Characters</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:18px;line-height:1.8;}a{color:var(--blue);}
+.hero{text-align:center;padding:60px 20px 30px;}.hero h1{font-family:var(--font-head);font-size:2rem;color:var(--neon);margin-bottom:8px;}.hero .sub{color:var(--muted);font-size:1rem;margin-bottom:16px;}.hero .badges{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}.hero .badge{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.85rem;color:var(--muted);}.hero .badge b{color:var(--neon);}.ls-badge{display:inline-block;background:var(--amber);color:var(--navy);font-family:var(--font-head);font-weight:700;padding:6px 18px;border-radius:8px;font-size:.85rem;margin-top:14px;}
+.container{max-width:800px;margin:0 auto;padding:0 20px 60px;}
+.nav-links{display:flex;justify-content:space-between;margin:20px 0;font-size:.85rem;}.nav-links a{color:var(--blue);text-decoration:none;}.nav-links a:hover{text-decoration:underline;}
+.section{margin:30px 0;padding:24px;border:2px solid var(--border);border-radius:16px;background:var(--dark);}.section h2{font-family:var(--font-head);font-size:1.3rem;color:var(--neon);margin-bottom:16px;display:flex;align-items:center;gap:12px;}.section h2 .num{background:var(--neon);color:var(--navy);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.step{padding:14px 0;border-bottom:1px solid rgba(51,65,85,.5);font-size:1.05rem;display:flex;gap:12px;align-items:flex-start;}.step:last-child{border-bottom:none;}.step input[type="checkbox"]{width:24px;height:24px;accent-color:var(--neon);flex-shrink:0;margin-top:4px;cursor:pointer;}.step strong{color:var(--neon);}.step .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:2px 10px;font-size:.9rem;color:var(--amber);font-weight:700;}
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.3);border-radius:10px;}.vocab h4{font-family:var(--font-head);font-size:.85rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.95rem;}.vocab dt{color:var(--amber);font-weight:700;}.vocab dd{color:var(--muted);}
+.buddy{margin:14px 0;padding:14px 18px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.3);border-radius:10px;font-size:1rem;}.buddy::before{content:'BUDDY TIP: ';font-family:var(--font-head);color:var(--blue);font-weight:700;font-size:.85rem;}
+.stop-check{margin:16px 0;padding:16px 18px;background:rgba(74,222,128,.1);border:2px solid var(--neon);border-radius:10px;font-size:1.05rem;text-align:center;}.stop-check::before{content:'STOP AND CHECK ';font-family:var(--font-head);color:var(--neon);font-weight:700;font-size:.9rem;}
+.help-box{margin:14px 0;padding:14px 18px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);border-radius:10px;font-size:1rem;}.help-box::before{content:'NEED HELP? ';font-family:var(--font-head);color:var(--amber);font-weight:700;font-size:.85rem;}
+.canva-step{margin:10px 0;padding:12px 16px;background:rgba(74,222,128,.05);border-left:4px solid var(--neon);border-radius:0 8px 8px 0;font-size:1rem;}.canva-step .action{color:var(--neon);font-weight:700;}.canva-step .result{color:var(--muted);font-style:italic;font-size:.9rem;display:block;margin-top:4px;}
+.gdd-field-ls{margin:12px 0;padding:14px 18px;background:rgba(15,23,42,.5);border:2px solid var(--border);border-radius:10px;}.gdd-field-ls .label{font-family:var(--font-head);font-size:.9rem;color:var(--neon);font-weight:700;margin-bottom:6px;}.gdd-field-ls .hint{font-size:.95rem;color:var(--muted);font-style:italic;margin-bottom:8px;}.gdd-field-ls .write-area{background:rgba(15,23,42,.6);border:1px dashed var(--muted);border-radius:6px;padding:12px;min-height:50px;color:var(--muted);font-style:italic;font-size:.9rem;}
+.sprint-goal{margin:10px 0;padding:14px 18px;background:rgba(74,222,128,.08);border:2px solid var(--neon);border-radius:10px;display:flex;gap:12px;align-items:flex-start;}.sprint-goal input[type="checkbox"]{width:24px;height:24px;accent-color:var(--neon);flex-shrink:0;margin-top:4px;cursor:pointer;}
+.sprint-review{margin:14px 0;padding:16px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.3);border-radius:10px;}.sprint-review::before{content:'SPRINT REVIEW ';font-family:var(--font-head);color:var(--purple);font-weight:700;font-size:.85rem;display:block;margin-bottom:8px;}
+.footer{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;text-align:center;}.footer h2{font-family:var(--font-head);font-size:1.1rem;color:var(--neon);margin-bottom:12px;}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;}body{font-size:14pt;}.hero h1{color:#111!important;}.section{break-inside:avoid;border:2px solid #333;}.canva-step{border-left:3px solid #333;}.nav-links{display:none;}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>SPRINT 1 — CHARACTERS</h1>
+  <p class="sub">Start building your game design portfolio — focus on characters!</p>
+  <div class="badges">
+    <span class="badge"><b>T1 — L17</b></span>
+    <span class="badge"><b>~75 min</b></span>
+    <span class="badge"><b>Tool:</b> Canva</span>
+    <span class="badge"><b>Outcomes:</b> G5-1, G5-2, G5-3</span>
+  </div>
+  <span class="ls-badge">LEARNING SUPPORT</span>
+</div>
+
+<div class="container">
+
+  <div class="nav-links">
+    <a href="LS-L16-GameDesignDocument.html">&larr; Previous Lesson</a>
+    <a href="LS-L18-Sprint2.html">Next Lesson &rarr;</a>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2><span class="num">1</span> What Is a Sprint?</h2>
+
+    <div class="vocab">
+      <h4>Key Vocabulary</h4>
+      <dl>
+        <dt>Sprint</dt>
+        <dd>A set period of time to complete specific goals</dd>
+        <dt>Portfolio</dt>
+        <dd>A collection of your best work that shows what you can do</dd>
+        <dt>Goal</dt>
+        <dd>What you want to finish by the end of the sprint</dd>
+      </dl>
+    </div>
+
+    <p>Real game companies work in <strong>sprints</strong> — short bursts of focused work. In this course, we have <strong>4 sprints</strong>. Each sprint has a specific focus.</p>
+
+    <div class="canva-step">
+      <span class="action">Sprint 1:</span> Characters
+      <span class="result">You will refine and polish your character designs to make them portfolio-ready.</span>
+    </div>
+    <div class="canva-step">
+      <span class="action">Sprint 2:</span> Level Design
+    </div>
+    <div class="canva-step">
+      <span class="action">Sprint 3:</span> Game Screens
+    </div>
+    <div class="canva-step">
+      <span class="action">Sprint 4:</span> Final Review
+    </div>
+
+    <div class="stop-check">
+      Do you understand what a sprint is? Can you name the 4 sprint topics? Tell your teacher before moving on.
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2><span class="num">2</span> Set Your Sprint 1 Goals</h2>
+
+    <p>Write <strong>3 goals</strong> for what you want to finish in this sprint. Here are some suggestions:</p>
+
+    <div class="gdd-field-ls">
+      <div class="label">Goal 1</div>
+      <div class="hint">Suggested: Redesign my hero character with more detail and colour</div>
+      <div class="write-area">Write your first goal here...</div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">Goal 2</div>
+      <div class="hint">Suggested: Create a second enemy character</div>
+      <div class="write-area">Write your second goal here...</div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">Goal 3</div>
+      <div class="hint">Suggested: Create 3 different collectible items OR add a background to each character design</div>
+      <div class="write-area">Write your third goal here...</div>
+    </div>
+
+    <p style="margin-top:16px;">Now tick each goal as you work on it:</p>
+
+    <div class="sprint-goal">
+      <input type="checkbox">
+      <span>Goal 1 — completed</span>
+    </div>
+    <div class="sprint-goal">
+      <input type="checkbox">
+      <span>Goal 2 — completed</span>
+    </div>
+    <div class="sprint-goal">
+      <input type="checkbox">
+      <span>Goal 3 — completed</span>
+    </div>
+
+    <div class="help-box">
+      Not sure what to write? Look back at your L04 hero design and L09 Game Design Document for ideas. Pick goals that will improve what you already have.
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2><span class="num">3</span> Build Time — Refine Your Characters</h2>
+    <p style="margin-bottom:12px;">You have <strong>50 minutes</strong> for this section. Follow these steps in Canva:</p>
+
+    <div class="canva-step">
+      <span class="action">Step 1:</span> Open your L04 hero design, OR create a NEW improved version.
+      <span class="result">Find it in your Canva projects or start fresh.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 2:</span> Add more detail — facial expression, clothing details, accessories.
+      <span class="result">Make your hero look more interesting and polished.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 3:</span> Make sure it uses your game's colour scheme.
+      <span class="result">Check your GDD for your chosen colours.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 4:</span> Create at least 1 more enemy (different from the first).
+      <span class="result">Give it a different shape, colour, or ability.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 5:</span> Create at least 2 more collectibles (different types — coin, gem, potion, key, food).
+      <span class="result">Each one should look different and be easy to recognise.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 6:</span> Each character should be on its own <strong>500 x 500</strong> canvas.
+      <span class="result">In Canva: Custom size &rarr; 500 x 500 px.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 7:</span> Use a consistent style across all characters (same outline thickness, same level of detail).
+      <span class="result">They should look like they belong in the same game.</span>
+    </div>
+
+    <div class="buddy">
+      At the 25-minute mark, show your work to your partner. Ask them: "What looks good? What could be better?"
+    </div>
+
+    <div class="help-box">
+      Stuck on design ideas? Search Canva for "game character" or "pixel art" for inspiration. You can also look at your favourite games for ideas.
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section">
+    <h2><span class="num">4</span> Start Your Portfolio Presentation</h2>
+
+    <p>Now create the presentation that will hold ALL your best work:</p>
+
+    <div class="canva-step">
+      <span class="action">Step 1:</span> In Canva, click <strong>Create a Design</strong> &rarr; search <strong>Presentation (16:9)</strong>.
+      <span class="result">This creates a widescreen presentation.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 2:</span> Page 1 is your <strong>Cover Page</strong>.
+      <span class="result">Add: "Game Design Portfolio", your game title, your name, and today's date.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 3:</span> Page 2 is <strong>"My Characters"</strong>.
+      <span class="result">Paste all your character designs here. Write 1 sentence about each character (who they are, what they do).</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 4:</span> Rename your presentation: <strong>"Portfolio - [Game Title] - [Your Name]"</strong>
+      <span class="result">Click the title at the top of Canva to rename it.</span>
+    </div>
+
+    <p style="margin-top:14px;">This is the <strong>START</strong> of your final portfolio. You will add more pages in Sprint 2, 3, and 4.</p>
+
+    <div class="stop-check">
+      Check: Does your portfolio have a cover page AND a characters page? Show your teacher before moving on.
+    </div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section">
+    <h2><span class="num">5</span> Sprint 1 Review</h2>
+
+    <div class="sprint-review">
+      <p>Take a few minutes to reflect on your sprint. Answer honestly — this helps you plan for next time.</p>
+
+      <div class="gdd-field-ls">
+        <div class="label">Which goals did I complete?</div>
+        <div class="write-area">Write which of your 3 goals you finished...</div>
+      </div>
+
+      <div class="gdd-field-ls">
+        <div class="label">Which goals do I still need to finish?</div>
+        <div class="write-area">Write what you still need to work on...</div>
+      </div>
+
+      <div class="gdd-field-ls">
+        <div class="label">What will I focus on in Sprint 2?</div>
+        <div class="write-area">Sprint 2 is about Level Design. What do you want to improve?</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <input type="checkbox">
+      <span>Submit a screenshot of your character designs and portfolio to <strong>Google Classroom</strong>.</span>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <h2>Sprint 1 Complete!</h2>
+    <p>You refined your character designs and started your portfolio. Next sprint: <strong>Level Design!</strong></p>
+  </div>
+
+  <div class="nav-links">
+    <a href="LS-L16-GameDesignDocument.html">&larr; Previous Lesson</a>
+    <a href="LS-L18-Sprint2.html">Next Lesson &rarr;</a>
+  </div>
+
+</div>
+
+</body>
+</html>

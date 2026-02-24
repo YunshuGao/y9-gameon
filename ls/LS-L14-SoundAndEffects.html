@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LS L14 — Sound &amp; Effects | Game On</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:18px;line-height:1.8;}a{color:var(--blue);}
+.hero{text-align:center;padding:60px 20px 30px;}.hero h1{font-family:var(--font-head);font-size:2rem;color:var(--neon);margin-bottom:8px;}.hero .sub{color:var(--muted);font-size:1rem;margin-bottom:16px;}.hero .badges{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}.hero .badge{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.85rem;color:var(--muted);}.hero .badge b{color:var(--neon);}.ls-badge{display:inline-block;background:var(--amber);color:var(--navy);font-family:var(--font-head);font-weight:700;padding:6px 18px;border-radius:8px;font-size:.85rem;margin-top:14px;}
+.container{max-width:800px;margin:0 auto;padding:0 20px 60px;}
+.nav-links{display:flex;justify-content:space-between;margin:20px 0;font-size:.85rem;}.nav-links a{color:var(--blue);text-decoration:none;}.nav-links a:hover{text-decoration:underline;}
+.section{margin:30px 0;padding:24px;border:2px solid var(--border);border-radius:16px;background:var(--dark);}.section h2{font-family:var(--font-head);font-size:1.3rem;color:var(--neon);margin-bottom:16px;display:flex;align-items:center;gap:12px;}.section h2 .num{background:var(--neon);color:var(--navy);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.step{padding:14px 0;border-bottom:1px solid rgba(51,65,85,.5);font-size:1.05rem;display:flex;gap:12px;align-items:flex-start;}.step:last-child{border-bottom:none;}.step input[type="checkbox"]{width:24px;height:24px;accent-color:var(--neon);flex-shrink:0;margin-top:4px;cursor:pointer;}.step strong{color:var(--neon);}.step .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:2px 10px;font-size:.9rem;color:var(--amber);font-weight:700;}
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.3);border-radius:10px;}.vocab h4{font-family:var(--font-head);font-size:.85rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.95rem;}.vocab dt{color:var(--amber);font-weight:700;}.vocab dd{color:var(--muted);}
+.buddy{margin:14px 0;padding:14px 18px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.3);border-radius:10px;font-size:1rem;}.buddy::before{content:'BUDDY TIP: ';font-family:var(--font-head);color:var(--blue);font-weight:700;font-size:.85rem;}
+.stop-check{margin:16px 0;padding:16px 18px;background:rgba(74,222,128,.1);border:2px solid var(--neon);border-radius:10px;font-size:1.05rem;text-align:center;}.stop-check::before{content:'STOP AND CHECK ';font-family:var(--font-head);color:var(--neon);font-weight:700;font-size:.9rem;}
+.help-box{margin:14px 0;padding:14px 18px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);border-radius:10px;font-size:1rem;}.help-box::before{content:'NEED HELP? ';font-family:var(--font-head);color:var(--amber);font-weight:700;font-size:.85rem;}
+.canva-step{margin:10px 0;padding:12px 16px;background:rgba(74,222,128,.05);border-left:4px solid var(--neon);border-radius:0 8px 8px 0;font-size:1rem;}.canva-step .action{color:var(--neon);font-weight:700;}.canva-step .result{color:var(--muted);font-style:italic;font-size:.9rem;display:block;margin-top:4px;}
+.gdd-field-ls{margin:12px 0;padding:14px 18px;background:rgba(15,23,42,.5);border:2px solid var(--border);border-radius:10px;}.gdd-field-ls .label{font-family:var(--font-head);font-size:.9rem;color:var(--neon);font-weight:700;margin-bottom:6px;}.gdd-field-ls .hint{font-size:.95rem;color:var(--muted);font-style:italic;margin-bottom:8px;}.gdd-field-ls .write-area{background:rgba(15,23,42,.6);border:1px dashed var(--muted);border-radius:6px;padding:12px;min-height:50px;color:var(--muted);font-style:italic;font-size:.9rem;}
+.footer{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;text-align:center;}.footer h2{font-family:var(--font-head);font-size:1.1rem;color:var(--neon);margin-bottom:12px;}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;}body{font-size:14pt;}.hero h1{color:#111!important;}.section{break-inside:avoid;border:2px solid #333;}.canva-step{border-left:3px solid #333;}.nav-links{display:none;}}
+</style>
+</head>
+<body>
+
+<!-- ====== HERO ====== -->
+<div class="hero">
+  <h1>SOUND &amp; EFFECTS</h1>
+  <p class="sub">Plan the sounds and visual effects that bring your game to life!</p>
+  <div class="badges">
+    <span class="badge"><b>T1 &mdash; L14</b></span>
+    <span class="badge"><b>~75 min</b></span>
+    <span class="badge"><b>Tool:</b> Browser + Canva</span>
+    <span class="badge"><b>Outcomes:</b> G5-1, G5-3, G5-5</span>
+  </div>
+  <span class="ls-badge">LEARNING SUPPORT</span>
+</div>
+
+<div class="container">
+
+  <!-- NAV -->
+  <div class="nav-links">
+    <a href="LS-L13-GameScreens.html">&larr; L13 Game Screens</a>
+    <a href="LS-L15-MenusAndFlow.html">L15 Menus &amp; Flow &rarr;</a>
+  </div>
+
+  <!-- ====== SECTION 1 ====== -->
+  <div class="section">
+    <h2><span class="num">1</span> Why Sound Matters</h2>
+
+    <div class="vocab">
+      <h4>Key Vocabulary</h4>
+      <dl>
+        <dt>SFX</dt>
+        <dd>Sound Effects &mdash; short sounds like "boing!", "crash!", "ding!"</dd>
+        <dt>BGM</dt>
+        <dd>Background Music &mdash; music that plays throughout the game.</dd>
+        <dt>Sound Design</dt>
+        <dd>Planning what sounds a game needs.</dd>
+        <dt>Visual Effects / VFX</dt>
+        <dd>Things you SEE that make the game exciting &mdash; sparkles, explosions, dust clouds.</dd>
+        <dt>Particle</dt>
+        <dd>A tiny moving image &mdash; many particles together create effects like fire, smoke, or rain.</dd>
+      </dl>
+    </div>
+
+    <p>Imagine playing a game with <strong>NO sound</strong>. It would feel empty and boring! Sound tells the player what is happening:</p>
+
+    <div class="step"><input type="checkbox"><span>A <strong>"ding"</strong> when you collect a coin tells you &mdash; "Great job, you got it!"</span></div>
+    <div class="step"><input type="checkbox"><span>A <strong>"thud"</strong> when you land tells you &mdash; "You hit the ground."</span></div>
+    <div class="step"><input type="checkbox"><span>A <strong>"boom"</strong> when an explosion happens tells you &mdash; "Something just blew up!"</span></div>
+    <div class="step"><input type="checkbox"><span><strong>Background music</strong> sets the mood &mdash; exciting music for action, calm music for menus, spooky music for dark levels.</span></div>
+
+    <p style="margin-top:14px;">Visual effects work the same way &mdash; <strong>sparkles</strong> when you pick up a gem, <strong>dust clouds</strong> when you land after a big jump, <strong>fire</strong> flickering from a torch. They make the game feel alive.</p>
+
+    <div class="buddy">Close your eyes. Your partner will describe a game scene (e.g. "You're running through a forest, you jump over a log, land on the other side, and pick up a gold coin"). What sounds would you hear? Take turns describing and guessing.</div>
+
+    <div class="stop-check">I can explain why sound is important in games.</div>
+  </div>
+
+  <!-- ====== SECTION 2 ====== -->
+  <div class="section">
+    <h2><span class="num">2</span> Create a Sound Design Table</h2>
+
+    <p>A <strong>sound design table</strong> lists every event in your game and what sound it needs. Think about everything that happens in your game and what the player should hear.</p>
+
+    <p style="margin-top:10px;">Here are some examples to get you started:</p>
+
+    <div class="gdd-field-ls">
+      <div class="label">Example Sound Design Table</div>
+      <table style="width:100%;border-collapse:collapse;margin-top:8px;font-size:.95rem;">
+        <thead>
+          <tr style="border-bottom:2px solid var(--border);">
+            <th style="text-align:left;padding:8px;color:var(--amber);">Game Event</th>
+            <th style="text-align:left;padding:8px;color:var(--amber);">Sound Description</th>
+            <th style="text-align:left;padding:8px;color:var(--amber);">Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid rgba(51,65,85,.5);">
+            <td style="padding:8px;">Player jumps</td>
+            <td style="padding:8px;color:var(--muted);">Whoosh or boing</td>
+            <td style="padding:8px;color:var(--neon);">SFX</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(51,65,85,.5);">
+            <td style="padding:8px;">Collect a coin</td>
+            <td style="padding:8px;color:var(--muted);">Ding or sparkle</td>
+            <td style="padding:8px;color:var(--neon);">SFX</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(51,65,85,.5);">
+            <td style="padding:8px;">Hit by enemy</td>
+            <td style="padding:8px;color:var(--muted);">Ow or crash</td>
+            <td style="padding:8px;color:var(--neon);">SFX</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(51,65,85,.5);">
+            <td style="padding:8px;">Game Over</td>
+            <td style="padding:8px;color:var(--muted);">Sad trumpet or buzzer</td>
+            <td style="padding:8px;color:var(--neon);">SFX</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(51,65,85,.5);">
+            <td style="padding:8px;">Playing the game</td>
+            <td style="padding:8px;color:var(--muted);">Upbeat adventure music</td>
+            <td style="padding:8px;color:var(--purple);">BGM</td>
+          </tr>
+          <tr>
+            <td style="padding:8px;">Title screen</td>
+            <td style="padding:8px;color:var(--muted);">Calm, exciting intro music</td>
+            <td style="padding:8px;color:var(--purple);">BGM</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="margin-top:14px;">Now create <strong>your own</strong> sound design table. Think about your specific game &mdash; what events happen? List at least <strong>8 events</strong>.</p>
+
+    <div class="gdd-field-ls">
+      <div class="label">My Sound Design Table</div>
+      <div class="hint">Fill in at least 8 rows for your game. Think about: movement, collecting, enemies, winning, losing, menus, and background music.</div>
+      <div class="write-area">
+        <table style="width:100%;border-collapse:collapse;font-size:.9rem;">
+          <thead>
+            <tr style="border-bottom:1px dashed var(--muted);">
+              <th style="text-align:left;padding:6px;color:var(--amber);">Game Event</th>
+              <th style="text-align:left;padding:6px;color:var(--amber);">Sound Description</th>
+              <th style="text-align:left;padding:6px;color:var(--amber);">Type (SFX/BGM)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px dashed rgba(148,163,184,.3);"><td style="padding:6px;">1.</td><td style="padding:6px;"></td><td style="padding:6px;"></td></tr>
+            <tr style="border-bottom:1px dashed rgba(148,163,184,.3);"><td style="padding:6px;">2.</td><td style="padding:6px;"></td><td style="padding:6px;"></td></tr>
+            <tr style="border-bottom:1px dashed rgba(148,163,184,.3);"><td style="padding:6px;">3.</td><td style="padding:6px;"></td><td style="padding:6px;"></td></tr>
+            <tr style="border-bottom:1px dashed rgba(148,163,184,.3);"><td style="padding:6px;">4.</td><td style="padding:6px;"></td><td style="padding:6px;"></td></tr>
+            <tr style="border-bottom:1px dashed rgba(148,163,184,.3);"><td style="padding:6px;">5.</td><td style="padding:6px;"></td><td style="padding:6px;"></td></tr>
+            <tr style="border-bottom:1px dashed rgba(148,163,184,.3);"><td style="padding:6px;">6.</td><td style="padding:6px;"></td><td style="padding:6px;"></td></tr>
+            <tr style="border-bottom:1px dashed rgba(148,163,184,.3);"><td style="padding:6px;">7.</td><td style="padding:6px;"></td><td style="padding:6px;"></td></tr>
+            <tr><td style="padding:6px;">8.</td><td style="padding:6px;"></td><td style="padding:6px;"></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="stop-check">I have listed at least 8 game events with what sound each needs.</div>
+  </div>
+
+  <!-- ====== SECTION 3 ====== -->
+  <div class="section">
+    <h2><span class="num">3</span> Listen to Game Sounds</h2>
+
+    <p>Now let's find real sounds that match your table! We'll use <strong>freesound.org</strong> &mdash; a free website with thousands of sounds.</p>
+
+    <div class="canva-step">
+      <span class="action">Step 1:</span> Open a new browser tab. Go to <strong>freesound.org</strong>.
+      <span class="result">The freesound.org homepage appears.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 2:</span> In the search bar, type a game-related sound. Try these searches:
+      <br>&bull; "coin collect"
+      <br>&bull; "jump"
+      <br>&bull; "game over"
+      <br>&bull; "explosion"
+      <br>&bull; "8-bit music"
+      <br>&bull; "whoosh"
+      <br>&bull; "power up"
+      <span class="result">A list of matching sounds appears.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 3:</span> Click the <strong>play button</strong> on the results to listen to each sound. <strong>DO NOT download anything</strong> &mdash; just listen!
+      <span class="result">You can hear what the sound sounds like.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 4:</span> For each event in your sound design table, find a sound on freesound.org that matches. Write the <strong>name of the sound</strong> next to each event in your table.
+      <span class="result">Your table now has real sound names linked to each event.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 5:</span> Listen to at least <strong>5 different sounds</strong> before moving on. Try to find a good match for as many events as possible.
+      <span class="result">You have explored a variety of game sounds.</span>
+    </div>
+
+    <div class="help-box">freesound.org is a free website with thousands of sounds. You do NOT need to download anything &mdash; just listen! If a search doesn't give good results, try different words (e.g. instead of "player hurt" try "ouch" or "pain sound effect").</div>
+
+    <div class="stop-check">I have listened to at least 5 game sounds on freesound.org.</div>
+  </div>
+
+  <!-- ====== SECTION 4 ====== -->
+  <div class="section">
+    <h2><span class="num">4</span> Create a Sound Map in Canva</h2>
+
+    <p>A <strong>sound map</strong> shows WHERE sounds play on your game level. We'll add sound labels to your level design from L12.</p>
+
+    <div class="canva-step">
+      <span class="action">Step 1:</span> Open your <strong>L12 level design</strong> in Canva. If you want to keep the original clean, go to <strong>File</strong> &rarr; <strong>"Make a copy"</strong> first.
+      <span class="result">Your level design is open and ready to annotate.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 2:</span> Add text annotations showing where sounds play. Use <strong>Text</strong> &rarr; <strong>"Add a little bit of body text"</strong> and place labels at these locations:
+      <br>&bull; <strong>At the start:</strong> "BGM: Adventure music starts"
+      <br>&bull; <strong>At coin locations:</strong> "SFX: Ding!"
+      <br>&bull; <strong>At enemy locations:</strong> "SFX: Growl"
+      <br>&bull; <strong>At hazards:</strong> "SFX: Danger buzz"
+      <br>&bull; <strong>At the finish:</strong> "SFX: Victory fanfare!"
+      <span class="result">Sound labels appear on your level map.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 3:</span> Use different coloured text so it's easy to tell sound types apart:
+      <br>&bull; <strong style="color:var(--purple);">Purple text</strong> for BGM (background music)
+      <br>&bull; <strong style="color:var(--neon);">Green text</strong> for SFX (sound effects)
+      <span class="result">BGM and SFX labels are colour-coded.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 4:</span> Add small icons from <strong>Elements</strong> to represent sounds. Search for "speaker", "music note", "sound wave", or "megaphone". Place them near your sound labels.
+      <span class="result">Visual icons help identify sound locations at a glance.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 5:</span> Make sure you have at least <strong>5 sound locations</strong> marked on your level.
+      <span class="result">Your map clearly shows where different sounds play.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 6:</span> Rename your design: <strong>"L14 - Sound Map - [Your Name]"</strong>.
+      <span class="result">Saved with the correct name.</span>
+    </div>
+
+    <div class="stop-check">My sound map shows at least 5 sound locations on my level.</div>
+  </div>
+
+  <!-- ====== SECTION 5 ====== -->
+  <div class="section">
+    <h2><span class="num">5</span> Visual Effects Planning</h2>
+
+    <p>Visual effects (VFX) are the things you <strong>see</strong> that make a game feel exciting and alive. They use tiny images called <strong>particles</strong> that move and fade to create cool effects.</p>
+
+    <p style="margin-top:10px;">Here are some common visual effects in games:</p>
+
+    <div class="step"><input type="checkbox"><span><strong>Dust clouds</strong> when the player lands after a jump &mdash; little puffs of brown/grey that appear at the player's feet.</span></div>
+    <div class="step"><input type="checkbox"><span><strong>Sparkles</strong> when collecting a coin or gem &mdash; tiny bright dots that fly outward and fade away.</span></div>
+    <div class="step"><input type="checkbox"><span><strong>Smoke or fire</strong> from torches or lava &mdash; orange/red particles drifting upward.</span></div>
+    <div class="step"><input type="checkbox"><span><strong>Rain or snow</strong> in the background &mdash; many tiny particles falling from the top of the screen.</span></div>
+    <div class="step"><input type="checkbox"><span><strong>Explosions</strong> when an enemy is defeated &mdash; a burst of coloured particles expanding outward.</span></div>
+    <div class="step"><input type="checkbox"><span><strong>Trail effects</strong> behind a fast-moving character &mdash; fading copies or streaks following the player.</span></div>
+
+    <div class="gdd-field-ls">
+      <div class="label">My Visual Effects List</div>
+      <div class="hint">List 3 visual effects you would want in your game. Describe what the player would see.</div>
+      <div class="write-area">
+        1. &nbsp;<br><br>
+        2. &nbsp;<br><br>
+        3. &nbsp;
+      </div>
+    </div>
+
+    <div class="step"><input type="checkbox"><span><strong>Submit:</strong> Take screenshots of your <strong>sound design table</strong> and your <strong>sound map</strong> from Canva. Upload both to <strong>Google Classroom</strong>.</span></div>
+  </div>
+
+  <!-- ====== FOOTER ====== -->
+  <div class="footer">
+    <h2>Well Done!</h2>
+    <p>You planned all the sounds and effects for your game! Sound design is one of the most important parts of making a game feel professional.</p>
+    <p style="margin-top:10px;color:var(--muted);font-size:.9rem;">Submit: screenshots of your sound design table and sound map to Google Classroom.</p>
+  </div>
+
+  <!-- NAV BOTTOM -->
+  <div class="nav-links">
+    <a href="LS-L13-GameScreens.html">&larr; L13 Game Screens</a>
+    <a href="LS-L15-MenusAndFlow.html">L15 Menus &amp; Flow &rarr;</a>
+  </div>
+
+</div>
+</body>
+</html>

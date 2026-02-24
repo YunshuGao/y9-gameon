@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LS L13 — Game Screens | Game On</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:18px;line-height:1.8;}a{color:var(--blue);}
+.hero{text-align:center;padding:60px 20px 30px;}.hero h1{font-family:var(--font-head);font-size:2rem;color:var(--neon);margin-bottom:8px;}.hero .sub{color:var(--muted);font-size:1rem;margin-bottom:16px;}.hero .badges{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}.hero .badge{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.85rem;color:var(--muted);}.hero .badge b{color:var(--neon);}.ls-badge{display:inline-block;background:var(--amber);color:var(--navy);font-family:var(--font-head);font-weight:700;padding:6px 18px;border-radius:8px;font-size:.85rem;margin-top:14px;}
+.container{max-width:800px;margin:0 auto;padding:0 20px 60px;}
+.nav-links{display:flex;justify-content:space-between;margin:20px 0;font-size:.85rem;}.nav-links a{color:var(--blue);text-decoration:none;}.nav-links a:hover{text-decoration:underline;}
+.section{margin:30px 0;padding:24px;border:2px solid var(--border);border-radius:16px;background:var(--dark);}.section h2{font-family:var(--font-head);font-size:1.3rem;color:var(--neon);margin-bottom:16px;display:flex;align-items:center;gap:12px;}.section h2 .num{background:var(--neon);color:var(--navy);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.step{padding:14px 0;border-bottom:1px solid rgba(51,65,85,.5);font-size:1.05rem;display:flex;gap:12px;align-items:flex-start;}.step:last-child{border-bottom:none;}.step input[type="checkbox"]{width:24px;height:24px;accent-color:var(--neon);flex-shrink:0;margin-top:4px;cursor:pointer;}.step strong{color:var(--neon);}.step .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:2px 10px;font-size:.9rem;color:var(--amber);font-weight:700;}
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.3);border-radius:10px;}.vocab h4{font-family:var(--font-head);font-size:.85rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.95rem;}.vocab dt{color:var(--amber);font-weight:700;}.vocab dd{color:var(--muted);}
+.buddy{margin:14px 0;padding:14px 18px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.3);border-radius:10px;font-size:1rem;}.buddy::before{content:'BUDDY TIP: ';font-family:var(--font-head);color:var(--blue);font-weight:700;font-size:.85rem;}
+.stop-check{margin:16px 0;padding:16px 18px;background:rgba(74,222,128,.1);border:2px solid var(--neon);border-radius:10px;font-size:1.05rem;text-align:center;}.stop-check::before{content:'STOP AND CHECK ';font-family:var(--font-head);color:var(--neon);font-weight:700;font-size:.9rem;}
+.help-box{margin:14px 0;padding:14px 18px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);border-radius:10px;font-size:1rem;}.help-box::before{content:'NEED HELP? ';font-family:var(--font-head);color:var(--amber);font-weight:700;font-size:.85rem;}
+.canva-step{margin:10px 0;padding:12px 16px;background:rgba(74,222,128,.05);border-left:4px solid var(--neon);border-radius:0 8px 8px 0;font-size:1rem;}.canva-step .action{color:var(--neon);font-weight:700;}.canva-step .result{color:var(--muted);font-style:italic;font-size:.9rem;display:block;margin-top:4px;}
+.gdd-field-ls{margin:12px 0;padding:14px 18px;background:rgba(15,23,42,.5);border:2px solid var(--border);border-radius:10px;}.gdd-field-ls .label{font-family:var(--font-head);font-size:.9rem;color:var(--neon);font-weight:700;margin-bottom:6px;}.gdd-field-ls .hint{font-size:.95rem;color:var(--muted);font-style:italic;margin-bottom:8px;}.gdd-field-ls .write-area{background:rgba(15,23,42,.6);border:1px dashed var(--muted);border-radius:6px;padding:12px;min-height:50px;color:var(--muted);font-style:italic;font-size:.9rem;}
+.footer{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;text-align:center;}.footer h2{font-family:var(--font-head);font-size:1.1rem;color:var(--neon);margin-bottom:12px;}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;}body{font-size:14pt;}.hero h1{color:#111!important;}.section{break-inside:avoid;border:2px solid #333;}.canva-step{border-left:3px solid #333;}.nav-links{display:none;}}
+</style>
+</head>
+<body>
+
+<!-- ====== HERO ====== -->
+<div class="hero">
+  <h1>GAME SCREENS</h1>
+  <p class="sub">Design the screens players see &mdash; menus, HUD, and game over!</p>
+  <div class="badges">
+    <span class="badge"><b>T1 &mdash; L13</b></span>
+    <span class="badge"><b>~75 min</b></span>
+    <span class="badge"><b>Tool:</b> Canva</span>
+    <span class="badge"><b>Outcomes:</b> G5-1, G5-3, G5-5</span>
+  </div>
+  <span class="ls-badge">LEARNING SUPPORT</span>
+</div>
+
+<div class="container">
+
+  <!-- NAV -->
+  <div class="nav-links">
+    <a href="LS-L12-BuildYourWorld.html">&larr; L12 Build Your World</a>
+    <a href="LS-L14-SoundAndEffects.html">L14 Sound &amp; Effects &rarr;</a>
+  </div>
+
+  <!-- ====== SECTION 1 ====== -->
+  <div class="section">
+    <h2><span class="num">1</span> What Screens Does a Game Have?</h2>
+
+    <div class="vocab">
+      <h4>Key Vocabulary</h4>
+      <dl>
+        <dt>Screen / Scene</dt>
+        <dd>One page of a game &mdash; like a page in a book.</dd>
+        <dt>UI</dt>
+        <dd>User Interface &mdash; all the buttons, text, and info the player sees.</dd>
+        <dt>HUD</dt>
+        <dd>Heads-Up Display &mdash; score, lives, timer shown during gameplay.</dd>
+        <dt>Menu</dt>
+        <dd>A screen with buttons &mdash; like a restaurant menu but for a game.</dd>
+      </dl>
+    </div>
+
+    <p>Every game has multiple screens. Think about what happens when you open a game:</p>
+
+    <div class="step"><input type="checkbox"><span><strong>Title / Menu Screen</strong> &mdash; The first thing you see. It shows the game name, a "Play" button, and maybe a "Settings" button. This is the front door of your game.</span></div>
+    <div class="step"><input type="checkbox"><span><strong>Gameplay Screen</strong> &mdash; Where you actually play! This shows the HUD with your score, lives, and timer while the action happens.</span></div>
+    <div class="step"><input type="checkbox"><span><strong>Game Over Screen</strong> &mdash; Appears when you lose. It shows "Game Over", your final score, and a "Try Again" button.</span></div>
+    <div class="step"><input type="checkbox"><span><strong>Instructions / How to Play Screen</strong> &mdash; Explains the controls and rules so new players know what to do.</span></div>
+
+    <p style="margin-top:14px;">Think about real games you play: Mario has a title screen with world selection, Minecraft has a menu with "Singleplayer" and "Multiplayer" buttons, and mobile games often have flashy title screens with "TAP TO PLAY".</p>
+
+    <div class="buddy">Open a game on your phone or think of a game you play. How many different screens can you count before the actual gameplay starts? Share with your partner.</div>
+
+    <div class="stop-check">I can name 4 types of game screens.</div>
+  </div>
+
+  <!-- ====== SECTION 2 ====== -->
+  <div class="section">
+    <h2><span class="num">2</span> Design a Title Screen</h2>
+
+    <p>Your title screen is the first thing players see. It needs to look professional and exciting! Open Canva and follow these steps:</p>
+
+    <div class="canva-step">
+      <span class="action">Step 1:</span> Open Canva &rarr; Click <strong>"Create a design"</strong> &rarr; Choose <strong>"Custom size"</strong> &rarr; Type <strong>1920 x 1080 px</strong> &rarr; Click <strong>"Create new design"</strong>.
+      <span class="result">You now have a widescreen game-screen canvas.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 2:</span> Set a background that matches your game. Click the background &rarr; Choose a colour, or go to <strong>Elements</strong> and search for a background image (e.g. "fantasy landscape", "space background", "pixel forest").
+      <span class="result">Your canvas should have a colourful, themed background.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 3:</span> Add a LARGE heading with your game title. Click <strong>Text</strong> &rarr; <strong>"Add a heading"</strong> &rarr; Type your game name. Use <strong>Orbitron</strong> or another bold font. Make it BIG &mdash; at least <strong>80pt</strong>. Place it near the top or centre.
+      <span class="result">Your game title should be the biggest, most eye-catching thing on the screen.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 4:</span> Add a <strong>"PLAY"</strong> button. Go to <strong>Elements</strong> &rarr; search <strong>"button"</strong> or <strong>"rounded rectangle"</strong>. Place it in the centre of the screen. Add text on top that says <strong>"PLAY"</strong> in bold white text.
+      <span class="result">You should have a clear, clickable-looking Play button.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 5:</span> Add a smaller <strong>"How to Play"</strong> button below the Play button. Use the same style but make it smaller.
+      <span class="result">Two buttons visible: PLAY (big) and How to Play (smaller).</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 6:</span> Add a subtitle or tagline below the title (e.g. "An epic adventure awaits...", "Can you survive?", "Collect them all!"). Use a smaller font size and a lighter colour.
+      <span class="result">Your screen now has a title, tagline, and buttons.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 7 (Optional):</span> Add your character sprite from L04! Go to your L04 design &rarr; download your character as PNG &rarr; come back to this design &rarr; <strong>Uploads</strong> &rarr; upload the image &rarr; place it on the title screen.
+      <span class="result">Your main character appears on the title screen.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 8:</span> Make sure the title stands out. Use <strong>contrasting colours</strong> &mdash; light text on a dark background, or dark text on a light background. If the text is hard to read, add a dark rectangle behind it and lower the transparency.
+      <span class="result">Everything is easy to read and looks polished.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 9:</span> Rename your design: Click the title at the top of Canva &rarr; Type <strong>"L13 - Title Screen - [Your Name]"</strong>.
+      <span class="result">Your design is saved with the correct name.</span>
+    </div>
+
+    <div class="help-box">Can't find a good background? Try searching "dark gradient", "game background", or use a solid dark colour. Keep it simple &mdash; the title and buttons are the stars of this screen!</div>
+
+    <div class="stop-check">My title screen has the game name, a Play button, and looks like a real game menu.</div>
+  </div>
+
+  <!-- ====== SECTION 3 ====== -->
+  <div class="section">
+    <h2><span class="num">3</span> Design a Gameplay Screen (HUD)</h2>
+
+    <p>The gameplay screen is what players see while they are playing. The important thing here is the <strong>HUD</strong> &mdash; the information displayed on screen during gameplay. Create a new Canva design:</p>
+
+    <div class="canva-step">
+      <span class="action">Step 1:</span> Create another <strong>1920 x 1080 px</strong> design in Canva.
+      <span class="result">A fresh canvas ready for your gameplay screen.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 2:</span> Use your game world background from L05 as the base. Go to your L05 design &rarr; download it as PNG &rarr; come back here &rarr; <strong>Uploads</strong> &rarr; upload the image &rarr; stretch it to fill the whole canvas. If you don't have L05, recreate a simple version of your game world.
+      <span class="result">Your gameplay screen shows the game world.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 3:</span> Add HUD elements in the corners. Go to <strong>Text</strong> and add these:
+      <br>&bull; <strong>Top-left:</strong> "Score: 0" (white text, medium size ~24pt)
+      <br>&bull; <strong>Top-right:</strong> Search "heart" in Elements, add 3 heart icons + "Lives: 3" text
+      <br>&bull; <strong>Top-centre (optional):</strong> "Time: 60" for a timer
+      <br>&bull; <strong>Bottom-centre (optional):</strong> A small level name like "Level 1 - The Forest"
+      <span class="result">HUD info appears around the edges of the screen.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 4:</span> Make the HUD text easy to read. Select your HUD text &rarr; make it <strong>white</strong> &rarr; add a slight shadow (click Effects &rarr; Shadow). OR place a small dark semi-transparent rectangle behind each text block.
+      <span class="result">HUD text is clearly readable over the game world.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 5:</span> <strong>DO NOT</strong> cover the middle of the screen! The centre is where the gameplay happens. Keep all HUD elements in the corners and edges only.
+      <span class="result">The centre of the screen is clear for gameplay.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 6:</span> Rename your design: <strong>"L13 - Gameplay Screen - [Your Name]"</strong>.
+      <span class="result">Saved with the correct name.</span>
+    </div>
+
+    <div class="stop-check">My gameplay screen shows score, lives, and doesn't block the play area.</div>
+  </div>
+
+  <!-- ====== SECTION 4 ====== -->
+  <div class="section">
+    <h2><span class="num">4</span> Design a Game Over Screen</h2>
+
+    <p>The Game Over screen appears when the player loses. It should feel dramatic! Create one more Canva design:</p>
+
+    <div class="canva-step">
+      <span class="action">Step 1:</span> Create another <strong>1920 x 1080 px</strong> design in Canva.
+      <span class="result">A fresh canvas for your Game Over screen.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 2:</span> Use a dark or dramatic background. Click the background &rarr; choose a <strong>dark red</strong>, <strong>dark grey</strong>, or <strong>black</strong> colour. Or search Elements for "dark background" or "dramatic".
+      <span class="result">A moody, dramatic background is set.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 3:</span> Add large <strong>"GAME OVER"</strong> text in the centre. Use <strong>red</strong> or <strong>white</strong> colour, a bold font (Orbitron works great), and make it very big &mdash; <strong>100pt or larger</strong>.
+      <span class="result">GAME OVER dominates the screen.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 4:</span> Add <strong>"Final Score: ___"</strong> text below the GAME OVER text. Use a smaller size (~36pt), white or light grey colour.
+      <span class="result">The player can see their score.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 5:</span> Add a <strong>"TRY AGAIN"</strong> button. Use a rounded rectangle (green or blue works well) with "TRY AGAIN" text on top, placed below the score.
+      <span class="result">Players have a way to restart.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 6:</span> Add a <strong>"MAIN MENU"</strong> button below the Try Again button. Make it slightly smaller or a different colour so players can tell the two buttons apart.
+      <span class="result">Two buttons: TRY AGAIN and MAIN MENU.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 7 (Optional):</span> Add a sad version of your character, a skull icon, or a dramatic image from Elements (search "game over", "skull", "explosion").
+      <span class="result">Extra visual drama on the screen.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 8:</span> Rename your design: <strong>"L13 - Game Over Screen - [Your Name]"</strong>.
+      <span class="result">Saved with the correct name.</span>
+    </div>
+
+    <div class="stop-check">My Game Over screen has the words GAME OVER, a final score, and at least one button.</div>
+  </div>
+
+  <!-- ====== SECTION 5 ====== -->
+  <div class="section">
+    <h2><span class="num">5</span> Save All 3 Screens</h2>
+
+    <div class="step"><input type="checkbox"><span><strong>Check:</strong> You should now have <strong>3 designs</strong> saved in Canva:<br>
+      1. L13 - Title Screen - [Your Name]<br>
+      2. L13 - Gameplay Screen - [Your Name]<br>
+      3. L13 - Game Over Screen - [Your Name]</span></div>
+
+    <div class="step"><input type="checkbox"><span><strong>Remember:</strong> All your Canva designs are saved automatically. These 3 screens will be part of your portfolio later in the term &mdash; make sure they look polished!</span></div>
+
+    <div class="step"><input type="checkbox"><span><strong>Submit:</strong> Take a screenshot of each screen and submit all 3 screenshots to <strong>Google Classroom</strong>.</span></div>
+
+    <div class="help-box">To screenshot in Canva: click <strong>Share</strong> &rarr; <strong>Download</strong> &rarr; choose <strong>PNG</strong> &rarr; click <strong>Download</strong>. Then upload the PNG files to Google Classroom.</div>
+  </div>
+
+  <!-- ====== FOOTER ====== -->
+  <div class="footer">
+    <h2>Well Done!</h2>
+    <p>You designed 3 professional game screens &mdash; a title screen, gameplay HUD, and game over screen! These are essential for any game.</p>
+  </div>
+
+  <!-- NAV BOTTOM -->
+  <div class="nav-links">
+    <a href="LS-L12-BuildYourWorld.html">&larr; L12 Build Your World</a>
+    <a href="LS-L14-SoundAndEffects.html">L14 Sound &amp; Effects &rarr;</a>
+  </div>
+
+</div>
+</body>
+</html>

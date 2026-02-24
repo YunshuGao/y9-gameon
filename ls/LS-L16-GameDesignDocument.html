@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LS L16 — Game Design Document | Game On</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:18px;line-height:1.8;}a{color:var(--blue);}
+.hero{text-align:center;padding:60px 20px 30px;}.hero h1{font-family:var(--font-head);font-size:2rem;color:var(--neon);margin-bottom:8px;}.hero .sub{color:var(--muted);font-size:1rem;margin-bottom:16px;}.hero .badges{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}.hero .badge{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.85rem;color:var(--muted);}.hero .badge b{color:var(--neon);}.ls-badge{display:inline-block;background:var(--amber);color:var(--navy);font-family:var(--font-head);font-weight:700;padding:6px 18px;border-radius:8px;font-size:.85rem;margin-top:14px;}
+.container{max-width:800px;margin:0 auto;padding:0 20px 60px;}
+.nav-links{display:flex;justify-content:space-between;margin:20px 0;font-size:.85rem;}.nav-links a{color:var(--blue);text-decoration:none;}.nav-links a:hover{text-decoration:underline;}
+.section{margin:30px 0;padding:24px;border:2px solid var(--border);border-radius:16px;background:var(--dark);}.section h2{font-family:var(--font-head);font-size:1.3rem;color:var(--neon);margin-bottom:16px;display:flex;align-items:center;gap:12px;}.section h2 .num{background:var(--neon);color:var(--navy);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.step{padding:14px 0;border-bottom:1px solid rgba(51,65,85,.5);font-size:1.05rem;display:flex;gap:12px;align-items:flex-start;}.step:last-child{border-bottom:none;}.step input[type="checkbox"]{width:24px;height:24px;accent-color:var(--neon);flex-shrink:0;margin-top:4px;cursor:pointer;}.step strong{color:var(--neon);}.step .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:2px 10px;font-size:.9rem;color:var(--amber);font-weight:700;}
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.3);border-radius:10px;}.vocab h4{font-family:var(--font-head);font-size:.85rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.95rem;}.vocab dt{color:var(--amber);font-weight:700;}.vocab dd{color:var(--muted);}
+.buddy{margin:14px 0;padding:14px 18px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.3);border-radius:10px;font-size:1rem;}.buddy::before{content:'BUDDY TIP: ';font-family:var(--font-head);color:var(--blue);font-weight:700;font-size:.85rem;}
+.stop-check{margin:16px 0;padding:16px 18px;background:rgba(74,222,128,.1);border:2px solid var(--neon);border-radius:10px;font-size:1.05rem;text-align:center;}.stop-check::before{content:'STOP AND CHECK ';font-family:var(--font-head);color:var(--neon);font-weight:700;font-size:.9rem;}
+.help-box{margin:14px 0;padding:14px 18px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);border-radius:10px;font-size:1rem;}.help-box::before{content:'NEED HELP? ';font-family:var(--font-head);color:var(--amber);font-weight:700;font-size:.85rem;}
+.canva-step{margin:10px 0;padding:12px 16px;background:rgba(74,222,128,.05);border-left:4px solid var(--neon);border-radius:0 8px 8px 0;font-size:1rem;}.canva-step .action{color:var(--neon);font-weight:700;}.canva-step .result{color:var(--muted);font-style:italic;font-size:.9rem;display:block;margin-top:4px;}
+.gdd-field-ls{margin:12px 0;padding:14px 18px;background:rgba(15,23,42,.5);border:2px solid var(--border);border-radius:10px;}.gdd-field-ls .label{font-family:var(--font-head);font-size:.9rem;color:var(--neon);font-weight:700;margin-bottom:6px;}.gdd-field-ls .hint{font-size:.95rem;color:var(--muted);font-style:italic;margin-bottom:8px;}.gdd-field-ls .write-area{background:rgba(15,23,42,.6);border:1px dashed var(--muted);border-radius:6px;padding:12px;min-height:50px;color:var(--muted);font-style:italic;font-size:.9rem;}
+.assessment-notice{margin:20px 0;padding:18px;background:rgba(251,191,36,.12);border:2px solid var(--amber);border-radius:12px;text-align:center;font-size:1.05rem;}.assessment-notice::before{content:'ASSESSMENT TASK ';font-family:var(--font-head);color:var(--amber);font-weight:700;font-size:.9rem;display:block;margin-bottom:6px;}
+.footer{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;text-align:center;}.footer h2{font-family:var(--font-head);font-size:1.1rem;color:var(--neon);margin-bottom:12px;}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;}body{font-size:14pt;}.hero h1{color:#111!important;}.section{break-inside:avoid;border:2px solid #333;}.canva-step{border-left:3px solid #333;}.nav-links{display:none;}}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>GAME DESIGN DOCUMENT</h1>
+  <p class="sub">Put everything together into your official Game Design Document!</p>
+  <div class="badges">
+    <span class="badge"><b>T1 &mdash; L16</b></span>
+    <span class="badge"><b>~75 min</b></span>
+    <span class="badge"><b>Canva / Google Slides</b></span>
+    <span class="badge"><b>G5-1, G5-3, G5-5</b></span>
+    <span class="badge" style="border-color:var(--amber);color:var(--amber);"><b>ASSESSMENT TASK</b></span>
+  </div>
+  <span class="ls-badge">LEARNING SUPPORT</span>
+</div>
+
+<div class="container">
+
+  <!-- NAV -->
+  <div class="nav-links">
+    <a href="LS-L15-MenusAndFlow.html">&larr; L15 Menus &amp; Game Flow</a>
+    <a href="LS-L17-Sprint1.html">L17 Sprint 1 &rarr;</a>
+  </div>
+
+  <!-- ASSESSMENT NOTICE -->
+  <div class="assessment-notice">
+    This is your formal Assessment Task. Complete ALL 8 sections to the best of your ability. Submit via Google Classroom by the deadline on your assessment notification.
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2><span class="num">1</span> What Is a GDD?</h2>
+
+    <div class="vocab">
+      <h4>Key Vocabulary</h4>
+      <dl>
+        <dt>GDD</dt>
+        <dd>Game Design Document &mdash; a written plan that describes every part of a game.</dd>
+        <dt>Portfolio</dt>
+        <dd>A collection of your best work &mdash; like a folder of your designs.</dd>
+      </dl>
+    </div>
+
+    <p>A GDD is what <strong>EVERY game studio</strong> writes before making a game. It is a plan.</p>
+    <p style="margin-top:10px;">You have been building pieces of your GDD all term! Today you put it <strong>ALL together</strong>.</p>
+    <p style="margin-top:10px;">Your GDD will have <strong>8 sections</strong>, and you already have most of them done from previous lessons.</p>
+
+    <div class="stop-check">I understand that a GDD is a written plan for my game, and I need to complete all 8 sections.</div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2><span class="num">2</span> Create Your GDD in Canva</h2>
+
+    <p>Open Canva and create a <strong>PRESENTATION</strong> (not a poster). A presentation gives you multiple pages &mdash; one page per section.</p>
+
+    <div class="canva-step">
+      <span class="action">Click Create a design &rarr; Presentation (16:9)</span>
+      <span class="result">This gives you multiple pages &mdash; one page per section of your GDD.</span>
+    </div>
+    <div class="canva-step">
+      <span class="action">Name it: "GDD - [Your Game Title] - [Your Name]"</span>
+      <span class="result">Click on the title at the top of the page to rename your design.</span>
+    </div>
+
+    <div class="help-box">If you prefer, you can use Google Slides instead. Create a new presentation and name it the same way.</div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2><span class="num">3</span> Section 1: Cover Page</h2>
+
+    <p>Page 1 of your presentation is the <strong>Cover Page</strong>. Make it look professional and exciting!</p>
+
+    <div class="step"><input type="checkbox"><span>Add your <strong>game title</strong> &mdash; BIG, at the top.</span></div>
+    <div class="step"><input type="checkbox"><span>Add your <strong>name</strong> and <strong>class</strong> (9GAMZA).</span></div>
+    <div class="step"><input type="checkbox"><span>Add a picture of your <strong>hero character</strong> (from L04).</span></div>
+    <div class="step"><input type="checkbox"><span>Add the <strong>date</strong>.</span></div>
+    <div class="step"><input type="checkbox"><span>Make it look <strong>professional and exciting</strong> &mdash; this is the first impression!</span></div>
+
+    <div class="stop-check">My cover page has my game title, name, class, hero character, and date.</div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section">
+    <h2><span class="num">4</span> Section 2: Game Overview</h2>
+
+    <p>Page 2 of your presentation. Fill in each field below, then type it into your GDD page.</p>
+
+    <div class="gdd-field-ls">
+      <div class="label">Game Title</div>
+      <div class="hint">What is your game called?</div>
+      <div class="write-area">Write your game title here...</div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">Genre</div>
+      <div class="hint">Platformer, Puzzle, Adventure, etc.</div>
+      <div class="write-area">Write your game genre here...</div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">What Is Your Game About?</div>
+      <div class="hint">Write 2&ndash;3 sentences describing your game.</div>
+      <div class="write-area">Describe your game here...</div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">Target Audience</div>
+      <div class="hint">Who is your game for? What age group? What kind of player?</div>
+      <div class="write-area">Describe your target audience here...</div>
+    </div>
+
+    <div class="buddy">You already wrote this in L09! Open your L09 work and copy your answers here.</div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section">
+    <h2><span class="num">5</span> Section 3: How the Game Works</h2>
+
+    <p>Page 3 of your presentation. Explain the gameplay mechanics.</p>
+
+    <div class="gdd-field-ls">
+      <div class="label">Core Mechanic</div>
+      <div class="hint">The main thing the player does &mdash; e.g. "jump and collect", "solve puzzles", "avoid obstacles".</div>
+      <div class="write-area">Write your core mechanic here...</div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">Player Actions (list 3&ndash;5)</div>
+      <div class="hint">e.g. run, jump, collect coins, avoid enemies, use power-ups.</div>
+      <div class="write-area">1. &#10;2. &#10;3. &#10;4. &#10;5. </div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">Controls</div>
+      <div class="hint">What keys do what? e.g. Arrow keys = move, Space = jump.</div>
+      <div class="write-area">Write your controls here...</div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">How Do You Win?</div>
+      <div class="hint">What does the player need to do to win the game?</div>
+      <div class="write-area">Write your win condition here...</div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">How Do You Lose?</div>
+      <div class="hint">What causes the player to lose? e.g. run out of lives, time runs out.</div>
+      <div class="write-area">Write your lose condition here...</div>
+    </div>
+  </div>
+
+  <!-- SECTION 6 -->
+  <div class="section">
+    <h2><span class="num">6</span> Section 4: Characters</h2>
+
+    <p>Page 4 of your presentation. Show off your game characters!</p>
+
+    <div class="step"><input type="checkbox"><span>Paste/include your <strong>hero sprite</strong> from L04.</span></div>
+    <div class="step"><input type="checkbox"><span>Paste/include your <strong>enemy sprite</strong> from L04.</span></div>
+    <div class="step"><input type="checkbox"><span>Paste/include your <strong>collectible sprite</strong> from L04.</span></div>
+    <div class="step"><input type="checkbox"><span>Write <strong>1 sentence about each character</strong> &mdash; who are they? What do they do?</span></div>
+
+    <div class="help-box">Open your L04 Canva designs. Click <strong>Share &rarr; Download &rarr; PNG</strong>. Then in your GDD, click <strong>Uploads &rarr; Upload files</strong> and add them.</div>
+  </div>
+
+  <!-- SECTION 7 -->
+  <div class="section">
+    <h2><span class="num">7</span> Section 5: Game World &amp; Level</h2>
+
+    <p>Page 5 of your presentation. Show your game environment and level layout.</p>
+
+    <div class="step"><input type="checkbox"><span>Paste your <strong>game world background</strong> from L05.</span></div>
+    <div class="step"><input type="checkbox"><span>Paste your <strong>complete level design</strong> from L12.</span></div>
+    <div class="step"><input type="checkbox"><span>Write <strong>1 sentence</strong> describing the world.</span></div>
+    <div class="step"><input type="checkbox"><span>Write <strong>1 sentence</strong> describing the level.</span></div>
+  </div>
+
+  <!-- SECTION 8 -->
+  <div class="section">
+    <h2><span class="num">8</span> Section 6: Game Screens</h2>
+
+    <p>Page 6 of your presentation. Show all the screens a player sees.</p>
+
+    <div class="step"><input type="checkbox"><span>Paste your <strong>Title Screen</strong> from L13.</span></div>
+    <div class="step"><input type="checkbox"><span>Paste your <strong>Gameplay / HUD Screen</strong> from L13.</span></div>
+    <div class="step"><input type="checkbox"><span>Paste your <strong>Game Over Screen</strong> from L13.</span></div>
+    <div class="step"><input type="checkbox"><span>Paste your <strong>How to Play Screen</strong> from L15.</span></div>
+    <div class="step"><input type="checkbox"><span>Paste your <strong>Game Flow Diagram</strong> from L15.</span></div>
+
+    <div class="help-box">Download each screen as a PNG from Canva (Share &rarr; Download &rarr; PNG), then upload them into your GDD presentation.</div>
+  </div>
+
+  <!-- SECTION 9 -->
+  <div class="section">
+    <h2><span class="num">9</span> Section 7: Sound Plan</h2>
+
+    <p>Page 7 of your presentation. Show your sound design work.</p>
+
+    <div class="step"><input type="checkbox"><span>Paste or recreate your <strong>sound design table</strong> from L14.</span></div>
+    <div class="step"><input type="checkbox"><span>Paste your <strong>sound map</strong> from L14.</span></div>
+
+    <div class="help-box">If you didn't finish L14, create a simple table now: list 4&ndash;5 sounds your game needs (e.g. jump, coin collect, enemy hit, background music, game over) and describe what each sounds like.</div>
+  </div>
+
+  <!-- SECTION 10 -->
+  <div class="section">
+    <h2><span class="num">10</span> Section 8: My Journey</h2>
+
+    <p>Page 8 &mdash; the final page of your presentation. Reflect on your work this term.</p>
+
+    <div class="gdd-field-ls">
+      <div class="label">What am I most proud of in this project?</div>
+      <div class="hint">Think about your favourite design, your best screen, or something you worked really hard on.</div>
+      <div class="write-area">Write your answer here...</div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">What was the hardest part?</div>
+      <div class="hint">What did you find the most challenging? What took the longest?</div>
+      <div class="write-area">Write your answer here...</div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">If I could add one more thing to my game, what would it be?</div>
+      <div class="hint">Think about a feature, character, level, or effect you wish you had time to add.</div>
+      <div class="write-area">Write your answer here...</div>
+    </div>
+  </div>
+
+  <!-- SECTION 11 -->
+  <div class="section">
+    <h2><span class="num">11</span> Submit Your GDD</h2>
+
+    <div class="step"><input type="checkbox"><span><strong>Review all 8 pages</strong> &mdash; go through your presentation from start to finish.</span></div>
+    <div class="step"><input type="checkbox"><span>Make sure <strong>every page has content</strong> &mdash; no blank pages!</span></div>
+    <div class="step"><input type="checkbox"><span>Click <strong>Share &rarr; Download &rarr; PDF Standard</strong> to save a copy of your GDD.</span></div>
+    <div class="step"><input type="checkbox"><span><strong>Submit to Google Classroom</strong> by the deadline.</span></div>
+
+    <div class="buddy">Swap with a partner. Give each other <strong>2 things you like</strong> and <strong>1 suggestion</strong> for improvement.</div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <h2>Well Done!</h2>
+    <p>You have completed your <strong>Game Design Document</strong>! This is a major achievement. You planned a complete game from start to finish &mdash; characters, world, levels, screens, sounds, and flow. Professional game designers do exactly this.</p>
+  </div>
+
+  <!-- NAV BOTTOM -->
+  <div class="nav-links">
+    <a href="LS-L15-MenusAndFlow.html">&larr; L15 Menus &amp; Game Flow</a>
+    <a href="LS-L17-Sprint1.html">L17 Sprint 1 &rarr;</a>
+  </div>
+
+</div>
+</body>
+</html>

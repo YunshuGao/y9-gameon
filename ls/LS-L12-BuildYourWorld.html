@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LS L12 — Build Your World</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:18px;line-height:1.8;}a{color:var(--blue);}
+.hero{text-align:center;padding:60px 20px 30px;}.hero h1{font-family:var(--font-head);font-size:2rem;color:var(--neon);margin-bottom:8px;}.hero .sub{color:var(--muted);font-size:1rem;margin-bottom:16px;}.hero .badges{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}.hero .badge{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.85rem;color:var(--muted);}.hero .badge b{color:var(--neon);}.ls-badge{display:inline-block;background:var(--amber);color:var(--navy);font-family:var(--font-head);font-weight:700;padding:6px 18px;border-radius:8px;font-size:.85rem;margin-top:14px;}
+.container{max-width:800px;margin:0 auto;padding:0 20px 60px;}
+.nav-links{display:flex;justify-content:space-between;margin:20px 0;font-size:.85rem;}.nav-links a{color:var(--blue);text-decoration:none;}.nav-links a:hover{text-decoration:underline;}
+.section{margin:30px 0;padding:24px;border:2px solid var(--border);border-radius:16px;background:var(--dark);}.section h2{font-family:var(--font-head);font-size:1.3rem;color:var(--neon);margin-bottom:16px;display:flex;align-items:center;gap:12px;}.section h2 .num{background:var(--neon);color:var(--navy);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.step{padding:14px 0;border-bottom:1px solid rgba(51,65,85,.5);font-size:1.05rem;display:flex;gap:12px;align-items:flex-start;}.step:last-child{border-bottom:none;}.step input[type="checkbox"]{width:24px;height:24px;accent-color:var(--neon);flex-shrink:0;margin-top:4px;cursor:pointer;}.step strong{color:var(--neon);}.step .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:2px 10px;font-size:.9rem;color:var(--amber);font-weight:700;}
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.3);border-radius:10px;}.vocab h4{font-family:var(--font-head);font-size:.85rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.95rem;}.vocab dt{color:var(--amber);font-weight:700;}.vocab dd{color:var(--muted);}
+.buddy{margin:14px 0;padding:14px 18px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.3);border-radius:10px;font-size:1rem;}.buddy::before{content:'BUDDY TIP: ';font-family:var(--font-head);color:var(--blue);font-weight:700;font-size:.85rem;}
+.stop-check{margin:16px 0;padding:16px 18px;background:rgba(74,222,128,.1);border:2px solid var(--neon);border-radius:10px;font-size:1.05rem;text-align:center;}.stop-check::before{content:'STOP AND CHECK ';font-family:var(--font-head);color:var(--neon);font-weight:700;font-size:.9rem;}
+.help-box{margin:14px 0;padding:14px 18px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);border-radius:10px;font-size:1rem;}.help-box::before{content:'NEED HELP? ';font-family:var(--font-head);color:var(--amber);font-weight:700;font-size:.85rem;}
+.canva-step{margin:10px 0;padding:12px 16px;background:rgba(74,222,128,.05);border-left:4px solid var(--neon);border-radius:0 8px 8px 0;font-size:1rem;}.canva-step .action{color:var(--neon);font-weight:700;}.canva-step .result{color:var(--muted);font-style:italic;font-size:.9rem;display:block;margin-top:4px;}
+.gdd-field-ls{margin:12px 0;padding:14px 18px;background:rgba(15,23,42,.5);border:2px solid var(--border);border-radius:10px;}.gdd-field-ls .label{font-family:var(--font-head);font-size:.9rem;color:var(--neon);font-weight:700;margin-bottom:6px;}.gdd-field-ls .hint{font-size:.95rem;color:var(--muted);font-style:italic;margin-bottom:8px;}.gdd-field-ls .write-area{background:rgba(15,23,42,.6);border:1px dashed var(--muted);border-radius:6px;padding:12px;min-height:50px;color:var(--muted);font-style:italic;font-size:.9rem;}
+.footer{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;text-align:center;}.footer h2{font-family:var(--font-head);font-size:1.1rem;color:var(--neon);margin-bottom:12px;}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;}body{font-size:14pt;}.hero h1{color:#111!important;}.section{break-inside:avoid;border:2px solid #333;}.canva-step{border-left:3px solid #333;}.nav-links{display:none;}}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>BUILD YOUR WORLD</h1>
+  <p class="sub">Design a complete game level using a grid &mdash; like building with LEGO bricks!</p>
+  <div class="badges">
+    <span class="badge"><b>T1 &mdash; L12</b></span>
+    <span class="badge"><b>~75 min</b></span>
+    <span class="badge"><b>Canva</b></span>
+    <span class="badge"><b>G5-1, G5-2, G5-3</b></span>
+  </div>
+  <span class="ls-badge">LEARNING SUPPORT WORKSHEET</span>
+</div>
+
+<div class="container">
+
+  <!-- NAV -->
+  <div class="nav-links">
+    <a href="LS-L11-Animation.html">&larr; Previous Lesson</a>
+    <a href="LS-L13-GameScreens.html">Next Lesson &rarr;</a>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2><span class="num">1</span> What Is a Tile?</h2>
+
+    <div class="vocab">
+      <h4>Key Vocabulary</h4>
+      <dl>
+        <dt>Tile</dt>
+        <dd>A small square image that repeats to build a world &mdash; like a LEGO brick</dd>
+        <dt>Tilemap</dt>
+        <dd>A grid where you place tiles to create a level &mdash; like a LEGO baseplate</dd>
+        <dt>Grid</dt>
+        <dd>Rows and columns of squares, like graph paper</dd>
+        <dt>Level Design</dt>
+        <dd>The art of planning where platforms, enemies, and items go in a game</dd>
+      </dl>
+    </div>
+
+    <div class="step"><input type="checkbox"><span>Game levels are built on a <strong>grid</strong>, like graph paper. Each square = one tile.</span></div>
+
+    <div class="step"><input type="checkbox"><span>Tiles can be: <strong>ground</strong>, <strong>platform</strong>, <strong>empty (air)</strong>, <strong>wall</strong>, <strong>water</strong>, <strong>lava</strong>.</span></div>
+
+    <div class="step"><input type="checkbox"><span>By filling in the grid with different tiles, you create a complete level!</span></div>
+
+    <div class="step"><input type="checkbox"><span>Example: <strong>Minecraft</strong> is ALL tiles (blocks). <strong>Mario</strong> levels are built on a grid too.</span></div>
+
+    <div class="buddy">Think of a game level. Can you see the grid? Most games hide it well!</div>
+
+    <div class="stop-check">I understand that game levels are built on a grid using tiles.</div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2><span class="num">2</span> Plan Your Level on Paper</h2>
+
+    <p style="margin-bottom:12px;">Draw a grid on paper (or use a provided grid) and plan your level:</p>
+
+    <div class="step"><input type="checkbox"><span>Draw a <strong>16-column &times; 9-row grid</strong> (widescreen game ratio).</span></div>
+
+    <div class="step"><input type="checkbox"><span>Create a <strong>key/legend</strong>: G = Ground, P = Platform, E = Empty (air), S = Start, F = Finish, C = Coin, X = Enemy, H = Hazard.</span></div>
+
+    <div class="step"><input type="checkbox"><span><strong>Bottom 2 rows</strong> = mostly Ground.</span></div>
+
+    <div class="step"><input type="checkbox"><span>Scatter some <strong>platforms</strong> above the ground.</span></div>
+
+    <div class="step"><input type="checkbox"><span><strong>Start</strong> on the left, <strong>Finish</strong> on the right.</span></div>
+
+    <div class="step"><input type="checkbox"><span>Place <strong>coins</strong> along the path for the player to collect.</span></div>
+
+    <div class="step"><input type="checkbox"><span>Add <strong>enemies</strong> in tricky spots.</span></div>
+
+    <div class="step"><input type="checkbox"><span>Maybe add a <strong>gap</strong> (hazard) the player must jump over.</span></div>
+
+    <div class="gdd-field-ls">
+      <div class="label">My Grid Key / Legend</div>
+      <div class="hint">Write your symbols and what they mean (e.g. G = Ground, P = Platform ...)</div>
+      <div class="write-area">Write your key here...</div>
+    </div>
+
+    <div class="buddy">Show your grid to your partner. Can they trace a path from Start to Finish?</div>
+
+    <div class="stop-check">I have a grid level with a start, finish, platforms, and at least 3 game pieces.</div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2><span class="num">3</span> Build Your Level in Canva</h2>
+
+    <p style="margin-bottom:12px;">Open Canva and create a <strong>1920 &times; 1080</strong> design to build your level digitally:</p>
+
+    <div class="canva-step">
+      <span class="action">Create a custom design &mdash; 1920 x 1080 px</span>
+      <span class="result">This is standard widescreen game resolution.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Click Elements &gt; search "grid" or "table" &mdash; OR manually create grid lines.</span>
+      <span class="result">Alternative (easier): Use the background from L05 and build on top of it.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Use coloured rectangles for ground tiles (brown/green) and platform tiles (grey/stone).</span>
+      <span class="result">Drag and resize rectangles to fill the grid squares.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Copy your game pieces from L10 into this design.</span>
+      <span class="result">Download them as PNG from your L10 Canva project, then upload here.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Place coins along the player path.</span>
+      <span class="result">Coins guide the player and reward exploration.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Place enemies in strategic spots.</span>
+      <span class="result">Put them where the player needs to be careful!</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Mark the Start position (add text "START" with an arrow) and Finish position ("FINISH" with a flag).</span>
+      <span class="result">The player needs to know where to go.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Draw arrows showing the player's intended path through the level.</span>
+      <span class="result">Use Elements &gt; Lines &gt; Arrows to show the route.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Add labels/annotations: "Jump here!", "Watch out for enemy!", "Collect all coins!"</span>
+      <span class="result">These help explain your level design to others.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Rename your design: "L12 - Complete Level - [Your Name]"</span>
+      <span class="result">This keeps your work organised.</span>
+    </div>
+
+    <div class="help-box">Raise your hand or ask your buddy. Check that your level has ground, platforms, game pieces, a start, and a finish.</div>
+
+    <div class="stop-check">My level has ground, platforms, game pieces, a start, a finish, and path arrows.</div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section">
+    <h2><span class="num">4</span> Level Design Tips</h2>
+
+    <p style="margin-bottom:12px;">Professional level designers follow these rules:</p>
+
+    <div class="step"><input type="checkbox"><span><strong>Start easy, get harder</strong> &mdash; first few jumps are short, later jumps are longer.</span></div>
+
+    <div class="step"><input type="checkbox"><span><strong>Put collectibles on the path</strong> to guide the player where to go.</span></div>
+
+    <div class="step"><input type="checkbox"><span><strong>Put enemies near hard sections</strong> (but not right at the start!).</span></div>
+
+    <div class="step"><input type="checkbox"><span><strong>Make sure every jump is possible</strong> &mdash; test it in your mind.</span></div>
+
+    <div class="step"><input type="checkbox"><span><strong>Add visual landmarks</strong> so the player knows where they are.</span></div>
+
+    <div class="gdd-field-ls">
+      <div class="label">What is the hardest part of your level? Why?</div>
+      <div class="hint">Think about what makes it challenging for the player.</div>
+      <div class="write-area">Write your answer here...</div>
+    </div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section">
+    <h2><span class="num">5</span> Save Your Work</h2>
+
+    <div class="step"><input type="checkbox"><span><strong>Save</strong> your Canva design (it auto-saves, but double-check).</span></div>
+
+    <div class="step"><input type="checkbox"><span><strong>Take a screenshot</strong> of your completed level design.</span></div>
+
+    <div class="step"><input type="checkbox"><span><strong>Submit</strong> your screenshot to Google Classroom.</span></div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <h2>Well Done!</h2>
+    <p>You designed a complete game level with tiles, platforms, enemies, and collectibles! This is real level design &mdash; the same process professional designers use.</p>
+  </div>
+
+  <!-- NAV BOTTOM -->
+  <div class="nav-links">
+    <a href="LS-L11-Animation.html">&larr; Previous Lesson</a>
+    <a href="LS-L13-GameScreens.html">Next Lesson &rarr;</a>
+  </div>
+
+</div>
+</body>
+</html>

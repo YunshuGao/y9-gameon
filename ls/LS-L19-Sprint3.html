@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LS L19 — Sprint 3: Screens</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:18px;line-height:1.8;}a{color:var(--blue);}
+.hero{text-align:center;padding:60px 20px 30px;}.hero h1{font-family:var(--font-head);font-size:2rem;color:var(--neon);margin-bottom:8px;}.hero .sub{color:var(--muted);font-size:1rem;margin-bottom:16px;}.hero .badges{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}.hero .badge{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.85rem;color:var(--muted);}.hero .badge b{color:var(--neon);}.ls-badge{display:inline-block;background:var(--amber);color:var(--navy);font-family:var(--font-head);font-weight:700;padding:6px 18px;border-radius:8px;font-size:.85rem;margin-top:14px;}
+.container{max-width:800px;margin:0 auto;padding:0 20px 60px;}
+.nav-links{display:flex;justify-content:space-between;margin:20px 0;font-size:.85rem;}.nav-links a{color:var(--blue);text-decoration:none;}.nav-links a:hover{text-decoration:underline;}
+.section{margin:30px 0;padding:24px;border:2px solid var(--border);border-radius:16px;background:var(--dark);}.section h2{font-family:var(--font-head);font-size:1.3rem;color:var(--neon);margin-bottom:16px;display:flex;align-items:center;gap:12px;}.section h2 .num{background:var(--neon);color:var(--navy);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.step{padding:14px 0;border-bottom:1px solid rgba(51,65,85,.5);font-size:1.05rem;display:flex;gap:12px;align-items:flex-start;}.step:last-child{border-bottom:none;}.step input[type="checkbox"]{width:24px;height:24px;accent-color:var(--neon);flex-shrink:0;margin-top:4px;cursor:pointer;}.step strong{color:var(--neon);}.step .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:2px 10px;font-size:.9rem;color:var(--amber);font-weight:700;}
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.3);border-radius:10px;}.vocab h4{font-family:var(--font-head);font-size:.85rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.95rem;}.vocab dt{color:var(--amber);font-weight:700;}.vocab dd{color:var(--muted);}
+.buddy{margin:14px 0;padding:14px 18px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.3);border-radius:10px;font-size:1rem;}.buddy::before{content:'BUDDY TIP: ';font-family:var(--font-head);color:var(--blue);font-weight:700;font-size:.85rem;}
+.stop-check{margin:16px 0;padding:16px 18px;background:rgba(74,222,128,.1);border:2px solid var(--neon);border-radius:10px;font-size:1.05rem;text-align:center;}.stop-check::before{content:'STOP AND CHECK ';font-family:var(--font-head);color:var(--neon);font-weight:700;font-size:.9rem;}
+.help-box{margin:14px 0;padding:14px 18px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);border-radius:10px;font-size:1rem;}.help-box::before{content:'NEED HELP? ';font-family:var(--font-head);color:var(--amber);font-weight:700;font-size:.85rem;}
+.canva-step{margin:10px 0;padding:12px 16px;background:rgba(74,222,128,.05);border-left:4px solid var(--neon);border-radius:0 8px 8px 0;font-size:1rem;}.canva-step .action{color:var(--neon);font-weight:700;}.canva-step .result{color:var(--muted);font-style:italic;font-size:.9rem;display:block;margin-top:4px;}
+.gdd-field-ls{margin:12px 0;padding:14px 18px;background:rgba(15,23,42,.5);border:2px solid var(--border);border-radius:10px;}.gdd-field-ls .label{font-family:var(--font-head);font-size:.9rem;color:var(--neon);font-weight:700;margin-bottom:6px;}.gdd-field-ls .hint{font-size:.95rem;color:var(--muted);font-style:italic;margin-bottom:8px;}.gdd-field-ls .write-area{background:rgba(15,23,42,.6);border:1px dashed var(--muted);border-radius:6px;padding:12px;min-height:50px;color:var(--muted);font-style:italic;font-size:.9rem;}
+.sprint-goal{margin:10px 0;padding:14px 18px;background:rgba(74,222,128,.08);border:2px solid var(--neon);border-radius:10px;display:flex;gap:12px;align-items:flex-start;}.sprint-goal input[type="checkbox"]{width:24px;height:24px;accent-color:var(--neon);flex-shrink:0;margin-top:4px;cursor:pointer;}
+.sprint-review{margin:14px 0;padding:16px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.3);border-radius:10px;}.sprint-review::before{content:'SPRINT REVIEW ';font-family:var(--font-head);color:var(--purple);font-weight:700;font-size:.85rem;display:block;margin-bottom:8px;}
+.footer{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;text-align:center;}.footer h2{font-family:var(--font-head);font-size:1.1rem;color:var(--neon);margin-bottom:12px;}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;}body{font-size:14pt;}.hero h1{color:#111!important;}.section{break-inside:avoid;border:2px solid #333;}.canva-step{border-left:3px solid #333;}.nav-links{display:none;}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>SPRINT 3 — SCREENS</h1>
+  <p class="sub">Polish your game screens and make your portfolio shine!</p>
+  <div class="badges">
+    <span class="badge"><b>T1 — L19</b></span>
+    <span class="badge"><b>~75 min</b></span>
+    <span class="badge"><b>Tool:</b> Canva</span>
+    <span class="badge"><b>Outcomes:</b> G5-1, G5-3, G5-5</span>
+  </div>
+  <span class="ls-badge">LEARNING SUPPORT</span>
+</div>
+
+<div class="container">
+
+  <div class="nav-links">
+    <a href="LS-L18-Sprint2.html">&larr; Previous Lesson</a>
+    <a href="LS-L20-Sprint4.html">Next Lesson &rarr;</a>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2><span class="num">1</span> Sprint 3 Focus: Game Screens</h2>
+
+    <p><strong>Quick recap:</strong> In Sprint 1 you polished your characters. In Sprint 2 you refined your level design and walkthrough. Both are now in your portfolio.</p>
+
+    <p style="margin-top:12px;"><strong>Sprint 3 = Game Screens.</strong> Today you will finalise all 4 game screens, make sure they look consistent, and add a game flow page. Then everything goes into your portfolio.</p>
+
+    <p style="margin-top:16px;">Write <strong>3 goals</strong> for this sprint:</p>
+
+    <div class="gdd-field-ls">
+      <div class="label">Goal 1</div>
+      <div class="write-area">Write your first goal here...</div>
+    </div>
+    <div class="gdd-field-ls">
+      <div class="label">Goal 2</div>
+      <div class="write-area">Write your second goal here...</div>
+    </div>
+    <div class="gdd-field-ls">
+      <div class="label">Goal 3</div>
+      <div class="write-area">Write your third goal here...</div>
+    </div>
+
+    <div class="sprint-goal">
+      <input type="checkbox">
+      <span>Goal 1 — completed</span>
+    </div>
+    <div class="sprint-goal">
+      <input type="checkbox">
+      <span>Goal 2 — completed</span>
+    </div>
+    <div class="sprint-goal">
+      <input type="checkbox">
+      <span>Goal 3 — completed</span>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2><span class="num">2</span> Polish All 4 Screens</h2>
+    <p style="margin-bottom:12px;">You have <strong>30 minutes</strong> for this section. Review and improve each of your game screens:</p>
+
+    <div class="canva-step">
+      <span class="action">Screen 1:</span> Title Screen (from L13)
+      <span class="result">The first thing players see. Does it look exciting and professional?</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Screen 2:</span> Gameplay / HUD Screen (from L13)
+      <span class="result">Shows the game being played with score, lives, and timer visible.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Screen 3:</span> Game Over Screen (from L13)
+      <span class="result">What the player sees when they lose. Does it have a "Try Again" button?</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Screen 4:</span> How to Play Screen (from L15)
+      <span class="result">Instructions that explain the controls and goal of the game.</span>
+    </div>
+
+    <p style="margin-top:16px;">Make sure all 4 screens use the <strong>SAME style</strong>. Use this consistency checklist:</p>
+
+    <div class="step">
+      <input type="checkbox">
+      <span>All screens use the <strong>same background colour family</strong></span>
+    </div>
+    <div class="step">
+      <input type="checkbox">
+      <span>All screens use the <strong>same font for headings</strong></span>
+    </div>
+    <div class="step">
+      <input type="checkbox">
+      <span>All buttons look similar (<strong>same shape, same colour</strong>)</span>
+    </div>
+    <div class="step">
+      <input type="checkbox">
+      <span>The <strong>game title</strong> appears on every screen</span>
+    </div>
+
+    <div class="help-box">
+      If your screens look very different from each other, pick the one you like best and update the others to match its style. Consistency is key!
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2><span class="num">3</span> Add a "How My Game Works" Page</h2>
+    <p style="margin-bottom:12px;">You have <strong>15 minutes</strong> for this section. Create a page that explains your game to someone who has never played it.</p>
+
+    <div class="canva-step">
+      <span class="action">Option A:</span> Create a simple flowchart.
+      <span class="result">Start &rarr; Collect Coins &rarr; Avoid Enemies &rarr; Reach Finish &rarr; Win!</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Option B:</span> Create a step-by-step list of what happens in the game.
+      <span class="result">Step 1: Player starts at the left side. Step 2: Jump on platforms. Step 3: Collect items...</span>
+    </div>
+
+    <p style="margin-top:12px;">This helps someone <strong>understand your game without playing it</strong>. You can use:</p>
+
+    <div class="step">
+      <input type="checkbox">
+      <span>Arrows to show the flow</span>
+    </div>
+    <div class="step">
+      <input type="checkbox">
+      <span>Boxes or shapes for each step</span>
+    </div>
+    <div class="step">
+      <input type="checkbox">
+      <span>Short labels (keep it simple!)</span>
+    </div>
+
+    <div class="buddy">
+      Show your "How My Game Works" page to your partner. Ask: "Can you understand my game just from this page?" If not, simplify or add more detail.
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section">
+    <h2><span class="num">4</span> Add to Portfolio</h2>
+
+    <p>Open your portfolio presentation and add these new pages:</p>
+
+    <div class="canva-step">
+      <span class="action">Page 6:</span> "Title Screen"
+      <span class="result">Paste your title screen design.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Page 7:</span> "Gameplay Screen"
+      <span class="result">Paste your HUD / gameplay screen design.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Page 8:</span> "Game Over Screen"
+      <span class="result">Paste your game over screen design.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Page 9:</span> "How to Play"
+      <span class="result">Paste your instructions / how to play screen.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Page 10:</span> "Game Flow"
+      <span class="result">Paste your flowchart from L15 or your "How My Game Works" page.</span>
+    </div>
+
+    <div class="buddy">
+      Share your full portfolio with your partner for feedback. Ask: "Which page looks the best? Which page needs more work?"
+    </div>
+
+    <div class="sprint-review">
+      <p>Quick check — your portfolio should now have 10 pages:</p>
+      <div class="step">
+        <input type="checkbox">
+        <span>Pages 1-5: Cover, Characters, Game World, Level Design, Walkthrough</span>
+      </div>
+      <div class="step">
+        <input type="checkbox">
+        <span>Pages 6-10: Title Screen, Gameplay, Game Over, How to Play, Game Flow</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section">
+    <h2><span class="num">5</span> Sprint 3 Review</h2>
+
+    <div class="sprint-review">
+      <p>Reflect on your sprint. You are almost finished with your portfolio!</p>
+
+      <div class="gdd-field-ls">
+        <div class="label">Which goals did I complete?</div>
+        <div class="write-area">Write which of your 3 goals you finished...</div>
+      </div>
+
+      <div class="gdd-field-ls">
+        <div class="label">Which goals do I still need to finish?</div>
+        <div class="write-area">Write what you still need to work on...</div>
+      </div>
+
+      <div class="gdd-field-ls">
+        <div class="label">What will I focus on in Sprint 4?</div>
+        <div class="write-area">Sprint 4 is the FINAL sprint — polishing, checking, and preparing to present. What needs fixing?</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <input type="checkbox">
+      <span>Submit a screenshot of your game screens and portfolio to <strong>Google Classroom</strong>.</span>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <h2>Sprint 3 Complete!</h2>
+    <p>All your game screens are polished and in your portfolio. Final sprint next lesson!</p>
+  </div>
+
+  <div class="nav-links">
+    <a href="LS-L18-Sprint2.html">&larr; Previous Lesson</a>
+    <a href="LS-L20-Sprint4.html">Next Lesson &rarr;</a>
+  </div>
+
+</div>
+
+</body>
+</html>

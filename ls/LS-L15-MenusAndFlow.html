@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LS L15 — Menus &amp; Game Flow | Game On</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:18px;line-height:1.8;}a{color:var(--blue);}
+.hero{text-align:center;padding:60px 20px 30px;}.hero h1{font-family:var(--font-head);font-size:2rem;color:var(--neon);margin-bottom:8px;}.hero .sub{color:var(--muted);font-size:1rem;margin-bottom:16px;}.hero .badges{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}.hero .badge{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.85rem;color:var(--muted);}.hero .badge b{color:var(--neon);}.ls-badge{display:inline-block;background:var(--amber);color:var(--navy);font-family:var(--font-head);font-weight:700;padding:6px 18px;border-radius:8px;font-size:.85rem;margin-top:14px;}
+.container{max-width:800px;margin:0 auto;padding:0 20px 60px;}
+.nav-links{display:flex;justify-content:space-between;margin:20px 0;font-size:.85rem;}.nav-links a{color:var(--blue);text-decoration:none;}.nav-links a:hover{text-decoration:underline;}
+.section{margin:30px 0;padding:24px;border:2px solid var(--border);border-radius:16px;background:var(--dark);}.section h2{font-family:var(--font-head);font-size:1.3rem;color:var(--neon);margin-bottom:16px;display:flex;align-items:center;gap:12px;}.section h2 .num{background:var(--neon);color:var(--navy);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.step{padding:14px 0;border-bottom:1px solid rgba(51,65,85,.5);font-size:1.05rem;display:flex;gap:12px;align-items:flex-start;}.step:last-child{border-bottom:none;}.step input[type="checkbox"]{width:24px;height:24px;accent-color:var(--neon);flex-shrink:0;margin-top:4px;cursor:pointer;}.step strong{color:var(--neon);}.step .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:2px 10px;font-size:.9rem;color:var(--amber);font-weight:700;}
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.3);border-radius:10px;}.vocab h4{font-family:var(--font-head);font-size:.85rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.95rem;}.vocab dt{color:var(--amber);font-weight:700;}.vocab dd{color:var(--muted);}
+.buddy{margin:14px 0;padding:14px 18px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.3);border-radius:10px;font-size:1rem;}.buddy::before{content:'BUDDY TIP: ';font-family:var(--font-head);color:var(--blue);font-weight:700;font-size:.85rem;}
+.stop-check{margin:16px 0;padding:16px 18px;background:rgba(74,222,128,.1);border:2px solid var(--neon);border-radius:10px;font-size:1.05rem;text-align:center;}.stop-check::before{content:'STOP AND CHECK ';font-family:var(--font-head);color:var(--neon);font-weight:700;font-size:.9rem;}
+.help-box{margin:14px 0;padding:14px 18px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);border-radius:10px;font-size:1rem;}.help-box::before{content:'NEED HELP? ';font-family:var(--font-head);color:var(--amber);font-weight:700;font-size:.85rem;}
+.canva-step{margin:10px 0;padding:12px 16px;background:rgba(74,222,128,.05);border-left:4px solid var(--neon);border-radius:0 8px 8px 0;font-size:1rem;}.canva-step .action{color:var(--neon);font-weight:700;}.canva-step .result{color:var(--muted);font-style:italic;font-size:.9rem;display:block;margin-top:4px;}
+.gdd-field-ls{margin:12px 0;padding:14px 18px;background:rgba(15,23,42,.5);border:2px solid var(--border);border-radius:10px;}.gdd-field-ls .label{font-family:var(--font-head);font-size:.9rem;color:var(--neon);font-weight:700;margin-bottom:6px;}.gdd-field-ls .hint{font-size:.95rem;color:var(--muted);font-style:italic;margin-bottom:8px;}.gdd-field-ls .write-area{background:rgba(15,23,42,.6);border:1px dashed var(--muted);border-radius:6px;padding:12px;min-height:50px;color:var(--muted);font-style:italic;font-size:.9rem;}
+.assessment-notice{margin:20px 0;padding:18px;background:rgba(251,191,36,.12);border:2px solid var(--amber);border-radius:12px;text-align:center;font-size:1.05rem;}.assessment-notice::before{content:'ASSESSMENT TASK ';font-family:var(--font-head);color:var(--amber);font-weight:700;font-size:.9rem;display:block;margin-bottom:6px;}
+.footer{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;text-align:center;}.footer h2{font-family:var(--font-head);font-size:1.1rem;color:var(--neon);margin-bottom:12px;}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;}body{font-size:14pt;}.hero h1{color:#111!important;}.section{break-inside:avoid;border:2px solid #333;}.canva-step{border-left:3px solid #333;}.nav-links{display:none;}}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>MENUS &amp; GAME FLOW</h1>
+  <p class="sub">Connect all your screens together and add a How to Play page!</p>
+  <div class="badges">
+    <span class="badge"><b>T1 &mdash; L15</b></span>
+    <span class="badge"><b>~75 min</b></span>
+    <span class="badge"><b>Canva</b></span>
+    <span class="badge"><b>G5-1, G5-3, G5-5</b></span>
+  </div>
+  <span class="ls-badge">LEARNING SUPPORT</span>
+</div>
+
+<div class="container">
+
+  <!-- NAV -->
+  <div class="nav-links">
+    <a href="LS-L14-SoundAndEffects.html">&larr; L14 Sound &amp; Effects</a>
+    <a href="LS-L16-GameDesignDocument.html">L16 Game Design Document &rarr;</a>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2><span class="num">1</span> What Is Game Flow?</h2>
+
+    <div class="vocab">
+      <h4>Key Vocabulary</h4>
+      <dl>
+        <dt>Game Flow</dt>
+        <dd>The order in which screens appear in a game.</dd>
+        <dt>Navigation</dt>
+        <dd>How the player moves between screens &mdash; usually by clicking buttons.</dd>
+        <dt>Flowchart</dt>
+        <dd>A diagram using boxes and arrows to show the order of things.</dd>
+        <dt>Scene</dt>
+        <dd>In Unity, each screen is called a Scene &mdash; like a page in a book.</dd>
+      </dl>
+    </div>
+
+    <p>When you open a game, you don't jump straight into playing. There is an <strong>ORDER</strong>:</p>
+    <div class="step"><input type="checkbox"><span><strong>1. Title Screen</strong> &rarr; the first thing the player sees.</span></div>
+    <div class="step"><input type="checkbox"><span><strong>2. How to Play</strong> (optional) &rarr; teaches the player the controls.</span></div>
+    <div class="step"><input type="checkbox"><span><strong>3. Gameplay</strong> &rarr; the player actually plays the game.</span></div>
+    <div class="step"><input type="checkbox"><span><strong>4. Game Over</strong> &rarr; the game ends (win or lose).</span></div>
+    <div class="step"><input type="checkbox"><span><strong>Back to 1. Title Screen</strong> &rarr; the player can start again.</span></div>
+
+    <p style="margin-top:14px;">Buttons connect the screens:</p>
+    <div class="step"><input type="checkbox"><span>The <span class="key">Play</span> button goes to Gameplay.</span></div>
+    <div class="step"><input type="checkbox"><span>The <span class="key">Try Again</span> button goes back to Gameplay.</span></div>
+    <div class="step"><input type="checkbox"><span>The <span class="key">Main Menu</span> button goes to the Title Screen.</span></div>
+
+    <p style="margin-top:14px;">In Unity, other students use <strong>SceneManager</strong> code to change screens. We will plan the flow <strong>visually</strong> using a flowchart!</p>
+
+    <div class="buddy">Open a game you like (on your phone or computer). Count how many screens you go through before you actually start playing.</div>
+
+    <div class="stop-check">I can describe the order of screens in a game.</div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2><span class="num">2</span> Draw a Game Flow Diagram</h2>
+
+    <p>A flow diagram shows every screen in your game and how the player gets from one to the next. Draw boxes for each screen, then draw arrows between them.</p>
+
+    <div class="step"><input type="checkbox"><span><strong>Draw 5 boxes</strong>, one for each screen: Title Screen, How to Play, Gameplay, Pause, Game Over.</span></div>
+    <div class="step"><input type="checkbox"><span><strong>Draw arrows</strong> between them showing what button leads where.</span></div>
+
+    <p style="margin-top:14px;">Here are the connections to draw:</p>
+
+    <div class="canva-step">
+      <span class="action">Title Screen &rarr; Gameplay</span>
+      <span class="result">Player clicks the "Play" button.</span>
+    </div>
+    <div class="canva-step">
+      <span class="action">Title Screen &rarr; How to Play</span>
+      <span class="result">Player clicks the "How to Play" button.</span>
+    </div>
+    <div class="canva-step">
+      <span class="action">How to Play &rarr; Title Screen</span>
+      <span class="result">Player clicks the "Back" button.</span>
+    </div>
+    <div class="canva-step">
+      <span class="action">Gameplay &rarr; Pause</span>
+      <span class="result">Player presses the Escape key.</span>
+    </div>
+    <div class="canva-step">
+      <span class="action">Pause &rarr; Gameplay</span>
+      <span class="result">Player clicks the "Resume" button.</span>
+    </div>
+    <div class="canva-step">
+      <span class="action">Pause &rarr; Title Screen</span>
+      <span class="result">Player clicks the "Main Menu" button.</span>
+    </div>
+    <div class="canva-step">
+      <span class="action">Gameplay &rarr; Game Over</span>
+      <span class="result">The player dies (loses all lives).</span>
+    </div>
+    <div class="canva-step">
+      <span class="action">Game Over &rarr; Gameplay</span>
+      <span class="result">Player clicks the "Try Again" button.</span>
+    </div>
+    <div class="canva-step">
+      <span class="action">Game Over &rarr; Title Screen</span>
+      <span class="result">Player clicks the "Main Menu" button.</span>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">My Game Flow Diagram</div>
+      <div class="hint">Draw your flow diagram here (or on paper). Use boxes for screens and arrows for connections. Label each arrow with the button name.</div>
+      <div class="write-area">Draw your flow diagram here...</div>
+    </div>
+
+    <div class="stop-check">My flow diagram shows at least 4 screens connected by arrows.</div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2><span class="num">3</span> Create a Flowchart in Canva</h2>
+
+    <p>Now let's make a neat, digital version of your flow diagram in Canva.</p>
+
+    <div class="step"><input type="checkbox"><span>Open <strong>Canva</strong> and click <strong>Create a design</strong>.</span></div>
+    <div class="step"><input type="checkbox"><span>Choose <strong>Custom size</strong>: <span class="key">1920</span> x <span class="key">1080</span> px.</span></div>
+
+    <div class="canva-step">
+      <span class="action">Search Elements for "rectangle"</span>
+      <span class="result">Add 5 rounded rectangles &mdash; each one represents a screen in your game.</span>
+    </div>
+    <div class="canva-step">
+      <span class="action">Label each rectangle:</span>
+      <span class="result">"TITLE SCREEN", "HOW TO PLAY", "GAMEPLAY", "PAUSE", "GAME OVER"</span>
+    </div>
+    <div class="canva-step">
+      <span class="action">Colour-code them:</span>
+      <span class="result">Title = blue, How to Play = purple, Gameplay = green, Pause = amber/yellow, Game Over = red.</span>
+    </div>
+    <div class="canva-step">
+      <span class="action">Add arrows between them:</span>
+      <span class="result">Search "arrow" in Elements and place arrows showing the flow between screens.</span>
+    </div>
+    <div class="canva-step">
+      <span class="action">Label each arrow with the button name:</span>
+      <span class="result">"Play", "Back", "Resume", "Try Again", "Main Menu", "Escape key"</span>
+    </div>
+    <div class="canva-step">
+      <span class="action">Arrange neatly:</span>
+      <span class="result">Title Screen at the top, Gameplay in the centre, Game Over at the bottom.</span>
+    </div>
+    <div class="canva-step">
+      <span class="action">Rename your design:</span>
+      <span class="result">"L15 - Game Flow - [Your Name]"</span>
+    </div>
+
+    <div class="help-box">If you can't find arrows, try searching "line" in Elements. You can add arrowheads by clicking on the line and choosing the arrow style in the toolbar.</div>
+
+    <div class="stop-check">My flowchart shows all 5 screens connected with labelled arrows.</div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section">
+    <h2><span class="num">4</span> Design a How to Play Screen</h2>
+
+    <p>This is a <strong>new game screen</strong> &mdash; the 4th one you have made! (You created Title, Gameplay, and Game Over screens in L13.)</p>
+
+    <div class="step"><input type="checkbox"><span>In Canva, click <strong>Create a design</strong> &rarr; Custom size: <span class="key">1920</span> x <span class="key">1080</span> px.</span></div>
+
+    <div class="canva-step">
+      <span class="action">Add a heading: "HOW TO PLAY"</span>
+      <span class="result">Make it big and clear at the top of the screen.</span>
+    </div>
+    <div class="canva-step">
+      <span class="action">Add control instructions with icons:</span>
+      <span class="result">Search for "arrow keys" or "keyboard" in Elements to find icon images.</span>
+    </div>
+
+    <p style="margin-top:14px;">Include these instructions on your screen:</p>
+
+    <div class="step"><input type="checkbox"><span><span class="key">Arrow Keys</span> or <span class="key">WASD</span> = Move (search "arrow keys" or "keyboard" in Elements)</span></div>
+    <div class="step"><input type="checkbox"><span><span class="key">Space</span> = Jump (search "space bar" in Elements)</span></div>
+    <div class="step"><input type="checkbox"><span>Collect coins = +10 points (use your coin image from L10)</span></div>
+    <div class="step"><input type="checkbox"><span>Avoid enemies = lose a life (use your enemy image from L04)</span></div>
+    <div class="step"><input type="checkbox"><span>Reach the finish = you win!</span></div>
+
+    <div class="canva-step">
+      <span class="action">Add a "BACK" button at the bottom</span>
+      <span class="result">This button would take the player back to the Title Screen.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Rename your design:</span>
+      <span class="result">"L15 - How to Play Screen - [Your Name]"</span>
+    </div>
+
+    <div class="buddy">Keep it simple and clear &mdash; a brand new player should understand everything in 10 seconds!</div>
+
+    <div class="stop-check">My How to Play screen clearly explains controls and the goal.</div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section">
+    <h2><span class="num">5</span> Save Your Work</h2>
+
+    <div class="step"><input type="checkbox"><span>All your work is <strong>saved automatically</strong> in Canva.</span></div>
+    <div class="step"><input type="checkbox"><span>Take a <strong>screenshot</strong> of your flowchart design.</span></div>
+    <div class="step"><input type="checkbox"><span>Take a <strong>screenshot</strong> of your How to Play screen.</span></div>
+    <div class="step"><input type="checkbox"><span>Submit <strong>both screenshots</strong> to Google Classroom.</span></div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <h2>Well Done!</h2>
+    <p>You now have <strong>4 complete game screens</strong> AND a <strong>flowchart</strong> showing how they connect! Your game is starting to feel like a real product.</p>
+  </div>
+
+  <!-- NAV BOTTOM -->
+  <div class="nav-links">
+    <a href="LS-L14-SoundAndEffects.html">&larr; L14 Sound &amp; Effects</a>
+    <a href="LS-L16-GameDesignDocument.html">L16 Game Design Document &rarr;</a>
+  </div>
+
+</div>
+</body>
+</html>

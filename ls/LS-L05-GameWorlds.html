@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LS-L05 — Game Worlds (Learning Support)</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:18px;line-height:1.8;}a{color:var(--blue);}
+.hero{text-align:center;padding:60px 20px 30px;}.hero h1{font-family:var(--font-head);font-size:2rem;color:var(--neon);margin-bottom:8px;}.hero .sub{color:var(--muted);font-size:1rem;margin-bottom:16px;}.hero .badges{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}.hero .badge{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.85rem;color:var(--muted);}.hero .badge b{color:var(--neon);}.ls-badge{display:inline-block;background:var(--amber);color:var(--navy);font-family:var(--font-head);font-weight:700;padding:6px 18px;border-radius:8px;font-size:.85rem;margin-top:14px;}
+.container{max-width:800px;margin:0 auto;padding:0 20px 60px;}
+.nav-links{display:flex;justify-content:space-between;margin:20px 0;font-size:.85rem;}.nav-links a{color:var(--blue);text-decoration:none;}.nav-links a:hover{text-decoration:underline;}
+.section{margin:30px 0;padding:24px;border:2px solid var(--border);border-radius:16px;background:var(--dark);}.section h2{font-family:var(--font-head);font-size:1.3rem;color:var(--neon);margin-bottom:16px;display:flex;align-items:center;gap:12px;}.section h2 .num{background:var(--neon);color:var(--navy);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.step{padding:14px 0;border-bottom:1px solid rgba(51,65,85,.5);font-size:1.05rem;display:flex;gap:12px;align-items:flex-start;}.step:last-child{border-bottom:none;}.step input[type="checkbox"]{width:24px;height:24px;accent-color:var(--neon);flex-shrink:0;margin-top:4px;cursor:pointer;}.step strong{color:var(--neon);}.step .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:2px 10px;font-size:.9rem;color:var(--amber);font-weight:700;}
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.3);border-radius:10px;}.vocab h4{font-family:var(--font-head);font-size:.85rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.95rem;}.vocab dt{color:var(--amber);font-weight:700;}.vocab dd{color:var(--muted);}
+.buddy{margin:14px 0;padding:14px 18px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.3);border-radius:10px;font-size:1rem;}.buddy::before{content:'BUDDY TIP: ';font-family:var(--font-head);color:var(--blue);font-weight:700;font-size:.85rem;}
+.stop-check{margin:16px 0;padding:16px 18px;background:rgba(74,222,128,.1);border:2px solid var(--neon);border-radius:10px;font-size:1.05rem;text-align:center;}.stop-check::before{content:'STOP AND CHECK ';font-family:var(--font-head);color:var(--neon);font-weight:700;font-size:.9rem;}
+.help-box{margin:14px 0;padding:14px 18px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);border-radius:10px;font-size:1rem;}.help-box::before{content:'NEED HELP? ';font-family:var(--font-head);color:var(--amber);font-weight:700;font-size:.85rem;}
+.canva-step{margin:10px 0;padding:12px 16px;background:rgba(74,222,128,.05);border-left:4px solid var(--neon);border-radius:0 8px 8px 0;font-size:1rem;}.canva-step .action{color:var(--neon);font-weight:700;}.canva-step .result{color:var(--muted);font-style:italic;font-size:.9rem;display:block;margin-top:4px;}
+.gdd-field-ls{margin:12px 0;padding:14px 18px;background:rgba(15,23,42,.5);border:2px solid var(--border);border-radius:10px;}.gdd-field-ls .label{font-family:var(--font-head);font-size:.9rem;color:var(--neon);font-weight:700;margin-bottom:6px;}.gdd-field-ls .hint{font-size:.95rem;color:var(--muted);font-style:italic;margin-bottom:8px;}.gdd-field-ls .write-area{background:rgba(15,23,42,.6);border:1px dashed var(--muted);border-radius:6px;padding:12px;min-height:50px;color:var(--muted);font-style:italic;font-size:.9rem;}
+.layer-diagram{margin:16px 0;padding:18px;background:var(--navy);border:2px solid var(--border);border-radius:12px;text-align:center;}.layer-diagram .layer{padding:10px;margin:6px auto;border-radius:8px;max-width:400px;font-weight:700;font-size:.95rem;}.layer-1{background:rgba(56,189,248,.2);border:1px solid var(--blue);color:var(--blue);}.layer-2{background:rgba(74,222,128,.2);border:1px solid var(--neon);color:var(--neon);}.layer-3{background:rgba(251,191,36,.2);border:1px solid var(--amber);color:var(--amber);}.layer-4{background:rgba(167,139,250,.2);border:1px solid var(--purple);color:var(--purple);}
+.footer{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;text-align:center;}.footer h2{font-family:var(--font-head);font-size:1.1rem;color:var(--neon);margin-bottom:12px;}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;}body{font-size:14pt;}.hero h1{color:#111!important;}.section{break-inside:avoid;border:2px solid #333;}.canva-step{border-left:3px solid #333;}.nav-links{display:none;}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>GAME WORLDS</h1>
+  <p class="sub">Design the world where your game takes place!</p>
+  <div class="badges">
+    <span class="badge"><b>Lesson:</b> T1 — L05</span>
+    <span class="badge"><b>Time:</b> ~75 min</span>
+    <span class="badge"><b>Tool:</b> Canva</span>
+    <span class="badge"><b>Outcomes:</b> G5-1, G5-2, G5-3</span>
+  </div>
+  <span class="ls-badge">LEARNING SUPPORT VERSION</span>
+</div>
+
+<div class="container">
+
+<div class="nav-links">
+  <a href="LS-L04-MyFirstSprite.html">&larr; Previous Lesson</a>
+  <a href="LS-L06-HowGamesThink.html">Next Lesson &rarr;</a>
+</div>
+
+<!-- ── SECTION 1: What Is a Game World? ── -->
+<div class="section">
+  <h2><span class="num">1</span> What Is a Game World?</h2>
+
+  <div class="vocab">
+    <h4>Words to Know</h4>
+    <dl>
+      <dt>Game World</dt><dd>The place where the game happens — also called a "level" or "environment"</dd>
+      <dt>Background</dt><dd>The picture at the very back (sky, space, ocean) — the player CANNOT touch it</dd>
+      <dt>Foreground</dt><dd>Things at the front of the screen — usually the player and platforms</dd>
+      <dt>Layers</dt><dd>Game worlds are built in layers, like a sandwich — back layer to front layer</dd>
+      <dt>Platform</dt><dd>Something the player can stand on or walk on</dd>
+    </dl>
+  </div>
+
+  <div class="step"><input type="checkbox"><span>Every game takes place in a <strong>world</strong>. The world sets the mood and tells the player what kind of game it is.</span></div>
+
+  <div class="step"><input type="checkbox"><span>Here are some <strong>types of game worlds</strong>:<br>
+    <strong>Forest/Jungle</strong> — Green trees, vines, animals (e.g. Donkey Kong)<br>
+    <strong>Space</strong> — Stars, planets, dark sky (e.g. Among Us)<br>
+    <strong>City</strong> — Buildings, roads, cars (e.g. GTA, Spider-Man)<br>
+    <strong>Underground/Cave</strong> — Dark, rocks, lava, crystals (e.g. Minecraft caves)<br>
+    <strong>Fantasy Castle</strong> — Towers, knights, magic (e.g. Zelda, Hollow Knight)<br>
+    <strong>Ocean/Underwater</strong> — Water, fish, coral (e.g. Subnautica)</span></div>
+
+  <div class="step"><input type="checkbox"><span>Game worlds are built in <strong>layers</strong>, like a sandwich. Look at this diagram:</span></div>
+
+  <div class="layer-diagram">
+    <div class="layer layer-1">Layer 4 (FRONT): Player + Enemies</div>
+    <div class="layer layer-2">Layer 3: Platforms + Ground</div>
+    <div class="layer layer-3">Layer 2: Decorations (trees, rocks, clouds)</div>
+    <div class="layer layer-4">Layer 1 (BACK): Background (sky, space, ocean)</div>
+  </div>
+
+  <div class="step"><input type="checkbox"><span>The <strong>background</strong> is at the very back. The player is at the very <strong>front</strong>. Decorations go in the <strong>middle</strong>.</span></div>
+
+  <div class="buddy">Talk to your partner: What type of world would your game be set in? Forest? Space? City? Why?</div>
+
+  <div class="stop-check">I can explain what layers are and name at least 3 types of game worlds.</div>
+</div>
+
+<!-- ── SECTION 2: Plan Your Game World ── -->
+<div class="section">
+  <h2><span class="num">2</span> Plan Your Game World</h2>
+
+  <div class="step"><input type="checkbox"><span>Before we start designing, let's <strong>plan</strong> your game world:</span></div>
+
+  <div class="gdd-field-ls">
+    <div class="label">My Game World Type</div>
+    <div class="hint">Pick one: Forest, Space, City, Underground, Fantasy, Ocean, Other: _____</div>
+    <div class="write-area">My game is set in a...</div>
+  </div>
+
+  <div class="gdd-field-ls">
+    <div class="label">My Background</div>
+    <div class="hint">What is at the very back? e.g. Blue sky with clouds, Dark space with stars, Sunset over mountains</div>
+    <div class="write-area">The background is...</div>
+  </div>
+
+  <div class="gdd-field-ls">
+    <div class="label">My Ground / Platforms</div>
+    <div class="hint">What does the player walk on? e.g. Green grass, Stone blocks, Metal platforms, Sand</div>
+    <div class="write-area">The player walks on...</div>
+  </div>
+
+  <div class="gdd-field-ls">
+    <div class="label">My Decorations</div>
+    <div class="hint">What makes it look interesting? e.g. Trees, rocks, bushes, stars, lamps, crystals</div>
+    <div class="write-area">I will add these decorations: 1. ___ 2. ___ 3. ___</div>
+  </div>
+
+  <div class="stop-check">I have planned my background, ground, and decorations.</div>
+</div>
+
+<!-- ── SECTION 3: Design Your Background ── -->
+<div class="section">
+  <h2><span class="num">3</span> Design Your Background in Canva</h2>
+
+  <div class="step"><input type="checkbox"><span>Open <strong>canva.com</strong> and log in.</span></div>
+
+  <div class="canva-step">
+    <span class="action">Step 1:</span> Click <span class="key">Create a design</span> &rarr; <span class="key">Custom size</span> &rarr; Type <span class="key">1920</span> x <span class="key">1080</span> px &rarr; Click <span class="key">Create new design</span>.
+    <span class="result">A wide rectangle appears. This is the shape of a game screen (widescreen, like a TV).</span>
+  </div>
+
+  <div class="step"><input type="checkbox"><span><strong>Add your background colour or image:</strong></span></div>
+
+  <div class="canva-step">
+    <span class="action">Step 2:</span> Click the canvas &rarr; Click the coloured square (top-left) &rarr; Choose a colour that matches your world. For example:<br>
+    - Sky blue for a daytime outdoor scene<br>
+    - Dark blue/black for space or night<br>
+    - Dark green for underground
+    <span class="result">Your canvas is now the colour of your sky or background.</span>
+  </div>
+
+  <div class="canva-step">
+    <span class="action">Alternative:</span> Instead of a plain colour, click <span class="key">Elements</span> on the left sidebar &rarr; Search for your world type (e.g. <span class="key">sky</span>, <span class="key">space background</span>, <span class="key">forest</span>) &rarr; Click a picture you like &rarr; <strong>Resize it to fill the whole canvas</strong> by dragging the corners.
+    <span class="result">You now have a picture background instead of a plain colour.</span>
+  </div>
+
+  <div class="help-box">Stuck choosing a background? Show this page to your teacher or SLSO. They can help you search for the right image.</div>
+
+  <div class="stop-check">I have a background that covers my whole canvas.</div>
+</div>
+
+<!-- ── SECTION 4: Add Ground and Platforms ── -->
+<div class="section">
+  <h2><span class="num">4</span> Add Ground and Platforms</h2>
+
+  <div class="step"><input type="checkbox"><span>Now add the <strong>ground</strong> — the surface the player walks on.</span></div>
+
+  <div class="canva-step">
+    <span class="action">Step 1:</span> Click <span class="key">Elements</span> &rarr; Search for <span class="key">rectangle</span> &rarr; Add a rectangle to the bottom of your canvas.
+    <span class="result">A rectangle shape appears on your design.</span>
+  </div>
+
+  <div class="canva-step">
+    <span class="action">Step 2:</span> <strong>Resize the rectangle</strong> so it stretches across the whole bottom of the screen. Make it about 1/5 of the screen height (not too tall, not too short).
+    <span class="result">You now have a "ground" at the bottom of your game world.</span>
+  </div>
+
+  <div class="canva-step">
+    <span class="action">Step 3:</span> Change the colour of the rectangle to match your ground (brown for dirt, green for grass, grey for stone).
+    <span class="result">Your ground now looks like real ground!</span>
+  </div>
+
+  <div class="step"><input type="checkbox"><span><strong>Add 2-3 platforms</strong> (floating rectangles the player can jump to):</span></div>
+
+  <div class="canva-step">
+    <span class="action">Step 4:</span> Add more rectangles above the ground. Make them <strong>shorter and smaller</strong> than the ground. Space them out so a player could jump between them.
+    <span class="result">Your game world now has platforms at different heights!</span>
+  </div>
+
+  <div class="buddy">Show your screen to your partner. Ask them: "Could a player jump from the ground to these platforms? Are they too far apart or too close together?"</div>
+
+  <div class="stop-check">I have a ground at the bottom and at least 2 platforms above it.</div>
+</div>
+
+<!-- ── SECTION 5: Add Decorations ── -->
+<div class="section">
+  <h2><span class="num">5</span> Add Decorations</h2>
+
+  <div class="step"><input type="checkbox"><span>Decorations make your world look <strong>interesting and alive</strong>. The player cannot interact with decorations — they are just for looks.</span></div>
+
+  <div class="canva-step">
+    <span class="action">Step 1:</span> Click <span class="key">Elements</span> &rarr; Search for decorations that match your world. Try these searches:<br>
+    - Forest: <span class="key">tree</span>, <span class="key">bush</span>, <span class="key">mushroom</span>, <span class="key">flower</span><br>
+    - Space: <span class="key">star</span>, <span class="key">planet</span>, <span class="key">asteroid</span>, <span class="key">rocket</span><br>
+    - City: <span class="key">building</span>, <span class="key">lamp</span>, <span class="key">car</span>, <span class="key">sign</span><br>
+    - Cave: <span class="key">crystal</span>, <span class="key">rock</span>, <span class="key">gem</span>, <span class="key">torch</span>
+    <span class="result">Click any element to add it to your canvas. Drag to move it. Pull corners to resize it.</span>
+  </div>
+
+  <div class="step"><input type="checkbox"><span>Add <strong>at least 5 decorations</strong> to your game world. Mix big and small items. Place some on the ground, some in the air, some on platforms.</span></div>
+
+  <div class="step"><input type="checkbox"><span><strong>Think about layers:</strong><br>
+    - Big things (trees, buildings) go behind the platforms<br>
+    - Small things (flowers, gems) go on top of the ground<br>
+    - Clouds or stars go near the top with the background</span></div>
+
+  <div class="canva-step">
+    <span class="action">Tip — Changing layers:</span> Right-click on an element &rarr; Choose <span class="key">Send to back</span> or <span class="key">Bring to front</span> to control which things appear in front of others.
+    <span class="result">This lets you layer your game world properly — background behind everything, ground and decorations in front.</span>
+  </div>
+
+  <div class="step"><input type="checkbox"><span><strong>Rename your design:</strong> Click the title at the top and type <span class="key">L05 - Game World - [Your Name]</span>.</span></div>
+
+  <div class="stop-check">My game world has: a background, ground, 2+ platforms, and 5+ decorations. It looks like a real game level!</div>
+</div>
+
+<!-- ── FOOTER ── -->
+<div class="footer">
+  <h2>Well Done!</h2>
+  <p>You designed a game world with layers — background, ground, platforms, and decorations! This will be used in your portfolio.</p>
+  <p style="color:var(--muted);font-size:.9rem;margin-top:12px;">Submit: Take a screenshot of your game world and upload it to Google Classroom.</p>
+</div>
+
+<div class="nav-links">
+  <a href="LS-L04-MyFirstSprite.html">&larr; Previous Lesson</a>
+  <a href="LS-L06-HowGamesThink.html">Next Lesson &rarr;</a>
+</div>
+
+</div><!-- /container -->
+</body>
+</html>

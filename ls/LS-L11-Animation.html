@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LS L11 — Animation</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:18px;line-height:1.8;}a{color:var(--blue);}
+.hero{text-align:center;padding:60px 20px 30px;}.hero h1{font-family:var(--font-head);font-size:2rem;color:var(--neon);margin-bottom:8px;}.hero .sub{color:var(--muted);font-size:1rem;margin-bottom:16px;}.hero .badges{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}.hero .badge{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.85rem;color:var(--muted);}.hero .badge b{color:var(--neon);}.ls-badge{display:inline-block;background:var(--amber);color:var(--navy);font-family:var(--font-head);font-weight:700;padding:6px 18px;border-radius:8px;font-size:.85rem;margin-top:14px;}
+.container{max-width:800px;margin:0 auto;padding:0 20px 60px;}
+.nav-links{display:flex;justify-content:space-between;margin:20px 0;font-size:.85rem;}.nav-links a{color:var(--blue);text-decoration:none;}.nav-links a:hover{text-decoration:underline;}
+.section{margin:30px 0;padding:24px;border:2px solid var(--border);border-radius:16px;background:var(--dark);}.section h2{font-family:var(--font-head);font-size:1.3rem;color:var(--neon);margin-bottom:16px;display:flex;align-items:center;gap:12px;}.section h2 .num{background:var(--neon);color:var(--navy);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.step{padding:14px 0;border-bottom:1px solid rgba(51,65,85,.5);font-size:1.05rem;display:flex;gap:12px;align-items:flex-start;}.step:last-child{border-bottom:none;}.step input[type="checkbox"]{width:24px;height:24px;accent-color:var(--neon);flex-shrink:0;margin-top:4px;cursor:pointer;}.step strong{color:var(--neon);}.step .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:2px 10px;font-size:.9rem;color:var(--amber);font-weight:700;}
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.3);border-radius:10px;}.vocab h4{font-family:var(--font-head);font-size:.85rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.95rem;}.vocab dt{color:var(--amber);font-weight:700;}.vocab dd{color:var(--muted);}
+.buddy{margin:14px 0;padding:14px 18px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.3);border-radius:10px;font-size:1rem;}.buddy::before{content:'BUDDY TIP: ';font-family:var(--font-head);color:var(--blue);font-weight:700;font-size:.85rem;}
+.stop-check{margin:16px 0;padding:16px 18px;background:rgba(74,222,128,.1);border:2px solid var(--neon);border-radius:10px;font-size:1.05rem;text-align:center;}.stop-check::before{content:'STOP AND CHECK ';font-family:var(--font-head);color:var(--neon);font-weight:700;font-size:.9rem;}
+.help-box{margin:14px 0;padding:14px 18px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);border-radius:10px;font-size:1rem;}.help-box::before{content:'NEED HELP? ';font-family:var(--font-head);color:var(--amber);font-weight:700;font-size:.85rem;}
+.canva-step{margin:10px 0;padding:12px 16px;background:rgba(74,222,128,.05);border-left:4px solid var(--neon);border-radius:0 8px 8px 0;font-size:1rem;}.canva-step .action{color:var(--neon);font-weight:700;}.canva-step .result{color:var(--muted);font-style:italic;font-size:.9rem;display:block;margin-top:4px;}
+.gdd-field-ls{margin:12px 0;padding:14px 18px;background:rgba(15,23,42,.5);border:2px solid var(--border);border-radius:10px;}.gdd-field-ls .label{font-family:var(--font-head);font-size:.9rem;color:var(--neon);font-weight:700;margin-bottom:6px;}.gdd-field-ls .hint{font-size:.95rem;color:var(--muted);font-style:italic;margin-bottom:8px;}.gdd-field-ls .write-area{background:rgba(15,23,42,.6);border:1px dashed var(--muted);border-radius:6px;padding:12px;min-height:50px;color:var(--muted);font-style:italic;font-size:.9rem;}
+.footer{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;text-align:center;}.footer h2{font-family:var(--font-head);font-size:1.1rem;color:var(--neon);margin-bottom:12px;}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;}body{font-size:14pt;}.hero h1{color:#111!important;}.section{break-inside:avoid;border:2px solid #333;}.canva-step{border-left:3px solid #333;}.nav-links{display:none;}}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>ANIMATION</h1>
+  <p class="sub">Learn how animation works and create your own animation frames!</p>
+  <div class="badges">
+    <span class="badge"><b>T1 &mdash; L11</b></span>
+    <span class="badge"><b>~75 min</b></span>
+    <span class="badge"><b>Canva + Paper</b></span>
+    <span class="badge"><b>G5-1, G5-2, G5-3</b></span>
+  </div>
+  <span class="ls-badge">LEARNING SUPPORT WORKSHEET</span>
+</div>
+
+<div class="container">
+
+  <!-- NAV -->
+  <div class="nav-links">
+    <a href="LS-L10-GamePieces.html">&larr; Previous Lesson</a>
+    <a href="LS-L12-BuildYourWorld.html">Next Lesson &rarr;</a>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2><span class="num">1</span> What Is Animation?</h2>
+
+    <div class="vocab">
+      <h4>Key Vocabulary</h4>
+      <dl>
+        <dt>Animation</dt>
+        <dd>Showing many pictures quickly to create the illusion of movement</dd>
+        <dt>Frame</dt>
+        <dd>One single picture in an animation</dd>
+        <dt>Sprite Sheet</dt>
+        <dd>All the animation frames arranged side by side in one image</dd>
+        <dt>FPS / Frame Rate</dt>
+        <dd>How many frames are shown per second &mdash; more frames = smoother</dd>
+      </dl>
+    </div>
+
+    <div class="step"><input type="checkbox"><span>Animation is like a <strong>flipbook</strong> &mdash; many pictures shown fast = looks like movement.</span></div>
+
+    <div class="step"><input type="checkbox"><span>Example: A stick figure walking needs <strong>4 pictures</strong>: standing, left foot forward, both feet together, right foot forward.</span></div>
+
+    <div class="step"><input type="checkbox"><span>In games, the computer flips through these pictures really fast (usually <strong>12&ndash;24 per second</strong>).</span></div>
+
+    <div class="step"><input type="checkbox"><span>In Unity, other students use an <strong>Animator</strong> tool. We will create the individual frames by hand!</span></div>
+
+    <div class="buddy">Flip the corner of a notebook quickly. See the pages move? That's animation!</div>
+
+    <div class="stop-check">I understand that animation = many pictures shown quickly to look like movement.</div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2><span class="num">2</span> Paper Flipbook Activity</h2>
+
+    <p style="margin-bottom:12px;">Draw a <strong>4-frame flipbook</strong> to see animation in action:</p>
+
+    <div class="step"><input type="checkbox"><span>Get a small piece of paper or use the corner of your notebook.</span></div>
+
+    <div class="step"><input type="checkbox"><span><strong>Frame 1:</strong> Draw your character standing still (arms down).</span></div>
+
+    <div class="step"><input type="checkbox"><span><strong>Frame 2:</strong> Draw the same character with left leg forward, right arm forward.</span></div>
+
+    <div class="step"><input type="checkbox"><span><strong>Frame 3:</strong> Draw the same character standing still again (arms down).</span></div>
+
+    <div class="step"><input type="checkbox"><span><strong>Frame 4:</strong> Draw the same character with right leg forward, left arm forward.</span></div>
+
+    <div class="step"><input type="checkbox"><span>Flip the pages quickly to see your character <strong>"walk"!</strong></span></div>
+
+    <div class="buddy">Show your flipbook to your partner. Can they see the character walking?</div>
+
+    <div class="stop-check">I have drawn 4 frames and can flip them to see movement.</div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2><span class="num">3</span> Create Animation Frames in Canva</h2>
+
+    <p style="margin-bottom:12px;">Open Canva and create a wide rectangle for 4 frames side by side:</p>
+
+    <div class="canva-step">
+      <span class="action">Create a custom design &mdash; 2000 x 500 px</span>
+      <span class="result">This gives you a wide rectangle to fit 4 frames side by side.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Use Elements &gt; Lines to add 3 vertical lines dividing the canvas into 4 equal boxes (at 500px, 1000px, 1500px).</span>
+      <span class="result">Tip: Drag a line, hold Shift to keep it straight.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Label each box: Frame 1, Frame 2, Frame 3, Frame 4</span>
+      <span class="result">Use small text at the top of each box.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">In Frame 1: Build your hero character standing still.</span>
+      <span class="result">Use the shapes from L04 &mdash; circle head, rectangle body.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">In Frame 2: Copy the character, paste it, move body parts slightly.</span>
+      <span class="result">Move one leg forward, move one arm up.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">In Frame 3: Copy Frame 1 again (back to standing).</span>
+      <span class="result">This creates the "return to centre" pose.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">In Frame 4: Mirror of Frame 2 (opposite leg forward, opposite arm up).</span>
+      <span class="result">This completes the walk cycle.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Tip: Select all parts of the character &gt; right-click &gt; Group to keep them together, then <span class="key">Ctrl+D</span> to duplicate.</span>
+      <span class="result">Grouping makes it much easier to copy and move your character.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Make sure all 4 versions are the SAME SIZE and in the SAME POSITION within each box.</span>
+      <span class="result">Consistency is key &mdash; if the character jumps around between frames, the animation will look shaky.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Rename your design: "L11 - Animation Frames - [Your Name]"</span>
+      <span class="result">This keeps your work organised.</span>
+    </div>
+
+    <div class="help-box">Raise your hand or ask your buddy. Check that your character is made from simple shapes and that each frame is only slightly different from the last.</div>
+
+    <div class="stop-check">I have 4 frames showing my character in slightly different poses.</div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section">
+    <h2><span class="num">4</span> Understand Sprite Sheets</h2>
+
+    <div class="step"><input type="checkbox"><span>In real games, all 4 frames are placed in one image called a <strong>sprite sheet</strong>.</span></div>
+
+    <div class="step"><input type="checkbox"><span>What you just made <strong>IS</strong> a sprite sheet! Your 2000&times;500 design with 4 frames side by side is exactly what game engines use.</span></div>
+
+    <div class="step"><input type="checkbox"><span>Professional games have sprite sheets with <strong>dozens of frames</strong> for walking, running, jumping, attacking, dying, and more.</span></div>
+
+    <div class="step"><input type="checkbox"><span>Your 4-frame design is <strong>exactly</strong> what Unity students create too &mdash; just using different tools.</span></div>
+
+    <div class="buddy">Look up "sprite sheet examples" on Google Images to see how professional games organise their animation frames!</div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section">
+    <h2><span class="num">5</span> Save Your Work</h2>
+
+    <div class="step"><input type="checkbox"><span><strong>Save</strong> your Canva design (it auto-saves, but double-check).</span></div>
+
+    <div class="step"><input type="checkbox"><span><strong>Take a screenshot</strong> of your completed animation frames.</span></div>
+
+    <div class="step"><input type="checkbox"><span><strong>Submit</strong> your screenshot to Google Classroom.</span></div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <h2>Well Done!</h2>
+    <p>You learned how animation works and created a 4-frame walk cycle! This is exactly how professional game animators work.</p>
+  </div>
+
+  <!-- NAV BOTTOM -->
+  <div class="nav-links">
+    <a href="LS-L10-GamePieces.html">&larr; Previous Lesson</a>
+    <a href="LS-L12-BuildYourWorld.html">Next Lesson &rarr;</a>
+  </div>
+
+</div>
+</body>
+</html>

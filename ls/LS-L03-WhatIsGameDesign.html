@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LS-L03 — What Is Game Design? (Learning Support)</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:18px;line-height:1.8;}a{color:var(--blue);}
+.hero{text-align:center;padding:60px 20px 30px;}.hero h1{font-family:var(--font-head);font-size:2rem;color:var(--neon);margin-bottom:8px;}.hero .sub{color:var(--muted);font-size:1rem;margin-bottom:16px;}.hero .badges{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}.hero .badge{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.85rem;color:var(--muted);}.hero .badge b{color:var(--neon);}.ls-badge{display:inline-block;background:var(--amber);color:var(--navy);font-family:var(--font-head);font-weight:700;padding:6px 18px;border-radius:8px;font-size:.85rem;margin-top:14px;}
+.container{max-width:800px;margin:0 auto;padding:0 20px 60px;}
+.nav-links{display:flex;justify-content:space-between;margin:20px 0;font-size:.85rem;}.nav-links a{color:var(--blue);text-decoration:none;}.nav-links a:hover{text-decoration:underline;}
+.section{margin:30px 0;padding:24px;border:2px solid var(--border);border-radius:16px;background:var(--dark);}.section h2{font-family:var(--font-head);font-size:1.3rem;color:var(--neon);margin-bottom:16px;display:flex;align-items:center;gap:12px;}.section h2 .num{background:var(--neon);color:var(--navy);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.step{padding:14px 0;border-bottom:1px solid rgba(51,65,85,.5);font-size:1.05rem;display:flex;gap:12px;align-items:flex-start;}.step:last-child{border-bottom:none;}.step input[type="checkbox"]{width:24px;height:24px;accent-color:var(--neon);flex-shrink:0;margin-top:4px;cursor:pointer;}.step strong{color:var(--neon);}.step .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:2px 10px;font-size:.9rem;color:var(--amber);font-weight:700;}
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.3);border-radius:10px;}.vocab h4{font-family:var(--font-head);font-size:.85rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.95rem;}.vocab dt{color:var(--amber);font-weight:700;}.vocab dd{color:var(--muted);}
+.buddy{margin:14px 0;padding:14px 18px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.3);border-radius:10px;font-size:1rem;}.buddy::before{content:'BUDDY TIP: ';font-family:var(--font-head);color:var(--blue);font-weight:700;font-size:.85rem;}
+.stop-check{margin:16px 0;padding:16px 18px;background:rgba(74,222,128,.1);border:2px solid var(--neon);border-radius:10px;font-size:1.05rem;text-align:center;}.stop-check::before{content:'STOP AND CHECK ';font-family:var(--font-head);color:var(--neon);font-weight:700;font-size:.9rem;}
+.help-box{margin:14px 0;padding:14px 18px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);border-radius:10px;font-size:1rem;}.help-box::before{content:'NEED HELP? ';font-family:var(--font-head);color:var(--amber);font-weight:700;font-size:.85rem;}
+.canva-step{margin:10px 0;padding:12px 16px;background:rgba(74,222,128,.05);border-left:4px solid var(--neon);border-radius:0 8px 8px 0;font-size:1rem;}.canva-step .action{color:var(--neon);font-weight:700;}.canva-step .result{color:var(--muted);font-style:italic;font-size:.9rem;display:block;margin-top:4px;}
+.gdd-field-ls{margin:12px 0;padding:14px 18px;background:rgba(15,23,42,.5);border:2px solid var(--border);border-radius:10px;}.gdd-field-ls .label{font-family:var(--font-head);font-size:.9rem;color:var(--neon);font-weight:700;margin-bottom:6px;}.gdd-field-ls .hint{font-size:.95rem;color:var(--muted);font-style:italic;margin-bottom:8px;}.gdd-field-ls .write-area{background:rgba(15,23,42,.6);border:1px dashed var(--muted);border-radius:6px;padding:12px;min-height:50px;color:var(--muted);font-style:italic;font-size:.9rem;}
+.footer{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;text-align:center;}.footer h2{font-family:var(--font-head);font-size:1.1rem;color:var(--neon);margin-bottom:12px;}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;}body{font-size:14pt;}.hero h1{color:#111!important;}.section{break-inside:avoid;border:2px solid #333;}.canva-step{border-left:3px solid #333;}.nav-links{display:none;}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>WHAT IS GAME DESIGN?</h1>
+  <p class="sub">Learn what games are made of — and try Canva for the first time!</p>
+  <div class="badges">
+    <span class="badge"><b>Lesson:</b> T1 — L03</span>
+    <span class="badge"><b>Time:</b> ~75 min</span>
+    <span class="badge"><b>Tool:</b> Canva</span>
+    <span class="badge"><b>Outcomes:</b> G5-1, G5-3</span>
+  </div>
+  <span class="ls-badge">LEARNING SUPPORT VERSION</span>
+</div>
+
+<div class="container">
+
+<div class="nav-links">
+  <a href="index.html">&larr; Back to All Lessons</a>
+  <a href="LS-L04-MyFirstSprite.html">Next Lesson &rarr;</a>
+</div>
+
+<!-- ── SECTION 1: What Is a Game? ── -->
+<div class="section">
+  <h2><span class="num">1</span> What Is a Game?</h2>
+
+  <div class="vocab">
+    <h4>Words to Know</h4>
+    <dl>
+      <dt>Game</dt><dd>Something you play that has rules, a goal, and is fun</dd>
+      <dt>Character</dt><dd>The person or thing the player controls (e.g. Mario, Steve in Minecraft)</dd>
+      <dt>World</dt><dd>The place where the game happens (e.g. a jungle, space, a city)</dd>
+      <dt>Rules</dt><dd>What you can and cannot do in the game</dd>
+      <dt>Goal</dt><dd>What you need to do to win or succeed</dd>
+    </dl>
+  </div>
+
+  <div class="step"><input type="checkbox"><span>Think about your <strong>favourite game</strong>. It could be a video game, a board game, or a phone game.</span></div>
+
+  <div class="step"><input type="checkbox"><span>Every game has <strong>4 parts</strong>:<br>
+    1. A <strong>Character</strong> (who you play as)<br>
+    2. A <strong>World</strong> (where you play)<br>
+    3. <strong>Rules</strong> (what you can do)<br>
+    4. A <strong>Goal</strong> (how to win)</span></div>
+
+  <div class="step"><input type="checkbox"><span><strong>Example — Minecraft:</strong><br>
+    Character = Steve or Alex<br>
+    World = A blocky world with biomes<br>
+    Rules = Mine blocks, craft tools, fight mobs<br>
+    Goal = Survive, build, explore (or beat the Ender Dragon!)</span></div>
+
+  <div class="buddy">Talk to your partner: What is your favourite game? Can you name all 4 parts (character, world, rules, goal)?</div>
+
+  <div class="stop-check">I can explain the 4 parts of any game.</div>
+</div>
+
+<!-- ── SECTION 2: Game Genres ── -->
+<div class="section">
+  <h2><span class="num">2</span> Types of Games (Genres)</h2>
+
+  <div class="step"><input type="checkbox"><span>A <strong>genre</strong> is the type of game. Here are the main ones:</span></div>
+
+  <div class="step"><input type="checkbox"><span>
+    <strong>Platformer</strong> — Run and jump on platforms (e.g. Mario, Celeste)<br>
+    <strong>Puzzle</strong> — Solve problems to progress (e.g. Candy Crush, Portal)<br>
+    <strong>Adventure</strong> — Explore a world and complete quests (e.g. Zelda, Stardew Valley)<br>
+    <strong>Shooter</strong> — Aim and shoot at targets or enemies (e.g. Fortnite, Splatoon)<br>
+    <strong>Racing</strong> — Drive fast and win the race (e.g. Mario Kart, Need for Speed)<br>
+    <strong>Simulation</strong> — Pretend to do a real activity (e.g. The Sims, Animal Crossing)</span></div>
+
+  <div class="step"><input type="checkbox"><span>Write down <strong>3 games</strong> you know and their genre:</span></div>
+
+  <div class="gdd-field-ls">
+    <div class="label">My 3 Games</div>
+    <div class="hint">e.g. Fortnite = Shooter, Mario Kart = Racing, Minecraft = Adventure</div>
+    <div class="write-area">1. _____ = _____<br>2. _____ = _____<br>3. _____ = _____</div>
+  </div>
+
+  <div class="stop-check">I can name at least 3 game genres with an example for each.</div>
+</div>
+
+<!-- ── SECTION 3: Getting Started with Canva ── -->
+<div class="section">
+  <h2><span class="num">3</span> Getting Started with Canva</h2>
+
+  <div class="step"><input type="checkbox"><span><strong>What is Canva?</strong> Canva is a free website where you can create posters, pictures, and designs. We will use it all term to design our game!</span></div>
+
+  <div class="step"><input type="checkbox"><span><strong>Open your web browser</strong> (Chrome or Edge). Type this address in the bar at the top:</span></div>
+
+  <div class="canva-step">
+    <span class="action">Type: canva.com</span> and press <span class="key">Enter</span>
+    <span class="result">You will see the Canva home page. It has a purple and white design.</span>
+  </div>
+
+  <div class="step"><input type="checkbox"><span><strong>Sign in with your school Google account.</strong> Follow these steps:</span></div>
+
+  <div class="canva-step">
+    <span class="action">Step 1:</span> Click the <span class="key">Log in</span> button in the top-right corner.
+    <span class="result">A sign-in window will appear.</span>
+  </div>
+
+  <div class="canva-step">
+    <span class="action">Step 2:</span> Click <span class="key">Continue with Google</span>.
+    <span class="result">A Google sign-in window will pop up.</span>
+  </div>
+
+  <div class="canva-step">
+    <span class="action">Step 3:</span> Choose your <strong>school email</strong> (it ends with @education.nsw.gov.au).
+    <span class="result">You are now logged into Canva! You should see your name in the top-right corner.</span>
+  </div>
+
+  <div class="help-box">Stuck on signing in? Raise your hand. Your teacher or SLSO can help you log in.</div>
+
+  <div class="step"><input type="checkbox"><span><strong>Create your first design:</strong></span></div>
+
+  <div class="canva-step">
+    <span class="action">Step 4:</span> Click the big purple <span class="key">Create a design</span> button (top-right corner).
+    <span class="result">A dropdown menu will appear with different design sizes.</span>
+  </div>
+
+  <div class="canva-step">
+    <span class="action">Step 5:</span> Click <span class="key">Custom size</span>.
+    <span class="result">Two boxes will appear for width and height.</span>
+  </div>
+
+  <div class="canva-step">
+    <span class="action">Step 6:</span> Type <span class="key">1080</span> in the width box and <span class="key">1080</span> in the height box. Make sure it says <strong>px</strong> (pixels). Then click <span class="key">Create new design</span>.
+    <span class="result">A blank white square will appear. This is your canvas! You will design on this.</span>
+  </div>
+
+  <div class="stop-check">I am logged into Canva and I have a blank 1080 x 1080 design open.</div>
+</div>
+
+<!-- ── SECTION 4: Make a Game Poster ── -->
+<div class="section">
+  <h2><span class="num">4</span> Make a "My Favourite Game" Poster</h2>
+
+  <div class="step"><input type="checkbox"><span>You will now make a <strong>poster about your favourite game</strong>. Follow the steps below.</span></div>
+
+  <div class="step"><input type="checkbox"><span><strong>Add a background colour:</strong></span></div>
+
+  <div class="canva-step">
+    <span class="action">Step 1:</span> Click anywhere on the white canvas. Then look at the top-left of the screen for a coloured square. Click it.
+    <span class="result">A colour picker will appear.</span>
+  </div>
+
+  <div class="canva-step">
+    <span class="action">Step 2:</span> Choose a <strong>dark colour</strong> that matches your game's mood (e.g. dark blue for a space game, dark green for a jungle game).
+    <span class="result">Your canvas background will change to the colour you picked.</span>
+  </div>
+
+  <div class="step"><input type="checkbox"><span><strong>Add the game title:</strong></span></div>
+
+  <div class="canva-step">
+    <span class="action">Step 3:</span> On the left sidebar, click <span class="key">Text</span>. Then click <span class="key">Add a heading</span>.
+    <span class="result">A text box saying "Add a heading" will appear on your canvas.</span>
+  </div>
+
+  <div class="canva-step">
+    <span class="action">Step 4:</span> Double-click the text box and type the <strong>name of your favourite game</strong> (e.g. "MINECRAFT" or "FORTNITE").
+    <span class="result">The game name will appear on your poster. You can change the font, size, and colour using the top toolbar.</span>
+  </div>
+
+  <div class="step"><input type="checkbox"><span><strong>Add the 4 parts of the game:</strong></span></div>
+
+  <div class="canva-step">
+    <span class="action">Step 5:</span> Click <span class="key">Text</span> again, then click <span class="key">Add a little bit of body text</span>. Type the 4 parts of your game:<br>
+    Character: _____<br>
+    World: _____<br>
+    Rules: _____<br>
+    Goal: _____
+    <span class="result">Your poster now shows the game name AND the 4 parts.</span>
+  </div>
+
+  <div class="step"><input type="checkbox"><span><strong>Add a picture or shape:</strong></span></div>
+
+  <div class="canva-step">
+    <span class="action">Step 6:</span> On the left sidebar, click <span class="key">Elements</span>. In the search bar at the top, type a word related to your game (e.g. "sword", "spaceship", "soccer").
+    <span class="result">Pictures and shapes will appear. Click one to add it to your poster. You can drag it to move it and pull the corners to resize it.</span>
+  </div>
+
+  <div class="help-box">Stuck? Show this page to your teacher or SLSO. They can help you find elements in Canva.</div>
+
+  <div class="step"><input type="checkbox"><span><strong>Make it look good:</strong> Move things around so your poster looks neat and colourful. Make the title BIG at the top. Put the 4 parts in the middle. Put pictures around the edges.</span></div>
+
+  <div class="buddy">Show your poster to your partner. Can they guess which game it is? Ask them: "What would you add to make it even better?"</div>
+
+  <div class="stop-check">My poster has: a background colour, the game title, the 4 parts (character, world, rules, goal), and at least one picture or shape.</div>
+</div>
+
+<!-- ── SECTION 5: Save Your Work ── -->
+<div class="section">
+  <h2><span class="num">5</span> Save Your Work</h2>
+
+  <div class="step"><input type="checkbox"><span><strong>Good news!</strong> Canva saves your work automatically. But let's give it a proper name:</span></div>
+
+  <div class="canva-step">
+    <span class="action">Step 1:</span> Look at the very top of the screen. You will see text that says something like "Untitled Design". Click on it.
+    <span class="result">The text becomes editable.</span>
+  </div>
+
+  <div class="canva-step">
+    <span class="action">Step 2:</span> Delete the old name and type: <span class="key">L03 - My Favourite Game - [Your Name]</span>
+    <span class="result">Your design now has a proper name and is saved in your Canva account.</span>
+  </div>
+
+  <div class="step"><input type="checkbox"><span><strong>To find it later:</strong> Go to <strong>canva.com</strong> and click <span class="key">Projects</span> on the left sidebar. All your designs will be there.</span></div>
+</div>
+
+<!-- ── FOOTER ── -->
+<div class="footer">
+  <h2>Well Done!</h2>
+  <p>You learned the 4 parts of every game, different game genres, and created your first design in Canva!</p>
+  <p style="color:var(--muted);font-size:.9rem;margin-top:12px;">Submit: Take a screenshot of your Canva poster and upload it to Google Classroom.</p>
+</div>
+
+<div class="nav-links">
+  <a href="index.html">&larr; Back to All Lessons</a>
+  <a href="LS-L04-MyFirstSprite.html">Next Lesson &rarr;</a>
+</div>
+
+</div><!-- /container -->
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LS L09 &mdash; Design Your Game</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:18px;line-height:1.8;}a{color:var(--blue);}
+.hero{text-align:center;padding:60px 20px 30px;}.hero h1{font-family:var(--font-head);font-size:2rem;color:var(--neon);margin-bottom:8px;}.hero .sub{color:var(--muted);font-size:1rem;margin-bottom:16px;}.hero .badges{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}.hero .badge{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.85rem;color:var(--muted);}.hero .badge b{color:var(--neon);}.ls-badge{display:inline-block;background:var(--amber);color:var(--navy);font-family:var(--font-head);font-weight:700;padding:6px 18px;border-radius:8px;font-size:.85rem;margin-top:14px;}
+.container{max-width:800px;margin:0 auto;padding:0 20px 60px;}
+.nav-links{display:flex;justify-content:space-between;margin:20px 0;font-size:.85rem;}.nav-links a{color:var(--blue);text-decoration:none;}.nav-links a:hover{text-decoration:underline;}
+.section{margin:30px 0;padding:24px;border:2px solid var(--border);border-radius:16px;background:var(--dark);}.section h2{font-family:var(--font-head);font-size:1.3rem;color:var(--neon);margin-bottom:16px;display:flex;align-items:center;gap:12px;}.section h2 .num{background:var(--neon);color:var(--navy);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.step{padding:14px 0;border-bottom:1px solid rgba(51,65,85,.5);font-size:1.05rem;display:flex;gap:12px;align-items:flex-start;}.step:last-child{border-bottom:none;}.step input[type="checkbox"]{width:24px;height:24px;accent-color:var(--neon);flex-shrink:0;margin-top:4px;cursor:pointer;}.step strong{color:var(--neon);}.step .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:2px 10px;font-size:.9rem;color:var(--amber);font-weight:700;}
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.3);border-radius:10px;}.vocab h4{font-family:var(--font-head);font-size:.85rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.95rem;}.vocab dt{color:var(--amber);font-weight:700;}.vocab dd{color:var(--muted);}
+.buddy{margin:14px 0;padding:14px 18px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.3);border-radius:10px;font-size:1rem;}.buddy::before{content:'BUDDY TIP: ';font-family:var(--font-head);color:var(--blue);font-weight:700;font-size:.85rem;}
+.stop-check{margin:16px 0;padding:16px 18px;background:rgba(74,222,128,.1);border:2px solid var(--neon);border-radius:10px;font-size:1.05rem;text-align:center;}.stop-check::before{content:'STOP AND CHECK ';font-family:var(--font-head);color:var(--neon);font-weight:700;font-size:.9rem;}
+.help-box{margin:14px 0;padding:14px 18px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);border-radius:10px;font-size:1rem;}.help-box::before{content:'NEED HELP? ';font-family:var(--font-head);color:var(--amber);font-weight:700;font-size:.85rem;}
+.canva-step{margin:10px 0;padding:12px 16px;background:rgba(74,222,128,.05);border-left:4px solid var(--neon);border-radius:0 8px 8px 0;font-size:1rem;}.canva-step .action{color:var(--neon);font-weight:700;}.canva-step .result{color:var(--muted);font-style:italic;font-size:.9rem;display:block;margin-top:4px;}
+.gdd-field-ls{margin:12px 0;padding:14px 18px;background:rgba(15,23,42,.5);border:2px solid var(--border);border-radius:10px;}.gdd-field-ls .label{font-family:var(--font-head);font-size:.9rem;color:var(--neon);font-weight:700;margin-bottom:6px;}.gdd-field-ls .hint{font-size:.95rem;color:var(--muted);font-style:italic;margin-bottom:8px;}.gdd-field-ls .write-area{background:rgba(15,23,42,.6);border:1px dashed var(--muted);border-radius:6px;padding:12px;min-height:50px;color:var(--muted);font-style:italic;font-size:.9rem;}
+.footer{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;text-align:center;}.footer h2{font-family:var(--font-head);font-size:1.1rem;color:var(--neon);margin-bottom:12px;}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;}body{font-size:14pt;}.hero h1{color:#111!important;}.section{break-inside:avoid;border:2px solid #333;}.canva-step{border-left:3px solid #333;}.nav-links{display:none;}}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>DESIGN YOUR GAME</h1>
+  <p class="sub">Plan your own game &mdash; the most important lesson of the term!</p>
+  <div class="badges">
+    <span class="badge"><b>T1 &mdash; L09</b></span>
+    <span class="badge"><b>~75 min</b></span>
+    <span class="badge"><b>Tool:</b> Canva</span>
+    <span class="badge"><b>Outcomes:</b> G5-1, G5-3, G5-5</span>
+  </div>
+  <span class="ls-badge">LEARNING SUPPORT</span>
+</div>
+
+<!-- CONTAINER -->
+<div class="container">
+
+  <!-- NAV -->
+  <div class="nav-links">
+    <a href="LS-L08-IfThisThenThat.html">&larr; Previous Lesson</a>
+    <a href="LS-L10-GamePieces.html">Next Lesson &rarr;</a>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2><span class="num">1</span> What Is Game Design?</h2>
+
+    <div class="step"><input type="checkbox"><span><strong>Game design</strong> means <strong>planning how a game works</strong>. It is not drawing. It is not coding. It is <strong>PLANNING</strong>.</span></div>
+
+    <div class="step"><input type="checkbox"><span>Every game has a <strong>core mechanic</strong> &mdash; the main thing the player does over and over again.</span></div>
+
+    <div class="step"><input type="checkbox"><span>Examples of core mechanics:<br>
+      &bull; <strong>Jump</strong> &mdash; Mario<br>
+      &bull; <strong>Build</strong> &mdash; Minecraft<br>
+      &bull; <strong>Shoot</strong> &mdash; Fortnite<br>
+      &bull; <strong>Collect</strong> &mdash; Pokemon</span></div>
+
+    <div class="step"><input type="checkbox"><span>A <strong>Genre</strong> is the type of game. Examples: Platformer, Puzzle, RPG, Shooter, Simulation, Adventure.</span></div>
+
+    <div class="vocab">
+      <h4>Key Vocabulary</h4>
+      <dl>
+        <dt>Game Designer</dt>
+        <dd>The person who plans how a game works.</dd>
+        <dt>Core Mechanic</dt>
+        <dd>The main action the player does most in the game.</dd>
+        <dt>Genre</dt>
+        <dd>The type/category of the game (e.g. Platformer, RPG).</dd>
+        <dt>Flow</dt>
+        <dd>When a game is not too easy and not too hard &mdash; it feels just right.</dd>
+      </dl>
+    </div>
+
+    <div class="buddy">What is your favourite game? What do you DO most in it? That&rsquo;s the core mechanic!</div>
+
+    <div class="stop-check">&mdash; I can explain what game design means. I can name a core mechanic.</div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2><span class="num">2</span> Analyse 3 Games</h2>
+
+    <div class="step"><input type="checkbox"><span>Think of <strong>3 games</strong> you have played. For each one, write the <strong>name</strong>, <strong>genre</strong>, and <strong>what you do</strong> in the game.</span></div>
+
+    <div class="gdd-field-ls">
+      <div class="label">Game 1</div>
+      <div class="hint">Write the name, genre, and what you do in this game.</div>
+      <div class="write-area">Name: &nbsp; &nbsp; Genre: &nbsp; &nbsp; What you do:</div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">Game 2</div>
+      <div class="hint">Write the name, genre, and what you do in this game.</div>
+      <div class="write-area">Name: &nbsp; &nbsp; Genre: &nbsp; &nbsp; What you do:</div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">Game 3</div>
+      <div class="hint">Write the name, genre, and what you do in this game.</div>
+      <div class="write-area">Name: &nbsp; &nbsp; Genre: &nbsp; &nbsp; What you do:</div>
+    </div>
+
+    <div class="stop-check">&mdash; I have analysed 3 games. Each one has a name, genre, and what you do.</div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2><span class="num">3</span> Plan Your Own Game</h2>
+
+    <div class="step"><input type="checkbox"><span>Now it&rsquo;s your turn! Fill in each box below to <strong>plan your own game</strong>.</span></div>
+
+    <div class="gdd-field-ls">
+      <div class="label">1. Game Title</div>
+      <div class="hint">Give your game a cool name.</div>
+      <div class="write-area">My game is called&hellip;</div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">2. Genre</div>
+      <div class="hint">Pick one: Platformer, Puzzle, RPG, Shooter, Simulation, or Adventure.</div>
+      <div class="write-area">My game is a&hellip;</div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">3. What Is Your Game About?</div>
+      <div class="hint">Write 2 sentences &mdash; who is the player, and what do they do?</div>
+      <div class="write-area">In my game, the player is&hellip; They have to&hellip;</div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">4. What Does the Player Do?</div>
+      <div class="hint">List 2&ndash;3 actions the player does (e.g. jump, collect coins, dodge enemies).</div>
+      <div class="write-area">The player can: 1. &hellip; 2. &hellip; 3. &hellip;</div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">5. How Do You Win?</div>
+      <div class="hint">What is the goal of the game?</div>
+      <div class="write-area">You win by&hellip;</div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">6. Controls</div>
+      <div class="hint">What keys do what? (e.g. Arrow keys = move, Space = jump)</div>
+      <div class="write-area">Arrow keys = &hellip; Space = &hellip; Other: &hellip;</div>
+    </div>
+
+    <div class="buddy">Stuck? Think of your favourite game. Can you make a simpler version of it?</div>
+
+    <div class="help-box">Raise your hand and ask your teacher or SLSO if you need help choosing a genre or writing your game plan.</div>
+
+    <div class="stop-check">&mdash; I have filled in all 6 boxes for my game plan.</div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section">
+    <h2><span class="num">4</span> Create a Mood Board in Canva</h2>
+
+    <div class="step"><input type="checkbox"><span>A <strong>mood board</strong> is a collection of pictures that show the <strong>style and feeling</strong> of your game &mdash; characters, environments, colours, and objects.</span></div>
+
+    <div class="canva-step">
+      <span class="action">Open Canva</span> and log in to your account.
+      <span class="result">You should see the Canva home page.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Click &ldquo;Create a design&rdquo;</span> &rarr; choose <strong>Custom size</strong> &rarr; type <strong>1080 x 1080 px</strong> &rarr; click <strong>Create new design</strong>.
+      <span class="result">A square blank canvas opens.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Click &ldquo;Elements&rdquo;</span> on the left sidebar. Search for images that match your game &mdash; try searching for your characters, environments, colours, and objects.
+      <span class="result">You will see lots of images, graphics, and stickers.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Drag 6&ndash;10 images</span> onto your canvas. Arrange them so they look good together. Resize and move them to fill the canvas.
+      <span class="result">Your canvas shows images that represent the style of your game.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Add a text box</span> with your <strong>game title</strong> at the top. Make it big and bold.
+      <span class="result">Your mood board has a title and 6&ndash;10 images.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Rename your design:</span> click the name at the top and type <strong>&ldquo;L09 - Game Mood Board - [Your Name]&rdquo;</strong>.
+      <span class="result">The design is saved with the correct name.</span>
+    </div>
+
+    <div class="help-box">Not sure what to search for? Think about: What does the world of your game look like? What colours? What characters?</div>
+
+    <div class="stop-check">&mdash; My mood board has 6&ndash;10 images, a title, and is named correctly.</div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section">
+    <h2><span class="num">5</span> Save Everything</h2>
+
+    <div class="step"><input type="checkbox"><span><strong>Check your Canva design</strong> is named <strong>&ldquo;L09 - Game Mood Board - [Your Name]&rdquo;</strong>.</span></div>
+
+    <div class="step"><input type="checkbox"><span><strong>Take a screenshot</strong> of your game plan (Section 3 above) or save it as a document.</span></div>
+
+    <div class="step"><input type="checkbox"><span><strong>Submit both</strong> your mood board screenshot and your game plan to <strong>Google Classroom</strong>.</span></div>
+
+    <div class="stop-check">&mdash; I have submitted my mood board and my game plan to Google Classroom.</div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <h2>Well Done!</h2>
+    <p>You designed your own game today! Save your work &mdash; you will use this plan for your portfolio.</p>
+  </div>
+
+  <!-- NAV BOTTOM -->
+  <div class="nav-links">
+    <a href="LS-L08-IfThisThenThat.html">&larr; Previous Lesson</a>
+    <a href="LS-L10-GamePieces.html">Next Lesson &rarr;</a>
+  </div>
+
+</div>
+</body>
+</html>

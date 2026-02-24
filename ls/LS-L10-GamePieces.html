@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LS L10 &mdash; Game Pieces</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:18px;line-height:1.8;}a{color:var(--blue);}
+.hero{text-align:center;padding:60px 20px 30px;}.hero h1{font-family:var(--font-head);font-size:2rem;color:var(--neon);margin-bottom:8px;}.hero .sub{color:var(--muted);font-size:1rem;margin-bottom:16px;}.hero .badges{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}.hero .badge{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.85rem;color:var(--muted);}.hero .badge b{color:var(--neon);}.ls-badge{display:inline-block;background:var(--amber);color:var(--navy);font-family:var(--font-head);font-weight:700;padding:6px 18px;border-radius:8px;font-size:.85rem;margin-top:14px;}
+.container{max-width:800px;margin:0 auto;padding:0 20px 60px;}
+.nav-links{display:flex;justify-content:space-between;margin:20px 0;font-size:.85rem;}.nav-links a{color:var(--blue);text-decoration:none;}.nav-links a:hover{text-decoration:underline;}
+.section{margin:30px 0;padding:24px;border:2px solid var(--border);border-radius:16px;background:var(--dark);}.section h2{font-family:var(--font-head);font-size:1.3rem;color:var(--neon);margin-bottom:16px;display:flex;align-items:center;gap:12px;}.section h2 .num{background:var(--neon);color:var(--navy);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.step{padding:14px 0;border-bottom:1px solid rgba(51,65,85,.5);font-size:1.05rem;display:flex;gap:12px;align-items:flex-start;}.step:last-child{border-bottom:none;}.step input[type="checkbox"]{width:24px;height:24px;accent-color:var(--neon);flex-shrink:0;margin-top:4px;cursor:pointer;}.step strong{color:var(--neon);}.step .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:2px 10px;font-size:.9rem;color:var(--amber);font-weight:700;}
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.3);border-radius:10px;}.vocab h4{font-family:var(--font-head);font-size:.85rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.95rem;}.vocab dt{color:var(--amber);font-weight:700;}.vocab dd{color:var(--muted);}
+.buddy{margin:14px 0;padding:14px 18px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.3);border-radius:10px;font-size:1rem;}.buddy::before{content:'BUDDY TIP: ';font-family:var(--font-head);color:var(--blue);font-weight:700;font-size:.85rem;}
+.stop-check{margin:16px 0;padding:16px 18px;background:rgba(74,222,128,.1);border:2px solid var(--neon);border-radius:10px;font-size:1.05rem;text-align:center;}.stop-check::before{content:'STOP AND CHECK ';font-family:var(--font-head);color:var(--neon);font-weight:700;font-size:.9rem;}
+.help-box{margin:14px 0;padding:14px 18px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);border-radius:10px;font-size:1rem;}.help-box::before{content:'NEED HELP? ';font-family:var(--font-head);color:var(--amber);font-weight:700;font-size:.85rem;}
+.canva-step{margin:10px 0;padding:12px 16px;background:rgba(74,222,128,.05);border-left:4px solid var(--neon);border-radius:0 8px 8px 0;font-size:1rem;}.canva-step .action{color:var(--neon);font-weight:700;}.canva-step .result{color:var(--muted);font-style:italic;font-size:.9rem;display:block;margin-top:4px;}
+.gdd-field-ls{margin:12px 0;padding:14px 18px;background:rgba(15,23,42,.5);border:2px solid var(--border);border-radius:10px;}.gdd-field-ls .label{font-family:var(--font-head);font-size:.9rem;color:var(--neon);font-weight:700;margin-bottom:6px;}.gdd-field-ls .hint{font-size:.95rem;color:var(--muted);font-style:italic;margin-bottom:8px;}.gdd-field-ls .write-area{background:rgba(15,23,42,.6);border:1px dashed var(--muted);border-radius:6px;padding:12px;min-height:50px;color:var(--muted);font-style:italic;font-size:.9rem;}
+.footer{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;text-align:center;}.footer h2{font-family:var(--font-head);font-size:1.1rem;color:var(--neon);margin-bottom:12px;}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;}body{font-size:14pt;}.hero h1{color:#111!important;}.section{break-inside:avoid;border:2px solid #333;}.canva-step{border-left:3px solid #333;}.nav-links{display:none;}}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>GAME PIECES</h1>
+  <p class="sub">Create reusable game elements &mdash; coins, enemies, and power-ups!</p>
+  <div class="badges">
+    <span class="badge"><b>T1 &mdash; L10</b></span>
+    <span class="badge"><b>~75 min</b></span>
+    <span class="badge"><b>Tool:</b> Canva</span>
+    <span class="badge"><b>Outcomes:</b> G5-1, G5-2, G5-3</span>
+  </div>
+  <span class="ls-badge">LEARNING SUPPORT</span>
+</div>
+
+<!-- CONTAINER -->
+<div class="container">
+
+  <!-- NAV -->
+  <div class="nav-links">
+    <a href="LS-L09-DesignYourGame.html">&larr; Previous Lesson</a>
+    <a href="LS-L11-Animation.html">Next Lesson &rarr;</a>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2><span class="num">1</span> What Are Game Pieces?</h2>
+
+    <div class="step"><input type="checkbox"><span><strong>Game pieces</strong> are things that appear <strong>multiple times</strong> in a game &mdash; coins, enemies, platforms, hearts, spikes.</span></div>
+
+    <div class="step"><input type="checkbox"><span>They are <strong>reusable</strong> &mdash; you design one coin, then copy it 50 times throughout the level.</span></div>
+
+    <div class="step"><input type="checkbox"><span>There are <strong>4 main types</strong> of game pieces:<br>
+      &bull; <strong>Collectibles</strong> &mdash; coins, gems, food &mdash; good for the player<br>
+      &bull; <strong>Hazards</strong> &mdash; spikes, lava, enemies &mdash; bad for the player<br>
+      &bull; <strong>Power-ups</strong> &mdash; shields, speed boots, extra life &mdash; temporary boost<br>
+      &bull; <strong>Platforms</strong> &mdash; things you stand on</span></div>
+
+    <div class="vocab">
+      <h4>Key Vocabulary</h4>
+      <dl>
+        <dt>Game Piece / Asset</dt>
+        <dd>An object used in a game (coin, enemy, platform, etc.).</dd>
+        <dt>Prefab</dt>
+        <dd>A reusable template &mdash; in Unity these are called Prefabs. Design once, use many times.</dd>
+        <dt>Collectible</dt>
+        <dd>Something the player picks up for points or progress (coins, gems).</dd>
+        <dt>Hazard</dt>
+        <dd>Something that hurts or stops the player (spikes, lava, enemies).</dd>
+        <dt>Power-up</dt>
+        <dd>A temporary boost for the player (shield, speed, extra life).</dd>
+      </dl>
+    </div>
+
+    <div class="buddy">Name 5 game pieces from your favourite game. Think about what you collect, what hurts you, and what helps you!</div>
+
+    <div class="stop-check">&mdash; I can name the 4 types of game pieces and give an example of each.</div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2><span class="num">2</span> Plan Your Game Pieces</h2>
+
+    <div class="step"><input type="checkbox"><span>Think about the game you planned in Lesson 9. <strong>What pieces does your game need?</strong> Fill in the boxes below.</span></div>
+
+    <div class="gdd-field-ls">
+      <div class="label">Collectible 1</div>
+      <div class="hint">What is it? What colour? What shape? (e.g. gold coin &mdash; yellow &mdash; circle)</div>
+      <div class="write-area">Name: &nbsp; &nbsp; Colour: &nbsp; &nbsp; Shape:</div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">Collectible 2</div>
+      <div class="hint">What is it? What colour? What shape? (e.g. blue gem &mdash; blue &mdash; diamond)</div>
+      <div class="write-area">Name: &nbsp; &nbsp; Colour: &nbsp; &nbsp; Shape:</div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">Hazard 1</div>
+      <div class="hint">What is it? What colour? What shape? (e.g. spike &mdash; grey &mdash; triangle)</div>
+      <div class="write-area">Name: &nbsp; &nbsp; Colour: &nbsp; &nbsp; Shape:</div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">Power-up 1</div>
+      <div class="hint">What is it? What colour? What shape? (e.g. shield &mdash; blue &mdash; circle with star)</div>
+      <div class="write-area">Name: &nbsp; &nbsp; Colour: &nbsp; &nbsp; Shape:</div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">Platform Type</div>
+      <div class="hint">What do your platforms look like? (e.g. brown rectangle, green grass block, metal beam)</div>
+      <div class="write-area">My platforms look like&hellip;</div>
+    </div>
+
+    <div class="stop-check">&mdash; I have planned at least 5 game pieces with names, colours, and shapes.</div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2><span class="num">3</span> Create Game Pieces in Canva</h2>
+
+    <div class="step"><input type="checkbox"><span>Now you will <strong>build each game piece</strong> in Canva using shapes and colours.</span></div>
+
+    <div class="canva-step">
+      <span class="action">Open Canva</span> and log in to your account.
+      <span class="result">You should see the Canva home page.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Click &ldquo;Create a design&rdquo;</span> &rarr; choose <strong>Custom size</strong> &rarr; type <strong>300 x 300 px</strong> &rarr; click <strong>Create new design</strong>.
+      <span class="result">A small square canvas opens &mdash; perfect for one game piece.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Click &ldquo;Elements&rdquo;</span> on the left sidebar &rarr; search for <strong>shapes</strong>.
+      <span class="result">You will see circles, squares, triangles, stars, and more.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Build your first collectible:</span> drag a shape onto the canvas. Change its colour to a <strong>bright colour</strong> (gold, green, yellow). For a coin, use a <strong>circle</strong>. For a gem, use a <strong>diamond</strong>.
+      <span class="result">A bright, simple shape sits on your canvas.</span>
+    </div>
+
+    <div class="help-box">Can&rsquo;t find the right shape? Try searching &ldquo;circle&rdquo;, &ldquo;diamond&rdquo;, &ldquo;star&rdquo;, or &ldquo;triangle&rdquo; in the Elements search bar.</div>
+
+    <div class="canva-step">
+      <span class="action">Add a small detail</span> to your piece &mdash; a shine effect (small white circle in the corner), eyes, or a glow. This makes it look more like a real game asset.
+      <span class="result">Your collectible has colour and a small detail.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Rename this design:</span> click the name at the top and type <strong>&ldquo;L10 - [Piece Name] - [Your Name]&rdquo;</strong> (e.g. &ldquo;L10 - Gold Coin - Alex&rdquo;).
+      <span class="result">The design is saved with the correct name.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Now create your hazard:</span> click <strong>Create a design &rarr; Custom size &rarr; 300 x 300 px</strong> again. Use <strong>dark or red colours</strong> and <strong>scary shapes</strong> &mdash; triangles for spikes, a circle with an angry face for an enemy.
+      <span class="result">A second game piece is created.</span>
+    </div>
+
+    <div class="help-box">For an angry face: use a circle for the head, two small circles for eyes, and a curved line for the mouth. Keep it simple!</div>
+
+    <div class="canva-step">
+      <span class="action">Create your power-up:</span> another 300 x 300 design. Use <strong>glowing/special colours</strong> (blue, purple) and <strong>star or shield shapes</strong>.
+      <span class="result">A third game piece is created.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Keep going!</span> Create at least <strong>5 game pieces total</strong>. Remember to rename each one: <strong>&ldquo;L10 - [Piece Name] - [Your Name]&rdquo;</strong>.
+      <span class="result">You have 5 or more game piece designs saved in Canva.</span>
+    </div>
+
+    <div class="help-box">If you finish early, try making extra pieces &mdash; different enemy types, bonus items, or moving platforms!</div>
+
+    <div class="stop-check">&mdash; I have created at least 5 game pieces in Canva. Each one is renamed correctly.</div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section">
+    <h2><span class="num">4</span> Arrange Pieces on Your Game World</h2>
+
+    <div class="step"><input type="checkbox"><span>Now you will place your game pieces into the <strong>game world you designed in Lesson 5</strong>. This is exactly what <strong>&ldquo;Prefabs&rdquo;</strong> means &mdash; one template, many copies.</span></div>
+
+    <div class="canva-step">
+      <span class="action">Download each game piece as PNG:</span> open a game piece design &rarr; click <strong>Share</strong> (top right) &rarr; click <strong>Download</strong> &rarr; choose <strong>PNG</strong> &rarr; click <strong>Download</strong>.
+      <span class="result">The game piece is saved as a PNG image on your computer.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Do this for all 5 game pieces.</span> You should have 5 PNG files downloaded.
+      <span class="result">Five PNG files are in your Downloads folder.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Open your L05 Game World design</span> in Canva. Find it in your recent designs or search for &ldquo;L05&rdquo;.
+      <span class="result">Your game world background is open.</span>
+    </div>
+
+    <div class="help-box">Can&rsquo;t find your L05 design? Check &ldquo;All your designs&rdquo; on the Canva home page. Or ask your teacher for help.</div>
+
+    <div class="canva-step">
+      <span class="action">Click &ldquo;Uploads&rdquo;</span> on the left sidebar &rarr; click <strong>&ldquo;Upload files&rdquo;</strong> &rarr; select your PNG game pieces &rarr; upload them.
+      <span class="result">Your game pieces appear in the Uploads panel.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Drag your collectibles</span> onto the game world. Place them <strong>along the player&rsquo;s path</strong> &mdash; where a player would walk or jump.
+      <span class="result">Coins or gems are placed in your level.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Place your hazards</span> in <strong>tricky spots</strong> &mdash; near edges, in narrow gaps, or blocking the path.
+      <span class="result">Spikes or enemies are placed in challenging positions.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Place your power-ups</span> in <strong>hard-to-reach places</strong> &mdash; on high platforms or hidden corners. Power-ups should be a reward!
+      <span class="result">Power-ups are placed as rewards in your level.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Duplicate pieces to place multiples:</span> select a piece &rarr; press <span class="key">Ctrl+D</span> (or right-click &rarr; <strong>Duplicate</strong>) &rarr; drag the copy to a new position. Repeat as many times as you need.
+      <span class="result">Multiple copies of the same piece are spread across your level.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Rename your design:</span> click the name at the top and type <strong>&ldquo;L10 - Level With Pieces - [Your Name]&rdquo;</strong>.
+      <span class="result">The design is saved with the correct name.</span>
+    </div>
+
+    <div class="stop-check">&mdash; My game world has at least 3 collectibles, 2 hazards, and 1 power-up placed in it.</div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section">
+    <h2><span class="num">5</span> Save Your Work</h2>
+
+    <div class="step"><input type="checkbox"><span><strong>Check all your Canva designs</strong> are saved with the correct names (L10 - [Piece Name] - [Your Name]).</span></div>
+
+    <div class="step"><input type="checkbox"><span><strong>Check your game world</strong> is named <strong>&ldquo;L10 - Level With Pieces - [Your Name]&rdquo;</strong>.</span></div>
+
+    <div class="step"><input type="checkbox"><span><strong>Take screenshots</strong> of your game pieces and your level with pieces.</span></div>
+
+    <div class="step"><input type="checkbox"><span><strong>Submit your screenshots</strong> to <strong>Google Classroom</strong>.</span></div>
+
+    <div class="stop-check">&mdash; All my designs are saved and screenshots are submitted to Google Classroom.</div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <h2>Well Done!</h2>
+    <p>You created reusable game pieces and placed them in your game world! Professional game developers do the exact same thing.</p>
+  </div>
+
+  <!-- NAV BOTTOM -->
+  <div class="nav-links">
+    <a href="LS-L09-DesignYourGame.html">&larr; Previous Lesson</a>
+    <a href="LS-L11-Animation.html">Next Lesson &rarr;</a>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LS-L07 — Game Rules (Learning Support)</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:18px;line-height:1.8;}a{color:var(--blue);}
+.hero{text-align:center;padding:60px 20px 30px;}.hero h1{font-family:var(--font-head);font-size:2rem;color:var(--neon);margin-bottom:8px;}.hero .sub{color:var(--muted);font-size:1rem;margin-bottom:16px;}.hero .badges{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}.hero .badge{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.85rem;color:var(--muted);}.hero .badge b{color:var(--neon);}.ls-badge{display:inline-block;background:var(--amber);color:var(--navy);font-family:var(--font-head);font-weight:700;padding:6px 18px;border-radius:8px;font-size:.85rem;margin-top:14px;}
+.container{max-width:800px;margin:0 auto;padding:0 20px 60px;}
+.nav-links{display:flex;justify-content:space-between;margin:20px 0;font-size:.85rem;}.nav-links a{color:var(--blue);text-decoration:none;}.nav-links a:hover{text-decoration:underline;}
+.section{margin:30px 0;padding:24px;border:2px solid var(--border);border-radius:16px;background:var(--dark);}.section h2{font-family:var(--font-head);font-size:1.3rem;color:var(--neon);margin-bottom:16px;display:flex;align-items:center;gap:12px;}.section h2 .num{background:var(--neon);color:var(--navy);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.step{padding:14px 0;border-bottom:1px solid rgba(51,65,85,.5);font-size:1.05rem;display:flex;gap:12px;align-items:flex-start;}.step:last-child{border-bottom:none;}.step input[type="checkbox"]{width:24px;height:24px;accent-color:var(--neon);flex-shrink:0;margin-top:4px;cursor:pointer;}.step strong{color:var(--neon);}.step .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:2px 10px;font-size:.9rem;color:var(--amber);font-weight:700;}
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.3);border-radius:10px;}.vocab h4{font-family:var(--font-head);font-size:.85rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.95rem;}.vocab dt{color:var(--amber);font-weight:700;}.vocab dd{color:var(--muted);}
+.buddy{margin:14px 0;padding:14px 18px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.3);border-radius:10px;font-size:1rem;}.buddy::before{content:'BUDDY TIP: ';font-family:var(--font-head);color:var(--blue);font-weight:700;font-size:.85rem;}
+.stop-check{margin:16px 0;padding:16px 18px;background:rgba(74,222,128,.1);border:2px solid var(--neon);border-radius:10px;font-size:1.05rem;text-align:center;}.stop-check::before{content:'STOP AND CHECK ';font-family:var(--font-head);color:var(--neon);font-weight:700;font-size:.9rem;}
+.help-box{margin:14px 0;padding:14px 18px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);border-radius:10px;font-size:1rem;}.help-box::before{content:'NEED HELP? ';font-family:var(--font-head);color:var(--amber);font-weight:700;font-size:.85rem;}
+.scratch-step{margin:10px 0;padding:12px 16px;background:rgba(56,189,248,.05);border-left:4px solid var(--blue);border-radius:0 8px 8px 0;font-size:1rem;}.scratch-step .action{color:var(--blue);font-weight:700;}.scratch-step .result{color:var(--muted);font-style:italic;font-size:.9rem;display:block;margin-top:4px;}
+.canva-step{margin:10px 0;padding:12px 16px;background:rgba(74,222,128,.05);border-left:4px solid var(--neon);border-radius:0 8px 8px 0;font-size:1rem;}.canva-step .action{color:var(--neon);font-weight:700;}.canva-step .result{color:var(--muted);font-style:italic;font-size:.9rem;display:block;margin-top:4px;}
+.block-example{margin:12px 0;padding:16px;background:var(--navy);border:2px solid var(--border);border-radius:12px;font-size:1rem;text-align:center;}.block-example .block{display:inline-block;padding:8px 16px;margin:4px;border-radius:8px;font-weight:700;font-size:.95rem;}.block-event{background:#ffbf00;color:#000;}.block-motion{background:#4c97ff;color:#fff;}.block-looks{background:#9966ff;color:#fff;}.block-control{background:#ffab19;color:#000;}.block-sensing{background:#5cb1d6;color:#fff;}.block-variable{background:#ff8c1a;color:#fff;}.block-operator{background:#59c059;color:#fff;}
+.gdd-field-ls{margin:12px 0;padding:14px 18px;background:rgba(15,23,42,.5);border:2px solid var(--border);border-radius:10px;}.gdd-field-ls .label{font-family:var(--font-head);font-size:.9rem;color:var(--neon);font-weight:700;margin-bottom:6px;}.gdd-field-ls .hint{font-size:.95rem;color:var(--muted);font-style:italic;margin-bottom:8px;}.gdd-field-ls .write-area{background:rgba(15,23,42,.6);border:1px dashed var(--muted);border-radius:6px;padding:12px;min-height:50px;color:var(--muted);font-style:italic;font-size:.9rem;}
+.footer{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;text-align:center;}.footer h2{font-family:var(--font-head);font-size:1.1rem;color:var(--neon);margin-bottom:12px;}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;}body{font-size:14pt;}.hero h1{color:#111!important;}.section{break-inside:avoid;border:2px solid #333;}.scratch-step,.canva-step{border-left:3px solid #333;}.nav-links{display:none;}.block-example .block{border:1px solid #333;}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>GAME RULES</h1>
+  <p class="sub">Learn what variables are and add a score to your Scratch game!</p>
+  <div class="badges">
+    <span class="badge"><b>Lesson:</b> T1 — L07</span>
+    <span class="badge"><b>Time:</b> ~75 min</span>
+    <span class="badge"><b>Tool:</b> Scratch + Canva</span>
+    <span class="badge"><b>Outcomes:</b> G5-1, G5-2, G5-4</span>
+  </div>
+  <span class="ls-badge">LEARNING SUPPORT VERSION</span>
+</div>
+
+<div class="container">
+
+<div class="nav-links">
+  <a href="LS-L06-HowGamesThink.html">&larr; Previous Lesson</a>
+  <a href="LS-L08-IfThisThenThat.html">Next Lesson &rarr;</a>
+</div>
+
+<!-- ── SECTION 1: What Are Game Rules? ── -->
+<div class="section">
+  <h2><span class="num">1</span> What Are Game Rules?</h2>
+
+  <div class="vocab">
+    <h4>Words to Know</h4>
+    <dl>
+      <dt>Variable</dt><dd>A value that can change — like score, lives, or speed</dd>
+      <dt>Score</dt><dd>A number that counts points</dd>
+      <dt>Lives</dt><dd>How many chances the player has</dd>
+      <dt>HUD</dt><dd>Heads-up display — info shown on screen like score and lives</dd>
+    </dl>
+  </div>
+
+  <div class="step"><input type="checkbox"><span>Every game has <strong>numbers that change</strong>. Your score goes up when you collect things. Your lives go down when you get hurt. A timer counts down. Speed can change as the game gets harder.</span></div>
+
+  <div class="step"><input type="checkbox"><span>These changing numbers are called <strong>variables</strong>. A variable is like a labelled box that holds a number — and that number can go up or down during the game.</span></div>
+
+  <div class="step"><input type="checkbox"><span><strong>Real game examples:</strong><br>
+    - Minecraft: hearts (lives), hunger bar, XP level<br>
+    - Fortnite: shield bar, materials count, health<br>
+    - Mario: coin counter, lives, time remaining</span></div>
+
+  <div class="buddy">Tell your partner: What are 3 variables in YOUR favourite game? (Think about numbers on the screen that change.)</div>
+
+  <div class="stop-check">I can name 3 variables in my favourite game.</div>
+</div>
+
+<!-- ── SECTION 2: Add a Score to Scratch ── -->
+<div class="section">
+  <h2><span class="num">2</span> Add a Score to Scratch</h2>
+
+  <div class="step"><input type="checkbox"><span>Open <strong>Scratch</strong> and load your L06 project (the one where the cat moves with arrow keys).</span></div>
+
+  <div class="scratch-step">
+    <span class="action">Step 1:</span> In the Block Palette (left side), click on <span class="key">Variables</span> (orange section).
+    <span class="result">You will see orange blocks appear.</span>
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 2:</span> Click the <span class="key">Make a Variable</span> button at the top of the orange section.
+    <span class="result">A pop-up window appears asking for a name.</span>
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 3:</span> Type <span class="key">Score</span> as the variable name and click <span class="key">OK</span>.
+    <span class="result">A score display appears on the stage! You will also see new orange blocks with "Score" in them.</span>
+  </div>
+
+  <div class="step"><input type="checkbox"><span>Now let's make the score <strong>start at 0</strong> every time the game begins:</span></div>
+
+  <div class="scratch-step">
+    <span class="action">Step 4:</span> From <span class="key">Events</span> (yellow section), drag <strong>"when green flag clicked"</strong> into the Coding Area.
+    <span class="result">This block runs when you start the game.</span>
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 5:</span> From <span class="key">Variables</span> (orange section), drag <strong>"set Score to 0"</strong> and snap it underneath the green flag block.
+    <span class="result">Now every time you click the green flag, the score resets to 0.</span>
+  </div>
+
+  <div class="block-example">
+    <span class="block block-event">when green flag clicked</span><br>
+    <span class="block block-variable">set Score to 0</span>
+  </div>
+
+  <div class="step"><input type="checkbox"><span>Now let's make the score <strong>go up</strong> when you press a key:</span></div>
+
+  <div class="scratch-step">
+    <span class="action">Step 6:</span> From <span class="key">Events</span>, drag a new <strong>"when [space] key pressed"</strong> block into the Coding Area (separate from the other stack).
+    <span class="result">This will listen for the space bar.</span>
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 7:</span> From <span class="key">Variables</span>, drag <strong>"change Score by 1"</strong> and snap it underneath the space key block.
+    <span class="result">Now pressing space adds 1 to the score.</span>
+  </div>
+
+  <div class="block-example">
+    <span class="block block-event">when space key pressed</span><br>
+    <span class="block block-variable">change Score by 1</span>
+  </div>
+
+  <div class="step"><input type="checkbox"><span><strong>Test it!</strong> Click the <strong>green flag</strong>, then press <span class="key">Space</span> multiple times. Watch the score go up on the stage!</span></div>
+
+  <div class="help-box">Score not showing? Make sure the checkbox next to "Score" is ticked in the Variables section. That checkbox controls whether it shows on the stage.</div>
+
+  <div class="stop-check">When I press the green flag, score resets to 0. When I press space, score goes up by 1.</div>
+</div>
+
+<!-- ── SECTION 3: Make Score Go Up When Touching Something ── -->
+<div class="section">
+  <h2><span class="num">3</span> Make Score Go Up When Touching Something</h2>
+
+  <div class="step"><input type="checkbox"><span>Let's add a <strong>second sprite</strong> (a star) and make the score go up when the cat touches it!</span></div>
+
+  <div class="scratch-step">
+    <span class="action">Step 1:</span> Look at the bottom-right of the stage area. Click the <span class="key">Choose a Sprite</span> button (it looks like a cat face with a + icon).
+    <span class="result">A sprite library opens with lots of characters and objects.</span>
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 2:</span> In the search bar, type <span class="key">star</span> and click on the Star sprite to add it.
+    <span class="result">A star appears on the stage alongside your cat!</span>
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 3:</span> Go back to the <strong>cat sprite</strong> by clicking the cat thumbnail below the stage.
+    <span class="result">Important! The code we write next goes on the CAT, not on the star.</span>
+  </div>
+
+  <div class="step"><input type="checkbox"><span>Now we will make the cat <strong>check constantly</strong> if it is touching the star, and add points if it is:</span></div>
+
+  <div class="scratch-step">
+    <span class="action">Step 4:</span> Find your existing <strong>"when green flag clicked"</strong> stack (with "set Score to 0"). We will add to it.
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 5:</span> From <span class="key">Control</span> (orange section), drag a <strong>"forever"</strong> block and snap it under "set Score to 0".
+    <span class="result">The forever block is a loop — it keeps checking over and over.</span>
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 6:</span> From <span class="key">Control</span>, drag <strong>"if &lt; &gt; then"</strong> and place it inside the forever block.
+    <span class="result">This is a decision block — it checks a condition.</span>
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 7:</span> From <span class="key">Sensing</span> (light blue section), drag <strong>"touching [mouse-pointer]?"</strong> into the diamond-shaped hole in the if block. Click the dropdown and change it to <span class="key">Star</span>.
+    <span class="result">Now it reads: "if touching Star then".</span>
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 8:</span> From <span class="key">Variables</span>, drag <strong>"change Score by 1"</strong> inside the if block. Change the 1 to <span class="key">10</span>.
+    <span class="result">Now touching the star adds 10 points!</span>
+  </div>
+
+  <div class="block-example">
+    <span class="block block-event">when green flag clicked</span><br>
+    <span class="block block-variable">set Score to 0</span><br>
+    <span class="block block-control">forever</span><br>
+    <span class="block block-control">if touching Star? then</span><br>
+    <span class="block block-variable">change Score by 10</span>
+  </div>
+
+  <div class="step"><input type="checkbox"><span><strong>Test it!</strong> Click the green flag. Use arrow keys to move the cat to touch the star. The score should go up!</span></div>
+
+  <div class="help-box">Star score going up too fast? That's OK for now! We will fix it next lesson using an if-then block with a wait.</div>
+
+  <div class="stop-check">When my cat touches the star, the score goes up!</div>
+</div>
+
+<!-- ── SECTION 4: Design a Game HUD in Canva ── -->
+<div class="section">
+  <h2><span class="num">4</span> Design a Game HUD in Canva</h2>
+
+  <div class="step"><input type="checkbox"><span>A <strong>HUD</strong> (heads-up display) is the information overlay that players see during gameplay. Think of the health bar, score, and mini-map in your favourite games. Now you will design one!</span></div>
+
+  <div class="canva-step">
+    <span class="action">Step 1:</span> Open <strong>Canva</strong> in your browser (canva.com) and sign in.
+    <span class="result">You see the Canva home screen.</span>
+  </div>
+
+  <div class="canva-step">
+    <span class="action">Step 2:</span> Click <span class="key">Create a design</span> (top-right). Choose <strong>Custom size</strong> and type <span class="key">1920</span> x <span class="key">1080</span> px. Click <strong>Create new design</strong>.
+    <span class="result">A blank widescreen canvas opens — this is the same size as a game screen.</span>
+  </div>
+
+  <div class="canva-step">
+    <span class="action">Step 3:</span> Make the background <strong>dark</strong> (black or dark grey). Click the background, then click the coloured square to change it.
+    <span class="result">A dark background looks like a real game screen.</span>
+  </div>
+
+  <div class="canva-step">
+    <span class="action">Step 4:</span> Click <span class="key">Text</span> in the left panel. Add a heading. Type <strong>Score: 0</strong> and drag it to the <strong>top-left</strong> corner. Make the text white or green.
+    <span class="result">This is where the player's score would appear.</span>
+  </div>
+
+  <div class="canva-step">
+    <span class="action">Step 5:</span> Add another text box. Type <strong>Lives: 3</strong> and drag it to the <strong>top-right</strong> corner.
+    <span class="result">This shows how many lives the player has.</span>
+  </div>
+
+  <div class="canva-step">
+    <span class="action">Step 6:</span> Click <span class="key">Elements</span> in the left panel. Search for <strong>heart</strong>. Choose a heart icon and place it near the "Lives: 3" text.
+    <span class="result">The heart icon visually represents lives — just like in real games!</span>
+  </div>
+
+  <div class="canva-step">
+    <span class="action">Step 7:</span> Search Elements for <strong>timer</strong> or <strong>clock</strong>. Add a timer icon somewhere on the HUD (e.g. top-centre).
+    <span class="result">Your HUD now has score, lives, and a timer — the three most common HUD elements.</span>
+  </div>
+
+  <div class="canva-step">
+    <span class="action">Step 8:</span> Rename your design. Click the title at the top and type: <span class="key">L07 - Game HUD - [Your Name]</span>
+    <span class="result">Your HUD design is saved!</span>
+  </div>
+
+  <div class="buddy">Look at your partner's HUD. Does it show score, lives, and at least one icon? Give them a thumbs up or a suggestion!</div>
+
+  <div class="stop-check">My HUD shows score, lives, and at least one icon.</div>
+</div>
+
+<!-- ── SECTION 5: Save Your Work ── -->
+<div class="section">
+  <h2><span class="num">5</span> Save Your Work</h2>
+
+  <div class="step"><input type="checkbox"><span><strong>Save your Scratch project:</strong></span></div>
+
+  <div class="scratch-step">
+    <span class="action">Step 1:</span> At the top of the Scratch editor, click on the project name.
+    <span class="result">The text becomes editable.</span>
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 2:</span> Type: <span class="key">L07 - Score Variable - [Your Name]</span>
+    <span class="result">Your Scratch project is renamed and saved automatically!</span>
+  </div>
+
+  <div class="step"><input type="checkbox"><span><strong>Save your Canva HUD:</strong> Your Canva design saves automatically. Just make sure it is named <strong>"L07 - Game HUD - [Your Name]"</strong>.</span></div>
+
+  <div class="gdd-field-ls">
+    <div class="label">What I Learned</div>
+    <div class="hint">Write 1-2 sentences about what you learned today.</div>
+    <div class="write-area">Today I learned that variables are... I added a score to my game by... My HUD design includes...</div>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<div class="footer">
+  <h2>Well Done!</h2>
+  <p>You learned about variables and added a score to your game! You also designed a game HUD showing score, lives, and icons.</p>
+  <p style="color:var(--muted);font-size:.9rem;margin-top:12px;">Submit: Take a screenshot of your Scratch project (showing the score blocks) and your Canva HUD, then upload both to Google Classroom.</p>
+</div>
+
+<div class="nav-links">
+  <a href="LS-L06-HowGamesThink.html">&larr; Previous Lesson</a>
+  <a href="LS-L08-IfThisThenThat.html">Next Lesson &rarr;</a>
+</div>
+
+</div><!-- /container -->
+</body>
+</html>

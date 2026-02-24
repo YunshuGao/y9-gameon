@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LS-L08 — If This, Then That (Learning Support)</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:18px;line-height:1.8;}a{color:var(--blue);}
+.hero{text-align:center;padding:60px 20px 30px;}.hero h1{font-family:var(--font-head);font-size:2rem;color:var(--neon);margin-bottom:8px;}.hero .sub{color:var(--muted);font-size:1rem;margin-bottom:16px;}.hero .badges{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}.hero .badge{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.85rem;color:var(--muted);}.hero .badge b{color:var(--neon);}.ls-badge{display:inline-block;background:var(--amber);color:var(--navy);font-family:var(--font-head);font-weight:700;padding:6px 18px;border-radius:8px;font-size:.85rem;margin-top:14px;}
+.container{max-width:800px;margin:0 auto;padding:0 20px 60px;}
+.nav-links{display:flex;justify-content:space-between;margin:20px 0;font-size:.85rem;}.nav-links a{color:var(--blue);text-decoration:none;}.nav-links a:hover{text-decoration:underline;}
+.section{margin:30px 0;padding:24px;border:2px solid var(--border);border-radius:16px;background:var(--dark);}.section h2{font-family:var(--font-head);font-size:1.3rem;color:var(--neon);margin-bottom:16px;display:flex;align-items:center;gap:12px;}.section h2 .num{background:var(--neon);color:var(--navy);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.step{padding:14px 0;border-bottom:1px solid rgba(51,65,85,.5);font-size:1.05rem;display:flex;gap:12px;align-items:flex-start;}.step:last-child{border-bottom:none;}.step input[type="checkbox"]{width:24px;height:24px;accent-color:var(--neon);flex-shrink:0;margin-top:4px;cursor:pointer;}.step strong{color:var(--neon);}.step .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:2px 10px;font-size:.9rem;color:var(--amber);font-weight:700;}
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.3);border-radius:10px;}.vocab h4{font-family:var(--font-head);font-size:.85rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.95rem;}.vocab dt{color:var(--amber);font-weight:700;}.vocab dd{color:var(--muted);}
+.buddy{margin:14px 0;padding:14px 18px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.3);border-radius:10px;font-size:1rem;}.buddy::before{content:'BUDDY TIP: ';font-family:var(--font-head);color:var(--blue);font-weight:700;font-size:.85rem;}
+.stop-check{margin:16px 0;padding:16px 18px;background:rgba(74,222,128,.1);border:2px solid var(--neon);border-radius:10px;font-size:1.05rem;text-align:center;}.stop-check::before{content:'STOP AND CHECK ';font-family:var(--font-head);color:var(--neon);font-weight:700;font-size:.9rem;}
+.help-box{margin:14px 0;padding:14px 18px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);border-radius:10px;font-size:1rem;}.help-box::before{content:'NEED HELP? ';font-family:var(--font-head);color:var(--amber);font-weight:700;font-size:.85rem;}
+.scratch-step{margin:10px 0;padding:12px 16px;background:rgba(56,189,248,.05);border-left:4px solid var(--blue);border-radius:0 8px 8px 0;font-size:1rem;}.scratch-step .action{color:var(--blue);font-weight:700;}.scratch-step .result{color:var(--muted);font-style:italic;font-size:.9rem;display:block;margin-top:4px;}
+.canva-step{margin:10px 0;padding:12px 16px;background:rgba(74,222,128,.05);border-left:4px solid var(--neon);border-radius:0 8px 8px 0;font-size:1rem;}.canva-step .action{color:var(--neon);font-weight:700;}.canva-step .result{color:var(--muted);font-style:italic;font-size:.9rem;display:block;margin-top:4px;}
+.block-example{margin:12px 0;padding:16px;background:var(--navy);border:2px solid var(--border);border-radius:12px;font-size:1rem;text-align:center;}.block-example .block{display:inline-block;padding:8px 16px;margin:4px;border-radius:8px;font-weight:700;font-size:.95rem;}.block-event{background:#ffbf00;color:#000;}.block-motion{background:#4c97ff;color:#fff;}.block-looks{background:#9966ff;color:#fff;}.block-control{background:#ffab19;color:#000;}.block-sensing{background:#5cb1d6;color:#fff;}.block-variable{background:#ff8c1a;color:#fff;}.block-operator{background:#59c059;color:#fff;}
+.gdd-field-ls{margin:12px 0;padding:14px 18px;background:rgba(15,23,42,.5);border:2px solid var(--border);border-radius:10px;}.gdd-field-ls .label{font-family:var(--font-head);font-size:.9rem;color:var(--neon);font-weight:700;margin-bottom:6px;}.gdd-field-ls .hint{font-size:.95rem;color:var(--muted);font-style:italic;margin-bottom:8px;}.gdd-field-ls .write-area{background:rgba(15,23,42,.6);border:1px dashed var(--muted);border-radius:6px;padding:12px;min-height:50px;color:var(--muted);font-style:italic;font-size:.9rem;}
+.footer{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;text-align:center;}.footer h2{font-family:var(--font-head);font-size:1.1rem;color:var(--neon);margin-bottom:12px;}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;}body{font-size:14pt;}.hero h1{color:#111!important;}.section{break-inside:avoid;border:2px solid #333;}.scratch-step,.canva-step{border-left:3px solid #333;}.nav-links{display:none;}.block-example .block{border:1px solid #333;}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>IF THIS, THEN THAT</h1>
+  <p class="sub">Teach your game to make decisions!</p>
+  <div class="badges">
+    <span class="badge"><b>Lesson:</b> T1 — L08</span>
+    <span class="badge"><b>Time:</b> ~75 min</span>
+    <span class="badge"><b>Tool:</b> Scratch</span>
+    <span class="badge"><b>Outcomes:</b> G5-1, G5-2, G5-4</span>
+  </div>
+  <span class="ls-badge">LEARNING SUPPORT VERSION</span>
+</div>
+
+<div class="container">
+
+<div class="nav-links">
+  <a href="LS-L07-GameRules.html">&larr; Previous Lesson</a>
+  <a href="LS-L09-DesignYourGame.html">Next Lesson &rarr;</a>
+</div>
+
+<!-- ── SECTION 1: Games Make Decisions ── -->
+<div class="section">
+  <h2><span class="num">1</span> Games Make Decisions</h2>
+
+  <div class="vocab">
+    <h4>Words to Know</h4>
+    <dl>
+      <dt>Conditional</dt><dd>A rule that checks if something is true</dd>
+      <dt>If-Then</dt><dd>If something happens, then do this</dd>
+      <dt>If-Then-Else</dt><dd>If something happens, do this; otherwise, do something else</dd>
+      <dt>Flowchart</dt><dd>A diagram that shows decisions using shapes and arrows</dd>
+    </dl>
+  </div>
+
+  <div class="step"><input type="checkbox"><span>Games are constantly making <strong>decisions</strong>. Every moment, the game is checking: "Is the player touching the enemy? Has the timer run out? Did they collect enough coins?" These checks are called <strong>conditionals</strong>.</span></div>
+
+  <div class="step"><input type="checkbox"><span><strong>Real-life IF-THEN examples:</strong><br>
+    - IF it is raining THEN bring an umbrella<br>
+    - IF you are hungry THEN eat lunch<br>
+    - IF the light is red THEN stop</span></div>
+
+  <div class="step"><input type="checkbox"><span><strong>Game IF-THEN examples:</strong><br>
+    - IF player touches lava THEN lose a life<br>
+    - IF score is greater than 100 THEN show "You Win!"<br>
+    - IF you have enough coins THEN buy a power-up ELSE keep collecting</span></div>
+
+  <div class="buddy">Tell your partner an IF-THEN rule from your favourite game. For example: "In Mario, IF you touch a mushroom THEN you grow bigger."</div>
+
+  <div class="stop-check">I can make up an IF-THEN sentence about a game.</div>
+</div>
+
+<!-- ── SECTION 2: Draw a Flowchart ── -->
+<div class="section">
+  <h2><span class="num">2</span> Draw a Flowchart</h2>
+
+  <div class="step"><input type="checkbox"><span>A <strong>flowchart</strong> is a diagram that shows how decisions work. It uses special shapes:</span></div>
+
+  <div class="step"><input type="checkbox"><span>
+    <strong>Oval</strong> = Start or End<br>
+    <strong>Diamond</strong> = Decision (yes or no question)<br>
+    <strong>Rectangle</strong> = Action (something that happens)</span></div>
+
+  <div class="step"><input type="checkbox"><span><strong>Example flowchart:</strong><br><br>
+    [ Start ] <br>
+    &darr;<br>
+    &loz; Player touches enemy? &loz;<br>
+    &darr; YES &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &darr; NO<br>
+    [ Lose 1 life ] &nbsp;&nbsp;&nbsp; [ Keep playing ]<br>
+    &darr;<br>
+    &loz; Lives = 0? &loz;<br>
+    &darr; YES &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &darr; NO<br>
+    [ Game Over ] &nbsp;&nbsp;&nbsp; [ Keep playing ]</span></div>
+
+  <div class="gdd-field-ls">
+    <div class="label">My Flowchart</div>
+    <div class="hint">Draw or write your own flowchart with at least 1 decision (diamond shape). It can be about any game rule, e.g. collecting a coin, touching an enemy, or reaching a goal.</div>
+    <div class="write-area">Start &rarr; ... &rarr; Decision: ...? &rarr; YES: ... / NO: ... &rarr; ...</div>
+  </div>
+
+  <div class="help-box">Not sure what to draw? Try this: Start &rarr; Player touches coin? &rarr; YES: Score +10 / NO: Keep moving. That's a complete flowchart!</div>
+
+  <div class="stop-check">I have drawn a flowchart with at least 1 decision (diamond shape).</div>
+</div>
+
+<!-- ── SECTION 3: If-Then in Scratch ── -->
+<div class="section">
+  <h2><span class="num">3</span> If-Then in Scratch</h2>
+
+  <div class="step"><input type="checkbox"><span>Open your <strong>L07 Scratch project</strong> (the one with the score variable and the star).</span></div>
+
+  <div class="step"><input type="checkbox"><span>First, let's add a <strong>bad character</strong> (an enemy) to the game:</span></div>
+
+  <div class="scratch-step">
+    <span class="action">Step 1:</span> Click the <span class="key">Choose a Sprite</span> button (bottom-right of stage, cat face with + icon).
+    <span class="result">The sprite library opens.</span>
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 2:</span> Search for <span class="key">Crab</span> (or "Ghost" if you prefer). Click it to add it.
+    <span class="result">The enemy sprite appears on the stage.</span>
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 3:</span> Drag the crab to a spot on the stage away from the cat.
+    <span class="result">The enemy is positioned and ready.</span>
+  </div>
+
+  <div class="step"><input type="checkbox"><span>Now click the <strong>cat sprite</strong> thumbnail below the stage. <strong>Important:</strong> The code we write goes on the CAT, not the crab!</span></div>
+
+  <div class="step"><input type="checkbox"><span>Build an <strong>if-then</strong> block that makes the cat react when it touches the enemy:</span></div>
+
+  <div class="scratch-step">
+    <span class="action">Step 4:</span> You should already have a <strong>"when green flag clicked"</strong> with a <strong>"forever"</strong> block from last lesson. We will add inside the forever block.
+    <span class="result">If you don't have one, create: Events &rarr; "when green flag clicked", then Control &rarr; "forever".</span>
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 5:</span> From <span class="key">Control</span> (orange section), drag <strong>"if &lt; &gt; then"</strong> and place it inside the forever block.
+    <span class="result">This is a decision block — it checks a condition every frame.</span>
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 6:</span> From <span class="key">Sensing</span> (light blue section), drag <strong>"touching [mouse-pointer]?"</strong> into the diamond-shaped hole in the if block. Click the dropdown and change it to <span class="key">Crab</span>.
+    <span class="result">Now it reads: "if touching Crab? then".</span>
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 7:</span> From <span class="key">Looks</span> (purple section), drag <strong>"say [Hello!] for [2] seconds"</strong> inside the if block. Change "Hello!" to <span class="key">Ouch!</span> and change 2 to <span class="key">1</span>.
+    <span class="result">The cat will say "Ouch!" for 1 second when touching the crab.</span>
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 8:</span> From <span class="key">Variables</span> (orange section), drag <strong>"change Score by 1"</strong> inside the if block (under the say block). Change the 1 to <span class="key">-5</span>.
+    <span class="result">Negative number! The score goes DOWN by 5 when touching the enemy.</span>
+  </div>
+
+  <div class="block-example">
+    <span class="block block-event">when green flag clicked</span><br>
+    <span class="block block-variable">set Score to 0</span><br>
+    <span class="block block-control">forever</span><br>
+    <span class="block block-control">if touching Crab? then</span><br>
+    <span class="block block-looks">say Ouch! for 1 seconds</span><br>
+    <span class="block block-variable">change Score by -5</span>
+  </div>
+
+  <div class="step"><input type="checkbox"><span><strong>Test it!</strong> Click the green flag. Move the cat into the crab. The cat should say "Ouch!" and the score should drop by 5.</span></div>
+
+  <div class="help-box">Stuck? Make sure you selected the CAT sprite (not the crab). The code goes on the cat. Check that the dropdown in the sensing block says "Crab" (not "mouse-pointer").</div>
+
+  <div class="stop-check">When the cat touches the enemy, it says "Ouch!" and the score decreases.</div>
+</div>
+
+<!-- ── SECTION 4: Add Lives ── -->
+<div class="section">
+  <h2><span class="num">4</span> Add Lives</h2>
+
+  <div class="step"><input type="checkbox"><span>Now let's add a <strong>Lives</strong> variable so the game can end when the player runs out of chances.</span></div>
+
+  <div class="scratch-step">
+    <span class="action">Step 1:</span> Click <span class="key">Variables</span> (orange section) in the Block Palette.
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 2:</span> Click <span class="key">Make a Variable</span>. Type <span class="key">Lives</span> and click OK.
+    <span class="result">A Lives display appears on the stage next to the Score display.</span>
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 3:</span> In your "when green flag clicked" stack, add <strong>"set Lives to 3"</strong> right after "set Score to 0".
+    <span class="result">Now the game starts with 3 lives every time.</span>
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 4:</span> Inside the <strong>"if touching Crab? then"</strong> block, add <strong>"change Lives by -1"</strong> (after the "change Score by -5" block).
+    <span class="result">Every time the cat touches the crab, it loses 1 life.</span>
+  </div>
+
+  <div class="step"><input type="checkbox"><span>Now add a <strong>Game Over</strong> check. After the "if touching Crab" block (but still inside the forever), add another if block:</span></div>
+
+  <div class="scratch-step">
+    <span class="action">Step 5:</span> From <span class="key">Control</span>, drag another <strong>"if &lt; &gt; then"</strong> inside the forever block, below the first if block.
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 6:</span> From <span class="key">Operators</span> (green section), drag <strong>"[ ] = [ ]"</strong> into the diamond hole. In the left box, drag the <strong>"Lives"</strong> variable (from Variables). In the right box, type <span class="key">0</span>.
+    <span class="result">Now it reads: "if Lives = 0 then".</span>
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 7:</span> Inside this new if block, add from Looks: <strong>"say [Game Over!] for [3] seconds"</strong>.
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 8:</span> Below the say block (still inside the if), add from <span class="key">Control</span>: <strong>"stop [all]"</strong>.
+    <span class="result">This ends the entire game.</span>
+  </div>
+
+  <div class="block-example">
+    <span class="block block-event">when green flag clicked</span><br>
+    <span class="block block-variable">set Score to 0</span><br>
+    <span class="block block-variable">set Lives to 3</span><br>
+    <span class="block block-control">forever</span><br>
+    <span class="block block-control">if touching Crab? then</span><br>
+    <span class="block block-looks">say Ouch! for 1 seconds</span><br>
+    <span class="block block-variable">change Score by -5</span><br>
+    <span class="block block-variable">change Lives by -1</span><br>
+    <span class="block block-control">if Lives = 0 then</span><br>
+    <span class="block block-looks">say Game Over! for 3 seconds</span><br>
+    <span class="block block-control">stop all</span>
+  </div>
+
+  <div class="step"><input type="checkbox"><span><strong>Test it!</strong> Click the green flag. Move the cat into the crab 3 times. The lives should count down: 3, 2, 1, 0. When lives reach 0, the cat says "Game Over!" and everything stops.</span></div>
+
+  <div class="help-box">Game ending too fast? The cat might be touching the crab multiple times in one second. Try dragging the crab further away so you have time to move between touches.</div>
+
+  <div class="stop-check">I have a Lives variable. When lives reach 0, the game stops.</div>
+</div>
+
+<!-- ── SECTION 5: Extension — Add a Simple Jump ── -->
+<div class="section">
+  <h2><span class="num">5</span> Extension: Add a Simple Jump</h2>
+
+  <div class="step"><input type="checkbox"><span><strong>Finished early?</strong> Try adding a simple jump to your cat! This is optional.</span></div>
+
+  <div class="scratch-step">
+    <span class="action">Step 1:</span> From <span class="key">Events</span>, drag <strong>"when [space] key pressed"</strong> into a new area of the Coding Area.
+    <span class="result">This listens for the space bar.</span>
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 2:</span> From <span class="key">Motion</span>, drag <strong>"change y by [10]"</strong> and snap it underneath. Change 10 to <span class="key">80</span>.
+    <span class="result">The cat jumps up 80 pixels.</span>
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 3:</span> From <span class="key">Control</span>, drag <strong>"wait [1] seconds"</strong> and snap it underneath. Change 1 to <span class="key">0.3</span>.
+    <span class="result">The cat pauses in the air for a moment.</span>
+  </div>
+
+  <div class="scratch-step">
+    <span class="action">Step 4:</span> From <span class="key">Motion</span>, drag <strong>"change y by [10]"</strong> and snap it underneath. Change 10 to <span class="key">-80</span>.
+    <span class="result">The cat falls back down! This creates a simple jump effect.</span>
+  </div>
+
+  <div class="block-example">
+    <span class="block block-event">when space key pressed</span><br>
+    <span class="block block-motion">change y by 80</span><br>
+    <span class="block block-control">wait 0.3 seconds</span><br>
+    <span class="block block-motion">change y by -80</span>
+  </div>
+
+  <div class="step"><input type="checkbox"><span><strong>Save your project:</strong> Click the project name at the top and rename it to: <span class="key">L08 - If Then - [Your Name]</span></span></div>
+
+  <div class="gdd-field-ls">
+    <div class="label">What I Learned</div>
+    <div class="hint">Write 1-2 sentences about what you learned today.</div>
+    <div class="write-area">Today I learned that games make decisions using... When the cat touches the enemy, it... I also added lives so...</div>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<div class="footer">
+  <h2>Well Done!</h2>
+  <p>Your game can now make decisions! The cat reacts differently when it touches good things (score up) vs bad things (score down, lose lives). When lives reach 0, the game is over!</p>
+  <p style="color:var(--muted);font-size:.9rem;margin-top:12px;">Submit: Take a screenshot of your Scratch project (showing the if-then blocks and variables) and upload it to Google Classroom.</p>
+</div>
+
+<div class="nav-links">
+  <a href="LS-L07-GameRules.html">&larr; Previous Lesson</a>
+  <a href="LS-L09-DesignYourGame.html">Next Lesson &rarr;</a>
+</div>
+
+</div><!-- /container -->
+</body>
+</html>

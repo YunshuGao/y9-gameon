@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L21 Showcase — Game On Year 9 (Learning Support)</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:18px;line-height:1.8;}a{color:var(--blue);}
+.hero{text-align:center;padding:60px 20px 30px;}.hero h1{font-family:var(--font-head);font-size:2rem;color:var(--neon);margin-bottom:8px;}.hero .sub{color:var(--muted);font-size:1rem;margin-bottom:16px;}.hero .badges{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}.hero .badge{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.85rem;color:var(--muted);}.hero .badge b{color:var(--neon);}.ls-badge{display:inline-block;background:var(--amber);color:var(--navy);font-family:var(--font-head);font-weight:700;padding:6px 18px;border-radius:8px;font-size:.85rem;margin-top:14px;}
+.container{max-width:800px;margin:0 auto;padding:0 20px 60px;}
+.nav-links{display:flex;justify-content:space-between;margin:20px 0;font-size:.85rem;}.nav-links a{color:var(--blue);text-decoration:none;}.nav-links a:hover{text-decoration:underline;}
+.section{margin:30px 0;padding:24px;border:2px solid var(--border);border-radius:16px;background:var(--dark);}.section h2{font-family:var(--font-head);font-size:1.3rem;color:var(--neon);margin-bottom:16px;display:flex;align-items:center;gap:12px;}.section h2 .num{background:var(--neon);color:var(--navy);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.step{padding:14px 0;border-bottom:1px solid rgba(51,65,85,.5);font-size:1.05rem;display:flex;gap:12px;align-items:flex-start;}.step:last-child{border-bottom:none;}.step input[type="checkbox"]{width:24px;height:24px;accent-color:var(--neon);flex-shrink:0;margin-top:4px;cursor:pointer;}.step strong{color:var(--neon);}.step .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:2px 10px;font-size:.9rem;color:var(--amber);font-weight:700;}
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.3);border-radius:10px;}.vocab h4{font-family:var(--font-head);font-size:.85rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.95rem;}.vocab dt{color:var(--amber);font-weight:700;}.vocab dd{color:var(--muted);}
+.buddy{margin:14px 0;padding:14px 18px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.3);border-radius:10px;font-size:1rem;}.buddy::before{content:'BUDDY TIP: ';font-family:var(--font-head);color:var(--blue);font-weight:700;font-size:.85rem;}
+.stop-check{margin:16px 0;padding:16px 18px;background:rgba(74,222,128,.1);border:2px solid var(--neon);border-radius:10px;font-size:1.05rem;text-align:center;}.stop-check::before{content:'STOP AND CHECK ';font-family:var(--font-head);color:var(--neon);font-weight:700;font-size:.9rem;}
+.help-box{margin:14px 0;padding:14px 18px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);border-radius:10px;font-size:1rem;}.help-box::before{content:'NEED HELP? ';font-family:var(--font-head);color:var(--amber);font-weight:700;font-size:.85rem;}
+.canva-step{margin:10px 0;padding:12px 16px;background:rgba(74,222,128,.05);border-left:4px solid var(--neon);border-radius:0 8px 8px 0;font-size:1rem;}.canva-step .action{color:var(--neon);font-weight:700;}.canva-step .result{color:var(--muted);font-style:italic;font-size:.9rem;display:block;margin-top:4px;}
+.gdd-field-ls{margin:12px 0;padding:14px 18px;background:rgba(15,23,42,.5);border:2px solid var(--border);border-radius:10px;}.gdd-field-ls .label{font-family:var(--font-head);font-size:.9rem;color:var(--neon);font-weight:700;margin-bottom:6px;}.gdd-field-ls .hint{font-size:.95rem;color:var(--muted);font-style:italic;margin-bottom:8px;}.gdd-field-ls .write-area{background:rgba(15,23,42,.6);border:1px dashed var(--muted);border-radius:6px;padding:12px;min-height:50px;color:var(--muted);font-style:italic;font-size:.9rem;}
+.skill-grid{display:grid;grid-template-columns:1fr auto auto auto auto;gap:4px;margin:14px 0;font-size:.9rem;}.skill-grid .header{font-family:var(--font-head);font-size:.7rem;color:var(--amber);text-align:center;padding:8px 4px;}.skill-grid .skill-name{padding:10px;background:rgba(15,23,42,.5);border-radius:6px;display:flex;align-items:center;}.skill-grid .rating{text-align:center;padding:10px;background:rgba(15,23,42,.5);border-radius:6px;display:flex;align-items:center;justify-content:center;}.skill-grid .rating input[type="radio"]{width:20px;height:20px;accent-color:var(--neon);cursor:pointer;}
+.celebrate{margin:20px 0;padding:24px;background:linear-gradient(135deg,rgba(74,222,128,.1),rgba(56,189,248,.1));border:2px solid var(--neon);border-radius:16px;text-align:center;font-size:1.1rem;}.celebrate h3{font-family:var(--font-head);color:var(--neon);font-size:1.2rem;margin-bottom:10px;}
+.footer{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;text-align:center;}.footer h2{font-family:var(--font-head);font-size:1.1rem;color:var(--neon);margin-bottom:12px;}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;}body{font-size:14pt;}.hero h1{color:#111!important;}.section{break-inside:avoid;border:2px solid #333;}.canva-step{border-left:3px solid #333;}.nav-links{display:none;}.skill-grid{font-size:10pt;}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>SHOWCASE</h1>
+  <p class="sub">Present your game design portfolio to the class!</p>
+  <div class="badges">
+    <span class="badge"><b>T1 &mdash; L21</b></span>
+    <span class="badge"><b>~75 min</b></span>
+    <span class="badge"><b>Tool:</b> Canva (presentation)</span>
+    <span class="badge"><b>Outcomes:</b> G5-1, G5-3, G5-5</span>
+  </div>
+  <span class="ls-badge">LEARNING SUPPORT</span>
+</div>
+
+<div class="container">
+
+  <nav class="nav-links">
+    <a href="LS-L20-Sprint4.html">&larr; Previous Lesson</a>
+    <a href="LS-L22-Reflection.html">Next Lesson &rarr;</a>
+  </nav>
+
+  <!-- ===== SECTION 1 ===== -->
+  <div class="section">
+    <h2><span class="num">1</span> Showcase Day!</h2>
+    <p>This is the day you show off all your hard work!</p>
+    <p style="margin-top:10px;">Today is a celebration. You will present your game design portfolio to your classmates, and you'll get to see (and play!) the Unity games that other students built.</p>
+
+    <div class="vocab">
+      <h4>Key Words</h4>
+      <dl>
+        <dt>Showcase</dt>
+        <dd>An event where people present their work</dd>
+        <dt>Pitch</dt>
+        <dd>A short speech explaining your project to someone</dd>
+        <dt>Gallery Walk</dt>
+        <dd>When everyone walks around looking at each other's work</dd>
+      </dl>
+    </div>
+
+    <div class="stop-check">I am ready to present!</div>
+  </div>
+
+  <!-- ===== SECTION 2 ===== -->
+  <div class="section">
+    <h2><span class="num">2</span> Prepare Your Presentation <span style="color:var(--muted);font-size:.85rem;font-family:var(--font-body);">(10 min)</span></h2>
+
+    <div class="step">
+      <input type="checkbox" id="s2a"><label for="s2a">Open your portfolio in <strong>Canva</strong></label>
+    </div>
+    <div class="step">
+      <input type="checkbox" id="s2b"><label for="s2b">Make sure it is in <strong>Presentation mode</strong> &mdash; click the <span class="key">Present</span> button in the top-right to test</label>
+    </div>
+    <div class="step">
+      <input type="checkbox" id="s2c"><label for="s2c">Practice your <strong>30-second pitch</strong> one more time:</label>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Your Pitch:</span> &ldquo;My game is called ___. It is a ___ game where you ___. The coolest thing about my game is ___.&rdquo;
+    </div>
+
+    <div class="step">
+      <input type="checkbox" id="s2d"><label for="s2d">Check: Does your portfolio have <strong>all pages</strong>? (Cover, Characters, World, Level, Screens, Flow, Sound)</label>
+    </div>
+    <div class="step">
+      <input type="checkbox" id="s2e"><label for="s2e">Make sure your <strong>name</strong> is on the cover page</label>
+    </div>
+
+    <div class="help-box">Nervous? That's totally normal! Everyone feels nervous before presenting. Take a deep breath. You know your game better than anyone!</div>
+  </div>
+
+  <!-- ===== SECTION 3 ===== -->
+  <div class="section">
+    <h2><span class="num">3</span> Present Your Portfolio <span style="color:var(--muted);font-size:.85rem;font-family:var(--font-body);">(40 min)</span></h2>
+
+    <p style="margin-bottom:12px;"><strong>Gallery Walk format:</strong> Everyone opens their portfolio on their screen.</p>
+
+    <div class="step">
+      <input type="checkbox" id="s3a"><label for="s3a">You will <strong>walk around</strong> and look at other people's work</label>
+    </div>
+    <div class="step">
+      <input type="checkbox" id="s3b"><label for="s3b">When someone comes to <strong>YOUR screen</strong>, give them your 30-second pitch</label>
+    </div>
+    <div class="step">
+      <input type="checkbox" id="s3c"><label for="s3c">When <strong>YOU visit</strong> someone else's screen, give them a <strong>compliment</strong> and ask a <strong>question</strong></label>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Good compliments:</span>
+      <span class="result">&ldquo;I really like your character design because...&rdquo;</span>
+      <span class="result">&ldquo;Your level looks fun because...&rdquo;</span>
+      <span class="result">&ldquo;The colours you chose are...&rdquo;</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Good questions:</span>
+      <span class="result">&ldquo;How did you come up with that idea?&rdquo;</span>
+      <span class="result">&ldquo;What was the hardest part?&rdquo;</span>
+      <span class="result">&ldquo;What would you add if you had more time?&rdquo;</span>
+    </div>
+
+    <div class="buddy">Visit at least 4 classmates' work. Leave a kind comment or sticky note for each one.</div>
+  </div>
+
+  <!-- ===== SECTION 4 ===== -->
+  <div class="section">
+    <h2><span class="num">4</span> Vote for Awards <span style="color:var(--muted);font-size:.85rem;font-family:var(--font-body);">(10 min)</span></h2>
+
+    <div class="gdd-field-ls">
+      <div class="label">Best Character Design</div>
+      <div class="write-area">I vote for ___ because ___</div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">Best Level Design</div>
+      <div class="write-area">I vote for ___ because ___</div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">Most Creative Concept</div>
+      <div class="write-area">I vote for ___ because ___</div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">Best Overall Portfolio</div>
+      <div class="write-area">I vote for ___ because ___</div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 5 ===== -->
+  <div class="section">
+    <h2><span class="num">5</span> Play the Unity Games! <span style="color:var(--muted);font-size:.85rem;font-family:var(--font-body);">(10 min)</span></h2>
+
+    <div class="step">
+      <input type="checkbox" id="s5a"><label for="s5a">Walk around and <strong>play the games</strong> that mainstream students built in Unity!</label>
+    </div>
+    <div class="step">
+      <input type="checkbox" id="s5b"><label for="s5b">Notice how <strong>THEIR games</strong> use the same concepts you learned: characters, levels, score, enemies, menus</label>
+    </div>
+    <div class="step">
+      <input type="checkbox" id="s5c"><label for="s5c">The difference: they built theirs in <strong>Unity with code</strong>, you designed yours in <strong>Canva with visual design</strong></label>
+    </div>
+    <div class="step">
+      <input type="checkbox" id="s5d"><label for="s5d"><strong>Both are real game design skills!</strong></label>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">My Favourite Unity Game</div>
+      <div class="write-area">My favourite Unity game was ___ by ___. I liked it because ___.</div>
+    </div>
+  </div>
+
+  <!-- ===== CELEBRATE ===== -->
+  <div class="celebrate">
+    <h3>You Did It!</h3>
+    <p>You completed an entire game design course. You learned about game genres, characters, levels, animation, sound, UI design, and professional game design documents. Be proud of what you achieved!</p>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <div class="footer">
+    <h2>Showcase Complete!</h2>
+    <p>Next lesson is your final reflection &mdash; we'll look back at everything you learned this term.</p>
+  </div>
+
+  <nav class="nav-links">
+    <a href="LS-L20-Sprint4.html">&larr; Previous Lesson</a>
+    <a href="LS-L22-Reflection.html">Next Lesson &rarr;</a>
+  </nav>
+
+</div>
+</body>
+</html>

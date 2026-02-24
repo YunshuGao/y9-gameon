@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LS L20 — Sprint 4: Final Review</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:18px;line-height:1.8;}a{color:var(--blue);}
+.hero{text-align:center;padding:60px 20px 30px;}.hero h1{font-family:var(--font-head);font-size:2rem;color:var(--neon);margin-bottom:8px;}.hero .sub{color:var(--muted);font-size:1rem;margin-bottom:16px;}.hero .badges{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}.hero .badge{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.85rem;color:var(--muted);}.hero .badge b{color:var(--neon);}.ls-badge{display:inline-block;background:var(--amber);color:var(--navy);font-family:var(--font-head);font-weight:700;padding:6px 18px;border-radius:8px;font-size:.85rem;margin-top:14px;}
+.container{max-width:800px;margin:0 auto;padding:0 20px 60px;}
+.nav-links{display:flex;justify-content:space-between;margin:20px 0;font-size:.85rem;}.nav-links a{color:var(--blue);text-decoration:none;}.nav-links a:hover{text-decoration:underline;}
+.section{margin:30px 0;padding:24px;border:2px solid var(--border);border-radius:16px;background:var(--dark);}.section h2{font-family:var(--font-head);font-size:1.3rem;color:var(--neon);margin-bottom:16px;display:flex;align-items:center;gap:12px;}.section h2 .num{background:var(--neon);color:var(--navy);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.step{padding:14px 0;border-bottom:1px solid rgba(51,65,85,.5);font-size:1.05rem;display:flex;gap:12px;align-items:flex-start;}.step:last-child{border-bottom:none;}.step input[type="checkbox"]{width:24px;height:24px;accent-color:var(--neon);flex-shrink:0;margin-top:4px;cursor:pointer;}.step strong{color:var(--neon);}.step .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:2px 10px;font-size:.9rem;color:var(--amber);font-weight:700;}
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.3);border-radius:10px;}.vocab h4{font-family:var(--font-head);font-size:.85rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.95rem;}.vocab dt{color:var(--amber);font-weight:700;}.vocab dd{color:var(--muted);}
+.buddy{margin:14px 0;padding:14px 18px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.3);border-radius:10px;font-size:1rem;}.buddy::before{content:'BUDDY TIP: ';font-family:var(--font-head);color:var(--blue);font-weight:700;font-size:.85rem;}
+.stop-check{margin:16px 0;padding:16px 18px;background:rgba(74,222,128,.1);border:2px solid var(--neon);border-radius:10px;font-size:1.05rem;text-align:center;}.stop-check::before{content:'STOP AND CHECK ';font-family:var(--font-head);color:var(--neon);font-weight:700;font-size:.9rem;}
+.help-box{margin:14px 0;padding:14px 18px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);border-radius:10px;font-size:1rem;}.help-box::before{content:'NEED HELP? ';font-family:var(--font-head);color:var(--amber);font-weight:700;font-size:.85rem;}
+.canva-step{margin:10px 0;padding:12px 16px;background:rgba(74,222,128,.05);border-left:4px solid var(--neon);border-radius:0 8px 8px 0;font-size:1rem;}.canva-step .action{color:var(--neon);font-weight:700;}.canva-step .result{color:var(--muted);font-style:italic;font-size:.9rem;display:block;margin-top:4px;}
+.gdd-field-ls{margin:12px 0;padding:14px 18px;background:rgba(15,23,42,.5);border:2px solid var(--border);border-radius:10px;}.gdd-field-ls .label{font-family:var(--font-head);font-size:.9rem;color:var(--neon);font-weight:700;margin-bottom:6px;}.gdd-field-ls .hint{font-size:.95rem;color:var(--muted);font-style:italic;margin-bottom:8px;}.gdd-field-ls .write-area{background:rgba(15,23,42,.6);border:1px dashed var(--muted);border-radius:6px;padding:12px;min-height:50px;color:var(--muted);font-style:italic;font-size:.9rem;}
+.sprint-goal{margin:10px 0;padding:14px 18px;background:rgba(74,222,128,.08);border:2px solid var(--neon);border-radius:10px;display:flex;gap:12px;align-items:flex-start;}.sprint-goal input[type="checkbox"]{width:24px;height:24px;accent-color:var(--neon);flex-shrink:0;margin-top:4px;cursor:pointer;}
+.sprint-review{margin:14px 0;padding:16px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.3);border-radius:10px;}.sprint-review::before{content:'SPRINT REVIEW ';font-family:var(--font-head);color:var(--purple);font-weight:700;font-size:.85rem;display:block;margin-bottom:8px;}
+.footer{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;text-align:center;}.footer h2{font-family:var(--font-head);font-size:1.1rem;color:var(--neon);margin-bottom:12px;}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;}body{font-size:14pt;}.hero h1{color:#111!important;}.section{break-inside:avoid;border:2px solid #333;}.canva-step{border-left:3px solid #333;}.nav-links{display:none;}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>SPRINT 4 — FINAL REVIEW</h1>
+  <p class="sub">Finish your portfolio and prepare for the showcase!</p>
+  <div class="badges">
+    <span class="badge"><b>T1 — L20</b></span>
+    <span class="badge"><b>~75 min</b></span>
+    <span class="badge"><b>Tool:</b> Canva</span>
+    <span class="badge"><b>Outcomes:</b> G5-1, G5-3, G5-5</span>
+  </div>
+  <span class="ls-badge">LEARNING SUPPORT</span>
+</div>
+
+<div class="container">
+
+  <div class="nav-links">
+    <a href="LS-L19-Sprint3.html">&larr; Previous Lesson</a>
+    <a href="LS-L21-Showcase.html">Next Lesson &rarr;</a>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2><span class="num">1</span> Sprint 4: The Final Sprint!</h2>
+
+    <p>This is the <strong>LAST working session</strong> before the showcase. There are no new designs today — just <strong>polishing, checking, and preparing to present</strong>.</p>
+
+    <p style="margin-top:12px;">Write <strong>3 final goals</strong> for this sprint:</p>
+
+    <div class="gdd-field-ls">
+      <div class="label">Goal 1</div>
+      <div class="write-area">Write your first goal here...</div>
+    </div>
+    <div class="gdd-field-ls">
+      <div class="label">Goal 2</div>
+      <div class="write-area">Write your second goal here...</div>
+    </div>
+    <div class="gdd-field-ls">
+      <div class="label">Goal 3</div>
+      <div class="write-area">Write your third goal here...</div>
+    </div>
+
+    <div class="sprint-goal">
+      <input type="checkbox">
+      <span>Goal 1 — completed</span>
+    </div>
+    <div class="sprint-goal">
+      <input type="checkbox">
+      <span>Goal 2 — completed</span>
+    </div>
+    <div class="sprint-goal">
+      <input type="checkbox">
+      <span>Goal 3 — completed</span>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2><span class="num">2</span> Portfolio Completeness Check</h2>
+
+    <p>Go through your portfolio and tick off every page that is <strong>done and looking good</strong>:</p>
+
+    <div class="step">
+      <input type="checkbox">
+      <span><strong>Page 1:</strong> Cover page (game title, your name, date)</span>
+    </div>
+    <div class="step">
+      <input type="checkbox">
+      <span><strong>Page 2:</strong> Characters (hero, enemy, collectible with descriptions)</span>
+    </div>
+    <div class="step">
+      <input type="checkbox">
+      <span><strong>Page 3:</strong> Game World (background design)</span>
+    </div>
+    <div class="step">
+      <input type="checkbox">
+      <span><strong>Page 4:</strong> Level Design (complete level with game pieces)</span>
+    </div>
+    <div class="step">
+      <input type="checkbox">
+      <span><strong>Page 5:</strong> Level Walkthrough (numbered player path)</span>
+    </div>
+    <div class="step">
+      <input type="checkbox">
+      <span><strong>Page 6:</strong> Title Screen</span>
+    </div>
+    <div class="step">
+      <input type="checkbox">
+      <span><strong>Page 7:</strong> Gameplay Screen (HUD)</span>
+    </div>
+    <div class="step">
+      <input type="checkbox">
+      <span><strong>Page 8:</strong> Game Over Screen</span>
+    </div>
+    <div class="step">
+      <input type="checkbox">
+      <span><strong>Page 9:</strong> How to Play Screen</span>
+    </div>
+    <div class="step">
+      <input type="checkbox">
+      <span><strong>Page 10:</strong> Game Flow (flowchart)</span>
+    </div>
+    <div class="step">
+      <input type="checkbox">
+      <span><strong>Page 11:</strong> Sound Plan (from L14)</span>
+    </div>
+    <div class="step">
+      <input type="checkbox">
+      <span><strong>Page 12:</strong> How My Game Works (from Sprint 3)</span>
+    </div>
+
+    <div class="help-box">
+      Missing a page? You have 30 minutes — focus on the most important missing pieces first! It is better to have fewer pages that look great than many pages that look rushed.
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2><span class="num">3</span> Fix and Polish</h2>
+    <p style="margin-bottom:12px;">You have <strong>30 minutes</strong> for this section. Use this time to make everything look its best.</p>
+
+    <div class="step">
+      <input type="checkbox">
+      <span>Fill in any <strong>missing pages</strong> from the checklist above</span>
+    </div>
+    <div class="step">
+      <input type="checkbox">
+      <span>Fix <strong>spelling mistakes</strong> on every page</span>
+    </div>
+    <div class="step">
+      <input type="checkbox">
+      <span>Fix <strong>layout problems</strong> — make sure nothing is overlapping or cut off</span>
+    </div>
+    <div class="step">
+      <input type="checkbox">
+      <span>Make sure all pages look <strong>consistent</strong> — same fonts, same colours, same style</span>
+    </div>
+    <div class="step">
+      <input type="checkbox">
+      <span>Add <strong>page numbers</strong> or a <strong>table of contents</strong> on page 2</span>
+    </div>
+
+    <div class="help-box">
+      Ask your teacher or a classmate to quickly look through your portfolio. A fresh pair of eyes can spot things you might have missed.
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section">
+    <h2><span class="num">4</span> Prepare Your Pitch</h2>
+
+    <p>Write a <strong>30-second pitch</strong> that explains your game quickly and clearly:</p>
+
+    <div class="gdd-field-ls">
+      <div class="label">My 30-Second Pitch</div>
+      <div class="hint">Fill in the blanks to create your pitch:</div>
+      <div class="write-area">My game is called ___. It is a ___ game where you ___. The coolest thing about my game is ___.</div>
+    </div>
+
+    <p style="margin-top:14px;">Now practise:</p>
+
+    <div class="step">
+      <input type="checkbox">
+      <span>Say your pitch out loud — <strong>practice 1</strong></span>
+    </div>
+    <div class="step">
+      <input type="checkbox">
+      <span>Say your pitch out loud — <strong>practice 2</strong></span>
+    </div>
+    <div class="step">
+      <input type="checkbox">
+      <span>Say your pitch out loud — <strong>practice 3</strong></span>
+    </div>
+
+    <div class="buddy">
+      Practice your pitch with your partner. Time it — aim for 30 seconds. Not too fast, not too slow. Your partner should be able to understand your game after hearing the pitch.
+    </div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section">
+    <h2><span class="num">5</span> Peer Review</h2>
+
+    <p>Share your portfolio with <strong>2 different classmates</strong> (not your usual partner). Ask them for honest feedback.</p>
+
+    <div class="gdd-field-ls">
+      <div class="label">Classmate 1 Feedback</div>
+      <div class="write-area">They liked: ___
+
+They suggested: ___</div>
+    </div>
+
+    <div class="gdd-field-ls">
+      <div class="label">Classmate 2 Feedback</div>
+      <div class="write-area">They liked: ___
+
+They suggested: ___</div>
+    </div>
+
+    <p style="margin-top:14px;">Now make <strong>final adjustments</strong> based on their feedback. You do not need to change everything — just the things that make sense to you.</p>
+  </div>
+
+  <!-- SECTION 6 -->
+  <div class="section">
+    <h2><span class="num">6</span> Submit Final Portfolio</h2>
+
+    <div class="canva-step">
+      <span class="action">Step 1:</span> In Canva, click <strong>Share</strong> &rarr; <strong>Download</strong> &rarr; <strong>PDF Standard</strong> to save a copy.
+      <span class="result">This creates a PDF backup of your entire portfolio.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 2:</span> Submit your portfolio to <strong>Google Classroom</strong>.
+      <span class="result">Upload the PDF or share the Canva link.</span>
+    </div>
+
+    <div class="sprint-review">
+      <p>Final reflection — summarise ALL 4 sprints:</p>
+
+      <div class="gdd-field-ls">
+        <div class="label">Sprint 1 — Characters</div>
+        <div class="hint">What did you create or improve?</div>
+        <div class="write-area">I made...</div>
+      </div>
+
+      <div class="gdd-field-ls">
+        <div class="label">Sprint 2 — Levels</div>
+        <div class="hint">What did you create or improve?</div>
+        <div class="write-area">I made...</div>
+      </div>
+
+      <div class="gdd-field-ls">
+        <div class="label">Sprint 3 — Screens</div>
+        <div class="hint">What did you create or improve?</div>
+        <div class="write-area">I made...</div>
+      </div>
+
+      <div class="gdd-field-ls">
+        <div class="label">Sprint 4 — Final</div>
+        <div class="hint">What did you polish, fix, or finish?</div>
+        <div class="write-area">I...</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <input type="checkbox">
+      <span>Portfolio PDF downloaded</span>
+    </div>
+    <div class="step">
+      <input type="checkbox">
+      <span>Portfolio submitted to <strong>Google Classroom</strong></span>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <h2>All 4 Sprints Complete!</h2>
+    <p>Your game design portfolio is finished and submitted. Next lesson: <strong>SHOWCASE!</strong> Get ready to present your amazing work.</p>
+  </div>
+
+  <div class="nav-links">
+    <a href="LS-L19-Sprint3.html">&larr; Previous Lesson</a>
+    <a href="LS-L21-Showcase.html">Next Lesson &rarr;</a>
+  </div>
+
+</div>
+
+</body>
+</html>

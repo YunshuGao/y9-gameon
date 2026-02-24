@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LS L18 — Sprint 2: Levels</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:18px;line-height:1.8;}a{color:var(--blue);}
+.hero{text-align:center;padding:60px 20px 30px;}.hero h1{font-family:var(--font-head);font-size:2rem;color:var(--neon);margin-bottom:8px;}.hero .sub{color:var(--muted);font-size:1rem;margin-bottom:16px;}.hero .badges{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}.hero .badge{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.85rem;color:var(--muted);}.hero .badge b{color:var(--neon);}.ls-badge{display:inline-block;background:var(--amber);color:var(--navy);font-family:var(--font-head);font-weight:700;padding:6px 18px;border-radius:8px;font-size:.85rem;margin-top:14px;}
+.container{max-width:800px;margin:0 auto;padding:0 20px 60px;}
+.nav-links{display:flex;justify-content:space-between;margin:20px 0;font-size:.85rem;}.nav-links a{color:var(--blue);text-decoration:none;}.nav-links a:hover{text-decoration:underline;}
+.section{margin:30px 0;padding:24px;border:2px solid var(--border);border-radius:16px;background:var(--dark);}.section h2{font-family:var(--font-head);font-size:1.3rem;color:var(--neon);margin-bottom:16px;display:flex;align-items:center;gap:12px;}.section h2 .num{background:var(--neon);color:var(--navy);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.step{padding:14px 0;border-bottom:1px solid rgba(51,65,85,.5);font-size:1.05rem;display:flex;gap:12px;align-items:flex-start;}.step:last-child{border-bottom:none;}.step input[type="checkbox"]{width:24px;height:24px;accent-color:var(--neon);flex-shrink:0;margin-top:4px;cursor:pointer;}.step strong{color:var(--neon);}.step .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:2px 10px;font-size:.9rem;color:var(--amber);font-weight:700;}
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.3);border-radius:10px;}.vocab h4{font-family:var(--font-head);font-size:.85rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.95rem;}.vocab dt{color:var(--amber);font-weight:700;}.vocab dd{color:var(--muted);}
+.buddy{margin:14px 0;padding:14px 18px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.3);border-radius:10px;font-size:1rem;}.buddy::before{content:'BUDDY TIP: ';font-family:var(--font-head);color:var(--blue);font-weight:700;font-size:.85rem;}
+.stop-check{margin:16px 0;padding:16px 18px;background:rgba(74,222,128,.1);border:2px solid var(--neon);border-radius:10px;font-size:1.05rem;text-align:center;}.stop-check::before{content:'STOP AND CHECK ';font-family:var(--font-head);color:var(--neon);font-weight:700;font-size:.9rem;}
+.help-box{margin:14px 0;padding:14px 18px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);border-radius:10px;font-size:1rem;}.help-box::before{content:'NEED HELP? ';font-family:var(--font-head);color:var(--amber);font-weight:700;font-size:.85rem;}
+.canva-step{margin:10px 0;padding:12px 16px;background:rgba(74,222,128,.05);border-left:4px solid var(--neon);border-radius:0 8px 8px 0;font-size:1rem;}.canva-step .action{color:var(--neon);font-weight:700;}.canva-step .result{color:var(--muted);font-style:italic;font-size:.9rem;display:block;margin-top:4px;}
+.gdd-field-ls{margin:12px 0;padding:14px 18px;background:rgba(15,23,42,.5);border:2px solid var(--border);border-radius:10px;}.gdd-field-ls .label{font-family:var(--font-head);font-size:.9rem;color:var(--neon);font-weight:700;margin-bottom:6px;}.gdd-field-ls .hint{font-size:.95rem;color:var(--muted);font-style:italic;margin-bottom:8px;}.gdd-field-ls .write-area{background:rgba(15,23,42,.6);border:1px dashed var(--muted);border-radius:6px;padding:12px;min-height:50px;color:var(--muted);font-style:italic;font-size:.9rem;}
+.sprint-goal{margin:10px 0;padding:14px 18px;background:rgba(74,222,128,.08);border:2px solid var(--neon);border-radius:10px;display:flex;gap:12px;align-items:flex-start;}.sprint-goal input[type="checkbox"]{width:24px;height:24px;accent-color:var(--neon);flex-shrink:0;margin-top:4px;cursor:pointer;}
+.sprint-review{margin:14px 0;padding:16px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.3);border-radius:10px;}.sprint-review::before{content:'SPRINT REVIEW ';font-family:var(--font-head);color:var(--purple);font-weight:700;font-size:.85rem;display:block;margin-bottom:8px;}
+.footer{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;text-align:center;}.footer h2{font-family:var(--font-head);font-size:1.1rem;color:var(--neon);margin-bottom:12px;}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;}body{font-size:14pt;}.hero h1{color:#111!important;}.section{break-inside:avoid;border:2px solid #333;}.canva-step{border-left:3px solid #333;}.nav-links{display:none;}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>SPRINT 2 — LEVELS</h1>
+  <p class="sub">Refine your level design and add it to your portfolio!</p>
+  <div class="badges">
+    <span class="badge"><b>T1 — L18</b></span>
+    <span class="badge"><b>~75 min</b></span>
+    <span class="badge"><b>Tool:</b> Canva</span>
+    <span class="badge"><b>Outcomes:</b> G5-1, G5-2, G5-3</span>
+  </div>
+  <span class="ls-badge">LEARNING SUPPORT</span>
+</div>
+
+<div class="container">
+
+  <div class="nav-links">
+    <a href="LS-L17-Sprint1.html">&larr; Previous Lesson</a>
+    <a href="LS-L19-Sprint3.html">Next Lesson &rarr;</a>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <h2><span class="num">1</span> Sprint 2 Focus: Level Design</h2>
+
+    <p><strong>Quick recap:</strong> In Sprint 1 you refined your character designs and started your portfolio presentation. Great work!</p>
+
+    <p style="margin-top:12px;"><strong>Sprint 2 = Level Design.</strong> Today you will review and improve your game world and level designs, then add them to your portfolio.</p>
+
+    <p style="margin-top:12px;">Start by looking back at your previous work:</p>
+    <div class="canva-step">
+      <span class="action">Find:</span> Your L05 Game World design (background/environment)
+    </div>
+    <div class="canva-step">
+      <span class="action">Find:</span> Your L12 Complete Level design (level with game pieces placed)
+    </div>
+
+    <p style="margin-top:16px;">Now write <strong>3 goals</strong> for this sprint:</p>
+
+    <div class="gdd-field-ls">
+      <div class="label">Goal 1</div>
+      <div class="write-area">Write your first goal here...</div>
+    </div>
+    <div class="gdd-field-ls">
+      <div class="label">Goal 2</div>
+      <div class="write-area">Write your second goal here...</div>
+    </div>
+    <div class="gdd-field-ls">
+      <div class="label">Goal 3</div>
+      <div class="write-area">Write your third goal here...</div>
+    </div>
+
+    <div class="sprint-goal">
+      <input type="checkbox">
+      <span>Goal 1 — completed</span>
+    </div>
+    <div class="sprint-goal">
+      <input type="checkbox">
+      <span>Goal 2 — completed</span>
+    </div>
+    <div class="sprint-goal">
+      <input type="checkbox">
+      <span>Goal 3 — completed</span>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <h2><span class="num">2</span> Refine Your Game World</h2>
+    <p style="margin-bottom:12px;">You have <strong>25 minutes</strong> for this section. Open your L05 or L12 design and improve it:</p>
+
+    <div class="canva-step">
+      <span class="action">Improve:</span> Add more detail to the background.
+      <span class="result">Think about sky, ground textures, distant objects, scenery.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Improve:</span> Make platforms look more interesting (texture, shading).
+      <span class="result">Instead of plain rectangles, add grass, stone, metal, or wood textures.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Place:</span> Game pieces (from L10) in strategic locations.
+      <span class="result">Put collectibles where players need to jump to reach them. Put enemies in tricky spots.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Add:</span> Environmental details — lighting effects, weather, small details.
+      <span class="result">Glowing torches, rain drops, floating particles, clouds, stars.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Check:</span> Make sure the player path is clear and fun.
+      <span class="result">Can you trace a path from start to finish? Is it obvious where to go?</span>
+    </div>
+
+    <div class="help-box">
+      Not sure how to improve your level? Search Canva for "game background" or "platform game" for inspiration. Look at how real games use colour and detail.
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <h2><span class="num">3</span> Create a Level Walkthrough</h2>
+    <p style="margin-bottom:12px;">You have <strong>20 minutes</strong> for this section. You will show HOW someone would play through your level.</p>
+
+    <div class="canva-step">
+      <span class="action">Step 1:</span> Duplicate your level design — press <span class="key">Ctrl + D</span> in Canva, or create a copy.
+      <span class="result">You now have two copies — one clean level, one for the walkthrough.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 2:</span> On the copy, draw a numbered path showing the player's journey.
+      <span class="result">Use arrows, numbers, and labels to show each step.</span>
+    </div>
+
+    <p style="margin-top:12px;">Your walkthrough should show steps like:</p>
+
+    <div class="step">
+      <input type="checkbox">
+      <span><strong>1.</strong> Start here (show the spawn point)</span>
+    </div>
+    <div class="step">
+      <input type="checkbox">
+      <span><strong>2.</strong> Jump to first platform</span>
+    </div>
+    <div class="step">
+      <input type="checkbox">
+      <span><strong>3.</strong> Collect coins</span>
+    </div>
+    <div class="step">
+      <input type="checkbox">
+      <span><strong>4.</strong> Avoid enemy</span>
+    </div>
+    <div class="step">
+      <input type="checkbox">
+      <span><strong>5.</strong> Reach the finish</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 3:</span> Use arrows and numbers to make the path clear.
+      <span class="result">In Canva: Elements &rarr; Lines &amp; Shapes &rarr; choose an arrow.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Step 4:</span> Rename: <strong>"L18 - Level Walkthrough - [Your Name]"</strong>
+      <span class="result">Click the title at the top of Canva to rename.</span>
+    </div>
+
+    <div class="buddy">
+      Show your walkthrough to your partner. Can they understand the path without you explaining it? If not, add more labels or arrows.
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section">
+    <h2><span class="num">4</span> Add to Portfolio</h2>
+
+    <p>Open your portfolio presentation from Sprint 1 and add these new pages:</p>
+
+    <div class="canva-step">
+      <span class="action">Page 3:</span> "My Game World"
+      <span class="result">Paste your game world background design. Write 1-2 sentences describing the setting.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Page 4:</span> "My Level Design"
+      <span class="result">Paste the complete level with all game pieces placed. Describe the layout.</span>
+    </div>
+
+    <div class="canva-step">
+      <span class="action">Page 5:</span> "Level Walkthrough"
+      <span class="result">Paste the walkthrough with the numbered path showing how to play through the level.</span>
+    </div>
+
+    <div class="buddy">
+      Share your portfolio with your partner. Ask them: "Does my level look fun to play? Is the walkthrough easy to follow?"
+    </div>
+
+    <div class="sprint-review">
+      <p>Quick check — your portfolio should now have 5 pages:</p>
+      <div class="step">
+        <input type="checkbox">
+        <span>Page 1: Cover page</span>
+      </div>
+      <div class="step">
+        <input type="checkbox">
+        <span>Page 2: My Characters</span>
+      </div>
+      <div class="step">
+        <input type="checkbox">
+        <span>Page 3: My Game World</span>
+      </div>
+      <div class="step">
+        <input type="checkbox">
+        <span>Page 4: My Level Design</span>
+      </div>
+      <div class="step">
+        <input type="checkbox">
+        <span>Page 5: Level Walkthrough</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section">
+    <h2><span class="num">5</span> Sprint 2 Review</h2>
+
+    <div class="sprint-review">
+      <p>Reflect on your sprint. Answer honestly to help you plan ahead.</p>
+
+      <div class="gdd-field-ls">
+        <div class="label">Which goals did I complete?</div>
+        <div class="write-area">Write which of your 3 goals you finished...</div>
+      </div>
+
+      <div class="gdd-field-ls">
+        <div class="label">Which goals do I still need to finish?</div>
+        <div class="write-area">Write what you still need to work on...</div>
+      </div>
+
+      <div class="gdd-field-ls">
+        <div class="label">What will I focus on in Sprint 3?</div>
+        <div class="write-area">Sprint 3 is about Game Screens. What do you want to polish?</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <input type="checkbox">
+      <span>Submit a screenshot of your level design and portfolio to <strong>Google Classroom</strong>.</span>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <h2>Sprint 2 Complete!</h2>
+    <p>Your level design is polished and added to your portfolio. Next sprint: <strong>Game Screens!</strong></p>
+  </div>
+
+  <div class="nav-links">
+    <a href="LS-L17-Sprint1.html">&larr; Previous Lesson</a>
+    <a href="LS-L19-Sprint3.html">Next Lesson &rarr;</a>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LS-L04 — My First Sprite (Learning Support)</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f172a;--dark:#1e293b;--card:#1e293b;--border:#334155;--neon:#4ade80;--blue:#38bdf8;--purple:#a78bfa;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--white:#f1f5f9;--muted:#94a3b8;--font-head:'Orbitron',sans-serif;--font-body:'Roboto Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);font-size:18px;line-height:1.8;}a{color:var(--blue);}
+.hero{text-align:center;padding:60px 20px 30px;}.hero h1{font-family:var(--font-head);font-size:2rem;color:var(--neon);margin-bottom:8px;}.hero .sub{color:var(--muted);font-size:1rem;margin-bottom:16px;}.hero .badges{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}.hero .badge{background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.85rem;color:var(--muted);}.hero .badge b{color:var(--neon);}.ls-badge{display:inline-block;background:var(--amber);color:var(--navy);font-family:var(--font-head);font-weight:700;padding:6px 18px;border-radius:8px;font-size:.85rem;margin-top:14px;}
+.container{max-width:800px;margin:0 auto;padding:0 20px 60px;}
+.nav-links{display:flex;justify-content:space-between;margin:20px 0;font-size:.85rem;}.nav-links a{color:var(--blue);text-decoration:none;}.nav-links a:hover{text-decoration:underline;}
+.section{margin:30px 0;padding:24px;border:2px solid var(--border);border-radius:16px;background:var(--dark);}.section h2{font-family:var(--font-head);font-size:1.3rem;color:var(--neon);margin-bottom:16px;display:flex;align-items:center;gap:12px;}.section h2 .num{background:var(--neon);color:var(--navy);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.step{padding:14px 0;border-bottom:1px solid rgba(51,65,85,.5);font-size:1.05rem;display:flex;gap:12px;align-items:flex-start;}.step:last-child{border-bottom:none;}.step input[type="checkbox"]{width:24px;height:24px;accent-color:var(--neon);flex-shrink:0;margin-top:4px;cursor:pointer;}.step strong{color:var(--neon);}.step .key{display:inline-block;background:var(--navy);border:1px solid var(--border);border-radius:4px;padding:2px 10px;font-size:.9rem;color:var(--amber);font-weight:700;}
+.vocab{margin:14px 0;padding:14px 18px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.3);border-radius:10px;}.vocab h4{font-family:var(--font-head);font-size:.85rem;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}.vocab dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.95rem;}.vocab dt{color:var(--amber);font-weight:700;}.vocab dd{color:var(--muted);}
+.buddy{margin:14px 0;padding:14px 18px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.3);border-radius:10px;font-size:1rem;}.buddy::before{content:'BUDDY TIP: ';font-family:var(--font-head);color:var(--blue);font-weight:700;font-size:.85rem;}
+.stop-check{margin:16px 0;padding:16px 18px;background:rgba(74,222,128,.1);border:2px solid var(--neon);border-radius:10px;font-size:1.05rem;text-align:center;}.stop-check::before{content:'STOP AND CHECK ';font-family:var(--font-head);color:var(--neon);font-weight:700;font-size:.9rem;}
+.help-box{margin:14px 0;padding:14px 18px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);border-radius:10px;font-size:1rem;}.help-box::before{content:'NEED HELP? ';font-family:var(--font-head);color:var(--amber);font-weight:700;font-size:.85rem;}
+.canva-step{margin:10px 0;padding:12px 16px;background:rgba(74,222,128,.05);border-left:4px solid var(--neon);border-radius:0 8px 8px 0;font-size:1rem;}.canva-step .action{color:var(--neon);font-weight:700;}.canva-step .result{color:var(--muted);font-style:italic;font-size:.9rem;display:block;margin-top:4px;}
+.gdd-field-ls{margin:12px 0;padding:14px 18px;background:rgba(15,23,42,.5);border:2px solid var(--border);border-radius:10px;}.gdd-field-ls .label{font-family:var(--font-head);font-size:.9rem;color:var(--neon);font-weight:700;margin-bottom:6px;}.gdd-field-ls .hint{font-size:.95rem;color:var(--muted);font-style:italic;margin-bottom:8px;}.gdd-field-ls .write-area{background:rgba(15,23,42,.6);border:1px dashed var(--muted);border-radius:6px;padding:12px;min-height:50px;color:var(--muted);font-style:italic;font-size:.9rem;}
+.footer{margin:40px 0;padding:24px;background:var(--dark);border:1px solid var(--border);border-radius:16px;text-align:center;}.footer h2{font-family:var(--font-head);font-size:1.1rem;color:var(--neon);margin-bottom:12px;}
+@media print{*{color:#111!important;background:#fff!important;border-color:#ccc!important;}body{font-size:14pt;}.hero h1{color:#111!important;}.section{break-inside:avoid;border:2px solid #333;}.canva-step{border-left:3px solid #333;}.nav-links{display:none;}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>MY FIRST SPRITE</h1>
+  <p class="sub">Design your own game character in Canva!</p>
+  <div class="badges">
+    <span class="badge"><b>Lesson:</b> T1 — L04</span>
+    <span class="badge"><b>Time:</b> ~75 min</span>
+    <span class="badge"><b>Tool:</b> Canva</span>
+    <span class="badge"><b>Outcomes:</b> G5-1, G5-2, G5-3</span>
+  </div>
+  <span class="ls-badge">LEARNING SUPPORT VERSION</span>
+</div>
+
+<div class="container">
+
+<div class="nav-links">
+  <a href="LS-L03-WhatIsGameDesign.html">&larr; Previous Lesson</a>
+  <a href="LS-L05-GameWorlds.html">Next Lesson &rarr;</a>
+</div>
+
+<!-- ── SECTION 1: What Is a Sprite? ── -->
+<div class="section">
+  <h2><span class="num">1</span> What Is a Sprite?</h2>
+
+  <div class="vocab">
+    <h4>Words to Know</h4>
+    <dl>
+      <dt>Sprite</dt><dd>A 2D picture used in a game — characters, enemies, coins, and objects are all sprites</dd>
+      <dt>Character Design</dt><dd>The process of creating what a game character looks like</dd>
+      <dt>Silhouette</dt><dd>The outline shape of a character — good characters have a unique shape you can recognise even as a shadow</dd>
+      <dt>Pixel Art</dt><dd>A style of art made with tiny coloured squares (like Minecraft textures)</dd>
+    </dl>
+  </div>
+
+  <div class="step"><input type="checkbox"><span>A <strong>sprite</strong> is any 2D picture in a game. The player character is a sprite. Enemies are sprites. Coins are sprites. Trees are sprites!</span></div>
+
+  <div class="step"><input type="checkbox"><span>Think of famous game characters. They all have a <strong>unique look</strong>:<br>
+    <strong>Mario</strong> — Red hat, blue overalls, moustache<br>
+    <strong>Pikachu</strong> — Yellow, pointy ears, red cheeks<br>
+    <strong>Creeper</strong> (Minecraft) — Green, square, sad face<br>
+    <strong>Among Us character</strong> — Bean shape, one colour, visor</span></div>
+
+  <div class="step"><input type="checkbox"><span>Good character design uses <strong>3 things</strong>:<br>
+    1. A <strong>simple shape</strong> (circle, square, triangle)<br>
+    2. <strong>Bold colours</strong> (2-3 main colours)<br>
+    3. <strong>One special feature</strong> (a hat, wings, a weapon, glowing eyes)</span></div>
+
+  <div class="buddy">Talk to your partner: Describe your favourite game character in 3 words. Can your partner guess who it is?</div>
+
+  <div class="stop-check">I know what a sprite is and can describe 3 things that make a good character design.</div>
+</div>
+
+<!-- ── SECTION 2: Plan Your Characters ── -->
+<div class="section">
+  <h2><span class="num">2</span> Plan Your Characters</h2>
+
+  <div class="step"><input type="checkbox"><span>Before we open Canva, let's <strong>plan</strong> what we will make. You need <strong>3 sprites</strong>:</span></div>
+
+  <div class="step"><input type="checkbox"><span><strong>Sprite 1: Your Hero</strong> — This is the character the player controls.</span></div>
+
+  <div class="gdd-field-ls">
+    <div class="label">My Hero</div>
+    <div class="hint">e.g. A blue robot with glowing eyes, or a cat wearing a cape</div>
+    <div class="write-area">Name: _____<br>Shape: _____ (circle? square? triangle?)<br>Colours: _____<br>Special feature: _____</div>
+  </div>
+
+  <div class="step"><input type="checkbox"><span><strong>Sprite 2: An Enemy</strong> — This is something that tries to stop the player.</span></div>
+
+  <div class="gdd-field-ls">
+    <div class="label">My Enemy</div>
+    <div class="hint">e.g. A red spiky ball, or a ghost with angry eyes</div>
+    <div class="write-area">Name: _____<br>Shape: _____<br>Colours: _____<br>Special feature: _____</div>
+  </div>
+
+  <div class="step"><input type="checkbox"><span><strong>Sprite 3: A Collectible</strong> — This is something good the player picks up (coin, gem, star, food).</span></div>
+
+  <div class="gdd-field-ls">
+    <div class="label">My Collectible</div>
+    <div class="hint">e.g. A gold coin, a glowing crystal, a pizza slice</div>
+    <div class="write-area">Name: _____<br>Shape: _____<br>Colours: _____</div>
+  </div>
+
+  <div class="help-box">Stuck on ideas? Think of your favourite game genre from last lesson. A platformer needs a jumping hero. A puzzle game needs collectible pieces. An adventure needs a brave explorer!</div>
+
+  <div class="stop-check">I have planned all 3 sprites: a hero, an enemy, and a collectible.</div>
+</div>
+
+<!-- ── SECTION 3: Build Your Hero in Canva ── -->
+<div class="section">
+  <h2><span class="num">3</span> Build Your Hero in Canva</h2>
+
+  <div class="step"><input type="checkbox"><span>Open <strong>canva.com</strong> and log in with your school Google account (you did this last lesson).</span></div>
+
+  <div class="step"><input type="checkbox"><span>Create a <strong>new design</strong>:</span></div>
+
+  <div class="canva-step">
+    <span class="action">Step 1:</span> Click <span class="key">Create a design</span> (top-right) &rarr; Click <span class="key">Custom size</span> &rarr; Type <span class="key">500</span> x <span class="key">500</span> px &rarr; Click <span class="key">Create new design</span>.
+    <span class="result">A small blank square appears. This is the perfect size for one sprite.</span>
+  </div>
+
+  <div class="step"><input type="checkbox"><span><strong>Set the background colour:</strong></span></div>
+
+  <div class="canva-step">
+    <span class="action">Step 2:</span> Click the white canvas &rarr; Click the coloured square at the top-left &rarr; Choose a <strong>light colour</strong> so your character stands out (light grey or light blue works well).
+    <span class="result">Your canvas now has a coloured background.</span>
+  </div>
+
+  <div class="step"><input type="checkbox"><span><strong>Build the body using shapes:</strong></span></div>
+
+  <div class="canva-step">
+    <span class="action">Step 3:</span> On the left sidebar, click <span class="key">Elements</span>. In the search bar, type <span class="key">circle</span>.
+    <span class="result">You will see lots of circle shapes. Click a plain, solid circle to add it to your canvas.</span>
+  </div>
+
+  <div class="canva-step">
+    <span class="action">Step 4:</span> <strong>Resize the circle</strong> by dragging the corner handles. This will be the <strong>head</strong> of your character. Move it to the top-centre of the canvas.
+    <span class="result">You now have a circle (head) on your canvas.</span>
+  </div>
+
+  <div class="canva-step">
+    <span class="action">Step 5:</span> Search for <span class="key">rectangle</span> in Elements. Add a rectangle below the circle. This is the <strong>body</strong>.
+    <span class="result">Your character now has a head and body!</span>
+  </div>
+
+  <div class="canva-step">
+    <span class="action">Step 6:</span> <strong>Change colours:</strong> Click on a shape &rarr; Click the coloured square at the top-left &rarr; Choose your character's colour.
+    <span class="result">Your shapes now have the colours you planned.</span>
+  </div>
+
+  <div class="step"><input type="checkbox"><span><strong>Add details:</strong> Search for shapes or elements to add eyes, a mouth, arms, legs, or your special feature (hat, cape, weapon, etc.).</span></div>
+
+  <div class="canva-step">
+    <span class="action">Tip:</span> Search for things like <span class="key">eyes</span>, <span class="key">star</span>, <span class="key">crown</span>, <span class="key">sword</span>, or <span class="key">wings</span> in the Elements search bar.
+    <span class="result">Add as many details as you like to make your hero unique!</span>
+  </div>
+
+  <div class="help-box">Stuck? Show this page to your teacher or SLSO. They can help you find and resize elements in Canva.</div>
+
+  <div class="step"><input type="checkbox"><span><strong>Name your design:</strong> Click the title at the top and rename it to <span class="key">L04 - Hero - [Your Name]</span>.</span></div>
+
+  <div class="stop-check">My hero sprite has a body made of shapes, at least 2 colours, and one special feature.</div>
+</div>
+
+<!-- ── SECTION 4: Build Your Enemy and Collectible ── -->
+<div class="section">
+  <h2><span class="num">4</span> Build Your Enemy and Collectible</h2>
+
+  <div class="step"><input type="checkbox"><span>Now create <strong>2 more designs</strong> — one for your enemy and one for your collectible. Use the same steps:</span></div>
+
+  <div class="step"><input type="checkbox"><span><strong>Enemy sprite:</strong><br>
+    1. Click <span class="key">Create a design</span> &rarr; <span class="key">Custom size</span> &rarr; <span class="key">500</span> x <span class="key">500</span> px<br>
+    2. Use shapes to build your enemy (maybe use red or dark colours to show danger)<br>
+    3. Add angry eyes or spikes to make it look scary<br>
+    4. Rename it: <span class="key">L04 - Enemy - [Your Name]</span></span></div>
+
+  <div class="step"><input type="checkbox"><span><strong>Collectible sprite:</strong><br>
+    1. Click <span class="key">Create a design</span> &rarr; <span class="key">Custom size</span> &rarr; <span class="key">300</span> x <span class="key">300</span> px (smaller — collectibles are small!)<br>
+    2. Use shapes to build your collectible (maybe a circle for a coin, a diamond shape for a gem)<br>
+    3. Use bright colours like gold, green, or blue to show it is something good<br>
+    4. Rename it: <span class="key">L04 - Collectible - [Your Name]</span></span></div>
+
+  <div class="buddy">Show all 3 sprites to your partner. Ask them: "Can you tell which one is the hero, which is the enemy, and which is the collectible?" If they can, your designs are clear!</div>
+
+  <div class="stop-check">I have created 3 separate sprites: a hero, an enemy, and a collectible. All 3 are saved in my Canva account.</div>
+</div>
+
+<!-- ── SECTION 5: Download Your Sprites ── -->
+<div class="section">
+  <h2><span class="num">5</span> Download Your Sprites (Optional)</h2>
+
+  <div class="step"><input type="checkbox"><span>You can download your sprites as picture files. This is useful if you want to use them later.</span></div>
+
+  <div class="canva-step">
+    <span class="action">Step 1:</span> Open one of your sprite designs. Click <span class="key">Share</span> (top-right corner).
+    <span class="result">A menu will appear.</span>
+  </div>
+
+  <div class="canva-step">
+    <span class="action">Step 2:</span> Click <span class="key">Download</span>. Make sure it says <strong>PNG</strong> as the file type. Click <span class="key">Download</span> again.
+    <span class="result">The picture will be saved to your computer's Downloads folder.</span>
+  </div>
+
+  <div class="step"><input type="checkbox"><span>Repeat for all 3 sprites if you have time.</span></div>
+</div>
+
+<!-- ── FOOTER ── -->
+<div class="footer">
+  <h2>Well Done!</h2>
+  <p>You designed 3 game sprites — a hero, an enemy, and a collectible! These will be used in your final portfolio.</p>
+  <p style="color:var(--muted);font-size:.9rem;margin-top:12px;">Submit: Take screenshots of all 3 sprites and upload them to Google Classroom.</p>
+</div>
+
+<div class="nav-links">
+  <a href="LS-L03-WhatIsGameDesign.html">&larr; Previous Lesson</a>
+  <a href="LS-L05-GameWorlds.html">Next Lesson &rarr;</a>
+</div>
+
+</div><!-- /container -->
+</body>
+</html>
