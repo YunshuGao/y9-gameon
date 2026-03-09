@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Portfolio &mdash; Year 9 Game Design (Path B: Scratch)</title>
+<style>
+:root{--blue:#1B4965;--orange:#E07A3A;--grey:#5C6B73;--yellow:#F2C744;--bg:#F5F0EB;--charcoal:#2D3142;--green:#7FB069;--purple:#8E5DB2;--white:#FFFFFF;--light-grey:#E8E4E0;--teal:#2A9D8F;--font-heading:"Franklin Gothic Medium","DIN Condensed","Arial Narrow",sans-serif;--font-body:"Segoe UI","Helvetica Neue",Arial,sans-serif}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:15px}body{font-family:var(--font-body);background:var(--light-grey);color:var(--charcoal);line-height:1.55;padding-top:56px}
+.toolbar{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;background:var(--charcoal);color:var(--white);padding:10px 24px;height:56px;box-shadow:0 2px 8px rgba(0,0,0,.25)}.toolbar-left{display:flex;align-items:center;gap:14px}.toolbar-title{font-family:var(--font-heading);font-size:1rem;letter-spacing:.5px}.save-indicator{font-size:.8rem;opacity:.7;transition:opacity .3s}.save-indicator.saving{opacity:1;color:var(--yellow)}.toolbar-right{display:flex;gap:10px;flex-wrap:wrap}.toolbar-right button{font-family:var(--font-body);font-size:.85rem;font-weight:600;border:none;border-radius:6px;padding:8px 16px;cursor:pointer;transition:transform .1s,box-shadow .15s}.toolbar-right button:hover{transform:translateY(-1px);box-shadow:0 2px 6px rgba(0,0,0,.3)}.btn-pdf{background:var(--orange);color:var(--white)}.btn-share{background:var(--green);color:var(--white)}.btn-clear{background:transparent;color:var(--white);border:1px solid rgba(255,255,255,.3)!important}.btn-clear:hover{border-color:#ff6b6b!important;color:#ff6b6b}
+.portfolio{max-width:860px;margin:24px auto;background:var(--white);border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.08)}
+.ws-header{background:linear-gradient(135deg,var(--green) 0%,#5a9a4a 100%);color:var(--white);padding:32px 36px 28px;position:relative;overflow:hidden}.ws-header::after{content:"";position:absolute;top:0;right:0;bottom:0;width:220px;background:repeating-linear-gradient(90deg,transparent,transparent 18px,rgba(255,255,255,.04) 18px,rgba(255,255,255,.04) 20px)}.ws-badge{font-family:var(--font-heading);font-size:.85rem;background:var(--orange);padding:4px 14px;border-radius:20px;letter-spacing:1px;font-weight:700}.ws-title{font-family:var(--font-heading);font-size:1.8rem;margin:12px 0 4px;letter-spacing:.5px;position:relative;z-index:1}.ws-subtitle{font-size:.95rem;opacity:.85;position:relative;z-index:1}
+.ws-meta{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px;border-top:1px solid rgba(255,255,255,.2);padding-top:14px;position:relative;z-index:1}.ws-meta label{font-size:.8rem;opacity:.7;display:block;margin-bottom:2px}.ws-meta input{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:var(--white);padding:6px 12px;border-radius:6px;font-family:var(--font-body);font-size:.9rem;width:200px}.ws-meta input::placeholder{color:rgba(255,255,255,.4)}.ws-meta input:focus{outline:none;border-color:var(--yellow);background:rgba(255,255,255,.18)}
+.progress-bar{background:var(--bg);padding:14px 36px;border-bottom:1px solid var(--light-grey);display:flex;align-items:center;gap:16px}.progress-label{font-family:var(--font-heading);font-size:.85rem;color:var(--grey);white-space:nowrap}.progress-track{flex:1;height:8px;background:var(--light-grey);border-radius:4px;overflow:hidden}.progress-fill{height:100%;background:linear-gradient(90deg,var(--green),#5a9a4a);border-radius:4px;transition:width .4s ease;width:0}.progress-pct{font-family:var(--font-heading);font-size:.85rem;color:var(--green);min-width:36px}
+.section-divider{background:var(--bg);padding:20px 36px;border-top:3px solid var(--green);display:flex;align-items:center;gap:14px}.section-num{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:1.1rem;color:var(--white);flex-shrink:0}.section-divider-text h2{font-family:var(--font-heading);font-size:1.15rem;letter-spacing:1px}.section-divider-text p{font-size:.85rem;color:var(--grey)}.section-divider-text .marks{font-weight:700;color:var(--orange)}
+.s1 .section-num{background:var(--orange)}.s1{border-top-color:var(--orange)}
+.s2 .section-num{background:var(--teal)}.s2{border-top-color:var(--teal)}
+.s3 .section-num{background:var(--blue)}.s3{border-top-color:var(--blue)}
+.s4 .section-num{background:var(--purple)}.s4{border-top-color:var(--purple)}
+section.content{padding:28px 36px;border-top:1px solid var(--light-grey)}
+.question{margin-bottom:24px}.question>p{margin-bottom:8px;font-weight:600}.question .hint{font-weight:400;font-size:.85rem;color:var(--grey);font-style:italic;margin-bottom:8px}
+textarea,input[type="text"]{width:100%;border:1.5px solid var(--light-grey);border-radius:8px;padding:10px 14px;font-family:var(--font-body);font-size:.92rem;line-height:1.6;color:var(--charcoal);background:#FAFAF8;transition:border-color .2s,box-shadow .2s;resize:vertical}textarea:focus,input[type="text"]:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(42,157,143,.12)}textarea{min-height:80px}textarea.tall{min-height:120px}textarea.short{min-height:50px}
+.sub-label{font-size:.82rem;color:var(--grey);margin-bottom:4px;display:block;font-weight:600}
+.info-box{background:var(--bg);border-radius:10px;padding:16px 20px;margin:14px 0;font-size:.9rem;border-left:5px solid var(--teal)}.info-box strong{color:var(--teal)}
+.diff-support{border-radius:10px;padding:14px 18px;margin:12px 0;font-size:.88rem;background:#F0F7ED;border:2px solid var(--green);border-left-width:5px}.diff-label{font-family:var(--font-heading);font-size:.8rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--green);margin-bottom:6px}
+.tip-box{background:#EFF8F7;border:2px solid var(--teal);border-radius:10px;padding:14px 18px;margin:12px 0;font-size:.88rem}.tip-box strong{color:var(--teal)}
+.word-bank{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.word-bank span{background:#EEF4F8;border:1px solid var(--blue);color:var(--blue);padding:3px 10px;border-radius:14px;font-size:.82rem;cursor:pointer;transition:all .15s}.word-bank span:hover{background:var(--blue);color:var(--white)}
+.draw-box{border:2px dashed var(--light-grey);border-radius:10px;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:20px;color:var(--grey);font-size:.9rem;cursor:pointer;transition:border-color .2s;position:relative;overflow:hidden}.draw-box:hover{border-color:var(--teal)}.draw-box input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer}.draw-box img{max-width:100%;max-height:400px;border-radius:8px;object-fit:contain}.draw-box.has-image{border-style:solid;border-color:var(--green)}
+.draw-box .remove-img{position:absolute;top:8px;right:8px;background:rgba(239,68,68,.9);color:white;border:none;border-radius:50%;width:28px;height:28px;font-size:1rem;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:2}.draw-box.has-image .remove-img{display:flex}
+.checklist{margin:14px 0}.check-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;padding:8px 12px;background:var(--bg);border-radius:8px}.check-item input[type="checkbox"]{width:20px;height:20px;margin-top:2px;accent-color:var(--green);flex-shrink:0;cursor:pointer}.check-item label{font-size:.9rem;cursor:pointer}
+.scale-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.88rem}.scale-table th{background:var(--teal);color:var(--white);padding:8px 12px;text-align:left;font-family:var(--font-heading);font-size:.82rem;text-transform:uppercase;letter-spacing:1px}.scale-table td{padding:8px 12px;border-bottom:1px solid var(--light-grey);vertical-align:top}.scale-table tr:nth-child(even) td{background:#FAFAF8}.scale-table input{font-size:.85rem;padding:6px 10px;min-height:auto}
+.pmi-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:14px 0}.pmi-col{border-radius:10px;padding:14px}.pmi-col h4{font-family:var(--font-heading);font-size:.9rem;margin-bottom:8px}.pmi-plus{background:#F0F7ED;border:2px solid var(--green)}.pmi-plus h4{color:var(--green)}.pmi-minus{background:#FEF2F2;border:2px solid #E05555}.pmi-minus h4{color:#E05555}.pmi-int{background:#FEF9ED;border:2px solid var(--yellow)}.pmi-int h4{color:#C5982A}
+.eval-card{border-radius:10px;padding:18px 20px;margin-bottom:16px;border:2px solid var(--light-grey);border-left-width:5px;border-left-color:var(--teal)}.eval-card h4{font-family:var(--font-heading);font-size:1rem;color:var(--teal);margin-bottom:8px}
+.rank-select{display:flex;gap:8px;margin:8px 0;flex-wrap:wrap}.rank-btn{padding:6px 16px;border:2px solid var(--light-grey);border-radius:20px;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .15s;background:var(--white)}.rank-btn:hover{border-color:var(--teal);color:var(--teal)}.rank-btn.active{background:var(--teal);color:var(--white);border-color:var(--teal)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:14px 0}.two-col .col-box{border:1.5px solid var(--light-grey);border-radius:10px;padding:16px}.two-col .col-box h4{font-family:var(--font-heading);font-size:.9rem;margin-bottom:10px;color:var(--teal)}
+.ws-footer{background:var(--charcoal);color:rgba(255,255,255,.7);padding:18px 36px;font-size:.78rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}.ws-footer strong{color:var(--white)}
+/* Scratch-specific example box */
+.scratch-example{background:#FCF5E5;border:2px solid #E8A838;border-radius:10px;padding:14px 18px;margin:12px 0;font-size:.88rem}.scratch-example strong{color:#B8860B}
+.scratch-blocks{background:#4D97FF;color:white;padding:4px 10px;border-radius:6px;font-family:"Courier New",monospace;font-size:.85rem;display:inline-block;margin:2px}
+@media(max-width:700px){section.content{padding:20px 18px}.ws-header{padding:24px 18px 20px}.section-divider{padding:16px 18px}.pmi-grid{grid-template-columns:1fr}.two-col{grid-template-columns:1fr}.ws-meta input{width:150px}.progress-bar{padding:10px 18px}}
+@media print{@page{size:A4;margin:15mm 12mm}body{padding-top:0;background:white;font-size:12px}.toolbar{display:none!important}.portfolio{max-width:100%;margin:0;box-shadow:none;border-radius:0}.ws-header{padding:20px 24px 16px;-webkit-print-color-adjust:exact;print-color-adjust:exact}.ws-header::after{display:none}section.content{padding:16px 24px}.ws-footer{-webkit-print-color-adjust:exact;print-color-adjust:exact;padding:12px 24px}textarea,input[type="text"]{border:1.5px solid #ccc;min-height:50px;background:white!important}.section-divider{-webkit-print-color-adjust:exact;print-color-adjust:exact;break-before:page}.section-num,.ws-badge,.info-box,.diff-support,.tip-box,.scratch-example{-webkit-print-color-adjust:exact;print-color-adjust:exact}.draw-box{break-inside:avoid;min-height:120px}.question{break-inside:avoid}.eval-card{break-inside:avoid}.progress-bar{display:none}.remove-img{display:none!important}}
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="toolbar-left">
+    <span class="toolbar-title">Y9 Game Design Portfolio (Path B)</span>
+    <span class="save-indicator" id="saveIndicator">All changes saved</span>
+  </div>
+  <div class="toolbar-right">
+    <button class="btn-share" onclick="shareLink()">&#128279; Share Link</button>
+    <button class="btn-pdf" onclick="savePDF()">Save as PDF</button>
+    <button class="btn-clear" onclick="clearAll()">Clear All</button>
+  </div>
+</div>
+
+<div class="portfolio">
+
+  <header class="ws-header">
+    <span class="ws-badge">ASSESSMENT TASK 1 &mdash; PATH B</span>
+    <h1 class="ws-title">Design Portfolio</h1>
+    <p class="ws-subtitle">Game Design &amp; Development &mdash; 2D Game (Scratch)</p>
+    <div class="ws-meta">
+      <div><label for="studentName">Student Name</label><input type="text" id="studentName" data-save="studentName" placeholder="Enter your name"></div>
+      <div><label for="studentClass">Class</label><input type="text" id="studentClass" data-save="studentClass" placeholder="e.g. 9GAMZA" style="width:120px"></div>
+      <div><label for="studentDate">Date</label><input type="text" id="studentDate" data-save="studentDate" placeholder="DD / MM / 2026" style="width:140px"></div>
+    </div>
+  </header>
+
+  <div class="progress-bar">
+    <span class="progress-label">Portfolio Progress</span>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <span class="progress-pct" id="progressPct">0%</span>
+  </div>
+
+  <!-- ==================== GETTING STARTED ==================== -->
+  <section class="content" style="background:#FFFBF0;border-top:3px solid var(--yellow)">
+    <h3 style="font-family:var(--font-heading);color:#B8860B;margin-bottom:12px">&#128640; Getting Started with Scratch</h3>
+    <p style="font-size:.92rem;margin-bottom:10px">Scratch is a free, browser-based tool for making games. No downloads needed!</p>
+    <ol style="margin-left:20px;font-size:.9rem">
+      <li style="margin-bottom:6px">Go to <strong>scratch.mit.edu</strong> in your browser</li>
+      <li style="margin-bottom:6px">Click <strong>&ldquo;Join Scratch&rdquo;</strong> to create a free account (or sign in if you have one)</li>
+      <li style="margin-bottom:6px">Click <strong>&ldquo;Create&rdquo;</strong> to start a new project</li>
+      <li style="margin-bottom:6px">You will see the <strong>Stage</strong> (where your game plays), the <strong>Sprite list</strong> (your characters/objects), and the <strong>Code area</strong> (where you drag blocks)</li>
+    </ol>
+    <div class="tip-box" style="margin-top:12px">
+      <strong>Need help?</strong> Scratch has built-in tutorials. Click the <strong>Tutorials</strong> button (top of the editor) and try &ldquo;Make a Game&rdquo; or &ldquo;Make a Chase Game&rdquo; to learn the basics quickly.
+    </div>
+  </section>
+
+  <!-- ==================== SECTION 1 ==================== -->
+  <div class="section-divider s1">
+    <div class="section-num">1</div>
+    <div class="section-divider-text">
+      <h2>STATEMENT OF INTENT &amp; RESEARCH</h2>
+      <p><span class="marks">5 marks</span> &bull; IND5-5, IND5-8</p>
+    </div>
+  </div>
+
+  <section class="content">
+    <div class="info-box">
+      <strong>What is a Statement of Intent?</strong> It explains the PURPOSE of your game &mdash; what type of game it is, who it&rsquo;s for, and what the player does. Think of it as your &ldquo;game pitch&rdquo; &mdash; how would you describe your game to a friend?
+    </div>
+
+    <div class="question">
+      <p>1.1 &mdash; Game Name</p>
+      <p class="hint">What is the name of your game? Choose something fun and memorable.</p>
+      <input type="text" data-save="s1gameName" placeholder="e.g. Space Dodge, Maze Runner, Fruit Catch...">
+    </div>
+
+    <div class="question">
+      <p>1.2 &mdash; Statement of Intent</p>
+      <p class="hint">Explain your game idea. Don't overthink it &mdash; just describe what the player does and why it's fun!</p>
+      <div class="diff-support">
+        <div class="diff-label">&#127793; Fill in the blanks</div>
+        <p style="font-size:.85rem;margin-top:4px">
+          &bull; <em>My game is called <strong>_____</strong> and it is a <strong>_____</strong> game.</em><br>
+          &bull; <em>In this game, the player uses the <strong>_____</strong> keys to <strong>_____</strong>.</em><br>
+          &bull; <em>The goal is to <strong>_____</strong> while avoiding <strong>_____</strong>.</em><br>
+          &bull; <em>This game is designed for <strong>_____</strong> (age group / type of player).</em><br>
+          &bull; <em>I want players to feel <strong>_____</strong> when they play.</em>
+        </p>
+      </div>
+      <textarea data-save="s1intent" class="tall" placeholder="My game is called _____ and it is a _____ game. In this game, the player... The goal is to... I made this game for..."></textarea>
+    </div>
+
+    <div class="question">
+      <p>1.3 &mdash; Target Audience</p>
+      <p class="hint">Who would play your game? Think about their age and what kinds of games they like.</p>
+      <div class="diff-support">
+        <div class="diff-label">&#127793; Example answer</div>
+        <p style="font-size:.85rem;margin-top:4px"><em>&ldquo;My target audience is students aged 10&ndash;14 who enjoy quick, casual games they can play during a break. They like games that are easy to learn but get harder as you play, like Flappy Bird or Crossy Road.&rdquo;</em></p>
+      </div>
+      <textarea data-save="s1audience" placeholder="My target audience is... They enjoy games like... They would play my game because..."></textarea>
+    </div>
+
+    <div class="question">
+      <p>1.4 &mdash; Research: Existing Games</p>
+      <p class="hint">Find 2 games that are similar to your idea. They can be Scratch games (explore scratch.mit.edu), mobile games, or classic games. Take a screenshot of each and describe what&rsquo;s good and what could be better.</p>
+
+      <div class="tip-box">
+        <strong>Where to find games to research:</strong><br>
+        &bull; <strong>Scratch:</strong> Go to scratch.mit.edu &rarr; Explore &rarr; Games<br>
+        &bull; <strong>Mobile/browser games:</strong> Think of games you already play!<br>
+        &bull; Take a screenshot by pressing <strong>PrtSc</strong> (Windows) or <strong>Cmd+Shift+4</strong> (Mac)
+      </div>
+
+      <div class="sub-label">Game 1</div>
+      <input type="text" data-save="s1game1name" placeholder="Game name (e.g. Pac-Man, Crossy Road, a Scratch game...)" style="margin-bottom:8px">
+      <textarea data-save="s1game1analysis" class="short" placeholder="What I like about this game: ...&#10;What could be better: ..."></textarea>
+      <div class="draw-box" id="drawGame1" onclick="triggerUpload('fileGame1')">
+        <input type="file" id="fileGame1" accept="image/*" onchange="loadImage(event,'drawGame1','imgGame1')">
+        <button class="remove-img" onclick="removeImage(event,'drawGame1','imgGame1')" title="Remove image">&times;</button>
+        <span id="imgGame1Label">&#128247; Upload screenshot of Game 1</span>
+      </div>
+
+      <div class="sub-label" style="margin-top:14px">Game 2</div>
+      <input type="text" data-save="s1game2name" placeholder="Game name" style="margin-bottom:8px">
+      <textarea data-save="s1game2analysis" class="short" placeholder="What I like about this game: ...&#10;What could be better: ..."></textarea>
+      <div class="draw-box" id="drawGame2" onclick="triggerUpload('fileGame2')">
+        <input type="file" id="fileGame2" accept="image/*" onchange="loadImage(event,'drawGame2','imgGame2')">
+        <button class="remove-img" onclick="removeImage(event,'drawGame2','imgGame2')" title="Remove image">&times;</button>
+        <span id="imgGame2Label">&#128247; Upload screenshot of Game 2</span>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>1.5 &mdash; PMI Analysis of Your Favourite Game</p>
+      <p class="hint">Pick your favourite game from above. What&rsquo;s good about it? What&rsquo;s bad? What&rsquo;s interesting?</p>
+      <div class="pmi-grid">
+        <div class="pmi-col pmi-plus"><h4>&#10133; Plus (what&rsquo;s good)</h4><textarea data-save="s1pmiP" placeholder="The game is fun because...&#10;I like how it..."></textarea></div>
+        <div class="pmi-col pmi-minus"><h4>&#10134; Minus (what&rsquo;s bad)</h4><textarea data-save="s1pmiM" placeholder="It could be better if...&#10;I didn't like..."></textarea></div>
+        <div class="pmi-col pmi-int"><h4>&#10067; Interesting</h4><textarea data-save="s1pmiI" placeholder="I noticed that...&#10;Something clever about it is..."></textarea></div>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>1.6 &mdash; Key Features List</p>
+      <p class="hint">List what your game will have. Think about the different &ldquo;screens&rdquo; or states (start, playing, game over) and what happens in each.</p>
+      <table class="scale-table">
+        <tr><th style="width:25%">Feature / Screen</th><th style="width:35%">What It Does</th><th>Why Players Need It</th></tr>
+        <tr><td><input type="text" data-save="s1feat1a" placeholder="e.g. Start Screen"></td><td><input type="text" data-save="s1feat1b" placeholder="e.g. Shows title, press Space to start"></td><td><input type="text" data-save="s1feat1c" placeholder="e.g. Tells player how to begin"></td></tr>
+        <tr><td><input type="text" data-save="s1feat2a" placeholder="e.g. Gameplay"></td><td><input type="text" data-save="s1feat2b" placeholder="e.g. Player moves and collects coins"></td><td><input type="text" data-save="s1feat2c" placeholder="e.g. The main game experience"></td></tr>
+        <tr><td><input type="text" data-save="s1feat3a" placeholder="e.g. Score Display"></td><td><input type="text" data-save="s1feat3b"></td><td><input type="text" data-save="s1feat3c"></td></tr>
+        <tr><td><input type="text" data-save="s1feat4a" placeholder="e.g. Game Over"></td><td><input type="text" data-save="s1feat4b"></td><td><input type="text" data-save="s1feat4c"></td></tr>
+        <tr><td><input type="text" data-save="s1feat5a"></td><td><input type="text" data-save="s1feat5b"></td><td><input type="text" data-save="s1feat5c"></td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- ==================== SECTION 2 ==================== -->
+  <div class="section-divider s2">
+    <div class="section-num">2</div>
+    <div class="section-divider-text">
+      <h2>GAME DESIGN &amp; DEVELOPMENT</h2>
+      <p><span class="marks">5 marks</span> &bull; IND5-2</p>
+    </div>
+  </div>
+
+  <section class="content">
+    <div class="info-box">
+      <strong>Game Design Document (GDD)</strong> is your game&rsquo;s blueprint. Before you start coding in Scratch, plan out what your game will do. This makes building it much easier!
+    </div>
+
+    <div class="question">
+      <p>2.1 &mdash; Game Design Document</p>
+      <p class="hint">Answer each question to plan your game. Be as specific as you can!</p>
+
+      <div class="sub-label">Game Type</div>
+      <div class="diff-support">
+        <div class="diff-label">&#127793; Choose one (or combine!)</div>
+        <div class="word-bank">
+          <span onclick="copyWord(this)">Maze game</span>
+          <span onclick="copyWord(this)">Chase game</span>
+          <span onclick="copyWord(this)">Platformer</span>
+          <span onclick="copyWord(this)">Catching game</span>
+          <span onclick="copyWord(this)">Dodging game</span>
+          <span onclick="copyWord(this)">Shooting game</span>
+          <span onclick="copyWord(this)">Quiz game</span>
+          <span onclick="copyWord(this)">Clicker game</span>
+        </div>
+      </div>
+      <input type="text" data-save="s2genre" placeholder="e.g. Catching game, Maze game, Platformer..." style="margin-bottom:10px">
+
+      <div class="sub-label">What does the player DO? (core mechanic)</div>
+      <div class="diff-support">
+        <div class="diff-label">&#127793; Examples</div>
+        <p style="font-size:.85rem;margin-top:4px">
+          <em>&bull; &ldquo;The player moves a basket left and right to catch falling fruit&rdquo;</em><br>
+          <em>&bull; &ldquo;The player guides a character through a maze to reach the exit&rdquo;</em><br>
+          <em>&bull; &ldquo;The player dodges falling obstacles while collecting power-ups&rdquo;</em>
+        </p>
+      </div>
+      <textarea data-save="s2mechanic" class="short" placeholder="The player uses _____ to _____. The goal is to _____..."></textarea>
+
+      <div class="sub-label" style="margin-top:10px">Controls</div>
+      <textarea data-save="s2controls" class="short" placeholder="e.g. Arrow keys to move up/down/left/right, Space bar to jump, Mouse to click..."></textarea>
+
+      <div class="sub-label" style="margin-top:10px">How do you WIN? How do you LOSE?</div>
+      <textarea data-save="s2winlose" class="short" placeholder="WIN: The player wins when...&#10;LOSE: The player loses when... (e.g. lives run out, timer reaches 0, touches enemy)"></textarea>
+
+      <div class="sub-label" style="margin-top:10px">Game Stages (describe what happens in each part of the game)</div>
+      <div class="diff-support">
+        <div class="diff-label">&#127793; Fill this in</div>
+        <p style="font-size:.85rem;margin-top:4px">
+          <em><strong>Start:</strong> When the green flag is clicked, the game shows...</em><br>
+          <em><strong>Gameplay:</strong> The player is in a _____ and needs to _____...</em><br>
+          <em><strong>Difficulty:</strong> The game gets harder by...</em><br>
+          <em><strong>Game Over:</strong> When the player loses, the game shows...</em>
+        </p>
+      </div>
+      <textarea data-save="s2levels" class="tall" placeholder="Start: When the green flag is clicked...&#10;&#10;Gameplay: The player...&#10;&#10;Difficulty: As the game continues, it gets harder by...&#10;&#10;Game Over: When the player loses..."></textarea>
+    </div>
+
+    <div class="question">
+      <p>2.2 &mdash; Mind Map / Brainstorm</p>
+      <p class="hint">Draw a mind map exploring your game ideas. Put your game name in the centre, then branch out: characters, enemies, power-ups, levels, sounds, colours. Draw on paper and photograph it.</p>
+      <div class="draw-box" id="drawMindMap" onclick="triggerUpload('fileMindMap')">
+        <input type="file" id="fileMindMap" accept="image/*" onchange="loadImage(event,'drawMindMap','imgMindMap')">
+        <button class="remove-img" onclick="removeImage(event,'drawMindMap','imgMindMap')" title="Remove image">&times;</button>
+        <span id="imgMindMapLabel">&#128247; Upload mind map / brainstorm image</span>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>2.3 &mdash; Rough Sketches of Game Screens</p>
+      <p class="hint">Draw what your game will look like at each stage. Show where the player, enemies, score, and other objects will be on screen. Use boxes for buttons, stick figures for characters. Label everything!</p>
+
+      <div class="scratch-example">
+        <strong>Tip:</strong> In Scratch, your game happens on a <strong>480 x 360 pixel stage</strong>. Think about what sprites are on screen and where they are positioned. Draw a rectangle for the stage and sketch what goes inside it.
+      </div>
+
+      <div class="two-col">
+        <div class="col-box">
+          <h4>Screen 1: Start / Title</h4>
+          <input type="text" data-save="s2sketch1name" placeholder="e.g. Start Screen" style="margin-bottom:8px">
+          <div class="draw-box" id="drawSketch1" onclick="triggerUpload('fileSketch1')" style="min-height:180px">
+            <input type="file" id="fileSketch1" accept="image/*" onchange="loadImage(event,'drawSketch1','imgSketch1')">
+            <button class="remove-img" onclick="removeImage(event,'drawSketch1','imgSketch1')" title="Remove">&times;</button>
+            <span id="imgSketch1Label">&#128247; Upload sketch</span>
+          </div>
+        </div>
+        <div class="col-box">
+          <h4>Screen 2: Gameplay</h4>
+          <input type="text" data-save="s2sketch2name" placeholder="e.g. Main Game" style="margin-bottom:8px">
+          <div class="draw-box" id="drawSketch2" onclick="triggerUpload('fileSketch2')" style="min-height:180px">
+            <input type="file" id="fileSketch2" accept="image/*" onchange="loadImage(event,'drawSketch2','imgSketch2')">
+            <button class="remove-img" onclick="removeImage(event,'drawSketch2','imgSketch2')" title="Remove">&times;</button>
+            <span id="imgSketch2Label">&#128247; Upload sketch</span>
+          </div>
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="col-box">
+          <h4>Screen 3: Game Over</h4>
+          <input type="text" data-save="s2sketch3name" placeholder="e.g. Game Over Screen" style="margin-bottom:8px">
+          <div class="draw-box" id="drawSketch3" onclick="triggerUpload('fileSketch3')" style="min-height:180px">
+            <input type="file" id="fileSketch3" accept="image/*" onchange="loadImage(event,'drawSketch3','imgSketch3')">
+            <button class="remove-img" onclick="removeImage(event,'drawSketch3','imgSketch3')" title="Remove">&times;</button>
+            <span id="imgSketch3Label">&#128247; Upload sketch</span>
+          </div>
+        </div>
+        <div class="col-box">
+          <h4>Screen 4 (optional)</h4>
+          <input type="text" data-save="s2sketch4name" placeholder="e.g. Level 2 / Instructions" style="margin-bottom:8px">
+          <div class="draw-box" id="drawSketch4" onclick="triggerUpload('fileSketch4')" style="min-height:180px">
+            <input type="file" id="fileSketch4" accept="image/*" onchange="loadImage(event,'drawSketch4','imgSketch4')">
+            <button class="remove-img" onclick="removeImage(event,'drawSketch4','imgSketch4')" title="Remove">&times;</button>
+            <span id="imgSketch4Label">&#128247; Upload sketch</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>2.4 &mdash; Player Flow Diagram</p>
+      <p class="hint">Show how the player moves through your game. Draw boxes for each screen/state and arrows showing what happens next. Example: Start Screen &rarr; (press Space) &rarr; Gameplay &rarr; (lose all lives) &rarr; Game Over &rarr; (press R) &rarr; Start Screen</p>
+      <div class="draw-box" id="drawFlow" onclick="triggerUpload('fileFlow')">
+        <input type="file" id="fileFlow" accept="image/*" onchange="loadImage(event,'drawFlow','imgFlow')">
+        <button class="remove-img" onclick="removeImage(event,'drawFlow','imgFlow')" title="Remove image">&times;</button>
+        <span id="imgFlowLabel">&#128247; Upload player flow diagram</span>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>2.5 &mdash; Design Decisions</p>
+      <p class="hint">Why did you choose this type of game? What did you change from your first idea?</p>
+      <textarea data-save="s2decisions" class="tall" placeholder="I chose to make a _____ game because...&#10;&#10;My original idea was _____ but I changed it to _____ because...&#10;&#10;I decided to use _____ (sprites/controls/theme) because..."></textarea>
+    </div>
+  </section>
+
+  <!-- ==================== SECTION 3 ==================== -->
+  <div class="section-divider s3">
+    <div class="section-num">3</div>
+    <div class="section-divider-text">
+      <h2>DESIGN ANNOTATIONS &amp; DEVELOPMENT SCREENSHOTS</h2>
+      <p><span class="marks">3 marks</span> &bull; IND5-2, IND5-5</p>
+    </div>
+  </div>
+
+  <section class="content">
+    <div class="info-box">
+      <strong>Design Annotations</strong> explain WHY you made your visual choices. <strong>Development Screenshots</strong> show your Scratch code and prove you built the game yourself.
+    </div>
+
+    <div class="question">
+      <p>3.1 &mdash; Colour Palette &amp; Art Style</p>
+      <p class="hint">What colours and style did you use? Why do they suit your game?</p>
+      <div class="diff-support">
+        <div class="diff-label">&#127793; Design vocabulary (click to copy)</div>
+        <div class="word-bank">
+          <span onclick="copyWord(this)">contrast</span>
+          <span onclick="copyWord(this)">bright colours</span>
+          <span onclick="copyWord(this)">dark colours</span>
+          <span onclick="copyWord(this)">warm colours</span>
+          <span onclick="copyWord(this)">cool colours</span>
+          <span onclick="copyWord(this)">consistent</span>
+          <span onclick="copyWord(this)">theme</span>
+          <span onclick="copyWord(this)">cartoon style</span>
+          <span onclick="copyWord(this)">pixel art</span>
+          <span onclick="copyWord(this)">atmosphere</span>
+        </div>
+      </div>
+      <div class="diff-support">
+        <div class="diff-label">&#127793; Example answer</div>
+        <p style="font-size:.85rem;margin-top:4px"><em>&ldquo;I used bright, warm colours (orange, yellow, red) because my game is a fun, energetic fruit-catching game. The background is a light blue sky which creates contrast with the colourful fruit sprites. I kept the colours consistent across all backdrops to make the game feel unified.&rdquo;</em></p>
+      </div>
+      <textarea data-save="s3colours" placeholder="The main colours in my game are _____ because...&#10;The backdrop colours are _____ because...&#10;These colours create a _____ feeling that matches my game because..."></textarea>
+    </div>
+
+    <div class="question">
+      <p>3.2 &mdash; Sprite &amp; Backdrop Choices</p>
+      <p class="hint">What sprites (characters/objects) and backdrops did you use? Did you use Scratch&rsquo;s built-in library, draw your own, or upload images?</p>
+      <textarea data-save="s3sprites" class="short" placeholder="For the player I used... because...&#10;For the enemies/obstacles I chose... because...&#10;The backdrop is... because...&#10;I got my sprites from... (Scratch library / drew my own / uploaded)"></textarea>
+    </div>
+
+    <div class="question">
+      <p>3.3 &mdash; Scratch Development Screenshots</p>
+      <p class="hint">Take screenshots showing your Scratch project. Show the stage with your game running and your code blocks. To screenshot: press PrtSc (Windows) or Cmd+Shift+4 (Mac).</p>
+
+      <div class="scratch-example">
+        <strong>What to screenshot:</strong><br>
+        &bull; Screenshot 1: Your <strong>game running on the Stage</strong> (click the green flag first, then screenshot)<br>
+        &bull; Screenshot 2: Your <strong>code blocks</strong> for the main sprite (show the Scripts area)
+      </div>
+
+      <div class="sub-label">Screenshot 1 &mdash; Your Game Running</div>
+      <div class="draw-box" id="drawScratch1" onclick="triggerUpload('fileScratch1')">
+        <input type="file" id="fileScratch1" accept="image/*" onchange="loadImage(event,'drawScratch1','imgScratch1')">
+        <button class="remove-img" onclick="removeImage(event,'drawScratch1','imgScratch1')" title="Remove">&times;</button>
+        <span id="imgScratch1Label">&#128247; Upload screenshot of your game running</span>
+      </div>
+
+      <div class="sub-label" style="margin-top:14px">Screenshot 2 &mdash; Your Code Blocks</div>
+      <div class="draw-box" id="drawScratch2" onclick="triggerUpload('fileScratch2')">
+        <input type="file" id="fileScratch2" accept="image/*" onchange="loadImage(event,'drawScratch2','imgScratch2')">
+        <button class="remove-img" onclick="removeImage(event,'drawScratch2','imgScratch2')" title="Remove">&times;</button>
+        <span id="imgScratch2Label">&#128247; Upload screenshot of your code blocks</span>
+      </div>
+
+      <div class="sub-label" style="margin-top:14px">Screenshot 3 (optional) &mdash; Another Feature</div>
+      <div class="draw-box" id="drawScratch3" onclick="triggerUpload('fileScratch3')">
+        <input type="file" id="fileScratch3" accept="image/*" onchange="loadImage(event,'drawScratch3','imgScratch3')">
+        <button class="remove-img" onclick="removeImage(event,'drawScratch3','imgScratch3')" title="Remove">&times;</button>
+        <span id="imgScratch3Label">&#128247; Upload additional screenshot (optional)</span>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>3.4 &mdash; Code Explanation</p>
+      <p class="hint">Look at your code screenshot above. Explain what your main code blocks do. You don&rsquo;t need to explain every block &mdash; just describe the most important parts of your code.</p>
+      <div class="diff-support">
+        <div class="diff-label">&#127793; Example explanation</div>
+        <p style="font-size:.85rem;margin-top:4px">
+          <em>&ldquo;When the green flag is clicked, my player sprite goes to the starting position (x: 0, y: -120). Then a forever loop checks if the arrow keys are pressed. If the right arrow is pressed, the sprite moves 10 steps to the right. I also have an &lsquo;if touching enemy&rsquo; block that broadcasts &lsquo;game over&rsquo; when the player hits an enemy.&rdquo;</em>
+        </p>
+      </div>
+      <textarea data-save="s3codeExplain" class="tall" placeholder="When the green flag is clicked, my game...&#10;&#10;My player sprite moves by...&#10;&#10;The score works by...&#10;&#10;The game ends when...&#10;&#10;I used a variable called _____ to track..."></textarea>
+    </div>
+
+    <div class="question">
+      <p>3.5 &mdash; Design Annotations</p>
+      <p class="hint">Explain the design choices in your game using the design vocabulary words above.</p>
+      <textarea data-save="s3annotations" class="tall" placeholder="In my game, I used CONTRAST by making the player sprite _____ against the _____ background so it stands out.&#10;&#10;I kept things CONSISTENT by using the same _____ style across all backdrops.&#10;&#10;The COLOUR SCHEME creates a _____ atmosphere because...&#10;&#10;I drew attention to important things (like the score) by..."></textarea>
+    </div>
+  </section>
+
+  <!-- ==================== SECTION 4 ==================== -->
+  <div class="section-divider s4">
+    <div class="section-num">4</div>
+    <div class="section-divider-text">
+      <h2>EVALUATION</h2>
+      <p><span class="marks">2 marks</span> &bull; IND5-8</p>
+    </div>
+  </div>
+
+  <section class="content">
+    <div class="question">
+      <p>4.1 &mdash; Evaluate your game</p>
+      <p class="hint">Rate how well your game turned out. Click a rating, then explain why.</p>
+
+      <div class="eval-card">
+        <h4>&#127912; Visual Design</h4>
+        <p class="hint">Does your game look good? Do the sprites, backdrops, and colours work together?</p>
+        <div class="rank-select" data-group="evalVisual">
+          <span class="rank-btn" onclick="setRank(this)" data-val="1">1 &mdash; Poor</span>
+          <span class="rank-btn" onclick="setRank(this)" data-val="2">2 &mdash; Basic</span>
+          <span class="rank-btn" onclick="setRank(this)" data-val="3">3 &mdash; Good</span>
+          <span class="rank-btn" onclick="setRank(this)" data-val="4">4 &mdash; Very Good</span>
+          <span class="rank-btn" onclick="setRank(this)" data-val="5">5 &mdash; Excellent</span>
+        </div>
+        <textarea data-save="s4evalVisual" class="short" placeholder="I gave this rating because..."></textarea>
+      </div>
+
+      <div class="eval-card">
+        <h4>&#127918; Gameplay &amp; Fun Factor</h4>
+        <p class="hint">Is the game fun to play? Do the controls work well? Is there a challenge?</p>
+        <div class="rank-select" data-group="evalGameplay">
+          <span class="rank-btn" onclick="setRank(this)" data-val="1">1 &mdash; Poor</span>
+          <span class="rank-btn" onclick="setRank(this)" data-val="2">2 &mdash; Basic</span>
+          <span class="rank-btn" onclick="setRank(this)" data-val="3">3 &mdash; Good</span>
+          <span class="rank-btn" onclick="setRank(this)" data-val="4">4 &mdash; Very Good</span>
+          <span class="rank-btn" onclick="setRank(this)" data-val="5">5 &mdash; Excellent</span>
+        </div>
+        <textarea data-save="s4evalGameplay" class="short" placeholder="I gave this rating because..."></textarea>
+      </div>
+
+      <div class="eval-card">
+        <h4>&#128187; Use of Scratch Features</h4>
+        <p class="hint">Did you use Scratch features well? (variables, clones, broadcasts, custom blocks, sounds)</p>
+        <div class="rank-select" data-group="evalSkills">
+          <span class="rank-btn" onclick="setRank(this)" data-val="1">1 &mdash; Poor</span>
+          <span class="rank-btn" onclick="setRank(this)" data-val="2">2 &mdash; Basic</span>
+          <span class="rank-btn" onclick="setRank(this)" data-val="3">3 &mdash; Good</span>
+          <span class="rank-btn" onclick="setRank(this)" data-val="4">4 &mdash; Very Good</span>
+          <span class="rank-btn" onclick="setRank(this)" data-val="5">5 &mdash; Excellent</span>
+        </div>
+        <textarea data-save="s4evalSkills" class="short" placeholder="I gave this rating because..."></textarea>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>4.2 &mdash; Did My Game Match My Plan?</p>
+      <p class="hint">Look back at your sketches and Game Design Document. Is your final game the same as your plan? What changed?</p>
+      <textarea data-save="s4comparison" class="tall" placeholder="My final game is similar to / different from my original plan because...&#10;&#10;Things that stayed the same:&#10;&#10;Things that changed:&#10;&#10;I changed these because:"></textarea>
+    </div>
+
+    <div class="question">
+      <p>4.3 &mdash; What I Would Improve</p>
+      <p class="hint">If you had more time, what would you add or change?</p>
+      <textarea data-save="s4improve" placeholder="If I had more time, I would add...&#10;&#10;I would change... because...&#10;&#10;This would make the game better because..."></textarea>
+    </div>
+
+    <div class="question">
+      <p>4.4 &mdash; Reflection</p>
+      <p class="hint">What did you learn from this project? What was hard? What are you proud of?</p>
+      <textarea data-save="s4reflect" class="tall" placeholder="The hardest part of this project was...&#10;&#10;I am proud of... because...&#10;&#10;I learned how to...&#10;&#10;Next time I make a game, I would..."></textarea>
+    </div>
+  </section>
+
+  <!-- ==================== FINAL CHECKLIST ==================== -->
+  <section class="content" style="background:var(--bg)">
+    <h3 style="font-family:var(--font-heading);color:var(--teal);margin-bottom:16px">&#9989; Final Submission Checklist</h3>
+    <p style="font-size:.9rem;margin-bottom:14px">Before you submit, tick off each item to make sure you haven&rsquo;t missed anything!</p>
+
+    <div class="checklist">
+      <p style="font-weight:700;color:var(--orange);margin-bottom:8px">Section 1 &mdash; Statement of Intent &amp; Research (5 marks)</p>
+      <div class="check-item"><input type="checkbox" id="fc1" data-save="fc1"><label for="fc1">Written game name and statement of intent</label></div>
+      <div class="check-item"><input type="checkbox" id="fc2" data-save="fc2"><label for="fc2">Described target audience</label></div>
+      <div class="check-item"><input type="checkbox" id="fc3" data-save="fc3"><label for="fc3">Researched 2 existing games with screenshots</label></div>
+      <div class="check-item"><input type="checkbox" id="fc4" data-save="fc4"><label for="fc4">Completed PMI analysis</label></div>
+      <div class="check-item"><input type="checkbox" id="fc5" data-save="fc5"><label for="fc5">Listed key features</label></div>
+
+      <p style="font-weight:700;color:var(--teal);margin:14px 0 8px">Section 2 &mdash; Game Design &amp; Development (5 marks)</p>
+      <div class="check-item"><input type="checkbox" id="fc6" data-save="fc6"><label for="fc6">Completed Game Design Document (game type, mechanic, controls, win/lose, stages)</label></div>
+      <div class="check-item"><input type="checkbox" id="fc7" data-save="fc7"><label for="fc7">Uploaded mind map / brainstorm</label></div>
+      <div class="check-item"><input type="checkbox" id="fc8" data-save="fc8"><label for="fc8">Uploaded sketches for at least 3 game screens</label></div>
+      <div class="check-item"><input type="checkbox" id="fc9" data-save="fc9"><label for="fc9">Uploaded player flow diagram</label></div>
+      <div class="check-item"><input type="checkbox" id="fc10" data-save="fc10"><label for="fc10">Explained design decisions</label></div>
+
+      <p style="font-weight:700;color:var(--blue);margin:14px 0 8px">Section 3 &mdash; Design Annotations &amp; Development (3 marks)</p>
+      <div class="check-item"><input type="checkbox" id="fc11" data-save="fc11"><label for="fc11">Described colour palette and art style</label></div>
+      <div class="check-item"><input type="checkbox" id="fc12" data-save="fc12"><label for="fc12">Described sprite and backdrop choices</label></div>
+      <div class="check-item"><input type="checkbox" id="fc13" data-save="fc13"><label for="fc13">Uploaded at least 2 Scratch development screenshots</label></div>
+      <div class="check-item"><input type="checkbox" id="fc14" data-save="fc14"><label for="fc14">Explained what your code blocks do</label></div>
+      <div class="check-item"><input type="checkbox" id="fc15" data-save="fc15"><label for="fc15">Written design annotations using design vocabulary</label></div>
+
+      <p style="font-weight:700;color:var(--purple);margin:14px 0 8px">Section 4 &mdash; Evaluation (2 marks)</p>
+      <div class="check-item"><input type="checkbox" id="fc16" data-save="fc16"><label for="fc16">Rated game against all 3 criteria</label></div>
+      <div class="check-item"><input type="checkbox" id="fc17" data-save="fc17"><label for="fc17">Compared plan with final game</label></div>
+      <div class="check-item"><input type="checkbox" id="fc18" data-save="fc18"><label for="fc18">Written what you would improve</label></div>
+      <div class="check-item"><input type="checkbox" id="fc19" data-save="fc19"><label for="fc19">Written reflection</label></div>
+
+      <p style="font-weight:700;color:var(--charcoal);margin:14px 0 8px">Game Product Submission</p>
+      <div class="check-item"><input type="checkbox" id="fc20" data-save="fc20"><label for="fc20">Shared my Scratch project (click Share in Scratch editor)</label></div>
+      <div class="check-item"><input type="checkbox" id="fc21" data-save="fc21"><label for="fc21">Pasted my Scratch project link on Google Classroom</label></div>
+      <div class="check-item"><input type="checkbox" id="fc22" data-save="fc22"><label for="fc22">Saved this portfolio as PDF and uploaded to Google Classroom</label></div>
+    </div>
+  </section>
+
+  <footer class="ws-footer">
+    <span><strong>Year 9 Game Design</strong> &mdash; Arthur Phillip High School &mdash; 2026</span>
+    <span>9GAMZA &mdash; Assessment Task 1 &mdash; Path B (Scratch)</span>
+  </footer>
+
+</div>
+
+<script>
+const STORAGE_KEY='y9-game-portfolio-pathB';
+const IMAGE_STORAGE_KEY='y9-game-portfolio-pathB-images';
+let saveTimeout;
+
+function triggerSave(){
+  const ind=document.getElementById('saveIndicator');
+  ind.textContent='Saving...';ind.classList.add('saving');
+  clearTimeout(saveTimeout);
+  saveTimeout=setTimeout(()=>{saveData();ind.textContent='All changes saved';ind.classList.remove('saving');},500);
+}
+function saveData(){
+  const data={};
+  document.querySelectorAll('[data-save]').forEach(el=>{const k=el.dataset.save;if(el.type==='checkbox')data[k]=el.checked;else data[k]=el.value;});
+  document.querySelectorAll('.rank-btn.active').forEach(btn=>{data['rank_'+btn.parentElement.dataset.group]=btn.dataset.val;});
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
+  const imgData={};
+  document.querySelectorAll('.draw-box.has-image img').forEach(img=>{imgData[img.closest('.draw-box').id]=img.src;});
+  try{localStorage.setItem(IMAGE_STORAGE_KEY,JSON.stringify(imgData));}catch(e){
+    console.warn('Images too large for localStorage');
+    document.getElementById('saveIndicator').textContent='Text saved (images too large for browser storage)';
+  }
+  updateProgress();
+}
+function loadData(){
+  const raw=localStorage.getItem(STORAGE_KEY);
+  if(raw){try{const data=JSON.parse(raw);
+    document.querySelectorAll('[data-save]').forEach(el=>{const k=el.dataset.save;if(k in data){if(el.type==='checkbox')el.checked=data[k];else el.value=data[k];}});
+    Object.keys(data).forEach(k=>{if(k.startsWith('rank_')){const g=k.replace('rank_','');const c=document.querySelector('[data-group="'+g+'"]');if(c)c.querySelectorAll('.rank-btn').forEach(b=>{if(b.dataset.val===data[k])b.classList.add('active');});}});
+  }catch(e){}}
+  const imgRaw=localStorage.getItem(IMAGE_STORAGE_KEY);
+  if(imgRaw){try{const imgData=JSON.parse(imgRaw);
+    Object.keys(imgData).forEach(boxId=>{const box=document.getElementById(boxId);if(box&&imgData[boxId]){const label=box.querySelector('span');if(label)label.style.display='none';const existing=box.querySelector('img');if(existing)existing.remove();const img=document.createElement('img');img.src=imgData[boxId];box.appendChild(img);box.classList.add('has-image');}});
+  }catch(e){}}
+  updateProgress();
+}
+document.querySelectorAll('[data-save]').forEach(el=>{el.addEventListener('input',triggerSave);el.addEventListener('change',triggerSave);});
+
+function setRank(btn){btn.parentElement.querySelectorAll('.rank-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');triggerSave();}
+function triggerUpload(id){document.getElementById(id).click();}
+function loadImage(event,boxId,labelId){
+  event.stopPropagation();const file=event.target.files[0];if(!file)return;
+  const reader=new FileReader();reader.onload=function(e){
+    const img=new Image();img.onload=function(){
+      let src=e.target.result;
+      if(img.width>1200){const c=document.createElement('canvas');const r=1200/img.width;c.width=1200;c.height=img.height*r;c.getContext('2d').drawImage(img,0,0,c.width,c.height);src=c.toDataURL('image/jpeg',0.8);}
+      const box=document.getElementById(boxId);const label=document.getElementById(labelId+'Label');if(label)label.style.display='none';
+      const existing=box.querySelector('img');if(existing)existing.remove();
+      const imgElem=document.createElement('img');imgElem.src=src;imgElem.id=labelId;box.appendChild(imgElem);box.classList.add('has-image');triggerSave();
+    };img.src=e.target.result;
+  };reader.readAsDataURL(file);
+}
+function removeImage(event,boxId,labelId){
+  event.stopPropagation();event.preventDefault();const box=document.getElementById(boxId);
+  const img=box.querySelector('img');if(img)img.remove();box.classList.remove('has-image');
+  const label=document.getElementById(labelId+'Label');if(label)label.style.display='';
+  const fi=box.querySelector('input[type="file"]');if(fi)fi.value='';triggerSave();
+}
+function copyWord(span){navigator.clipboard.writeText(span.textContent).then(()=>{span.style.background='var(--green)';span.style.color='white';setTimeout(()=>{span.style.background='';span.style.color='';},600);});}
+function updateProgress(){
+  const fields=document.querySelectorAll('[data-save]');let filled=0,total=0;
+  fields.forEach(el=>{if(el.id&&el.id.startsWith('fc'))return;total++;if(el.type==='checkbox'){if(el.checked)filled++;}else if(el.value&&el.value.trim().length>0)filled++;});
+  document.querySelectorAll('.draw-box').forEach(box=>{total++;if(box.classList.contains('has-image'))filled++;});
+  const pct=total>0?Math.round((filled/total)*100):0;
+  document.getElementById('progressFill').style.width=pct+'%';document.getElementById('progressPct').textContent=pct+'%';
+}
+function shareLink(){
+  const data={};document.querySelectorAll('[data-save]').forEach(el=>{const k=el.dataset.save;if(el.type==='checkbox')data[k]=el.checked;else if(el.value&&el.value.trim())data[k]=el.value;});
+  document.querySelectorAll('.rank-btn.active').forEach(btn=>{data['rank_'+btn.parentElement.dataset.group]=btn.dataset.val;});
+  const encoded=btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+  const url=window.location.origin+window.location.pathname+'#data='+encoded;
+  navigator.clipboard.writeText(url).then(()=>{alert('Link copied to clipboard!\n\nShare this link with your teacher to show your progress.\n\nNote: Images are saved locally in your browser and will NOT be shared via the link. Submit your portfolio as a PDF (Save as PDF button) to include images.');}).catch(()=>{prompt('Copy this link:',url);});
+}
+function loadFromHash(){
+  const hash=window.location.hash;if(!hash.startsWith('#data='))return;
+  try{const data=JSON.parse(decodeURIComponent(escape(atob(hash.substring(6)))));
+    document.querySelectorAll('[data-save]').forEach(el=>{const k=el.dataset.save;if(k in data){if(el.type==='checkbox')el.checked=data[k];else el.value=data[k];}});
+    Object.keys(data).forEach(k=>{if(k.startsWith('rank_')){const g=k.replace('rank_','');const c=document.querySelector('[data-group="'+g+'"]');if(c)c.querySelectorAll('.rank-btn').forEach(b=>{if(b.dataset.val===data[k])b.classList.add('active');});}});
+    updateProgress();
+  }catch(e){}
+}
+function savePDF(){window.print();}
+function clearAll(){
+  if(!confirm('Are you sure you want to clear ALL your work? This cannot be undone.'))return;
+  localStorage.removeItem(STORAGE_KEY);localStorage.removeItem(IMAGE_STORAGE_KEY);
+  document.querySelectorAll('[data-save]').forEach(el=>{if(el.type==='checkbox')el.checked=false;else el.value='';});
+  document.querySelectorAll('.rank-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.draw-box').forEach(box=>{box.classList.remove('has-image');const img=box.querySelector('img');if(img)img.remove();const label=box.querySelector('span');if(label)label.style.display='';const fi=box.querySelector('input[type="file"]');if(fi)fi.value='';});
+  updateProgress();
+}
+loadFromHash();loadData();updateProgress();
+</script>
+</body>
+</html>
