@@ -37,7 +37,25 @@ textarea,input[type="text"]{width:100%;border:1.5px solid var(--light-grey);bord
 .scratch-example{background:#FCF5E5;border:2px solid #E8A838;border-radius:10px;padding:14px 18px;margin:12px 0;font-size:.88rem}.scratch-example strong{color:#B8860B}
 .scratch-blocks{background:#4D97FF;color:white;padding:4px 10px;border-radius:6px;font-family:"Courier New",monospace;font-size:.85rem;display:inline-block;margin:2px}
 @media(max-width:700px){section.content{padding:20px 18px}.ws-header{padding:24px 18px 20px}.section-divider{padding:16px 18px}.pmi-grid{grid-template-columns:1fr}.two-col{grid-template-columns:1fr}.ws-meta input{width:150px}.progress-bar{padding:10px 18px}}
-@media print{@page{size:A4;margin:15mm 12mm}body{padding-top:0;background:white;font-size:12px}.toolbar{display:none!important}.portfolio{max-width:100%;margin:0;box-shadow:none;border-radius:0}.ws-header{padding:20px 24px 16px;-webkit-print-color-adjust:exact;print-color-adjust:exact}.ws-header::after{display:none}section.content{padding:16px 24px}.ws-footer{-webkit-print-color-adjust:exact;print-color-adjust:exact;padding:12px 24px}textarea,input[type="text"]{border:1.5px solid #ccc;min-height:50px;background:white!important}.section-divider{-webkit-print-color-adjust:exact;print-color-adjust:exact;break-before:page}.section-num,.ws-badge,.info-box,.diff-support,.tip-box,.scratch-example{-webkit-print-color-adjust:exact;print-color-adjust:exact}.draw-box{break-inside:avoid;min-height:120px}.question{break-inside:avoid}.eval-card{break-inside:avoid}.progress-bar{display:none}.remove-img{display:none!important}}
+@media print{@page{size:A4;margin:15mm 12mm}body{padding-top:0;background:white;font-size:12px}.toolbar{display:none!important}.portfolio{max-width:100%;margin:0;box-shadow:none;border-radius:0}.ws-header{padding:20px 24px 16px;-webkit-print-color-adjust:exact;print-color-adjust:exact}.ws-header::after{display:none}section.content{padding:16px 24px}.ws-footer{-webkit-print-color-adjust:exact;print-color-adjust:exact;padding:12px 24px}textarea,input[type="text"]{border:1.5px solid #ccc;min-height:50px;background:white!important}.section-divider{-webkit-print-color-adjust:exact;print-color-adjust:exact;break-before:page}.section-num,.ws-badge,.info-box,.diff-support,.tip-box,.scratch-example{-webkit-print-color-adjust:exact;print-color-adjust:exact}.draw-box{break-inside:avoid;min-height:120px}.question{break-inside:avoid}.eval-card{break-inside:avoid}.progress-bar{display:none}.remove-img{display:none!important}.teacher-panel{display:none!important}}
+/* Submit button */
+.btn-submit{background:#6366F1;color:var(--white)}
+/* Teacher Mode styles */
+.teacher-banner{background:linear-gradient(135deg,#6366F1,#8B5CF6);color:white;padding:18px 36px;text-align:center;font-family:var(--font-heading);font-size:1.1rem;letter-spacing:1px;display:none}
+.teacher-upload-zone{max-width:860px;margin:24px auto;background:var(--white);border:3px dashed #6366F1;border-radius:12px;padding:40px;text-align:center;display:none;cursor:pointer;transition:border-color .2s}.teacher-upload-zone:hover{border-color:#8B5CF6}.teacher-upload-zone h3{color:#6366F1;font-family:var(--font-heading);margin-bottom:8px}.teacher-upload-zone p{color:var(--grey);font-size:.9rem}
+.teacher-panel{max-width:860px;margin:24px auto;background:var(--white);border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.08);overflow:hidden;display:none}
+.teacher-panel-header{background:#6366F1;color:white;padding:16px 24px;font-family:var(--font-heading);font-size:1rem;display:flex;justify-content:space-between;align-items:center}
+.teacher-panel-body{padding:24px}
+.mark-section{border:1.5px solid var(--light-grey);border-radius:10px;padding:16px;margin-bottom:16px;border-left:5px solid #6366F1}
+.mark-section h4{font-family:var(--font-heading);color:#6366F1;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.mark-section .grade-select{display:flex;gap:6px;margin:8px 0;flex-wrap:wrap}
+.mark-section .grade-btn{padding:6px 14px;border:2px solid var(--light-grey);border-radius:16px;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .15s;background:var(--white)}.grade-btn:hover{border-color:#6366F1;color:#6366F1}.grade-btn.active{background:#6366F1;color:white;border-color:#6366F1}
+.mark-section textarea{width:100%;border:1.5px solid var(--light-grey);border-radius:8px;padding:8px 12px;font-family:var(--font-body);font-size:.88rem;min-height:60px;resize:vertical}
+.mark-section .mark-input{width:60px;border:1.5px solid var(--light-grey);border-radius:6px;padding:6px 10px;font-size:.95rem;font-weight:700;text-align:center;font-family:var(--font-heading)}
+.mark-total{background:var(--bg);border-radius:10px;padding:16px 20px;text-align:center;margin:16px 0}.mark-total .total-score{font-family:var(--font-heading);font-size:2rem;color:#6366F1}
+.teacher-panel .btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}.teacher-panel .btn-row button{font-family:var(--font-body);font-size:.85rem;font-weight:600;border:none;border-radius:6px;padding:10px 20px;cursor:pointer}
+.btn-export-marks{background:#6366F1;color:white}.btn-export-csv{background:var(--green);color:white}.btn-load-another{background:var(--charcoal);color:white}
+body.teacher-mode .portfolio textarea,body.teacher-mode .portfolio input[type="text"]{background:#f8f8f8;pointer-events:none}body.teacher-mode .portfolio .draw-box{pointer-events:none}body.teacher-mode .portfolio .rank-btn{pointer-events:none}body.teacher-mode .portfolio input[type="checkbox"]{pointer-events:none}body.teacher-mode .toolbar-right .btn-clear,body.teacher-mode .toolbar-right .btn-share,body.teacher-mode .toolbar-right .btn-submit{display:none}body.teacher-mode .toolbar-right .btn-pdf{display:inline-block}
 </style>
 </head>
 <body>
@@ -48,9 +66,120 @@ textarea,input[type="text"]{width:100%;border:1.5px solid var(--light-grey);bord
     <span class="save-indicator" id="saveIndicator">All changes saved</span>
   </div>
   <div class="toolbar-right">
+    <button class="btn-submit" onclick="submitToTeacher()">&#128228; Submit to Teacher</button>
     <button class="btn-share" onclick="shareLink()">&#128279; Share Link</button>
     <button class="btn-pdf" onclick="savePDF()">Save as PDF</button>
     <button class="btn-clear" onclick="clearAll()">Clear All</button>
+  </div>
+</div>
+
+<!-- Teacher Mode: Banner + Upload + Marking Panel -->
+<div class="teacher-banner" id="teacherBanner">&#128218; TEACHER MODE &mdash; Upload a student&rsquo;s JSON file to view and mark their portfolio</div>
+<div class="teacher-upload-zone" id="teacherUpload" onclick="document.getElementById('teacherFileInput').click()">
+  <input type="file" id="teacherFileInput" accept=".json" onchange="loadStudentJSON(event)" style="display:none">
+  <h3>&#128194; Drop or click to upload student JSON file</h3>
+  <p>Accepted format: .json files exported by students using &ldquo;Submit to Teacher&rdquo;</p>
+</div>
+
+<div class="teacher-panel" id="teacherPanel">
+  <div class="teacher-panel-header">
+    <span id="teacherStudentInfo">Marking: —</span>
+    <span id="teacherTimestamp"></span>
+  </div>
+  <div class="teacher-panel-body">
+
+    <div class="mark-section" id="markS1">
+      <h4>Section 1 — Statement of Intent &amp; Research <span><input type="number" class="mark-input" id="markS1Score" min="0" max="5" placeholder="/5" onchange="updateTotal()"> / 5</span></h4>
+      <div class="grade-select" data-mark-group="gradeS1">
+        <span class="grade-btn" onclick="setGrade(this)" data-val="A">A — Outstanding</span>
+        <span class="grade-btn" onclick="setGrade(this)" data-val="B">B — High</span>
+        <span class="grade-btn" onclick="setGrade(this)" data-val="C">C — Sound</span>
+        <span class="grade-btn" onclick="setGrade(this)" data-val="D">D — Basic</span>
+        <span class="grade-btn" onclick="setGrade(this)" data-val="E">E — Limited</span>
+      </div>
+      <p style="font-size:.82rem;color:var(--grey);margin-bottom:6px"><strong>A:</strong> Comprehensive statement, detailed research of 2 games with screenshots &amp; PMI. <strong>C:</strong> Adequate statement, 2 games with basic analysis. <strong>E:</strong> Missing/incomplete.</p>
+      <textarea id="feedbackS1" placeholder="Feedback for Section 1..."></textarea>
+    </div>
+
+    <div class="mark-section" id="markS2">
+      <h4>Section 2 — Game Design &amp; Development <span><input type="number" class="mark-input" id="markS2Score" min="0" max="5" placeholder="/5" onchange="updateTotal()"> / 5</span></h4>
+      <div class="grade-select" data-mark-group="gradeS2">
+        <span class="grade-btn" onclick="setGrade(this)" data-val="A">A — Outstanding</span>
+        <span class="grade-btn" onclick="setGrade(this)" data-val="B">B — High</span>
+        <span class="grade-btn" onclick="setGrade(this)" data-val="C">C — Sound</span>
+        <span class="grade-btn" onclick="setGrade(this)" data-val="D">D — Basic</span>
+        <span class="grade-btn" onclick="setGrade(this)" data-val="E">E — Limited</span>
+      </div>
+      <p style="font-size:.82rem;color:var(--grey);margin-bottom:6px"><strong>A:</strong> Thorough GDD, detailed mind map, annotated sketches, clear flow diagram. <strong>C:</strong> Basic mind map, partial GDD, some sketches. <strong>E:</strong> Minimal/missing planning.</p>
+      <textarea id="feedbackS2" placeholder="Feedback for Section 2..."></textarea>
+    </div>
+
+    <div class="mark-section" id="markS3">
+      <h4>Section 3 — Annotations &amp; Dev Screenshots <span><input type="number" class="mark-input" id="markS3Score" min="0" max="3" placeholder="/3" onchange="updateTotal()"> / 3</span></h4>
+      <div class="grade-select" data-mark-group="gradeS3">
+        <span class="grade-btn" onclick="setGrade(this)" data-val="A">A — Outstanding</span>
+        <span class="grade-btn" onclick="setGrade(this)" data-val="B">B — High</span>
+        <span class="grade-btn" onclick="setGrade(this)" data-val="C">C — Sound</span>
+        <span class="grade-btn" onclick="setGrade(this)" data-val="D">D — Basic</span>
+        <span class="grade-btn" onclick="setGrade(this)" data-val="E">E — Limited</span>
+      </div>
+      <p style="font-size:.82rem;color:var(--grey);margin-bottom:6px"><strong>A:</strong> Excellent annotations, detailed colour/sprite reasoning, clear code explanation. <strong>C:</strong> Basic annotations, screenshots present. <strong>E:</strong> No annotations/evidence.</p>
+      <textarea id="feedbackS3" placeholder="Feedback for Section 3..."></textarea>
+    </div>
+
+    <div class="mark-section" id="markS4">
+      <h4>Section 4 — Evaluation <span><input type="number" class="mark-input" id="markS4Score" min="0" max="2" placeholder="/2" onchange="updateTotal()"> / 2</span></h4>
+      <div class="grade-select" data-mark-group="gradeS4">
+        <span class="grade-btn" onclick="setGrade(this)" data-val="A">A — Outstanding</span>
+        <span class="grade-btn" onclick="setGrade(this)" data-val="B">B — High</span>
+        <span class="grade-btn" onclick="setGrade(this)" data-val="C">C — Sound</span>
+        <span class="grade-btn" onclick="setGrade(this)" data-val="D">D — Basic</span>
+        <span class="grade-btn" onclick="setGrade(this)" data-val="E">E — Limited</span>
+      </div>
+      <p style="font-size:.82rem;color:var(--grey);margin-bottom:6px"><strong>A:</strong> Insightful evaluation, compares design vs final, specific improvements. <strong>C:</strong> Adequate, some reflection. <strong>E:</strong> Little/no evaluation.</p>
+      <textarea id="feedbackS4" placeholder="Feedback for Section 4..."></textarea>
+    </div>
+
+    <div class="mark-section" id="markS5">
+      <h4>Section 5 — Game Product: Visual Design &amp; Feel <span><input type="number" class="mark-input" id="markS5Score" min="0" max="5" placeholder="/5" onchange="updateTotal()"> / 5</span></h4>
+      <div class="grade-select" data-mark-group="gradeS5">
+        <span class="grade-btn" onclick="setGrade(this)" data-val="A">A — Outstanding</span>
+        <span class="grade-btn" onclick="setGrade(this)" data-val="B">B — High</span>
+        <span class="grade-btn" onclick="setGrade(this)" data-val="C">C — Sound</span>
+        <span class="grade-btn" onclick="setGrade(this)" data-val="D">D — Basic</span>
+        <span class="grade-btn" onclick="setGrade(this)" data-val="E">E — Limited</span>
+      </div>
+      <textarea id="feedbackS5" placeholder="Feedback for Visual Design & Game Feel..."></textarea>
+    </div>
+
+    <div class="mark-section" id="markS6">
+      <h4>Section 6 — Game Product: Functionality &amp; Mechanics <span><input type="number" class="mark-input" id="markS6Score" min="0" max="5" placeholder="/5" onchange="updateTotal()"> / 5</span></h4>
+      <div class="grade-select" data-mark-group="gradeS6">
+        <span class="grade-btn" onclick="setGrade(this)" data-val="A">A — Outstanding</span>
+        <span class="grade-btn" onclick="setGrade(this)" data-val="B">B — High</span>
+        <span class="grade-btn" onclick="setGrade(this)" data-val="C">C — Sound</span>
+        <span class="grade-btn" onclick="setGrade(this)" data-val="D">D — Basic</span>
+        <span class="grade-btn" onclick="setGrade(this)" data-val="E">E — Limited</span>
+      </div>
+      <textarea id="feedbackS6" placeholder="Feedback for Functionality & Mechanics..."></textarea>
+    </div>
+
+    <div class="mark-section">
+      <h4>Overall Comments</h4>
+      <textarea id="feedbackOverall" placeholder="Overall feedback for the student..." style="min-height:80px"></textarea>
+    </div>
+
+    <div class="mark-total">
+      <p style="font-family:var(--font-heading);color:var(--grey);font-size:.85rem;margin-bottom:4px">TOTAL SCORE</p>
+      <div class="total-score" id="totalScore">— / 25</div>
+      <p style="font-size:.82rem;color:var(--grey);margin-top:4px">Design Portfolio: <span id="portfolioTotal">—</span>/15 &nbsp;|&nbsp; Game Product: <span id="gameTotal">—</span>/10</p>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-export-marks" onclick="exportMarks()">&#128190; Save Marks (JSON)</button>
+      <button class="btn-export-csv" onclick="exportMarksCSV()">&#128196; Export as CSV Row</button>
+      <button class="btn-load-another" onclick="loadAnother()">&#128194; Load Another Student</button>
+    </div>
   </div>
 </div>
 
@@ -548,9 +677,12 @@ textarea,input[type="text"]{width:100%;border:1.5px solid var(--light-grey);bord
 <script>
 const STORAGE_KEY='y9-game-portfolio-pathB';
 const IMAGE_STORAGE_KEY='y9-game-portfolio-pathB-images';
+const PORTFOLIO_PATH='Path B (Scratch)';
 let saveTimeout;
+const IS_TEACHER=new URLSearchParams(window.location.search).has('teacher');
 
 function triggerSave(){
+  if(IS_TEACHER)return;
   const ind=document.getElementById('saveIndicator');
   ind.textContent='Saving...';ind.classList.add('saving');
   clearTimeout(saveTimeout);
@@ -569,6 +701,14 @@ function saveData(){
   }
   updateProgress();
 }
+function collectAllData(){
+  const data={};
+  document.querySelectorAll('[data-save]').forEach(el=>{const k=el.dataset.save;if(el.type==='checkbox')data[k]=el.checked;else data[k]=el.value;});
+  document.querySelectorAll('.rank-btn.active').forEach(btn=>{data['rank_'+btn.parentElement.dataset.group]=btn.dataset.val;});
+  const imgData={};
+  document.querySelectorAll('.draw-box.has-image img').forEach(img=>{imgData[img.closest('.draw-box').id]=img.src;});
+  return{fields:data,images:imgData};
+}
 function loadData(){
   const raw=localStorage.getItem(STORAGE_KEY);
   if(raw){try{const data=JSON.parse(raw);
@@ -577,9 +717,12 @@ function loadData(){
   }catch(e){}}
   const imgRaw=localStorage.getItem(IMAGE_STORAGE_KEY);
   if(imgRaw){try{const imgData=JSON.parse(imgRaw);
-    Object.keys(imgData).forEach(boxId=>{const box=document.getElementById(boxId);if(box&&imgData[boxId]){const label=box.querySelector('span');if(label)label.style.display='none';const existing=box.querySelector('img');if(existing)existing.remove();const img=document.createElement('img');img.src=imgData[boxId];box.appendChild(img);box.classList.add('has-image');}});
+    restoreImages(imgData);
   }catch(e){}}
   updateProgress();
+}
+function restoreImages(imgData){
+  Object.keys(imgData).forEach(boxId=>{const box=document.getElementById(boxId);if(box&&imgData[boxId]){const label=box.querySelector('span');if(label)label.style.display='none';const existing=box.querySelector('img');if(existing)existing.remove();const img=document.createElement('img');img.src=imgData[boxId];box.appendChild(img);box.classList.add('has-image');}});
 }
 document.querySelectorAll('[data-save]').forEach(el=>{el.addEventListener('input',triggerSave);el.addEventListener('change',triggerSave);});
 
@@ -635,7 +778,165 @@ function clearAll(){
   document.querySelectorAll('.draw-box').forEach(box=>{box.classList.remove('has-image');const img=box.querySelector('img');if(img)img.remove();const label=box.querySelector('span');if(label)label.style.display='';const fi=box.querySelector('input[type="file"]');if(fi)fi.value='';});
   updateProgress();
 }
-loadFromHash();loadData();updateProgress();
+
+/* ===== SUBMIT TO TEACHER ===== */
+function submitToTeacher(){
+  const name=(document.getElementById('studentName').value||'').trim();
+  if(!name){alert('Please enter your name at the top of the portfolio before submitting.');return;}
+  const allData=collectAllData();
+  const submission={
+    version:2,
+    path:PORTFOLIO_PATH,
+    studentName:name,
+    studentClass:(document.getElementById('studentClass').value||'').trim(),
+    submittedAt:new Date().toISOString(),
+    fields:allData.fields,
+    images:allData.images
+  };
+  const json=JSON.stringify(submission,null,2);
+  const blob=new Blob([json],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  const safeName=name.replace(/[^a-zA-Z0-9]/g,'_').toLowerCase();
+  a.href=url;a.download='portfolio_'+safeName+'_pathB.json';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+  alert('Your portfolio has been downloaded as a JSON file.\n\nNext steps:\n1. Go to Google Classroom\n2. Find the assessment task\n3. Upload the .json file you just downloaded\n\nYour work is saved!');
+}
+
+/* ===== TEACHER MODE ===== */
+function setGrade(btn){btn.parentElement.querySelectorAll('.grade-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+function updateTotal(){
+  const s1=parseInt(document.getElementById('markS1Score').value)||0;
+  const s2=parseInt(document.getElementById('markS2Score').value)||0;
+  const s3=parseInt(document.getElementById('markS3Score').value)||0;
+  const s4=parseInt(document.getElementById('markS4Score').value)||0;
+  const s5=parseInt(document.getElementById('markS5Score').value)||0;
+  const s6=parseInt(document.getElementById('markS6Score').value)||0;
+  const portfolio=s1+s2+s3+s4;const game=s5+s6;const total=portfolio+game;
+  document.getElementById('portfolioTotal').textContent=portfolio;
+  document.getElementById('gameTotal').textContent=game;
+  document.getElementById('totalScore').textContent=total+' / 25';
+}
+function loadStudentJSON(event){
+  const file=event.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      const sub=JSON.parse(e.target.result);
+      if(!sub.fields){alert('Invalid file format. Please upload a student portfolio JSON file.');return;}
+      const data=sub.fields;
+      document.querySelectorAll('[data-save]').forEach(el=>{const k=el.dataset.save;if(k in data){if(el.type==='checkbox')el.checked=data[k];else el.value=data[k];}});
+      Object.keys(data).forEach(k=>{if(k.startsWith('rank_')){const g=k.replace('rank_','');const c=document.querySelector('[data-group="'+g+'"]');if(c)c.querySelectorAll('.rank-btn').forEach(b=>{if(b.dataset.val===data[k])b.classList.add('active');});}});
+      if(sub.images)restoreImages(sub.images);
+      updateProgress();
+      document.getElementById('teacherStudentInfo').textContent='Marking: '+(sub.studentName||'Unknown')+' — '+(sub.studentClass||'')+' — '+(sub.path||'');
+      document.getElementById('teacherTimestamp').textContent='Submitted: '+(sub.submittedAt?new Date(sub.submittedAt).toLocaleString():'—');
+      document.getElementById('teacherUpload').style.display='none';
+      document.getElementById('teacherPanel').style.display='block';
+      document.querySelector('.portfolio').style.display='block';
+      window._currentStudent=sub;
+    }catch(err){alert('Could not read JSON file: '+err.message);}
+  };
+  reader.readAsText(file);
+}
+function exportMarks(){
+  const student=window._currentStudent||{};
+  const marks={
+    studentName:student.studentName||'',
+    studentClass:student.studentClass||'',
+    path:student.path||PORTFOLIO_PATH,
+    submittedAt:student.submittedAt||'',
+    markedAt:new Date().toISOString(),
+    sections:{
+      s1:{score:parseInt(document.getElementById('markS1Score').value)||0,max:5,grade:getActiveGrade('gradeS1'),feedback:document.getElementById('feedbackS1').value},
+      s2:{score:parseInt(document.getElementById('markS2Score').value)||0,max:5,grade:getActiveGrade('gradeS2'),feedback:document.getElementById('feedbackS2').value},
+      s3:{score:parseInt(document.getElementById('markS3Score').value)||0,max:3,grade:getActiveGrade('gradeS3'),feedback:document.getElementById('feedbackS3').value},
+      s4:{score:parseInt(document.getElementById('markS4Score').value)||0,max:2,grade:getActiveGrade('gradeS4'),feedback:document.getElementById('feedbackS4').value},
+      s5:{score:parseInt(document.getElementById('markS5Score').value)||0,max:5,grade:getActiveGrade('gradeS5'),feedback:document.getElementById('feedbackS5').value},
+      s6:{score:parseInt(document.getElementById('markS6Score').value)||0,max:5,grade:getActiveGrade('gradeS6'),feedback:document.getElementById('feedbackS6').value}
+    },
+    overallFeedback:document.getElementById('feedbackOverall').value,
+    portfolioTotal:(parseInt(document.getElementById('markS1Score').value)||0)+(parseInt(document.getElementById('markS2Score').value)||0)+(parseInt(document.getElementById('markS3Score').value)||0)+(parseInt(document.getElementById('markS4Score').value)||0),
+    gameTotal:(parseInt(document.getElementById('markS5Score').value)||0)+(parseInt(document.getElementById('markS6Score').value)||0),
+    total:(parseInt(document.getElementById('markS1Score').value)||0)+(parseInt(document.getElementById('markS2Score').value)||0)+(parseInt(document.getElementById('markS3Score').value)||0)+(parseInt(document.getElementById('markS4Score').value)||0)+(parseInt(document.getElementById('markS5Score').value)||0)+(parseInt(document.getElementById('markS6Score').value)||0)
+  };
+  const json=JSON.stringify(marks,null,2);
+  const blob=new Blob([json],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  const safeName=(student.studentName||'student').replace(/[^a-zA-Z0-9]/g,'_').toLowerCase();
+  a.href=url;a.download='marks_'+safeName+'_pathB.json';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+function exportMarksCSV(){
+  const student=window._currentStudent||{};
+  const row=[
+    (student.studentName||'').replace(/,/g,' '),
+    (student.studentClass||'').replace(/,/g,' '),
+    student.path||PORTFOLIO_PATH,
+    document.getElementById('markS1Score').value||'',
+    getActiveGrade('gradeS1'),
+    document.getElementById('markS2Score').value||'',
+    getActiveGrade('gradeS2'),
+    document.getElementById('markS3Score').value||'',
+    getActiveGrade('gradeS3'),
+    document.getElementById('markS4Score').value||'',
+    getActiveGrade('gradeS4'),
+    document.getElementById('markS5Score').value||'',
+    getActiveGrade('gradeS5'),
+    document.getElementById('markS6Score').value||'',
+    getActiveGrade('gradeS6'),
+    document.getElementById('portfolioTotal').textContent,
+    document.getElementById('gameTotal').textContent,
+    document.getElementById('totalScore').textContent.split('/')[0].trim(),
+    '"'+(document.getElementById('feedbackOverall').value||'').replace(/"/g,'""')+'"'
+  ];
+  const header='Name,Class,Path,S1 Score,S1 Grade,S2 Score,S2 Grade,S3 Score,S3 Grade,S4 Score,S4 Grade,S5 Score,S5 Grade,S6 Score,S6 Grade,Portfolio /15,Game /10,Total /25,Overall Feedback';
+  const csv=header+'\n'+row.join(',');
+  const blob=new Blob([csv],{type:'text/csv'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  const safeName=(student.studentName||'student').replace(/[^a-zA-Z0-9]/g,'_').toLowerCase();
+  a.href=url;a.download='marks_'+safeName+'.csv';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+function getActiveGrade(group){
+  const container=document.querySelector('[data-mark-group="'+group+'"]');
+  if(!container)return'';
+  const active=container.querySelector('.grade-btn.active');
+  return active?active.dataset.val:'';
+}
+function loadAnother(){
+  document.querySelectorAll('.mark-input').forEach(el=>el.value='');
+  document.querySelectorAll('.grade-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.teacher-panel textarea').forEach(el=>el.value='');
+  updateTotal();
+  document.querySelectorAll('[data-save]').forEach(el=>{if(el.type==='checkbox')el.checked=false;else el.value='';});
+  document.querySelectorAll('.rank-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.draw-box').forEach(box=>{box.classList.remove('has-image');const img=box.querySelector('img');if(img)img.remove();const label=box.querySelector('span');if(label)label.style.display='';});
+  document.getElementById('teacherPanel').style.display='none';
+  document.querySelector('.portfolio').style.display='none';
+  document.getElementById('teacherUpload').style.display='block';
+  document.getElementById('teacherFileInput').value='';
+  window._currentStudent=null;
+}
+
+/* ===== INIT ===== */
+if(IS_TEACHER){
+  document.body.classList.add('teacher-mode');
+  document.getElementById('teacherBanner').style.display='block';
+  document.getElementById('teacherUpload').style.display='block';
+  document.querySelector('.portfolio').style.display='none';
+  document.querySelector('.toolbar-title').textContent='Y9 Portfolio — TEACHER MODE';
+  const dropZone=document.getElementById('teacherUpload');
+  dropZone.addEventListener('dragover',e=>{e.preventDefault();dropZone.style.borderColor='#8B5CF6';dropZone.style.background='#F5F3FF';});
+  dropZone.addEventListener('dragleave',()=>{dropZone.style.borderColor='#6366F1';dropZone.style.background='';});
+  dropZone.addEventListener('drop',e=>{e.preventDefault();dropZone.style.borderColor='#6366F1';dropZone.style.background='';
+    const file=e.dataTransfer.files[0];if(file&&file.name.endsWith('.json')){const input=document.getElementById('teacherFileInput');const dt=new DataTransfer();dt.items.add(file);input.files=dt.files;loadStudentJSON({target:input});}else{alert('Please drop a .json file.');}
+  });
+}else{
+  loadFromHash();loadData();updateProgress();
+}
 </script>
 </body>
 </html>
