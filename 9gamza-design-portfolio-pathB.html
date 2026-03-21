@@ -55,7 +55,7 @@ textarea,input[type="text"]{width:100%;border:1.5px solid var(--light-grey);bord
 .mark-total{background:var(--bg);border-radius:10px;padding:16px 20px;text-align:center;margin:16px 0}.mark-total .total-score{font-family:var(--font-heading);font-size:2rem;color:#6366F1}
 .teacher-panel .btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}.teacher-panel .btn-row button{font-family:var(--font-body);font-size:.85rem;font-weight:600;border:none;border-radius:6px;padding:10px 20px;cursor:pointer}
 .btn-export-marks{background:#6366F1;color:white}.btn-export-csv{background:var(--green);color:white}.btn-load-another{background:var(--charcoal);color:white}
-body.teacher-mode .portfolio textarea,body.teacher-mode .portfolio input[type="text"]{background:#f8f8f8;pointer-events:none}body.teacher-mode .portfolio .draw-box{pointer-events:none}body.teacher-mode .portfolio .rank-btn{pointer-events:none}body.teacher-mode .portfolio input[type="checkbox"]{pointer-events:none}body.teacher-mode .toolbar-right .btn-clear,body.teacher-mode .toolbar-right .btn-share,body.teacher-mode .toolbar-right .btn-submit{display:none}body.teacher-mode .toolbar-right .btn-pdf{display:inline-block}
+body.teacher-mode .portfolio textarea,body.teacher-mode .portfolio input[type="text"]{background:#f8f8f8;pointer-events:none}body.teacher-mode .portfolio .draw-box{pointer-events:none}body.teacher-mode .portfolio .rank-btn{pointer-events:none}body.teacher-mode .portfolio input[type="checkbox"]{pointer-events:none}body.teacher-mode .toolbar-right .btn-clear,body.teacher-mode .toolbar-right .btn-submit{display:none}body.teacher-mode .toolbar-right .btn-pdf{display:inline-block}
 </style>
 </head>
 <body>
@@ -67,7 +67,6 @@ body.teacher-mode .portfolio textarea,body.teacher-mode .portfolio input[type="t
   </div>
   <div class="toolbar-right">
     <button class="btn-submit" onclick="submitToTeacher()">&#128228; Submit to Teacher</button>
-    <button class="btn-share" onclick="shareLink()">&#128279; Share Link</button>
     <button class="btn-pdf" onclick="savePDF()">Save as PDF</button>
     <button class="btn-clear" onclick="clearAll()">Clear All</button>
   </div>
@@ -754,21 +753,6 @@ function updateProgress(){
   const pct=total>0?Math.round((filled/total)*100):0;
   document.getElementById('progressFill').style.width=pct+'%';document.getElementById('progressPct').textContent=pct+'%';
 }
-function shareLink(){
-  const data={};document.querySelectorAll('[data-save]').forEach(el=>{const k=el.dataset.save;if(el.type==='checkbox')data[k]=el.checked;else if(el.value&&el.value.trim())data[k]=el.value;});
-  document.querySelectorAll('.rank-btn.active').forEach(btn=>{data['rank_'+btn.parentElement.dataset.group]=btn.dataset.val;});
-  const encoded=btoa(unescape(encodeURIComponent(JSON.stringify(data))));
-  const url=window.location.origin+window.location.pathname+'#data='+encoded;
-  navigator.clipboard.writeText(url).then(()=>{alert('Link copied to clipboard!\n\nShare this link with your teacher to show your progress.\n\nNote: Images are saved locally in your browser and will NOT be shared via the link. Submit your portfolio as a PDF (Save as PDF button) to include images.');}).catch(()=>{prompt('Copy this link:',url);});
-}
-function loadFromHash(){
-  const hash=window.location.hash;if(!hash.startsWith('#data='))return;
-  try{const data=JSON.parse(decodeURIComponent(escape(atob(hash.substring(6)))));
-    document.querySelectorAll('[data-save]').forEach(el=>{const k=el.dataset.save;if(k in data){if(el.type==='checkbox')el.checked=data[k];else el.value=data[k];}});
-    Object.keys(data).forEach(k=>{if(k.startsWith('rank_')){const g=k.replace('rank_','');const c=document.querySelector('[data-group="'+g+'"]');if(c)c.querySelectorAll('.rank-btn').forEach(b=>{if(b.dataset.val===data[k])b.classList.add('active');});}});
-    updateProgress();
-  }catch(e){}
-}
 function savePDF(){window.print();}
 function clearAll(){
   if(!confirm('Are you sure you want to clear ALL your work? This cannot be undone.'))return;
@@ -935,7 +919,7 @@ if(IS_TEACHER){
     const file=e.dataTransfer.files[0];if(file&&file.name.endsWith('.json')){const input=document.getElementById('teacherFileInput');const dt=new DataTransfer();dt.items.add(file);input.files=dt.files;loadStudentJSON({target:input});}else{alert('Please drop a .json file.');}
   });
 }else{
-  loadFromHash();loadData();updateProgress();
+  loadData();updateProgress();
 }
 </script>
 </body>
