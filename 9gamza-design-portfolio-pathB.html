@@ -55,7 +55,7 @@ textarea,input[type="text"]{width:100%;border:1.5px solid var(--light-grey);bord
 .mark-total{background:var(--bg);border-radius:10px;padding:16px 20px;text-align:center;margin:16px 0}.mark-total .total-score{font-family:var(--font-heading);font-size:2rem;color:#6366F1}
 .teacher-panel .btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}.teacher-panel .btn-row button{font-family:var(--font-body);font-size:.85rem;font-weight:600;border:none;border-radius:6px;padding:10px 20px;cursor:pointer}
 .btn-export-marks{background:#6366F1;color:white}.btn-export-csv{background:var(--green);color:white}.btn-load-another{background:var(--charcoal);color:white}
-body.teacher-mode .portfolio textarea,body.teacher-mode .portfolio input[type="text"]{background:#f8f8f8;pointer-events:none}body.teacher-mode .portfolio .draw-box{pointer-events:none}body.teacher-mode .portfolio .rank-btn{pointer-events:none}body.teacher-mode .portfolio input[type="checkbox"]{pointer-events:none}body.teacher-mode .toolbar-right .btn-clear,body.teacher-mode .toolbar-right .btn-submit{display:none}body.teacher-mode .toolbar-right .btn-pdf{display:inline-block}
+body.teacher-mode .portfolio textarea,body.teacher-mode .portfolio input[type="text"]{background:#f8f8f8;pointer-events:none}body.teacher-mode .portfolio .draw-box{pointer-events:none}body.teacher-mode .portfolio .rank-btn{pointer-events:none}body.teacher-mode .portfolio input[type="checkbox"]{pointer-events:none}body.teacher-mode .toolbar-right .btn-clear,body.teacher-mode .toolbar-right .btn-submit{display:none}
 </style>
 </head>
 <body>
@@ -67,7 +67,6 @@ body.teacher-mode .portfolio textarea,body.teacher-mode .portfolio input[type="t
   </div>
   <div class="toolbar-right">
     <button class="btn-submit" onclick="submitToTeacher()">&#128228; Submit to Teacher</button>
-    <button class="btn-pdf" onclick="savePDF()">Save as PDF</button>
     <button class="btn-clear" onclick="clearAll()">Clear All</button>
   </div>
 </div>
@@ -724,6 +723,9 @@ function restoreImages(imgData){
   Object.keys(imgData).forEach(boxId=>{const box=document.getElementById(boxId);if(box&&imgData[boxId]){const label=box.querySelector('span');if(label)label.style.display='none';const existing=box.querySelector('img');if(existing)existing.remove();const img=document.createElement('img');img.src=imgData[boxId];box.appendChild(img);box.classList.add('has-image');}});
 }
 document.querySelectorAll('[data-save]').forEach(el=>{el.addEventListener('input',triggerSave);el.addEventListener('change',triggerSave);});
+window.addEventListener('beforeunload',()=>{if(!IS_TEACHER)saveData();});
+document.addEventListener('visibilitychange',()=>{if(!IS_TEACHER&&document.visibilityState==='hidden')saveData();});
+setInterval(()=>{if(!IS_TEACHER)saveData();},30000);
 
 function setRank(btn){btn.parentElement.querySelectorAll('.rank-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');triggerSave();}
 function triggerUpload(id){document.getElementById(id).click();}
@@ -753,7 +755,6 @@ function updateProgress(){
   const pct=total>0?Math.round((filled/total)*100):0;
   document.getElementById('progressFill').style.width=pct+'%';document.getElementById('progressPct').textContent=pct+'%';
 }
-function savePDF(){window.print();}
 function clearAll(){
   if(!confirm('Are you sure you want to clear ALL your work? This cannot be undone.'))return;
   localStorage.removeItem(STORAGE_KEY);localStorage.removeItem(IMAGE_STORAGE_KEY);
