@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game Pitch Planner — Year 9 Game On</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@500;700&display=swap');
+
+  :root {
+    --navy: #0F172A;
+    --dark2: #1E293B;
+    --neon: #4ADE80;
+    --blue: #38BDF8;
+    --purple: #A78BFA;
+    --amber: #FBBF24;
+    --pink: #F472B6;
+    --white: #F1F5F9;
+    --muted: #94A3B8;
+    --card: #1E293B;
+    --input-bg: #0F172A;
+    --border: #334155;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* ── Header ── */
+  .header {
+    text-align: center;
+    padding: 30px 20px;
+    margin-bottom: 30px;
+    border-bottom: 3px solid var(--neon);
+  }
+  .header h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2.2rem;
+    color: var(--neon);
+    margin-bottom: 8px;
+  }
+  .header p {
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  /* ── Student Info ── */
+  .student-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 30px;
+    background: var(--card);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .student-info label {
+    font-size: 0.85rem;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .student-info input {
+    width: 100%;
+    padding: 8px 12px;
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+  }
+
+  /* ── Instructions Banner ── */
+  .instructions {
+    background: linear-gradient(135deg, rgba(74,222,128,0.1), rgba(56,189,248,0.1));
+    border: 1px solid var(--neon);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 30px;
+  }
+  .instructions h2 {
+    color: var(--neon);
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+  }
+  .instructions ol {
+    padding-left: 20px;
+    color: var(--white);
+    font-size: 0.9rem;
+  }
+  .instructions li { margin-bottom: 6px; }
+
+  /* ── Slide Cards ── */
+  .slide-card {
+    background: var(--card);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    padding: 24px;
+    margin-bottom: 20px;
+    transition: border-color 0.3s;
+  }
+  .slide-card:hover { border-color: var(--blue); }
+  .slide-card.completed { border-color: var(--neon); }
+
+  .slide-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .slide-number {
+    background: var(--neon);
+    color: var(--navy);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .slide-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.2rem;
+    color: var(--blue);
+  }
+  .slide-purpose {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-bottom: 16px;
+    font-style: italic;
+  }
+
+  .field-group { margin-bottom: 14px; }
+  .field-group label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--amber);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .field-group .hint {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  textarea, input[type="text"] {
+    width: 100%;
+    padding: 10px 14px;
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    resize: vertical;
+    transition: border-color 0.3s;
+  }
+  textarea:focus, input[type="text"]:focus {
+    outline: none;
+    border-color: var(--blue);
+  }
+  textarea { min-height: 70px; }
+  textarea.short { min-height: 50px; }
+  textarea.tall { min-height: 100px; }
+
+  /* ── Sentence Starters (Support) ── */
+  .starters {
+    background: rgba(167,139,250,0.1);
+    border: 1px solid var(--purple);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-top: 10px;
+  }
+  .starters summary {
+    color: var(--purple);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+  }
+  .starters ul {
+    margin-top: 8px;
+    padding-left: 18px;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  .starters li { margin-bottom: 4px; }
+
+  /* ── Checklist ── */
+  .checklist-card {
+    background: var(--card);
+    border-radius: 12px;
+    border: 2px solid var(--amber);
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .checklist-card h2 {
+    color: var(--amber);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.2rem;
+    margin-bottom: 14px;
+  }
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.95rem;
+  }
+  .check-item:last-child { border-bottom: none; }
+  .check-item input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--neon);
+    cursor: pointer;
+  }
+  .check-item.done label { color: var(--neon); text-decoration: line-through; }
+
+  /* ── Extension Box ── */
+  .extension-card {
+    background: rgba(244,114,182,0.08);
+    border: 1px solid var(--pink);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .extension-card h2 {
+    color: var(--pink);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+  }
+
+  /* ── Progress Bar ── */
+  .progress-bar-container {
+    position: sticky;
+    top: 0;
+    background: var(--navy);
+    padding: 10px 0;
+    z-index: 100;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 20px;
+  }
+  .progress-bar {
+    height: 8px;
+    background: var(--dark2);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--neon), var(--blue));
+    border-radius: 4px;
+    transition: width 0.5s ease;
+    width: 0%;
+  }
+  .progress-text {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  /* ── Save/Print ── */
+  .actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin: 30px 0;
+    flex-wrap: wrap;
+  }
+  .btn {
+    padding: 12px 28px;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-primary { background: var(--neon); color: var(--navy); }
+  .btn-secondary { background: var(--blue); color: var(--navy); }
+  .btn-outline { background: transparent; border: 2px solid var(--muted); color: var(--muted); }
+
+  /* ── Print Styles ── */
+  @media print {
+    body { background: white; color: black; padding: 10px; }
+    .progress-bar-container, .actions, .btn { display: none; }
+    .slide-card, .student-info, .checklist-card, .extension-card, .instructions {
+      background: white;
+      border: 2px solid #ccc;
+      break-inside: avoid;
+    }
+    .slide-number { background: #333; color: white; }
+    .slide-title, .header h1 { color: #333; }
+    textarea, input[type="text"] {
+      border: 1px solid #ccc;
+      background: #f9f9f9;
+      min-height: 60px;
+    }
+    .starters { background: #f0f0ff; border-color: #999; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <h1>🎮 Game Pitch Planner</h1>
+  <p>Plan your pitch deck BEFORE you open Canva. Fill in every section below.</p>
+  <p style="color: var(--amber); margin-top: 8px; font-weight: 600;">Your answers here become the content for your slides!</p>
+</div>
+
+<!-- Progress Bar -->
+<div class="progress-bar-container">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-text" id="progressText">0 of 7 slides planned</div>
+</div>
+
+<!-- Student Info -->
+<div class="student-info">
+  <div>
+    <label for="studentName">Your Name</label>
+    <input type="text" id="studentName" placeholder="e.g. Alex Chen">
+  </div>
+  <div>
+    <label for="gameName">Game Name</label>
+    <input type="text" id="gameName" placeholder="e.g. Shadow Runner">
+  </div>
+  <div>
+    <label for="pathway">Pathway</label>
+    <input type="text" id="pathway" placeholder="Path A (Unity) or Path B (Scratch)">
+  </div>
+  <div>
+    <label for="dateField">Date</label>
+    <input type="text" id="dateField" placeholder="e.g. 31/03/2026">
+  </div>
+</div>
+
+<!-- Instructions -->
+<div class="instructions">
+  <h2>📋 How to Use This Planner</h2>
+  <ol>
+    <li><strong>Fill in each slide section below</strong> — write your actual content, not just dot points.</li>
+    <li><strong>Use the sentence starters</strong> (click the purple boxes) if you need help getting started.</li>
+    <li><strong>Tick the checklist</strong> at the bottom when each slide is done.</li>
+    <li><strong>Then open Canva</strong> and copy your content into your pitch deck template.</li>
+  </ol>
+</div>
+
+<!-- ═══════════ SLIDE 1: Title ═══════════ -->
+<div class="slide-card" data-slide="1">
+  <div class="slide-header">
+    <div class="slide-number">1</div>
+    <div class="slide-title">Title Slide</div>
+  </div>
+  <p class="slide-purpose">First impression — grab their attention with your game name and a catchy tagline.</p>
+
+  <div class="field-group">
+    <label>Game Name (big and bold)</label>
+    <input type="text" placeholder="What is your game called?" data-field="title-name">
+  </div>
+
+  <div class="field-group">
+    <label>Tagline — one sentence that hooks the player</label>
+    <span class="hint">This is the MOST important sentence in your whole pitch. Make it catchy!</span>
+    <textarea class="short" placeholder="e.g. 'It's a lovely morning and you are a horrible goose'" data-field="title-tagline"></textarea>
+    <details class="starters">
+      <summary>💡 Need help? Try these sentence starters</summary>
+      <ul>
+        <li>"A game where you…"</li>
+        <li>"Can you survive…?"</li>
+        <li>"What if you could…?"</li>
+        <li>"The ultimate… adventure"</li>
+        <li>"[Action verb] your way through…"</li>
+      </ul>
+    </details>
+  </div>
+
+  <div class="field-group">
+    <label>Your Name / Team Name</label>
+    <input type="text" placeholder="Who made this game?" data-field="title-creator">
+  </div>
+</div>
+
+<!-- ═══════════ SLIDE 2: The Hook ═══════════ -->
+<div class="slide-card" data-slide="2">
+  <div class="slide-header">
+    <div class="slide-number">2</div>
+    <div class="slide-title">The Hook</div>
+  </div>
+  <p class="slide-purpose">Make the audience CARE in 10 seconds. Why should anyone play your game?</p>
+
+  <div class="field-group">
+    <label>The Problem or Opportunity</label>
+    <span class="hint">What gap does your game fill? What feeling does it create?</span>
+    <textarea placeholder="e.g. 'Most platformers are too easy and boring. Players want a real challenge that feels rewarding when they succeed.'" data-field="hook-problem"></textarea>
+    <details class="starters">
+      <summary>💡 Need help? Try these sentence starters</summary>
+      <ul>
+        <li>"Have you ever wanted to…?"</li>
+        <li>"Most games don't let you…"</li>
+        <li>"Imagine a world where…"</li>
+        <li>"What if there was a game that…?"</li>
+        <li>"Players are bored of… My game changes that."</li>
+      </ul>
+    </details>
+  </div>
+
+  <div class="field-group">
+    <label>Your Elevator Pitch (2-3 sentences max)</label>
+    <span class="hint">Explain your ENTIRE game in under 30 seconds. Practice saying this out loud.</span>
+    <textarea class="tall" placeholder="Describe your game as if you only had 30 seconds in a lift with a game publisher…" data-field="hook-elevator"></textarea>
+  </div>
+</div>
+
+<!-- ═══════════ SLIDE 3: Target Audience ═══════════ -->
+<div class="slide-card" data-slide="3">
+  <div class="slide-header">
+    <div class="slide-number">3</div>
+    <div class="slide-title">Target Audience</div>
+  </div>
+  <p class="slide-purpose">Who is this game FOR? Knowing your audience shows you've thought about design decisions.</p>
+
+  <div class="field-group">
+    <label>Age Range</label>
+    <input type="text" placeholder="e.g. 10–16 year olds" data-field="audience-age">
+  </div>
+
+  <div class="field-group">
+    <label>What kind of players would enjoy this?</label>
+    <textarea class="short" placeholder="e.g. Players who enjoy puzzle-solving and exploration, fans of games like Zelda and Stardew Valley" data-field="audience-type"></textarea>
+    <details class="starters">
+      <summary>💡 Need help? Try these sentence starters</summary>
+      <ul>
+        <li>"This game is for people who love…"</li>
+        <li>"If you enjoy games like [game], you'll love this"</li>
+        <li>"Perfect for players who want…"</li>
+        <li>"Casual / hardcore / creative players who…"</li>
+      </ul>
+    </details>
+  </div>
+
+  <div class="field-group">
+    <label>Similar games your audience might play</label>
+    <span class="hint">Name 2-3 games. This helps people instantly understand your game's vibe.</span>
+    <textarea class="short" placeholder="e.g. Minecraft, Among Us, Celeste" data-field="audience-similar"></textarea>
+  </div>
+</div>
+
+<!-- ═══════════ SLIDE 4: Gameplay Overview ═══════════ -->
+<div class="slide-card" data-slide="4">
+  <div class="slide-header">
+    <div class="slide-number">4</div>
+    <div class="slide-title">Gameplay Overview</div>
+  </div>
+  <p class="slide-purpose">Show HOW your game actually works. This is where screenshots help a lot.</p>
+
+  <div class="field-group">
+    <label>Game Genre</label>
+    <input type="text" placeholder="e.g. 2D Platformer, Puzzle, RPG, Racing, Shooter" data-field="gameplay-genre">
+  </div>
+
+  <div class="field-group">
+    <label>Core Mechanics — what does the player DO?</label>
+    <span class="hint">List 3-4 key actions or mechanics. Keep it simple.</span>
+    <textarea class="tall" placeholder="1. &#10;2. &#10;3. &#10;4. " data-field="gameplay-mechanics"></textarea>
+    <details class="starters">
+      <summary>💡 Need help? Try these sentence starters</summary>
+      <ul>
+        <li>"The player controls a… who must…"</li>
+        <li>"You move by… and interact by…"</li>
+        <li>"The main goal is to…"</li>
+        <li>"You win by… and lose if…"</li>
+        <li>"Each level introduces…"</li>
+      </ul>
+    </details>
+  </div>
+
+  <div class="field-group">
+    <label>Controls — how does the player interact?</label>
+    <textarea class="short" placeholder="e.g. Arrow keys to move, Space to jump, Mouse to aim" data-field="gameplay-controls"></textarea>
+  </div>
+
+  <div class="field-group">
+    <label>Screenshots — which moments from your game will you show?</label>
+    <span class="hint">Describe 2-3 screenshots you'll take. Think: what looks most impressive?</span>
+    <textarea placeholder="Screenshot 1: &#10;Screenshot 2: &#10;Screenshot 3: " data-field="gameplay-screenshots"></textarea>
+  </div>
+</div>
+
+<!-- ═══════════ SLIDE 5: What Makes It Unique ═══════════ -->
+<div class="slide-card" data-slide="5">
+  <div class="slide-header">
+    <div class="slide-number">5</div>
+    <div class="slide-title">What Makes It Unique (USP)</div>
+  </div>
+  <p class="slide-purpose">Your Unique Selling Point — what makes YOUR game different from everything else?</p>
+
+  <div class="field-group">
+    <label>What is special about your game?</label>
+    <span class="hint">Think: art style, story, mechanic, theme, or combination that nobody else has.</span>
+    <textarea class="tall" placeholder="What makes your game stand out from similar games?" data-field="usp-main"></textarea>
+    <details class="starters">
+      <summary>💡 Need help? Try these sentence starters</summary>
+      <ul>
+        <li>"Unlike other [genre] games, mine…"</li>
+        <li>"The unique thing about my game is…"</li>
+        <li>"No other game combines… with…"</li>
+        <li>"My game stands out because…"</li>
+        <li>"Players haven't seen… before"</li>
+      </ul>
+    </details>
+  </div>
+
+  <div class="field-group">
+    <label>One design decision you're most proud of</label>
+    <span class="hint">Pick something from your design portfolio that shows your thinking.</span>
+    <textarea class="short" placeholder="e.g. 'I designed the enemy AI to get harder based on how well the player is doing'" data-field="usp-proud"></textarea>
+  </div>
+</div>
+
+<!-- ═══════════ SLIDE 6: Visuals ═══════════ -->
+<div class="slide-card" data-slide="6">
+  <div class="slide-header">
+    <div class="slide-number">6</div>
+    <div class="slide-title">Visuals & Style</div>
+  </div>
+  <p class="slide-purpose">Show your game looking its BEST. Screenshots speak louder than words.</p>
+
+  <div class="field-group">
+    <label>Describe your game's visual style</label>
+    <textarea class="short" placeholder="e.g. Pixel art, dark colour palette, retro arcade feel" data-field="visuals-style"></textarea>
+  </div>
+
+  <div class="field-group">
+    <label>Colour palette — what colours define your game?</label>
+    <textarea class="short" placeholder="e.g. Dark blue background, bright green for the player, red for enemies" data-field="visuals-colours"></textarea>
+  </div>
+
+  <div class="field-group">
+    <label>How to take your screenshots</label>
+    <span class="hint" style="color: var(--neon);">
+      ✅ Unity (Path A): Play your game → press Win+Shift+S → paste into Canva<br>
+      ✅ Scratch (Path B): Click green flag → press Win+Shift+S → paste into Canva
+    </span>
+  </div>
+</div>
+
+<!-- ═══════════ SLIDE 7: Play It ═══════════ -->
+<div class="slide-card" data-slide="7">
+  <div class="slide-header">
+    <div class="slide-number">7</div>
+    <div class="slide-title">Try It / Call to Action</div>
+  </div>
+  <p class="slide-purpose">End with a bang — give the audience a way to play your game RIGHT NOW.</p>
+
+  <div class="field-group">
+    <label>Link to your game</label>
+    <span class="hint">Path A: WebGL build URL or instructions to download. Path B: Your Scratch project URL.</span>
+    <input type="text" placeholder="https://..." data-field="cta-link">
+  </div>
+
+  <div class="field-group">
+    <label>Final call to action — what do you want the audience to do?</label>
+    <textarea class="short" placeholder="e.g. 'Play it now!', 'Download and try the demo', 'Scan the QR code to play'" data-field="cta-action"></textarea>
+    <details class="starters">
+      <summary>💡 Need help? Try these sentence starters</summary>
+      <ul>
+        <li>"Play my game right now at…"</li>
+        <li>"Scan this QR code to try it!"</li>
+        <li>"Download the demo and see for yourself"</li>
+        <li>"Follow the development at…"</li>
+      </ul>
+    </details>
+  </div>
+
+  <div class="field-group">
+    <label>What's next for your game? (Future plans)</label>
+    <textarea class="short" placeholder="e.g. 'I plan to add more levels and a boss fight'" data-field="cta-future"></textarea>
+  </div>
+</div>
+
+<!-- ═══════════ Checklist ═══════════ -->
+<div class="checklist-card">
+  <h2>✅ Pre-Canva Checklist</h2>
+  <p style="color: var(--muted); font-size: 0.85rem; margin-bottom: 14px;">Tick each box when that slide section is complete. Aim for all 7!</p>
+
+  <div class="check-item"><input type="checkbox" id="chk1" onchange="updateProgress()"><label for="chk1">Slide 1 — Title: Game name + tagline + your name</label></div>
+  <div class="check-item"><input type="checkbox" id="chk2" onchange="updateProgress()"><label for="chk2">Slide 2 — Hook: Problem + elevator pitch written</label></div>
+  <div class="check-item"><input type="checkbox" id="chk3" onchange="updateProgress()"><label for="chk3">Slide 3 — Audience: Age, player type, similar games</label></div>
+  <div class="check-item"><input type="checkbox" id="chk4" onchange="updateProgress()"><label for="chk4">Slide 4 — Gameplay: Genre, mechanics, controls, screenshot plan</label></div>
+  <div class="check-item"><input type="checkbox" id="chk5" onchange="updateProgress()"><label for="chk5">Slide 5 — USP: What makes it unique + proud design decision</label></div>
+  <div class="check-item"><input type="checkbox" id="chk6" onchange="updateProgress()"><label for="chk6">Slide 6 — Visuals: Style description + screenshots taken</label></div>
+  <div class="check-item"><input type="checkbox" id="chk7" onchange="updateProgress()"><label for="chk7">Slide 7 — CTA: Game link + call to action + future plans</label></div>
+</div>
+
+<!-- ═══════════ Extension ═══════════ -->
+<div class="extension-card">
+  <h2>🚀 Extension — Going for Gold / Platinum?</h2>
+  <div class="field-group">
+    <label>Gameplay Video Plan</label>
+    <span class="hint">Record 30-60 seconds of you playing your game. What moment will you show?</span>
+    <textarea class="short" placeholder="Describe what you'll record…" data-field="ext-video"></textarea>
+  </div>
+  <div class="field-group">
+    <label>Development Journey — what changed during development?</label>
+    <textarea class="short" placeholder="e.g. 'I originally planned a racing game but changed to a platformer because…'" data-field="ext-journey"></textarea>
+  </div>
+  <div class="field-group">
+    <label>Presentation Notes — key points to SAY during your live pitch</label>
+    <textarea placeholder="Write 3-4 talking points for your 2-3 minute presentation" data-field="ext-notes"></textarea>
+  </div>
+</div>
+
+<!-- Actions -->
+<div class="actions">
+  <button class="btn btn-primary" onclick="saveToLocal()">💾 Save Progress</button>
+  <button class="btn btn-secondary" onclick="downloadJSON()">📥 Download as JSON</button>
+  <button class="btn btn-outline" onclick="window.print()">🖨️ Print</button>
+</div>
+
+<p style="text-align:center; color: var(--muted); font-size: 0.8rem; margin-bottom: 40px;">
+  Your progress saves automatically in your browser. Don't clear your browser data!
+</p>
+
+<script>
+  const STORAGE_KEY = 'gameon-pitch-planner';
+
+  // ── Auto-save on input ──
+  document.querySelectorAll('input[type="text"], textarea').forEach(el => {
+    el.addEventListener('input', () => {
+      saveToLocal();
+      updateProgress();
+    });
+  });
+
+  // ── Save to localStorage ──
+  function saveToLocal() {
+    const data = {};
+    document.querySelectorAll('[data-field]').forEach(el => {
+      data[el.dataset.field] = el.value;
+    });
+    // Also save student info
+    ['studentName','gameName','pathway','dateField'].forEach(id => {
+      data[id] = document.getElementById(id).value;
+    });
+    // Save checkboxes
+    for (let i = 1; i <= 7; i++) {
+      data['chk' + i] = document.getElementById('chk' + i).checked;
+    }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  }
+
+  // ── Load from localStorage ──
+  function loadFromLocal() {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    try {
+      const data = JSON.parse(raw);
+      document.querySelectorAll('[data-field]').forEach(el => {
+        if (data[el.dataset.field] !== undefined) el.value = data[el.dataset.field];
+      });
+      ['studentName','gameName','pathway','dateField'].forEach(id => {
+        if (data[id] !== undefined) document.getElementById(id).value = data[id];
+      });
+      for (let i = 1; i <= 7; i++) {
+        if (data['chk' + i] !== undefined) document.getElementById('chk' + i).checked = data['chk' + i];
+      }
+      updateProgress();
+    } catch(e) { console.warn('Failed to load saved data'); }
+  }
+
+  // ── Progress bar ──
+  function updateProgress() {
+    let done = 0;
+    for (let i = 1; i <= 7; i++) {
+      const chk = document.getElementById('chk' + i);
+      const card = document.querySelector(`.slide-card[data-slide="${i}"]`);
+      if (chk.checked) {
+        done++;
+        card.classList.add('completed');
+        chk.closest('.check-item').classList.add('done');
+      } else {
+        card.classList.remove('completed');
+        chk.closest('.check-item').classList.remove('done');
+      }
+    }
+    const pct = Math.round((done / 7) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressText').textContent = `${done} of 7 slides planned — ${pct}%`;
+  }
+
+  // ── Download JSON ──
+  function downloadJSON() {
+    const data = {};
+    document.querySelectorAll('[data-field]').forEach(el => {
+      data[el.dataset.field] = el.value;
+    });
+    ['studentName','gameName','pathway','dateField'].forEach(id => {
+      data[id] = document.getElementById(id).value;
+    });
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    const name = data.studentName ? data.studentName.replace(/\s+/g, '_') : 'student';
+    a.download = `pitch-plan-${name}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // ── Init ──
+  loadFromLocal();
+</script>
+</body>
+</html>
