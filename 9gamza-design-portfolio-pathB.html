@@ -55,7 +55,7 @@ textarea,input[type="text"]{width:100%;border:1.5px solid var(--light-grey);bord
 .mark-total{background:var(--bg);border-radius:10px;padding:16px 20px;text-align:center;margin:16px 0}.mark-total .total-score{font-family:var(--font-heading);font-size:2rem;color:#6366F1}
 .teacher-panel .btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}.teacher-panel .btn-row button{font-family:var(--font-body);font-size:.85rem;font-weight:600;border:none;border-radius:6px;padding:10px 20px;cursor:pointer}
 .btn-export-marks{background:#6366F1;color:white}.btn-export-csv{background:var(--green);color:white}.btn-load-another{background:var(--charcoal);color:white}
-body.teacher-mode .portfolio textarea,body.teacher-mode .portfolio input[type="text"]{background:#f8f8f8;pointer-events:none}body.teacher-mode .portfolio .draw-box{pointer-events:none}body.teacher-mode .portfolio .rank-btn{pointer-events:none}body.teacher-mode .portfolio input[type="checkbox"]{pointer-events:none}body.teacher-mode .toolbar-right .btn-clear,body.teacher-mode .toolbar-right .btn-submit{display:none}
+body.teacher-mode .portfolio textarea,body.teacher-mode .portfolio input[type="text"]{background:#f8f8f8;cursor:default}body.teacher-mode .portfolio .draw-box{pointer-events:none}body.teacher-mode .portfolio .rank-btn{pointer-events:none}body.teacher-mode .portfolio input[type="checkbox"]{pointer-events:none}body.teacher-mode .toolbar-right .btn-clear,body.teacher-mode .toolbar-right .btn-submit{display:none}
 </style>
 </head>
 <body>
@@ -909,6 +909,7 @@ function loadAnother(){
 /* ===== INIT ===== */
 if(IS_TEACHER){
   document.body.classList.add('teacher-mode');
+  document.querySelectorAll('.portfolio textarea, .portfolio input[type="text"]').forEach(el=>el.setAttribute('readonly',''));
   document.getElementById('teacherBanner').style.display='block';
   document.getElementById('teacherUpload').style.display='block';
   document.querySelector('.portfolio').style.display='none';
