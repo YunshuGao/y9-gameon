@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L18 — Ship hits, lives, and game over · Y9 Game On</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="site-brand">🎮 Y9 Game On · Term 2 · Python Arcade</a>
+    <nav class="site-nav">
+      <a href="../index.html">Overview</a>
+      <a href="../twist-ideas.html">Your Twist ideas</a>
+      <a href="../journal.html">Coding Journal</a>
+      <a href="../../index.html">Term 1 archive</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container lesson-page">
+  <p class="meta-bar">
+    <span><strong>L18</strong> · Week 9</span>
+    <span>⏱ 75 minutes</span>
+    <span>🎯 IND5-2 · IND5-3 · IND5-5 · IND5-8</span>
+    <span>📂 Phase 3 — Alien Invasion Mechanics</span>
+  </p>
+  <h1>Ship hits, lives, and game over</h1>
+
+  <section>
+    <h2>Learning Intentions</h2>
+    <ul class="intentions"><li>I can detect when an alien hits my ship</li>
+<li>I can use a GameStats class to track lives</li>
+<li>I can end the game when lives run out</li></ul>
+    <h2>Success Criteria</h2>
+    <ul class="success"><li>My ship dies when an alien hits it</li>
+<li>I have 3 lives; the game ends when all are gone</li>
+<li>Aliens reaching the bottom also counts as a hit</li></ul>
+  </section>
+
+  <section class="segment do-now">
+    <div class="segment-header"><span class="segment-minutes">5 min</span><h3>Do Now — Error of the Day</h3></div>
+    <p>Play your current game for 2 minutes. Right now there's no way to lose. Does that feel right?</p>
+  </section>
+
+  <section class="segment i-do">
+    <div class="segment-header"><span class="segment-minutes">10 min</span><h3>I Do — Live-coded demo</h3></div>
+    <p>Live-code ship-alien collision using <code>pygame.sprite.spritecollideany()</code>. Create a GameStats class holding <code>ships_left</code>. On ship hit: decrement lives, pause briefly, reset fleet + ship. When lives = 0, game over.</p>
+  </section>
+
+  <section class="segment we-do">
+    <div class="segment-header"><span class="segment-minutes">15 min</span><h3>We Do — Guided build</h3></div>
+    <p>Class implements _ship_hit() and _check_aliens_bottom(). Test: wait for fleet to reach ship. Watch ship 'die'. Test: let aliens reach the bottom — same behaviour.</p>
+  </section>
+
+  <section class="segment you-do">
+    <div class="segment-header"><span class="segment-minutes">35 min</span><h3>You Do — Your turn</h3></div>
+    <p>Tune: 3 lives the right number? Add a <code>sleep(0.5)</code> pause between deaths (import time). Extension: display remaining ships as icons in the corner; use pygame.font to show 'GAME OVER'.</p>
+    <div class="diff-box">
+      <div class="diff-tier support"><h4>Support</h4><p>Use lives_starter.py with _ship_hit pre-written.</p></div>
+      <div class="diff-tier core"><h4>Core</h4><p>Build per Matthes Ch 14.</p></div>
+      <div class="diff-tier extension"><h4>Extension</h4><p>Add a combo system — consecutive hits without getting hit multiplies points.</p></div>
+    </div>
+  </section>
+
+  
+  
+
+  <section class="segment exit">
+    <div class="segment-header"><span class="segment-minutes">5 min</span><h3>Exit Ticket — Coding Journal</h3></div>
+    <p>Journal: losing a life in a game is important. Why? What does it do to the player's emotional experience?</p>
+    <div class="journal-callout">
+      <h4>📝 Journal submission</h4>
+      <p class="callout-note">Submit your 2-3 sentence journal entry in Google Classroom before you leave. Every entry contributes to your Coding Journal (/5) in the final assessment.</p>
+    </div>
+  </section>
+
+  
+<section class="resources">
+<h2>Resources</h2>
+<ul>
+<li>📖 <a href='#' target='_blank'>Matthes Ch 14 start — Game Stats</a></li>
+</ul>
+</section>
+
+  <div class="prev-next"><a href='L17.html'><span>← Previous</span>Lesson L17</a><a href='../index.html'><span>↑ Hub</span>All Lessons</a><a href='L19.html'><span>Next →</span>Lesson L19</a></div>
+</main>
+
+<footer class="footer">
+  <p>Year 9 Game On — Term 2 2026 — Arthur Phillip High School</p>
+  <p>Taught by <a href="https://github.com/YunshuGao">Ms Yunshu Gao</a> · Built with Python + a lot of patience</p>
+</footer>
+</body>
+</html>
+

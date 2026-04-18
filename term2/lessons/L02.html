@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L02 — Variables and Strings · Y9 Game On</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="site-brand">🎮 Y9 Game On · Term 2 · Python Arcade</a>
+    <nav class="site-nav">
+      <a href="../index.html">Overview</a>
+      <a href="../twist-ideas.html">Your Twist ideas</a>
+      <a href="../journal.html">Coding Journal</a>
+      <a href="../../index.html">Term 1 archive</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container lesson-page">
+  <p class="meta-bar">
+    <span><strong>L02</strong> · Week 1</span>
+    <span>⏱ 75 minutes</span>
+    <span>🎯 IND5-3 · IND5-5</span>
+    <span>📂 Phase 1 — Python Foundations</span>
+  </p>
+  <h1>Variables and Strings</h1>
+
+  <section>
+    <h2>Learning Intentions</h2>
+    <ul class="intentions"><li>I can create a variable and store a value in it</li>
+<li>I can use f-strings to combine text and variables</li>
+<li>I can use string methods like .upper() and .lower()</li></ul>
+    <h2>Success Criteria</h2>
+    <ul class="success"><li>My program stores at least 3 variables</li>
+<li>I have used an f-string to insert a variable into output</li>
+<li>My output is formatted nicely</li></ul>
+  </section>
+
+  <section class="segment do-now">
+    <div class="segment-header"><span class="segment-minutes">5 min</span><h3>Do Now — Error of the Day</h3></div>
+    <p>Fix this broken code (it's on the board): <code>print(Hello)</code> — why does Python error? Discuss with a partner for 2 min. (Answer: Python looks for a variable called Hello, doesn't find one.)</p>
+  </section>
+
+  <section class="segment i-do">
+    <div class="segment-header"><span class="segment-minutes">10 min</span><h3>I Do — Live-coded demo</h3></div>
+    <p>Live-code: create variables <code>name = "Yunshu"</code>, <code>age = 30</code>. Show <code>print(name)</code>. Demonstrate the critical distinction between <code>"Yunshu"</code> (string) and <code>Yunshu</code> (variable). Introduce f-string: <code>print(f"Hi, I am {name} and I am {age} years old")</code>.</p>
+  </section>
+
+  <section class="segment we-do">
+    <div class="segment-header"><span class="segment-minutes">15 min</span><h3>We Do — Guided build</h3></div>
+    <p>Students open madlib.py. Together we build a 3-variable mad-lib:
+<pre><code>noun = "banana"
+adjective = "spicy"
+verb = "dancing"
+print(f"The {adjective} {noun} is {verb}!")</code></pre>Run it. Change variable values. Run again. See how the output changes without changing the print.</p>
+  </section>
+
+  <section class="segment you-do">
+    <div class="segment-header"><span class="segment-minutes">35 min</span><h3>You Do — Your turn</h3></div>
+    <p>Build <code>gamer_profile.py</code>: 5 variables (player name, character class, hp, attack, favourite weapon), all printed using f-strings in a nice format. Try <code>.upper()</code> on the name (e.g. <code>name.upper()</code>). Extension: add string concatenation with <code>+</code> and compare with f-strings — which is cleaner?</p>
+    <div class="diff-box">
+      <div class="diff-tier support"><h4>Support</h4><p>Starter file madlib_starter.py with TODO markers. Pair with a Core-tier partner.</p></div>
+      <div class="diff-tier core"><h4>Core</h4><p>Complete gamer_profile.py independently. Attempt 1-2 of Matthes Ch 2 exercises as homework.</p></div>
+      <div class="diff-tier extension"><h4>Extension</h4><p>Explore string methods: .title(), .strip(), .replace(). Build a caesar cipher: shift each letter by 3.</p></div>
+    </div>
+  </section>
+
+  
+  
+
+  <section class="segment exit">
+    <div class="segment-header"><span class="segment-minutes">5 min</span><h3>Exit Ticket — Coding Journal</h3></div>
+    <p>Journal: which f-string did you write that you're proudest of? Paste it into the journal entry.</p>
+    <div class="journal-callout">
+      <h4>📝 Journal submission</h4>
+      <p class="callout-note">Submit your 2-3 sentence journal entry in Google Classroom before you leave. Every entry contributes to your Coding Journal (/5) in the final assessment.</p>
+    </div>
+  </section>
+
+  
+<section class="resources">
+<h2>Resources</h2>
+<ul>
+<li>📖 <a href='#' target='_blank'>Matthes Ch 2 — Variables</a></li>
+<li>📖 <a href='https://docs.python.org/3/library/stdtypes.html#string-methods' target='_blank'>Python docs — str methods</a></li>
+</ul>
+</section>
+
+  <div class="prev-next"><a href='L01.html'><span>← Previous</span>Lesson L01</a><a href='../index.html'><span>↑ Hub</span>All Lessons</a><a href='L03.html'><span>Next →</span>Lesson L03</a></div>
+</main>
+
+<footer class="footer">
+  <p>Year 9 Game On — Term 2 2026 — Arthur Phillip High School</p>
+  <p>Taught by <a href="https://github.com/YunshuGao">Ms Yunshu Gao</a> · Built with Python + a lot of patience</p>
+</footer>
+</body>
+</html>
+

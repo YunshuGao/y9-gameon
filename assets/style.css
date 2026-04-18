@@ -1,0 +1,307 @@
+/* Year 9 Game On — Term 2 Python Arcade Hub
+ * Dark theme with Python blue + gold accents
+ * Matches Term 1 y9-gameon visual identity
+ */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0f0f23;
+  --bg-card: #1a1a2e;
+  --bg-card-hover: #252545;
+  --border: #2a2a4a;
+  --text: #e0e0e0;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  --py-blue: #3776ab;
+  --py-gold: #ffd43b;
+  --py-gold-soft: rgba(255, 212, 59, 0.15);
+  --teal: #14b8a6;
+  --green: #4ade80;
+  --red: #f87171;
+  --purple: #a78bfa;
+  --navy: #1F3A68;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+/* ========= Site Header ========= */
+.site-header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(15, 15, 35, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  padding: 0.8rem 1.5rem;
+}
+.site-header-inner {
+  max-width: 1000px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 12px;
+}
+.site-brand {
+  font-weight: 700; font-size: 1.05rem;
+  background: linear-gradient(135deg, var(--py-blue), var(--py-gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  text-decoration: none;
+}
+.site-nav { display: flex; gap: 16px; flex-wrap: wrap; }
+.site-nav a {
+  color: var(--text-muted); text-decoration: none; font-size: 0.9rem;
+  transition: color 0.2s;
+}
+.site-nav a:hover { color: var(--py-gold); }
+
+/* ========= Typography ========= */
+h1 {
+  font-size: 2.2rem; margin-bottom: 0.5rem; line-height: 1.2;
+  background: linear-gradient(135deg, var(--py-blue), var(--py-gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+h2 {
+  font-size: 1.5rem; margin-top: 2rem; margin-bottom: 0.8rem;
+  color: var(--py-gold);
+  padding-bottom: 0.4rem; border-bottom: 1px solid var(--border);
+}
+h3 {
+  font-size: 1.2rem; margin-top: 1.5rem; margin-bottom: 0.5rem;
+  color: var(--text);
+}
+p { margin-bottom: 1rem; color: var(--text); }
+.subtitle { color: var(--text-muted); font-size: 1rem; margin-bottom: 1.5rem; }
+.meta-bar { color: var(--text-dim); font-size: 0.85rem; margin-bottom: 1rem; }
+.meta-bar span { margin-right: 1.2rem; }
+.meta-bar strong { color: var(--text-muted); }
+
+/* ========= Phases ========= */
+.phase { margin-bottom: 2.5rem; }
+.phase-title {
+  font-size: 1.1rem; font-weight: 700;
+  color: var(--py-gold);
+  margin-bottom: 0.8rem; padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border);
+}
+.phase.foundations .phase-title { color: var(--teal); }
+.phase.pygame .phase-title { color: var(--py-blue); }
+.phase.mechanics .phase-title { color: var(--purple); }
+.phase.polish .phase-title { color: var(--py-gold); }
+
+/* ========= Tutorial Grid ========= */
+.tutorials {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 0.6rem;
+}
+.tutorial-link {
+  display: block; padding: 0.9rem 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text); text-decoration: none;
+  transition: all 0.2s;
+}
+.tutorial-link:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--py-gold);
+  transform: translateY(-2px);
+}
+.lesson-num { font-size: 0.75rem; color: var(--py-blue); font-weight: 600; }
+.lesson-title { font-size: 0.95rem; margin-top: 0.2rem; font-weight: 500; }
+.lesson-chip {
+  display: inline-block; margin-top: 0.4rem; padding: 2px 8px;
+  background: var(--py-gold-soft); color: var(--py-gold);
+  border-radius: 4px; font-size: 0.7rem; font-weight: 600;
+}
+
+/* ========= Lesson Page ========= */
+.lesson-page .segment {
+  margin-bottom: 1.8rem;
+  padding: 1.2rem 1.3rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.segment-header {
+  display: flex; align-items: center; gap: 0.6rem;
+  margin-bottom: 0.6rem;
+}
+.segment-minutes {
+  display: inline-block; padding: 2px 10px;
+  background: var(--py-gold-soft); color: var(--py-gold);
+  border-radius: 12px; font-size: 0.75rem; font-weight: 700;
+}
+.segment h3 { margin-top: 0; color: var(--text); }
+
+.segment.do-now { border-left: 3px solid var(--red); }
+.segment.i-do { border-left: 3px solid var(--py-blue); }
+.segment.we-do { border-left: 3px solid var(--teal); }
+.segment.you-do { border-left: 3px solid var(--green); }
+.segment.exit { border-left: 3px solid var(--py-gold); }
+
+.intentions, .success {
+  list-style: none; padding-left: 0;
+}
+.intentions li, .success li {
+  padding: 6px 0; padding-left: 1.4rem; position: relative;
+}
+.intentions li::before {
+  content: "🎯"; position: absolute; left: 0;
+}
+.success li::before {
+  content: "✅"; position: absolute; left: 0;
+}
+
+/* ========= Differentiation ========= */
+.diff-box {
+  margin: 1rem 0;
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.6rem;
+}
+.diff-tier {
+  padding: 0.9rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.diff-tier.support { border-top: 3px solid var(--teal); }
+.diff-tier.core { border-top: 3px solid var(--py-blue); }
+.diff-tier.extension { border-top: 3px solid var(--py-gold); }
+.diff-tier h4 {
+  margin: 0 0 0.5rem 0; font-size: 0.85rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.diff-tier.support h4 { color: var(--teal); }
+.diff-tier.core h4 { color: var(--py-blue); }
+.diff-tier.extension h4 { color: var(--py-gold); }
+.diff-tier p { font-size: 0.88rem; margin: 0; color: var(--text-muted); }
+
+/* ========= Code Blocks ========= */
+pre {
+  background: #0a0a1e;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+code {
+  font-family: 'Fira Code', 'Consolas', monospace;
+  background: rgba(255, 212, 59, 0.1);
+  color: var(--py-gold);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.88em;
+}
+pre code { background: none; color: var(--text); padding: 0; }
+.py-kw { color: #c678dd; }
+.py-str { color: #98c379; }
+.py-num { color: #d19a66; }
+.py-cmt { color: #5c6370; font-style: italic; }
+.py-fn { color: #61afef; }
+
+/* ========= Journal + Callouts ========= */
+.journal-callout, .twist-callout, .checkpoint-callout, .whs-callout {
+  margin: 1.3rem 0;
+  padding: 1rem 1.2rem;
+  border-radius: 10px;
+  border-left: 4px solid;
+}
+.journal-callout { background: rgba(255, 212, 59, 0.08); border-color: var(--py-gold); }
+.journal-callout h4 { color: var(--py-gold); margin-top: 0; }
+.twist-callout { background: rgba(167, 139, 250, 0.08); border-color: var(--purple); }
+.twist-callout h4 { color: var(--purple); margin-top: 0; }
+.checkpoint-callout { background: rgba(74, 222, 128, 0.08); border-color: var(--green); }
+.checkpoint-callout h4 { color: var(--green); margin-top: 0; }
+.whs-callout { background: rgba(248, 113, 113, 0.08); border-color: var(--red); }
+.whs-callout h4 { color: var(--red); margin-top: 0; }
+
+.callout-note { font-size: 0.88rem; color: var(--text-muted); }
+
+/* ========= Nav Bottom ========= */
+.prev-next {
+  margin-top: 2.5rem; padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; gap: 1rem;
+  flex-wrap: wrap;
+}
+.prev-next a {
+  padding: 0.7rem 1.2rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text); text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+.prev-next a:hover { background: var(--bg-card-hover); border-color: var(--py-gold); }
+.prev-next a span { color: var(--text-dim); font-size: 0.75rem; display: block; }
+
+/* ========= Resources ========= */
+.resources { margin-top: 1rem; }
+.resources ul { list-style: none; padding-left: 0; }
+.resources li {
+  padding: 6px 0; font-size: 0.9rem;
+}
+.resources a { color: var(--py-blue); text-decoration: none; }
+.resources a:hover { color: var(--py-gold); text-decoration: underline; }
+
+/* ========= Term Banner ========= */
+.term-banner {
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+  background: linear-gradient(135deg, rgba(55, 118, 171, 0.15), rgba(255, 212, 59, 0.1));
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  margin-bottom: 2rem;
+}
+.term-banner .driving-q {
+  font-size: 1.1rem; color: var(--py-gold); font-style: italic; margin-top: 0.5rem;
+}
+
+.term-chooser {
+  display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+  margin-bottom: 2rem;
+}
+.term-chooser a {
+  padding: 10px 22px; border-radius: 8px; text-decoration: none;
+  font-weight: 600; font-size: 0.95rem;
+  border: 1px solid var(--border); background: var(--bg-card);
+  color: var(--text); transition: all 0.2s;
+}
+.term-chooser a:hover { border-color: var(--py-gold); transform: translateY(-1px); }
+.term-chooser a.current {
+  background: linear-gradient(135deg, var(--py-blue), var(--py-gold));
+  color: var(--bg); border-color: transparent;
+}
+
+/* ========= Footer ========= */
+.footer {
+  text-align: center; margin-top: 3rem; padding: 2rem 0;
+  color: var(--text-dim); font-size: 0.8rem;
+  border-top: 1px solid var(--border);
+}
+.footer a { color: var(--text-muted); }
+
+/* ========= Responsive ========= */
+@media (max-width: 768px) {
+  h1 { font-size: 1.7rem; }
+  .container { padding: 1rem; }
+  .diff-box { grid-template-columns: 1fr; }
+  .tutorials { grid-template-columns: 1fr; }
+}

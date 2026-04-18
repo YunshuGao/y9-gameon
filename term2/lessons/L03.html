@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L03 — Numbers and Maths · Y9 Game On</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="site-brand">🎮 Y9 Game On · Term 2 · Python Arcade</a>
+    <nav class="site-nav">
+      <a href="../index.html">Overview</a>
+      <a href="../twist-ideas.html">Your Twist ideas</a>
+      <a href="../journal.html">Coding Journal</a>
+      <a href="../../index.html">Term 1 archive</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container lesson-page">
+  <p class="meta-bar">
+    <span><strong>L03</strong> · Week 2</span>
+    <span>⏱ 75 minutes</span>
+    <span>🎯 IND5-3</span>
+    <span>📂 Phase 1 — Python Foundations</span>
+  </p>
+  <h1>Numbers and Maths</h1>
+
+  <section>
+    <h2>Learning Intentions</h2>
+    <ul class="intentions"><li>I can do arithmetic in Python (+, -, *, /, **)</li>
+<li>I can mix ints and floats</li>
+<li>I can use the <code>int()</code> and <code>str()</code> functions to convert types</li></ul>
+    <h2>Success Criteria</h2>
+    <ul class="success"><li>My calculator.py asks for two numbers and prints their sum</li>
+<li>I've used at least 3 different operators</li>
+<li>My program doesn't crash on normal inputs</li></ul>
+  </section>
+
+  <section class="segment do-now">
+    <div class="segment-header"><span class="segment-minutes">5 min</span><h3>Do Now — Error of the Day</h3></div>
+    <p>Predict the output:
+<pre><code>print(10 / 3)
+print(10 // 3)
+print(10 % 3)
+print(2 ** 8)</code></pre>Discuss with partner. Then run each in VS Code.</p>
+  </section>
+
+  <section class="segment i-do">
+    <div class="segment-header"><span class="segment-minutes">10 min</span><h3>I Do — Live-coded demo</h3></div>
+    <p>Live-code: demonstrate all 7 operators: +, -, *, /, //, %, **. Show <code>input()</code> returns a string: <code>input("age: ")</code>. Show the trap: <code>input() + 5</code> → TypeError. Fix with <code>int(input())</code>.</p>
+  </section>
+
+  <section class="segment we-do">
+    <div class="segment-header"><span class="segment-minutes">15 min</span><h3>We Do — Guided build</h3></div>
+    <p>Build <code>calculator.py</code> together:
+<pre><code>a = int(input("First number: "))
+b = int(input("Second number: "))
+print(f"Sum: {a + b}")</code></pre>Extend to subtract, multiply, divide.</p>
+  </section>
+
+  <section class="segment you-do">
+    <div class="segment-header"><span class="segment-minutes">35 min</span><h3>You Do — Your turn</h3></div>
+    <p>Build <code>game_stats.py</code>: ask player for starting_health, damage_taken, potions_used (each +20 hp). Print final hp. If final hp < 0, print "You died 💀", else print health bar like <code>HP: {hp}/100</code>. Extension: damage_taken can be a float; use rounding in the print.</p>
+    <div class="diff-box">
+      <div class="diff-tier support"><h4>Support</h4><p>calculator_starter.py with 2 operators pre-written; fill in the other 2.</p></div>
+      <div class="diff-tier core"><h4>Core</h4><p>Independent game_stats.py build. Attempt Matthes Ch 2 exercises 2-5, 2-6.</p></div>
+      <div class="diff-tier extension"><h4>Extension</h4><p>Build a tax calculator that applies a 10% GST to a price; round to 2 decimals using <code>round(x, 2)</code>.</p></div>
+    </div>
+  </section>
+
+  
+  
+
+  <section class="segment exit">
+    <div class="segment-header"><span class="segment-minutes">5 min</span><h3>Exit Ticket — Coding Journal</h3></div>
+    <p>Journal: what's the difference between 10/3 and 10//3? Write it in your own words.</p>
+    <div class="journal-callout">
+      <h4>📝 Journal submission</h4>
+      <p class="callout-note">Submit your 2-3 sentence journal entry in Google Classroom before you leave. Every entry contributes to your Coding Journal (/5) in the final assessment.</p>
+    </div>
+  </section>
+
+  
+<section class="resources">
+<h2>Resources</h2>
+<ul>
+<li>📖 <a href='#' target='_blank'>Matthes Ch 2 — Numbers section</a></li>
+</ul>
+</section>
+
+  <div class="prev-next"><a href='L02.html'><span>← Previous</span>Lesson L02</a><a href='../index.html'><span>↑ Hub</span>All Lessons</a><a href='L04.html'><span>Next →</span>Lesson L04</a></div>
+</main>
+
+<footer class="footer">
+  <p>Year 9 Game On — Term 2 2026 — Arthur Phillip High School</p>
+  <p>Taught by <a href="https://github.com/YunshuGao">Ms Yunshu Gao</a> · Built with Python + a lot of patience</p>
+</footer>
+</body>
+</html>
+

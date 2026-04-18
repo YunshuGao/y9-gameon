@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coding Journal · Y9 Game On Term 2</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="index.html" class="site-brand">🎮 Y9 Game On · Term 2 · Python Arcade</a>
+    <nav class="site-nav">
+      <a href="index.html">Overview</a>
+      <a href="twist-ideas.html">Your Twist ideas</a>
+      <a href="journal.html">Coding Journal</a>
+      <a href="../index.html">Term 1 archive</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  <h1>📓 Coding Journal</h1>
+  <p class="subtitle">Your weekly record of what you built, what broke, and what you learned. Worth /5 marks. Submitted every Friday.</p>
+
+  <div class="journal-callout">
+    <h4>Each weekly entry needs:</h4>
+    <p>
+      (1) What did you build or learn this week? (be specific — name functions, features)<br>
+      (2) What broke, and how did you fix it?<br>
+      (3) What do you want to try next week?
+    </p>
+    <p class="callout-note">3-5 sentences is enough. Quality over quantity.</p>
+  </div>
+
+  <h2>Template you can copy</h2>
+  <pre><code># Week [N] Journal — [Your Name]
+# Date: DD/MM/2026
+# Lessons covered: L## and L##
+
+## What I built or learned
+[2-3 sentences — specific, technical]
+
+## What broke and how I fixed it
+[1-2 sentences — name the error, name the fix]
+
+## What I want to try next week
+[1 sentence — a concrete goal]</code></pre>
+
+  <h2>Example entry (Week 2)</h2>
+  <div class="segment" style="background: var(--bg-card);">
+    <h4 style="color:var(--py-gold);">Week 2 Journal — Aarush S.</h4>
+    <p><strong>What I built:</strong> I made <code>calculator.py</code> and <code>game_stats.py</code>.
+    My calculator adds, subtracts, multiplies and divides two numbers from <code>input()</code>.
+    Game_stats uses health bars like <code>HP: 80/100</code>.</p>
+    <p><strong>What broke:</strong> My first game_stats crashed because I typed <code>hp + damage</code> instead of <code>hp - damage</code>.
+    The ship got BIGGER hp every hit which was funny but wrong. Fixed by changing + to -.</p>
+    <p><strong>Next week:</strong> I want to make the text adventure actually feel scary. Going to try adding a random event.</p>
+  </div>
+
+  <h2>All 10 required journal entries</h2>
+  <ul style="list-style:none;padding-left:0;">
+    <li>✅ Week 1 (after L02) — First Python program</li>
+    <li>✅ Week 2 (after L04) — Lists and loops</li>
+    <li>✅ Week 3 (after L06) — Adventure v1 with if statements</li>
+    <li>✅ Week 4 (after L08) — Functions refactor</li>
+    <li>✅ Week 5 (after L10) — Checkpoint 1 submitted</li>
+    <li>✅ Week 6 (after L12) — Pygame window + ship</li>
+    <li>✅ Week 7 (after L14) — Bullets + first alien</li>
+    <li>✅ Week 8 (after L16) — Alien fleet moving</li>
+    <li>✅ Week 9 (after L18) — Collisions + lives</li>
+    <li>✅ Week 10 (after L20) — Scoring + Your Twist</li>
+  </ul>
+
+  <p class="callout-note">Week 11 journal = your final evaluation (different format — 500 words or video).</p>
+</main>
+
+<footer class="footer">
+  <p>Year 9 Game On — Term 2 2026 — Arthur Phillip High School</p>
+  <p>Taught by <a href="https://github.com/YunshuGao">Ms Yunshu Gao</a> · Built with Python + a lot of patience</p>
+</footer>
+</body>
+</html>
+
