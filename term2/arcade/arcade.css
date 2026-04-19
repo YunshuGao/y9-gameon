@@ -1,7 +1,12 @@
 /* Python Arcade — The Gauntlet
- * Builds on ../assets/style.css base.
+ * Builds on ../../assets/style.css base.
  * Arcade-themed additions: XP bar, badges, cards, combat framing.
  */
+
+/* Ensure HTML hidden attribute always wins over custom display rules.
+ * Without this, .modal { display: flex } keeps the modal visible even
+ * when JS sets element.hidden = true. */
+[hidden] { display: none !important; }
 
 /* === Hero Banner === */
 .arcade-banner {
