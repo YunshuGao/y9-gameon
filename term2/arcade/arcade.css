@@ -1,0 +1,462 @@
+/* Python Arcade — The Gauntlet
+ * Builds on ../assets/style.css base.
+ * Arcade-themed additions: XP bar, badges, cards, combat framing.
+ */
+
+/* === Hero Banner === */
+.arcade-banner {
+  text-align: center;
+  padding: 2.2rem 1.5rem;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 212, 59, 0.15), transparent 60%),
+    radial-gradient(circle at 70% 70%, rgba(55, 118, 171, 0.2), transparent 60%),
+    linear-gradient(135deg, #1a1a2e 0%, #0f0f23 100%);
+  border-radius: 16px;
+  border: 2px solid var(--border);
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+.arcade-banner::before {
+  content: "";
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(0deg, rgba(255,212,59,0.03) 0, rgba(255,212,59,0.03) 1px, transparent 1px, transparent 3px);
+  pointer-events: none;
+}
+.arcade-banner h1 {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 2rem;
+  margin-bottom: 0.6rem;
+  line-height: 1.3;
+}
+.arcade-banner .tagline {
+  color: var(--py-gold);
+  font-size: 1rem;
+  font-style: italic;
+}
+
+/* === Player Stats === */
+.stat-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+  position: relative;
+  transition: transform 0.2s;
+}
+.stat-card:hover { transform: translateY(-2px); border-color: var(--py-gold); }
+.stat-card .label {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 0.3rem;
+}
+.stat-card .value {
+  font-size: 1.6rem;
+  font-weight: 800;
+  font-family: 'Fira Code', monospace;
+  color: var(--py-gold);
+}
+.stat-card.xp .value { color: var(--py-gold); }
+.stat-card.streak .value { color: var(--red); }
+.stat-card.level .value { color: var(--green); }
+.stat-card.badges .value { color: var(--purple); font-size: 1.3rem; }
+
+/* === XP Bar === */
+.xp-track {
+  margin: 0.4rem 0;
+  height: 8px;
+  background: var(--bg);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.xp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--py-blue), var(--py-gold));
+  transition: width 0.6s;
+}
+.xp-next {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+}
+
+/* === Nickname Bar === */
+.nickname-bar {
+  display: flex; align-items: center; gap: 12px;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+.nickname-chip {
+  padding: 6px 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-weight: 700;
+  color: var(--py-gold);
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.nickname-chip:hover { border-color: var(--py-gold); }
+
+/* === Badges === */
+.badges-strip {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  margin-top: 8px;
+}
+.badge {
+  display: inline-flex;
+  align-items: center; gap: 6px;
+  padding: 4px 12px;
+  background: rgba(167, 139, 250, 0.12);
+  border: 1px solid rgba(167, 139, 250, 0.3);
+  border-radius: 14px;
+  font-size: 0.8rem;
+  color: var(--purple);
+}
+.badge.locked { opacity: 0.25; filter: grayscale(1); }
+.badge-emoji { font-size: 1.1rem; }
+
+/* === Action Buttons === */
+.cta-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.8rem;
+  margin-bottom: 2rem;
+}
+.cta-card {
+  background: linear-gradient(135deg, rgba(55,118,171,0.15), rgba(255,212,59,0.1));
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.2s;
+  cursor: pointer;
+  display: block;
+}
+.cta-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--py-gold);
+  box-shadow: 0 8px 20px rgba(255,212,59,0.1);
+}
+.cta-card h3 {
+  color: var(--py-gold); margin: 0 0 0.3rem;
+  font-size: 1rem;
+}
+.cta-card .cta-sub { font-size: 0.82rem; color: var(--text-muted); }
+.cta-card.daily { background: linear-gradient(135deg, rgba(239,68,68,0.15), rgba(245,158,11,0.1)); }
+.cta-card.daily h3 { color: var(--red); }
+.cta-card.random { background: linear-gradient(135deg, rgba(167,139,250,0.15), rgba(56,189,248,0.1)); }
+.cta-card.random h3 { color: var(--purple); }
+
+/* === Lesson Grid === */
+.lesson-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 0.8rem;
+}
+.lesson-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.2s;
+  position: relative;
+  cursor: pointer;
+  display: block;
+}
+.lesson-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--py-gold);
+}
+.lesson-card .lesson-id {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.75rem;
+  color: var(--py-blue);
+  font-weight: 700;
+}
+.lesson-card .lesson-title {
+  font-size: 1rem; margin-top: 0.3rem; font-weight: 600;
+}
+.lesson-card .lesson-meta {
+  display: flex; justify-content: space-between;
+  margin-top: 0.6rem; font-size: 0.78rem; color: var(--text-dim);
+}
+.lesson-card .progress-bar {
+  margin-top: 0.5rem;
+  height: 6px; background: var(--bg); border-radius: 4px; overflow: hidden;
+}
+.lesson-card .progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--teal), var(--py-gold));
+  transition: width 0.4s;
+}
+.lesson-card.locked { opacity: 0.5; }
+.lesson-card.done { border-color: var(--green); }
+.lesson-card .boss-flag {
+  position: absolute; top: 8px; right: 8px;
+  background: var(--red); color: white;
+  font-size: 0.65rem; font-weight: 700;
+  padding: 2px 8px; border-radius: 10px;
+}
+
+/* === Exercise Cards (in lesson view) === */
+.exercise-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.7rem;
+}
+.exercise-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+  cursor: pointer; text-decoration: none; color: var(--text);
+  transition: all 0.2s;
+  position: relative;
+  display: block;
+}
+.exercise-card:hover { border-color: var(--py-gold); transform: translateY(-2px); }
+.exercise-card.done { border-left: 4px solid var(--green); }
+.exercise-card.done::after {
+  content: "✓"; position: absolute; top: 8px; right: 12px;
+  color: var(--green); font-weight: 900; font-size: 1.2rem;
+}
+.exercise-card .ex-id {
+  font-family: 'Fira Code', monospace; font-size: 0.72rem; color: var(--py-blue);
+}
+.exercise-card .ex-title {
+  font-size: 0.95rem; margin-top: 0.25rem; font-weight: 600;
+}
+.exercise-card .ex-meta {
+  margin-top: 0.5rem; display: flex; gap: 10px; align-items: center;
+  font-size: 0.76rem;
+}
+.diff-badge {
+  padding: 2px 8px; border-radius: 10px; font-weight: 700; font-size: 0.7rem;
+}
+.diff-easy { background: rgba(74,222,128,0.18); color: var(--green); }
+.diff-medium { background: rgba(245,158,11,0.18); color: var(--orange, #f97316); }
+.diff-hard { background: rgba(248,113,113,0.18); color: var(--red); }
+.xp-badge {
+  color: var(--py-gold); font-weight: 700; font-family: 'Fira Code', monospace;
+}
+
+/* === Boss Card === */
+.boss-card {
+  background: linear-gradient(135deg, rgba(239,68,68,0.14), rgba(167,139,250,0.1));
+  border: 2px dashed var(--red);
+  border-radius: 14px;
+  padding: 1.2rem 1.4rem;
+  margin-top: 1.5rem; cursor: pointer; text-decoration: none; color: var(--text);
+  display: block;
+  transition: all 0.2s;
+}
+.boss-card:hover { transform: scale(1.01); border-style: solid; }
+.boss-card h3 {
+  font-family: 'Press Start 2P', monospace;
+  color: var(--red); margin: 0 0 0.4rem;
+  font-size: 0.9rem;
+}
+.boss-card .boss-reward {
+  display: inline-block; padding: 2px 12px; background: var(--red); color: white;
+  border-radius: 10px; font-size: 0.75rem; font-weight: 700; margin-top: 0.4rem;
+}
+
+/* === Exercise Detail === */
+.exercise-detail {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.8rem;
+  margin-bottom: 1.5rem;
+}
+.exercise-detail h1 {
+  background: linear-gradient(135deg, var(--py-blue), var(--py-gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.exercise-detail .detail-meta {
+  display: flex; gap: 12px; flex-wrap: wrap;
+  margin: 0.6rem 0 1.2rem;
+}
+.exercise-detail .problem {
+  font-size: 1.02rem; line-height: 1.7;
+  padding: 1rem 1.2rem;
+  background: var(--bg);
+  border-left: 3px solid var(--py-blue);
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+.exercise-detail .hint {
+  padding: 1rem 1.2rem;
+  background: rgba(255,212,59,0.08);
+  border-left: 3px solid var(--py-gold);
+  border-radius: 8px;
+  margin: 1rem 0;
+  display: none;
+}
+.exercise-detail .hint.visible { display: block; }
+.exercise-detail .hint h4 { color: var(--py-gold); margin: 0 0 0.4rem; }
+
+.code-area {
+  margin: 1rem 0;
+}
+.code-area textarea {
+  width: 100%; min-height: 180px;
+  background: #0a0a1e;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  color: var(--text);
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9rem;
+  resize: vertical;
+}
+.code-area-actions { display: flex; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
+
+/* === Buttons === */
+.btn-primary, .btn-secondary, .btn-danger, .btn-ghost {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600; font-size: 0.92rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--py-blue), var(--py-gold));
+  color: var(--bg);
+}
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(255,212,59,0.25); }
+.btn-secondary {
+  background: var(--bg); color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-secondary:hover { border-color: var(--py-gold); color: var(--py-gold); }
+.btn-danger {
+  background: var(--red); color: white;
+}
+.btn-ghost {
+  background: transparent; color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
+/* === XP Burst Animation === */
+.xp-burst {
+  position: fixed; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 3rem;
+  color: var(--py-gold);
+  pointer-events: none;
+  text-shadow: 0 0 30px rgba(255,212,59,0.8);
+  animation: xpPop 1.2s ease-out forwards;
+  z-index: 1000;
+}
+@keyframes xpPop {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
+  25% { opacity: 1; transform: translate(-50%, -50%) scale(1.3); }
+  100% { opacity: 0; transform: translate(-50%, -80%) scale(1); }
+}
+
+/* === Modal === */
+.modal {
+  position: fixed; inset: 0; z-index: 500;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0, 0, 0, 0.75);
+}
+.modal-content {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 2rem;
+  max-width: 400px; width: 90%;
+  text-align: center;
+}
+.modal-content h2 {
+  color: var(--py-gold); margin-bottom: 0.6rem;
+  background: none; -webkit-text-fill-color: unset;
+}
+.modal-content input {
+  width: 100%;
+  padding: 10px 14px;
+  margin: 0.8rem 0;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: 'Fira Code', monospace;
+  font-size: 1rem;
+}
+
+/* === Hall of Fame === */
+.leaderboard {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+.leaderboard table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.leaderboard th, .leaderboard td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.92rem;
+}
+.leaderboard th {
+  color: var(--text-dim); text-transform: uppercase; font-size: 0.78rem;
+  letter-spacing: 0.6px;
+}
+.leaderboard td.rank-col {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.8rem;
+}
+.leaderboard tr:nth-child(2) td.rank-col { color: var(--py-gold); }
+.leaderboard tr:nth-child(3) td.rank-col { color: #c0c0c0; }
+.leaderboard tr:nth-child(4) td.rank-col { color: #cd7f32; }
+
+/* === Error Dictionary === */
+.error-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.8rem;
+}
+.error-card {
+  background: var(--bg-card);
+  border-left: 4px solid var(--red);
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+}
+.error-card h4 {
+  color: var(--red);
+  margin: 0 0 0.4rem;
+  font-family: 'Fira Code', monospace;
+}
+.error-card pre {
+  margin: 0.5rem 0;
+  font-size: 0.82rem;
+  padding: 0.6rem 0.8rem;
+}
+.error-card .fix { color: var(--green); font-size: 0.85rem; margin-top: 0.5rem; }
+
+/* === Responsive === */
+@media (max-width: 640px) {
+  .arcade-banner h1 { font-size: 1.3rem; }
+  .stat-bar { grid-template-columns: repeat(2, 1fr); }
+  .lesson-grid { grid-template-columns: 1fr; }
+  .exercise-list { grid-template-columns: 1fr; }
+}

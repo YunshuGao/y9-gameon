@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎮 Python Arcade · The Gauntlet · Y9 Game On</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="arcade.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="site-brand">🎮 Y9 Game On · Term 2 · Python Arcade</a>
+    <nav class="site-nav">
+      <a href="../index.html">Term 2 Hub</a>
+      <a href="#dashboard">Arcade</a>
+      <a href="#hallfame">Hall of Fame</a>
+      <a href="#errors">Error Dictionary</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container arcade">
+  <!-- Nickname setup modal (first visit) -->
+  <div id="nickname-modal" class="modal" hidden>
+    <div class="modal-content">
+      <h2>Welcome to the Arcade, hero!</h2>
+      <p>Pick a nickname. This is how you'll appear on the Hall of Fame for this laptop.</p>
+      <input type="text" id="nickname-input" maxlength="16" placeholder="your nickname (max 16)">
+      <button id="nickname-save" class="btn-primary">Enter the gauntlet →</button>
+      <p class="callout-note" style="margin-top:12px;">Tip: you can change this later from the dashboard.</p>
+    </div>
+  </div>
+
+  <!-- View containers — one active at a time -->
+  <div id="view-dashboard" class="view"></div>
+  <div id="view-lesson" class="view" hidden></div>
+  <div id="view-exercise" class="view" hidden></div>
+  <div id="view-hallfame" class="view" hidden></div>
+  <div id="view-errors" class="view" hidden></div>
+
+  <!-- XP gain animation -->
+  <div id="xp-burst" class="xp-burst" hidden></div>
+</main>
+
+<footer class="footer">
+  <p>Python Arcade · 139 quests · 3900 XP total · Built for Y9 Game On by Ms Yunshu Gao</p>
+  <p>Exercises adapted from Eric Matthes · <em>Python Crash Course, 3rd Edition</em> · No Starch Press</p>
+</footer>
+
+<script src="arcade.js" defer></script>
+</body>
+</html>
