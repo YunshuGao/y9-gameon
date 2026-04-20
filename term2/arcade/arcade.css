@@ -458,10 +458,140 @@
 }
 .error-card .fix { color: var(--green); font-size: 0.85rem; margin-top: 0.5rem; }
 
+/* === New quest-type UI === */
+.choices {
+  display: flex; flex-direction: column; gap: 8px; margin: 1rem 0;
+}
+.choice {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 16px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.95rem;
+}
+.choice:hover { border-color: var(--py-gold); background: var(--bg-card-hover); }
+.choice input[type="radio"] { margin: 0; accent-color: var(--py-gold); }
+.choice code {
+  background: none; padding: 0; color: var(--text); font-size: 0.92rem;
+}
+
+.small-text {
+  width: 100%; min-height: 80px;
+  background: #0a0a1e;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  resize: vertical;
+  margin: 0.4rem 0 0.8rem;
+}
+.long-text {
+  width: 100%; min-height: 220px;
+  background: #0a0a1e;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  resize: vertical;
+  margin: 0.4rem 0;
+}
+.char-count {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin: 0 0 0.8rem;
+  font-family: 'Fira Code', monospace;
+}
+
+.drill-feedback { margin-top: 1rem; }
+.feedback-ok {
+  padding: 0.9rem 1.2rem;
+  background: rgba(74, 222, 128, 0.15);
+  border-left: 3px solid var(--green);
+  border-radius: 8px;
+  color: var(--green);
+  font-weight: 600;
+}
+.feedback-no {
+  padding: 0.9rem 1.2rem;
+  background: rgba(248, 113, 113, 0.12);
+  border-left: 3px solid var(--red);
+  border-radius: 8px;
+  color: var(--red);
+  font-weight: 600;
+}
+
+/* Flag button */
+.flag-btn {
+  padding: 4px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.flag-btn:hover { border-color: var(--red); color: var(--red); }
+.flag-btn.flagged { border-color: var(--red); color: var(--red); background: rgba(248, 113, 113, 0.1); }
+.flag-chip {
+  font-size: 0.7rem; color: var(--red);
+  padding: 2px 8px; background: rgba(248, 113, 113, 0.1);
+  border-radius: 10px;
+}
+
+/* Type legend on dashboard */
+.type-legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.7rem;
+  margin: 0.8rem 0 1.5rem;
+}
+.type-legend-item {
+  display: flex; gap: 10px; align-items: center;
+  padding: 0.7rem 0.9rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.type-emoji { font-size: 1.5rem; }
+.type-name { font-weight: 700; font-size: 0.9rem; color: var(--py-gold); }
+.type-desc { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+
+/* Settings cards */
+.settings-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.2rem 1.4rem;
+  margin-bottom: 1.5rem;
+}
+.settings-card label {
+  display: block; margin-bottom: 0.8rem; font-size: 0.9rem; color: var(--text-muted);
+}
+.settings-card input {
+  width: 100%; margin-top: 0.3rem;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: 'Fira Code', monospace;
+  font-size: 0.92rem;
+}
+
 /* === Responsive === */
 @media (max-width: 640px) {
   .arcade-banner h1 { font-size: 1.3rem; }
   .stat-bar { grid-template-columns: repeat(2, 1fr); }
   .lesson-grid { grid-template-columns: 1fr; }
   .exercise-list { grid-template-columns: 1fr; }
+  .type-legend { grid-template-columns: 1fr; }
 }
