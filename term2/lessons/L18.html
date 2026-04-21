@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L18 — Lesson 18: Sprint 3 — Polish (Sound + Particles + Juice) · Y9 Game On</title>
+<title>L18 — Lesson 18: Multiple Alien Types + Boss Alien · Y9 Game On</title>
 <link rel="stylesheet" href="../../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -79,50 +79,52 @@
 <main class="container lesson-page">
   <p class="meta-bar">
     <span><strong>L18</strong> · T2 Week 9</span>
-    <span>🎯 CT5-DPM-01 · CT5-COM-01</span>
-    <span>📂 Phase 3 — Your Own 2D Game</span>
+    <span>🎯 CT5-DPM-01 · CT5-THI-01</span>
+    <span>📂 Phase 3 — Alien Invasion Extensions</span>
   </p>
-  <h1>Lesson 18: Sprint 3 — Polish (Sound + Particles + Juice)</h1>
+  <h1>Lesson 18: Multiple Alien Types + Boss Alien</h1>
 
   <section>
     <h2>Learning Intentions</h2>
     <ul class="intentions">
-      <li>Add sound effects, particle bursts, screen shake — the &#x27;juice&#x27; that makes games feel good.</li>
+      <li>Stop all aliens being the same.</li>
+<li>Top row = fast/weak.</li>
+<li>Middle = standard.</li>
     </ul>
     <h2>Success Criteria</h2>
     <ul class="success">
-      <li>At least 2 sound effects in my game.</li>
-<li>At least 1 particle or visual effect on a key moment.</li>
-<li>My game feels more alive than it did 1 lesson ago.</li>
+      <li>My fleet has 3 visually-different alien types.</li>
+<li>One alien type takes 3 hits to destroy.</li>
+<li>Destroying a BOSS alien awards 500 points.</li>
     </ul>
   </section>
 
   <section class="segment do-now">
     <h3>📍 Do Now — Error of the Day</h3>
     <div class="rich-prose">
-      <p>Play Flappy Bird or another arcade-style game on your phone for 60 seconds. Pay attention to SOUND and VISUAL FEEDBACK on each action. Note 3 specific examples.</p>
+      <p>Look at your current alien fleet. Every alien is identical. That's a design choice — do you love it, or does it feel flat?</p>
     </div>
   </section>
 
   <section class="segment i-do">
     <h3>👁 I Do — Teacher Demo</h3>
     <div class="rich-prose">
-      <p>Demo: pygame.mixer.Sound + .play(). Demo: simple Particle class. Demo: screen shake.</p>
+      <p>Live-code subclassing: <code>class FastAlien(Alien)</code>, <code>class TankAlien(Alien)</code>, <code>class BossAlien(Alien)</code>. Override <code>self.hp</code>, <code>self.points</code>, the image path.</p>
     </div>
   </section>
 
   <section class="segment we-do">
     <h3>🤝 We Do — Build Together</h3>
     <div class="rich-prose">
-      <p>Add ONE sound effect together to our class demo game. Feel the difference.</p>
+      <p>Modify <code>_check_bullet_alien_collisions</code> to use <code>alien.hit()</code> instead of auto-killing. Spawn a mixed fleet: row 0 = Fast, row 1 = Standard, row 2 = Tank.</p>
     </div>
   </section>
 
   <section class="segment you-do">
     <h3>🚀 You Do — Your Turn</h3>
     <div class="rich-prose">
-      <p>Add 3-5 SFX to your game + 1 particle/juice effect. Test — does it feel better? Arcade quests below cover sound + particle patterns.</p>
-      <ul><li>Download sound effects from freesound.org</li><li>pygame.mixer.init() + pygame.mixer.Sound(file).play()</li><li>Particle class: spawn N particles on key event, fade over time</li><li>Add screen shake on hits (random offset for 200ms)</li></ul>
+      <p>Draw 3 distinct alien sprites (or use the pack I'll share in Classroom). Add the BossAlien subclass. Playtest — does the fleet feel more strategic now?</p>
+      <ul><li>Add self.hp = 1 to Alien.__init__</li><li>Subclass FastAlien(Alien): self.hp = 1; self.speed_factor = 2</li><li>Subclass TankAlien(Alien): self.hp = 3; load red sprite</li><li>Subclass BossAlien(Alien): self.hp = 10; larger sprite</li><li>In _check_bullet_alien_collisions: decrement hp instead of kill; only kill when hp == 0</li></ul>
     </div>
 
     <h3 style="margin-top:1.5rem;">🎮 Practice Quests — work through these</h3>
@@ -134,31 +136,31 @@
     <div class="diff-box">
       <div class="diff-tier support">
         <h4>Support</h4>
-        <p>curated sound pack + drop-in particle code</p>
+        <p>alien_variants_starter.py with subclasses scaffolded; student fills hp values</p>
       </div>
       <div class="diff-tier core">
         <h4>Core</h4>
-        <p>implement from scratch</p>
+        <p>write subclasses from scratch</p>
       </div>
       <div class="diff-tier extension">
         <h4>Extension</h4>
-        <p>design own particle system</p>
+        <p>damaged-state sprites</p>
       </div>
     </div>
 
-    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Background music loop.</li><li>Camera shake utility function.</li></ul>
+    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Different point values per alien type (Fast = 5, Standard = 10, Tank = 25, Boss = 500).</li><li>Tank aliens show a damaged sprite when hp &lt; full.</li></ul>
   </section>
 
   <section class="segment exit">
     <h3>📝 Exit Ticket — Coding Journal</h3>
     <div class="rich-prose">
-      <p>Journal: which juice effect felt best? Why?</p>
+      <p>Journal: which alien variant do you find hardest to fight? Why?</p>
     </div>
   </section>
 
   <section>
     <h2>Evidence of Learning</h2>
-    <p>Game has at least 2 SFX + 1 particle/juice effect. Playtest by a neighbour — they notice the improvement.</p>
+    <p>Fleet clearly shows 3 alien variants. Tank takes multiple hits. Boss visibly harder.</p>
   </section>
 
   <div class="prev-next"><a href="L17.html"><span>← Previous</span>Lesson L17</a><a href="../index.html"><span>↑ Hub</span>All Lessons</a><a href="L19.html"><span>Next →</span>Lesson L19</a></div>

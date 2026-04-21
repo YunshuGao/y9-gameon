@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L15 — Lesson 15: Design + Pitch Your Own 2D Game · Y9 Game On</title>
+<title>L15 — Lesson 15: Difficulty Ramp + Level Progression (Matthes Ch 14 §5) · Y9 Game On</title>
 <link rel="stylesheet" href="../../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -79,50 +79,52 @@
 <main class="container lesson-page">
   <p class="meta-bar">
     <span><strong>L15</strong> · T2 Week 8</span>
-    <span>🎯 CT5-DPM-01 · CT5-COM-01</span>
-    <span>📂 Phase 3 — Your Own 2D Game</span>
+    <span>🎯 CT5-DPM-01 · CT5-THI-01</span>
+    <span>📂 Phase 3 — Alien Invasion Extensions</span>
   </p>
-  <h1>Lesson 15: Design + Pitch Your Own 2D Game</h1>
+  <h1>Lesson 15: Difficulty Ramp + Level Progression (Matthes Ch 14 §5)</h1>
 
   <section>
     <h2>Learning Intentions</h2>
     <ul class="intentions">
-      <li>Choose a genre, design your own 2D game, get teacher approval.</li>
+      <li>Make the game get harder the longer you survive.</li>
+<li>Aliens speed up each fleet.</li>
+<li>bullets speed up.</li>
     </ul>
     <h2>Success Criteria</h2>
     <ul class="success">
-      <li>I&#x27;ve picked a genre from the approved list (or pitched my own).</li>
-<li>I&#x27;ve written a 1-page Game Design Document.</li>
-<li>Teacher has approved my concept.</li>
+      <li>Each new fleet is faster than the last.</li>
+<li>A &#x27;level&#x27; variable increments when the fleet is cleared.</li>
+<li>I can explain what a speedup_scale multiplier does.</li>
     </ul>
   </section>
 
   <section class="segment do-now">
     <h3>📍 Do Now — Error of the Day</h3>
     <div class="rich-prose">
-      <p>Browse your phone for 2 minutes. What 2D mobile game would you want to copy the idea of? Why?</p>
+      <p>Play your L14 build for 60 seconds. After clearing one fleet, does it feel boring to play again? That's the problem we fix today.</p>
     </div>
   </section>
 
   <section class="segment i-do">
     <h3>👁 I Do — Teacher Demo</h3>
     <div class="rich-prose">
-      <p>Walk through game design fundamentals: core mechanic, goal, challenge, feedback loop. Show 4 example GDDs (shooter, platformer, maze, puzzle).</p>
+      <p>Live-code the split between static and dynamic settings. Add <code>speedup_scale = 1.1</code> and <code>initialize_dynamic_settings()</code>. Write the <code>increase_speed()</code> method on Settings.</p>
     </div>
   </section>
 
   <section class="segment we-do">
     <h3>🤝 We Do — Build Together</h3>
     <div class="rich-prose">
-      <p>Class fills in the first row of a GDD template together — we pick a simple sample game and brainstorm its GDD.</p>
+      <p>Wire <code>self.settings.increase_speed()</code> into <code>_check_bullet_alien_collisions</code> after fleet-clear. Add <code>stats.level += 1</code>. Run it — can you feel the ramp?</p>
     </div>
   </section>
 
   <section class="segment you-do">
     <h3>🚀 You Do — Your Turn</h3>
     <div class="rich-prose">
-      <p>Fill in YOUR GDD. Pick your genre. Pitch to Ms Gao in a 2-min slot. Get approval + 2 pieces of feedback.</p>
-      <ul><li>Pick genre: shooter, platformer, maze, endless runner, puzzle, racing, pong/breakout, or pitch your own</li><li>Complete GDD template: concept, core mechanic, controls, win/lose, art style</li><li>Pitch your GDD to teacher (2 minutes)</li><li>Receive teacher approval + 2 pieces of feedback</li></ul>
+      <p>Tune the numbers yourself. Try <code>speedup_scale = 1.05</code>, <code>1.2</code>, <code>1.5</code>. Which one feels right? Arcade quests below cover Ch 14 scoring + dynamic patterns.</p>
+      <ul><li>Add speedup_scale = 1.1 to Settings dynamic attrs</li><li>Write Settings.increase_speed() multiplying speeds</li><li>Call increase_speed() when fleet is cleared</li><li>Add stats.level += 1 each fleet-clear</li></ul>
     </div>
 
     <h3 style="margin-top:1.5rem;">🎮 Practice Quests — work through these</h3>
@@ -134,31 +136,31 @@
     <div class="diff-box">
       <div class="diff-tier support">
         <h4>Support</h4>
-        <p>pick from 3 pre-approved genres (shooter, platformer, maze) with matching template game available</p>
+        <p>settings_v2_starter.py with speedup scaffolding</p>
       </div>
       <div class="diff-tier core">
         <h4>Core</h4>
-        <p>pick any approved genre</p>
+        <p>type along</p>
       </div>
       <div class="diff-tier extension">
         <h4>Extension</h4>
-        <p>novel concept</p>
+        <p>level banner</p>
       </div>
     </div>
 
-    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Add mood-board / concept art to GDD.</li><li>Plan 3 alternate level ideas.</li></ul>
+    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Cap speedup_scale at 3.0 so the game stays playable.</li><li>Flash a &#x27;LEVEL 2!&#x27; banner on level-up for 1 second.</li></ul>
   </section>
 
   <section class="segment exit">
     <h3>📝 Exit Ticket — Coding Journal</h3>
     <div class="rich-prose">
-      <p>Journal: 3 sentences on your chosen game — what it is + core mechanic + why you picked it.</p>
+      <p>Journal: what speedup_scale did you settle on? Why does it feel right vs the others?</p>
     </div>
   </section>
 
   <section>
     <h2>Evidence of Learning</h2>
-    <p>Signed GDD + approved genre. Ready to code in L16.</p>
+    <p>Each new fleet is visibly faster. Level counter tracks in GameStats. Game runs smoothly.</p>
   </section>
 
   <div class="prev-next"><a href="L14.html"><span>← Previous</span>Lesson L14</a><a href="../index.html"><span>↑ Hub</span>All Lessons</a><a href="L16.html"><span>Next →</span>Lesson L16</a></div>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L16 — Lesson 16: Sprint 1 — Core Mechanic Working · Y9 Game On</title>
+<title>L16 — Lesson 16: Scoring Display + High Score Persistence (Matthes Ch 14 §6) · Y9 Game On</title>
 <link rel="stylesheet" href="../../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -79,50 +79,51 @@
 <main class="container lesson-page">
   <p class="meta-bar">
     <span><strong>L16</strong> · T2 Week 8</span>
-    <span>🎯 CT5-DPM-01 · CT5-COL-01</span>
-    <span>📂 Phase 3 — Your Own 2D Game</span>
+    <span>🎯 CT5-DPM-01 · CT5-DAT-01</span>
+    <span>📂 Phase 3 — Alien Invasion Extensions</span>
   </p>
-  <h1>Lesson 16: Sprint 1 — Core Mechanic Working</h1>
+  <h1>Lesson 16: Scoring Display + High Score Persistence (Matthes Ch 14 §6)</h1>
 
   <section>
     <h2>Learning Intentions</h2>
     <ul class="intentions">
-      <li>Get the core mechanic of your game playable — a minimum playable prototype.</li>
+      <li>Show score + level + high score on screen.</li>
+<li>Save high score to a file so it survives program restarts.</li>
     </ul>
     <h2>Success Criteria</h2>
     <ul class="success">
-      <li>Player can move (or do the core action of your game).</li>
-<li>One interactive element works (enemy / obstacle / target).</li>
-<li>My game runs without crashes.</li>
+      <li>Score, level and high score all display during play.</li>
+<li>High score saves to file and loads on next launch.</li>
+<li>I can explain json.dump() and json.load().</li>
     </ul>
   </section>
 
   <section class="segment do-now">
     <h3>📍 Do Now — Error of the Day</h3>
     <div class="rich-prose">
-      <p>Re-read your GDD from L15. Cross out anything you can't build in 5 sprint lessons. What's left is your actual game.</p>
+      <p>Right now your score + level + lives are all tracked but INVISIBLE. Close your eyes and imagine where each should sit on screen.</p>
     </div>
   </section>
 
   <section class="segment i-do">
     <h3>👁 I Do — Teacher Demo</h3>
     <div class="rich-prose">
-      <p>Demo how to start: pick a template (if Support tier) or start from scratch (Core/Ext). Walk through project folder setup.</p>
+      <p>Live-build the Scoreboard class — <code>pygame.font.SysFont</code>, <code>font.render()</code>, <code>screen.blit()</code>. Walk through <code>prep_score</code>, <code>prep_level</code>, <code>prep_high_score</code>.</p>
     </div>
   </section>
 
   <section class="segment we-do">
     <h3>🤝 We Do — Build Together</h3>
     <div class="rich-prose">
-      <p>Pair up: tell each other your Sprint 1 goal in 30 seconds. Feedback.</p>
+      <p>Integrate <code>self.sb = Scoreboard(self)</code> and call <code>self.sb.show_score()</code> in the draw loop. Confirm all three display.</p>
     </div>
   </section>
 
   <section class="segment you-do">
     <h3>🚀 You Do — Your Turn</h3>
     <div class="rich-prose">
-      <p>Build your core mechanic. MVP first. Working > ambitious. I circulate as consultant. Arcade quests below cover common Pygame patterns you'll need.</p>
-      <ul><li>Set up project folder + main .py file</li><li>Player class (character or paddle or ship depending on genre)</li><li>One interactive element (enemy OR ball OR obstacle)</li><li>Core interaction working (collide, score, hit)</li></ul>
+      <p>Add <code>json.dump</code> / <code>json.load</code> for <code>high_score.json</code>. Play + beat your own high score. Close + reopen the game — does the high score persist? Open the .json file in VS Code to see the number.</p>
+      <ul><li>Build Scoreboard class: prep_score(), prep_level(), prep_ships()</li><li>Render font with sb.score_image = self.font.render(score_str, True, text_color, bg_color)</li><li>Save high score: json.dump(high, open(&#x27;high.json&#x27;, &#x27;w&#x27;))</li><li>Load on boot: try json.load(open(&#x27;high.json&#x27;)) except FileNotFoundError</li></ul>
     </div>
 
     <h3 style="margin-top:1.5rem;">🎮 Practice Quests — work through these</h3>
@@ -134,31 +135,31 @@
     <div class="diff-box">
       <div class="diff-tier support">
         <h4>Support</h4>
-        <p>start from matching template (template_shooter.py / template_platformer.py / template_maze.py) — modify, don&#x27;t write from scratch</p>
+        <p>Scoreboard starter with prep_score pre-written</p>
       </div>
       <div class="diff-tier core">
         <h4>Core</h4>
-        <p>reference Alien Invasion code</p>
+        <p>build from scratch</p>
       </div>
       <div class="diff-tier extension">
         <h4>Extension</h4>
-        <p>build from scratch</p>
+        <p>top 5 leaderboard</p>
       </div>
     </div>
 
-    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Add 2 interactive elements instead of 1.</li><li>Polish core mechanic feel (bounce, snap, momentum).</li></ul>
+    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Show &#x27;NEW HIGH SCORE!&#x27; banner when player beats it.</li><li>Store top 5 high scores with player initials.</li></ul>
   </section>
 
   <section class="segment exit">
     <h3>📝 Exit Ticket — Coding Journal</h3>
     <div class="rich-prose">
-      <p>Journal: 2 sentences — what's working in your game so far? What's blocked?</p>
+      <p>Journal: describe what was in <code>high_score.json</code> after you played. Why is it text, not binary?</p>
     </div>
   </section>
 
   <section>
     <h2>Evidence of Learning</h2>
-    <p>Playable core loop. Teacher signs off.</p>
+    <p>HUD shows score + level + lives. high_score.json file visible in project folder; persists across runs.</p>
   </section>
 
   <div class="prev-next"><a href="L15.html"><span>← Previous</span>Lesson L15</a><a href="../index.html"><span>↑ Hub</span>All Lessons</a><a href="L17.html"><span>Next →</span>Lesson L17</a></div>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L20 — Lesson 20: Sprint 5 — Bug Hunt + Final Polish · Y9 Game On</title>
+<title>L20 — Lesson 20: Custom Sprite Art + Reskin Prep · Y9 Game On</title>
 <link rel="stylesheet" href="../../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -80,51 +80,50 @@
   <p class="meta-bar">
     <span><strong>L20</strong> · T2 Week 10</span>
     <span>🎯 CT5-DPM-01 · CT5-COM-01</span>
-    <span>📂 Phase 3 — Your Own 2D Game</span>
+    <span>📂 Phase 3 — Alien Invasion Extensions</span>
   </p>
-  <h1>Lesson 20: Sprint 5 — Bug Hunt + Final Polish</h1>
+  <h1>Lesson 20: Custom Sprite Art + Reskin Prep</h1>
 
   <section>
     <h2>Learning Intentions</h2>
     <ul class="intentions">
-      <li>Hunt every bug.</li>
-<li>Polish the feel.</li>
-<li>Submission-ready.</li>
+      <li>Replace the default ship + alien sprites with your own pixel art.</li>
+<li>Preview how a full reskin will look.</li>
     </ul>
     <h2>Success Criteria</h2>
     <ul class="success">
-      <li>My game runs without crashes for 3 minutes of play.</li>
-<li>I&#x27;ve fixed at least 3 bugs I found.</li>
-<li>My code has comments + a file-header description.</li>
+      <li>I&#x27;ve drawn a custom 32×48 ship sprite in piskelapp.com.</li>
+<li>I&#x27;ve drawn at least 1 custom alien sprite.</li>
+<li>My sprites load and display without errors.</li>
     </ul>
   </section>
 
   <section class="segment do-now">
     <h3>📍 Do Now — Error of the Day</h3>
     <div class="rich-prose">
-      <p>Play YOUR game for 3 minutes right now. Note every single bug or weird thing you see. Don't fix yet — just note.</p>
+      <p>Open piskelapp.com (no login). Create a new 32×48 sprite. Draw one coloured blob. Export as PNG. Now you've made pixel art.</p>
     </div>
   </section>
 
   <section class="segment i-do">
     <h3>👁 I Do — Teacher Demo</h3>
     <div class="rich-prose">
-      <p>Demo the bug-hunt protocol: sort by severity (crash > visual > feel), fix top 3, retest.</p>
+      <p>Projector tour of piskelapp.com — palette, pencil, bucket, export. Live-draw a simple 48×48 alien while you watch (5 min).</p>
     </div>
   </section>
 
   <section class="segment we-do">
     <h3>🤝 We Do — Build Together</h3>
     <div class="rich-prose">
-      <p>Swap bug lists with a partner. They note anything you missed. Merge lists.</p>
+      <p>Drop the exported file into your <code>assets/</code> folder. Update the <code>pygame.image.load</code> path in <code>Ship.__init__</code>. Run the game — your sprite appears.</p>
     </div>
   </section>
 
   <section class="segment you-do">
     <h3>🚀 You Do — Your Turn</h3>
     <div class="rich-prose">
-      <p>Fix your top 3 bugs. Write the file header comment. ZIP your game folder. TEST the zip in a new folder. If it runs — you're ready for tomorrow's playtest.</p>
-      <ul><li>Play your own game for 3 min straight — note every bug</li><li>Fix the top 3 bugs</li><li>Write header comment with name, date, 1-sentence description</li><li>Add inline comments explaining any tricky code</li><li>Zip your game folder for submission</li></ul>
+      <p>Draw YOUR ship (32×48) + at least ONE custom alien (48×48). Export + swap in. Your game now visibly YOURS. Arcade quests below are general art + reskin prep.</p>
+      <ul><li>Go to piskelapp.com (free, no login)</li><li>Draw a 32×48 ship sprite (or 48×48 for a spaceship)</li><li>Export as PNG or BMP to /assets/</li><li>Change Ship.__init__ path: pygame.image.load(&#x27;assets/my_ship.bmp&#x27;)</li><li>Do the same for at least 1 alien sprite</li><li>Save + playtest</li></ul>
     </div>
 
     <h3 style="margin-top:1.5rem;">🎮 Practice Quests — work through these</h3>
@@ -136,31 +135,31 @@
     <div class="diff-box">
       <div class="diff-tier support">
         <h4>Support</h4>
-        <p>bug checklist provided</p>
+        <p>pre-drawn sprite pack to choose from; OR trace-over template</p>
       </div>
       <div class="diff-tier core">
         <h4>Core</h4>
-        <p>own checklist</p>
+        <p>design own</p>
       </div>
       <div class="diff-tier extension">
         <h4>Extension</h4>
-        <p>README.md + trailer</p>
+        <p>animated sprites</p>
       </div>
     </div>
 
-    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Write a mini README.md explaining how to play.</li><li>Record a 30-second gameplay trailer.</li></ul>
+    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Draw all 3 alien variants (Fast / Tank / Boss) in matching style.</li><li>Animated ship sprite using 2-frame flicker.</li></ul>
   </section>
 
   <section class="segment exit">
     <h3>📝 Exit Ticket — Coding Journal</h3>
     <div class="rich-prose">
-      <p>Journal: 1 sentence on your game's current state. Submission-ready?</p>
+      <p>Journal: post your ship sprite to Classroom. Write 1 sentence describing the vibe you're going for.</p>
     </div>
   </section>
 
   <section>
     <h2>Evidence of Learning</h2>
-    <p>Stable build. Clean code. Ready to submit in L22.</p>
+    <p>Game runs with student&#x27;s own art. Screenshot posted to Classroom.</p>
   </section>
 
   <div class="prev-next"><a href="L19.html"><span>← Previous</span>Lesson L19</a><a href="../index.html"><span>↑ Hub</span>All Lessons</a><a href="L21.html"><span>Next →</span>Lesson L21</a></div>

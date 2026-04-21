@@ -11,29 +11,31 @@ const ALL_LEADERBOARD_KEY = "py_arcade_leaderboard_v1";
 const SETTINGS_KEY = "py_arcade_settings_v1";
 
 // ---------- LESSON METADATA ----------
+// Matches the new teacher-led Alien Invasion walkthrough (no own-game sprints).
+// Every lesson is I Do / We Do — students code along live.
 const LESSONS = [
-  { id: "L01", week: "Week 1", title: "Hello Python — setting up your editor", phase: "Python Foundations" },
-  { id: "L02", week: "Week 1", title: "Variables and Strings", phase: "Python Foundations" },
-  { id: "L03", week: "Week 2", title: "Numbers and Maths", phase: "Python Foundations" },
-  { id: "L04", week: "Week 2", title: "Lists — storing many things in order", phase: "Python Foundations" },
-  { id: "L05", week: "Week 3", title: "Loops — making Python repeat itself", phase: "Python Foundations" },
-  { id: "L06", week: "Week 3", title: "If statements — making decisions", phase: "Python Foundations" },
-  { id: "L07", week: "Week 4", title: "User input and while loops", phase: "Python Foundations" },
-  { id: "L08", week: "Week 4", title: "Functions — reusable code blocks", phase: "Python Foundations" },
-  { id: "L09", week: "Week 5", title: "Classes — building your own objects", phase: "Python Foundations" },
-  { id: "L10", week: "Week 5", title: "Checkpoint 1 — Text Adventure submission", phase: "Python Foundations" },
-  { id: "L11", week: "Week 6", title: "Installing Pygame + first window", phase: "Pygame Foundations" },
-  { id: "L12", week: "Week 6", title: "Drawing and moving your ship", phase: "Pygame Foundations" },
-  { id: "L13", week: "Week 7", title: "Firing bullets", phase: "Pygame Foundations" },
-  { id: "L14", week: "Week 7", title: "Aliens appear!", phase: "Pygame Foundations" },
-  { id: "L15", week: "Week 8", title: "The alien fleet", phase: "Alien Invasion Mechanics" },
-  { id: "L16", week: "Week 8", title: "Alien movement", phase: "Alien Invasion Mechanics" },
-  { id: "L17", week: "Week 9", title: "Shooting aliens — collisions", phase: "Alien Invasion Mechanics" },
-  { id: "L18", week: "Week 9", title: "Ship hits and game over", phase: "Alien Invasion Mechanics" },
-  { id: "L19", week: "Week 10", title: "Scoring + play button", phase: "Polish" },
-  { id: "L20", week: "Week 10", title: "YOUR TWIST — original feature", phase: "Polish" },
-  { id: "L21", week: "Week 11", title: "Playtest Day", phase: "Showcase" },
-  { id: "L22", week: "Week 11", title: "Showcase + evaluation", phase: "Showcase" },
+  { id: "L01", week: "Week 1", title: "Diagnostic Test + Python Refresher", phase: "Python Refresher" },
+  { id: "L02", week: "Week 1", title: "Loops + Functions (Faster Pace)", phase: "Python Refresher" },
+  { id: "L03", week: "Week 2", title: "Classes Part 1 — Attributes + Methods", phase: "Python Refresher" },
+  { id: "L04", week: "Week 2", title: "Classes Part 2 + Text Adventure Checkpoint", phase: "Python Refresher" },
+  { id: "L05", week: "Week 3", title: "Pygame Setup + First Window (Ch 12 §1-2)", phase: "Alien Invasion Core" },
+  { id: "L06", week: "Week 3", title: "Ship Class + Image Loading (Ch 12 §3)", phase: "Alien Invasion Core" },
+  { id: "L07", week: "Week 4", title: "Ship Movement — Keyboard + Float (Ch 12 §4)", phase: "Alien Invasion Core" },
+  { id: "L08", week: "Week 4", title: "Bullet Class + Sprite Inheritance (Ch 12 §5)", phase: "Alien Invasion Core" },
+  { id: "L09", week: "Week 5", title: "Sprite Groups + Firing + Cleanup (Ch 12 §6)", phase: "Alien Invasion Core" },
+  { id: "L10", week: "Week 5", title: "Alien Class + Fleet Creation (Ch 13 §1-2)", phase: "Alien Invasion Core" },
+  { id: "L11", week: "Week 6", title: "Fleet Movement + Edges + Flip (Ch 13 §3)", phase: "Alien Invasion Core" },
+  { id: "L12", week: "Week 6", title: "Collisions + Fleet Respawn (Ch 13 §4)", phase: "Alien Invasion Core" },
+  { id: "L13", week: "Week 7", title: "Ship Hits + GameStats + Lives (Ch 14 §1-2)", phase: "Alien Invasion Core" },
+  { id: "L14", week: "Week 7", title: "Scoring + Play Button + States (Ch 14 §3-4)", phase: "Alien Invasion Core" },
+  { id: "L15", week: "Week 8", title: "Difficulty Ramp + Level Progression", phase: "Alien Invasion Extensions" },
+  { id: "L16", week: "Week 8", title: "Scoring Display + High Score Persistence", phase: "Alien Invasion Extensions" },
+  { id: "L17", week: "Week 9", title: "Sound Effects + Explosion Particles", phase: "Alien Invasion Extensions" },
+  { id: "L18", week: "Week 9", title: "Multiple Alien Types + Boss Alien", phase: "Alien Invasion Extensions" },
+  { id: "L19", week: "Week 10", title: "Power-ups + Shield Mechanic", phase: "Alien Invasion Extensions" },
+  { id: "L20", week: "Week 10", title: "Custom Sprite Art + Reskin Prep", phase: "Alien Invasion Extensions" },
+  { id: "L21", week: "Week 11", title: "Personal Reskin Workshop Day", phase: "Reskin + Showcase" },
+  { id: "L22", week: "Week 11", title: "Showcase + Written Evaluation", phase: "Reskin + Showcase" },
   { id: "EXT", week: "Bonus", title: "Extension Arena (Ch 6 Dicts + Ch 10 Files)", phase: "Bonus" },
 ];
 
@@ -870,21 +872,15 @@ function flagQuest(exId) {
     // Try to copy to clipboard
     if (navigator.clipboard) {
       navigator.clipboard.writeText(msg).then(() => {
-        alert("✅ Flagged! To get help:
+        alert(`✅ Flagged! To get help:
 
-" +
-              "1. Open Google Classroom.
-" +
-              "2. Find today's lesson assignment.
-" +
-              "3. Click 'Add private comment' or 'Class comments'.
-" +
-              "4. Paste (Ctrl+V) — your message is already on your clipboard.
-" +
-              "5. Fill in the two [...] parts so I know what you tried.
+1. Open Google Classroom.
+2. Find today's lesson assignment.
+3. Click 'Add private comment' or 'Class comments'.
+4. Paste (Ctrl+V) — your message is already on your clipboard.
+5. Fill in the two [...] parts so I know what you tried.
 
-" +
-              "I check Classroom every break and lunch. I'll get to you.");
+I check Classroom every break and lunch. I'll get to you.`);
       }).catch(() => {
         prompt("Copy this message and paste into Google Classroom:", msg);
       });
@@ -991,8 +987,7 @@ function exportProgress() {
   lines.push("");
   lines.push("Ms Gao reviews these every Friday to see who needs help.");
 
-  const txt = lines.join("
-");
+  const txt = lines.join("\n");
   const safe = state.studentName.replace(/\s+/g, "_") || "student";
   const date = now.toISOString().slice(0, 10);
 
@@ -1007,7 +1002,7 @@ function exportProgress() {
 
   // Show the Classroom-submit reminder
   setTimeout(() => {
-    alert("✅ Downloaded!
+    alert(`✅ Downloaded!
 
 Next step:
 1. Open Google Classroom.
@@ -1015,7 +1010,7 @@ Next step:
 3. Attach the .txt file I just downloaded.
 4. Click 'Mark as done'.
 
-Ms Gao will check it over the weekend.");
+Ms Gao will check it over the weekend.`);
   }, 300);
 }
 window.exportProgress = exportProgress;
