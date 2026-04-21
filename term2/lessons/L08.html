@@ -3,226 +3,108 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L08 — Lesson 8: Moving the Ship — Keyboard Events (Matthes Ch 12 §6 pt 1) · Y9 Game On</title>
-<link rel="stylesheet" href="../../assets/style.css">
+<title>L08 — Functions — reusable code blocks · Y9 Game On</title>
+<link rel="stylesheet" href="../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-<style>
-.lesson-quest-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 0.8rem;
-  margin: 1rem 0;
-}
-.lesson-quest-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 1rem;
-  text-decoration: none;
-  color: var(--text);
-  transition: transform 0.2s, border-color 0.2s;
-  display: block;
-}
-.lesson-quest-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--py-gold);
-}
-.lq-header {
-  display: flex; align-items: center; gap: 8px; margin-bottom: 0.4rem;
-  font-size: 0.8rem; color: var(--text-muted);
-}
-.lq-emoji { font-size: 1.3rem; }
-.lq-type { flex: 1; font-weight: 600; }
-.lq-xp { color: var(--py-gold); font-weight: 700; font-family: 'Fira Code', monospace; }
-.lq-title { font-weight: 600; margin-bottom: 0.5rem; line-height: 1.3; }
-.lq-meta { display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; }
-.lq-id { font-family: 'Fira Code', monospace; color: var(--text-dim); }
-.rich-prose p { line-height: 1.7; margin-bottom: 0.8rem; }
-.rich-prose code {
-  background: rgba(255, 212, 59, 0.1);
-  color: var(--py-gold);
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 0.92em;
-  font-family: 'Fira Code', monospace;
-}
-.segment.i-do { border-left: 3px solid var(--py-blue); }
-.segment.do-now { border-left: 3px solid var(--red); }
-.segment.we-do { border-left: 3px solid var(--teal); }
-.segment.you-do { border-left: 3px solid var(--green); }
-.segment.exit { border-left: 3px solid var(--py-gold); }
-.segment {
-  margin-bottom: 1.5rem;
-  padding: 1.2rem 1.4rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-}
-.segment h3 { margin-top: 0; color: var(--text); }
-</style>
 </head>
 <body>
+
 
 <header class="site-header">
   <div class="site-header-inner">
     <a href="../index.html" class="site-brand">🎮 Y9 Game On · Term 2 · Python Arcade</a>
     <nav class="site-nav">
-      <a href="../index.html">Lessons</a>
-      <a href="../arcade/index.html">🎮 Arcade</a>
-      <a href="../arcade/index.html#hallfame">Hall of Fame</a>
-      <a href="../arcade/index.html#errors">Error Bestiary</a>
+      <a href="../index.html">Overview</a>
+      <a href="../twist-ideas.html">Your Twist ideas</a>
+      <a href="../journal.html">Coding Journal</a>
+      <a href="../../index.html">Term 1 archive</a>
     </nav>
   </div>
 </header>
 
 <main class="container lesson-page">
   <p class="meta-bar">
-    <span><strong>L08</strong> · T2 Week 4</span>
-    <span>🎯 CT5-DPM-01 · CT5-COM-01</span>
-    <span>📂 Phase 2 — Alien Invasion · Ch 12 Ship + Bullets</span>
+    <span><strong>L08</strong> · Week 4</span>
+    <span>⏱ 75 minutes</span>
+    <span>🎯 IND5-3 · IND5-5 · IND5-7</span>
+    <span>📂 Phase 1 — Python Foundations</span>
   </p>
-  <h1>Lesson 8: Moving the Ship — Keyboard Events (Matthes Ch 12 §6 pt 1)</h1>
-
-  
+  <h1>Functions — reusable code blocks</h1>
 
   <section>
     <h2>Learning Intentions</h2>
-    <ul class="intentions">
-      <li>Make the ship respond to Right and Left arrow keys by tracking key-down / key-up events with a flag variable.</li>
-    </ul>
+    <ul class="intentions"><li>I can define a function with <code>def</code></li>
+<li>I can pass parameters to a function</li>
+<li>I can return a value from a function</li></ul>
     <h2>Success Criteria</h2>
-    <ul class="success">
-      <li>Pressing Right arrow makes my ship move right.</li>
-<li>Releasing the key makes it stop.</li>
-<li>I can explain what the moving_right flag is for.</li>
-    </ul>
+    <ul class="success"><li>My adventure v3 has at least 3 functions</li>
+<li>Each room is now a function call</li>
+<li>My code is shorter and clearer than v2</li></ul>
   </section>
 
   <section class="segment do-now">
-    <h3>📍 Do Now — Error of the Day</h3>
-    <div class="rich-prose">
-      <p>Press and HOLD the Right arrow key right now (in any app). Notice — it fires once, pauses briefly, then repeats. That's the OS's keyboard autorepeat. We'll do it better with KEYDOWN/KEYUP.</p>
-    </div>
+    <div class="segment-header"><span class="segment-minutes">5 min</span><h3>Do Now — Error of the Day</h3></div>
+    <p>Look at your adventure_v2.py. Count how many times you typed 'print(' in the code. Now imagine you wanted to change every print to add a border around it. How many edits?</p>
   </section>
 
   <section class="segment i-do">
-    <h3>👁 I Do — Teacher Demo</h3>
-    <div class="rich-prose">
-      <p>Live-code the KEYDOWN/KEYUP flag pattern: <code>self.moving_right = True</code> on KEYDOWN, <code>False</code> on KEYUP. Ship.update moves <code>rect.x</code> while flag is True.</p>
-    </div>
+    <div class="segment-header"><span class="segment-minutes">10 min</span><h3>I Do — Live-coded demo</h3></div>
+    <p>Live-code: wrap repeated code into a function.
+<pre><code>def greet(name):
+    print(f"Hello, {name}!")
+    print(f"Welcome to our game.")
+greet("Ava")
+greet("Ben")</code></pre>Introduce: parameters, arguments, return values, docstrings.</p>
   </section>
 
   <section class="segment we-do">
-    <h3>🤝 We Do — Build Together</h3>
-    <div class="rich-prose">
-      <p>Class wires up the flag pattern together. Press Right → ship moves right until you release. Same for Left. Troubleshoot stuck students live.</p>
-    </div>
+    <div class="segment-header"><span class="segment-minutes">15 min</span><h3>We Do — Guided build</h3></div>
+    <p>Refactor together — wrap each adventure room in a function:
+<pre><code>def forest_room(player):
+    print("You enter a dark forest.")
+    choice = input("Go left or right? ")
+    if choice == "left": return "treasure_room"
+    else: return "pit"</code></pre>Main loop calls the current room function; the function returns which room to go to next.</p>
   </section>
 
   <section class="segment you-do">
-    <h3>🚀 You Do — Your Turn</h3>
-    <div class="rich-prose">
-      <p>Add Left key support (mirror of Right). Extension: add Up/Down. Arcade quests below practice KEYDOWN/KEYUP + flag patterns.</p>
-      <ul><li>Add self.moving_right = False to Ship.__init__</li><li>Write Ship.update() that uses moving_right to move rect.x</li><li>In _check_events, branch event.type: KEYDOWN vs KEYUP</li><li>If event.key == pygame.K_RIGHT, set ship.moving_right True (or False on KEYUP)</li></ul>
-    </div>
-
-    <h3 style="margin-top:1.5rem;">🎮 Practice Quests — work through these</h3>
-    <div id="lesson-quests">
-      <p style="color:var(--text-muted);">Loading practice quests for this lesson...</p>
-    </div>
-
-    <h3 style="margin-top:1.5rem;">Three tiers — pick yours</h3>
+    <div class="segment-header"><span class="segment-minutes">35 min</span><h3>You Do — Your turn</h3></div>
+    <p>Refactor your adventure_v2 → adventure_v3.py. Every room is a function. A main game loop dispatches: <code>if current_room == 'forest': current_room = forest_room()</code>. Aim for 4+ room functions + 1 main game function.</p>
     <div class="diff-box">
-      <div class="diff-tier support">
-        <h4>Support</h4>
-        <p>ship_v2_starter.py with moving_right pre-declared</p>
-      </div>
-      <div class="diff-tier core">
-        <h4>Core</h4>
-        <p>implement from scratch</p>
-      </div>
-      <div class="diff-tier extension">
-        <h4>Extension</h4>
-        <p>4-direction movement</p>
-      </div>
+      <div class="diff-tier support"><h4>Support</h4><p>Refactor just 2 rooms into functions. Keep rest as before.</p></div>
+      <div class="diff-tier core"><h4>Core</h4><p>Full refactor of 4+ rooms into functions.</p></div>
+      <div class="diff-tier extension"><h4>Extension</h4><p>Add a <code>fight(enemy)</code> function that takes an enemy dict and returns win/lose — reuse across rooms.</p></div>
     </div>
-
-    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Add Up/Down arrows using moving_up / moving_down flags.</li><li>Add WASD as alternative keys.</li></ul>
   </section>
+
+  
+  
 
   <section class="segment exit">
-    <h3>📝 Exit Ticket — Coding Journal</h3>
-    <div class="rich-prose">
-      <p>Journal: explain why the flag pattern is smoother than 'move on KEYDOWN' (what would break?).</p>
+    <div class="segment-header"><span class="segment-minutes">5 min</span><h3>Exit Ticket — Coding Journal</h3></div>
+    <p>Journal: why do functions make code easier to maintain? Give one example from your adventure.</p>
+    <div class="journal-callout">
+      <h4>📝 Journal submission</h4>
+      <p class="callout-note">Submit your 2-3 sentence journal entry in Google Classroom before you leave. Every entry contributes to your Coding Journal (/5) in the final assessment.</p>
     </div>
   </section>
 
-  <section>
-    <h2>Evidence of Learning</h2>
-    <p>Ship moves right while key is held, stops when released. Left arrow works too.</p>
-  </section>
+  
+<section class="resources">
+<h2>Resources</h2>
+<ul>
+<li>📖 <a href='#' target='_blank'>Matthes Ch 8 — Functions</a></li>
+</ul>
+</section>
 
-  <div class="prev-next"><a href="L07.html"><span>← Previous</span>Lesson L07</a><a href="../index.html"><span>↑ Hub</span>All Lessons</a><a href="L09.html"><span>Next →</span>Lesson L09</a></div>
+  <div class="prev-next"><a href='L07.html'><span>← Previous</span>Lesson L07</a><a href='../index.html'><span>↑ Hub</span>All Lessons</a><a href='L09.html'><span>Next →</span>Lesson L09</a></div>
 </main>
 
 <footer class="footer">
-  <p>Y9 Game On · Term 2 · Python Arcade</p>
+  <p>Year 9 Game On — Term 2 2026 — Arthur Phillip High School</p>
+  <p>Taught by <a href="https://github.com/YunshuGao">Ms Yunshu Gao</a> · Built with Python + a lot of patience</p>
 </footer>
-
-
-<script>
-(async function() {
-  try {
-    const res = await fetch("../arcade/exercises.json?v=" + Date.now());
-    const all = await res.json();
-    const mine = all.filter(q => q.lesson === "L08");
-    const box = document.getElementById("lesson-quests");
-    if (!mine.length) {
-      box.innerHTML = '<p style="color:var(--text-muted);">No arcade quests mapped to this lesson yet. Check the arcade directly.</p>';
-      return;
-    }
-    // Group by quest type
-    const typeEmoji = {code:"💻",drill:"⌨️",predict:"🔮",debug:"🔧",modify:"🔨",write:"✍️",multi:"✅",mini:"🎯",boss:"💥"};
-    const typeLabel = {code:"Code", drill:"Typing drill", predict:"Predict output", debug:"Debug", modify:"Modify code", write:"Writing", multi:"Quick quiz", mini:"Mini-game", boss:"Boss battle"};
-
-    // Sort: easy → medium → hard → boss
-    const diffOrder = {easy:0, medium:1, hard:2};
-    mine.sort((a, b) => {
-      if (a.num === 999) return 1;
-      if (b.num === 999) return -1;
-      return (diffOrder[a.difficulty] - diffOrder[b.difficulty]) || a.id.localeCompare(b.id);
-    });
-
-    const totalXP = mine.reduce((s, q) => s + q.xp, 0);
-    box.innerHTML = `
-      <p style="color:var(--text-muted);margin-bottom:1rem;">
-        <strong>${mine.length} quests</strong> for this lesson · <strong>${totalXP} XP</strong> available.
-        Click any quest to open it in the arcade (you keep XP + progress across lessons).
-      </p>
-      <div class="lesson-quest-grid">
-        ${mine.map(q => `
-          <a class="lesson-quest-card" href="../arcade/#exercise/${q.id}" target="_blank">
-            <div class="lq-header">
-              <span class="lq-emoji">${typeEmoji[q.type] || "❓"}</span>
-              <span class="lq-type">${typeLabel[q.type] || q.type}</span>
-              <span class="lq-xp">${q.xp} XP</span>
-            </div>
-            <div class="lq-title">${q.flavour || q.name}</div>
-            <div class="lq-meta">
-              <span class="diff-badge diff-${q.difficulty}">${q.difficulty}</span>
-              <span class="lq-id">${q.id}</span>
-            </div>
-          </a>
-        `).join("")}
-      </div>
-    `;
-  } catch (e) {
-    document.getElementById("lesson-quests").innerHTML =
-      '<p style="color:var(--red);">Could not load quests. Open the arcade directly from the nav.</p>';
-  }
-})();
-</script>
-
 </body>
 </html>
+

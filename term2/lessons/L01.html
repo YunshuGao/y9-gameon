@@ -3,238 +3,106 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L01 — Lesson 1: Diagnostic Test + Python Refresher · Y9 Game On</title>
-<link rel="stylesheet" href="../../assets/style.css">
+<title>L01 — Hello Python — setting up your editor · Y9 Game On</title>
+<link rel="stylesheet" href="../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-<style>
-.lesson-quest-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 0.8rem;
-  margin: 1rem 0;
-}
-.lesson-quest-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 1rem;
-  text-decoration: none;
-  color: var(--text);
-  transition: transform 0.2s, border-color 0.2s;
-  display: block;
-}
-.lesson-quest-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--py-gold);
-}
-.lq-header {
-  display: flex; align-items: center; gap: 8px; margin-bottom: 0.4rem;
-  font-size: 0.8rem; color: var(--text-muted);
-}
-.lq-emoji { font-size: 1.3rem; }
-.lq-type { flex: 1; font-weight: 600; }
-.lq-xp { color: var(--py-gold); font-weight: 700; font-family: 'Fira Code', monospace; }
-.lq-title { font-weight: 600; margin-bottom: 0.5rem; line-height: 1.3; }
-.lq-meta { display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; }
-.lq-id { font-family: 'Fira Code', monospace; color: var(--text-dim); }
-.rich-prose p { line-height: 1.7; margin-bottom: 0.8rem; }
-.rich-prose code {
-  background: rgba(255, 212, 59, 0.1);
-  color: var(--py-gold);
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 0.92em;
-  font-family: 'Fira Code', monospace;
-}
-.segment.i-do { border-left: 3px solid var(--py-blue); }
-.segment.do-now { border-left: 3px solid var(--red); }
-.segment.we-do { border-left: 3px solid var(--teal); }
-.segment.you-do { border-left: 3px solid var(--green); }
-.segment.exit { border-left: 3px solid var(--py-gold); }
-.segment {
-  margin-bottom: 1.5rem;
-  padding: 1.2rem 1.4rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-}
-.segment h3 { margin-top: 0; color: var(--text); }
-</style>
 </head>
 <body>
+
 
 <header class="site-header">
   <div class="site-header-inner">
     <a href="../index.html" class="site-brand">🎮 Y9 Game On · Term 2 · Python Arcade</a>
     <nav class="site-nav">
-      <a href="../index.html">Lessons</a>
-      <a href="../arcade/index.html">🎮 Arcade</a>
-      <a href="../arcade/index.html#hallfame">Hall of Fame</a>
-      <a href="../arcade/index.html#errors">Error Bestiary</a>
+      <a href="../index.html">Overview</a>
+      <a href="../twist-ideas.html">Your Twist ideas</a>
+      <a href="../journal.html">Coding Journal</a>
+      <a href="../../index.html">Term 1 archive</a>
     </nav>
   </div>
 </header>
 
 <main class="container lesson-page">
   <p class="meta-bar">
-    <span><strong>L01</strong> · T2 Week 1</span>
-    <span>🎯 CT5-THI-01 · CT5-COM-01</span>
-    <span>📂 Phase 1 — Python Refresher</span>
+    <span><strong>L01</strong> · Week 1</span>
+    <span>⏱ 75 minutes</span>
+    <span>🎯 IND5-3 · IND5-9</span>
+    <span>📂 Phase 1 — Python Foundations</span>
   </p>
-  <h1>Lesson 1: Diagnostic Test + Python Refresher</h1>
-
-  
-  <a href="../handouts/L01-python-refresher-handout.html" class="handout-cta" target="_blank" rel="noopener"
-     style="display:block;margin:1.2rem 0;padding:1.2rem 1.4rem;border-radius:12px;
-            background:linear-gradient(135deg,rgba(31,58,104,0.35),rgba(255,212,59,0.12));
-            border:2px solid var(--py-gold);text-decoration:none;color:var(--text);">
-    <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.4rem;">
-      <span style="font-size:1.5rem;">📝</span>
-      <strong style="color:var(--py-gold);font-size:1.15rem;">L01 Python Refresher — Self-Check Handout</strong>
-      <span style="margin-left:auto;color:var(--py-gold);font-size:0.9rem;">Open →</span>
-    </div>
-    <div style="color:var(--text-muted);font-size:0.92rem;line-height:1.5;">23 questions · 75 marks · 75 min target. Must answer all parts to submit. Shows your score + correct answers on submit. Copy results into Classroom.</div>
-  </a>
-
+  <h1>Hello Python — setting up your editor</h1>
 
   <section>
     <h2>Learning Intentions</h2>
-    <ul class="intentions">
-      <li>Establish each student&#x27;s current Python knowledge and refresh the fundamentals they met in Year 8.</li>
-    </ul>
+    <ul class="intentions"><li>I can install Python and VS Code on my laptop</li>
+<li>I can run my first Python script</li>
+<li>I can use print() to display a message</li></ul>
     <h2>Success Criteria</h2>
-    <ul class="success">
-      <li>I have completed the 40-mark diagnostic test.</li>
-<li>I know which tier (Support / Core / Extension) I&#x27;m starting the term in.</li>
-<li>I have re-run variables, strings, lists, and if-statements at a Y9 pace.</li>
-    </ul>
+    <ul class="success"><li>Python 3.12+ is installed on my laptop</li>
+<li>VS Code opens and shows a .py file</li>
+<li>I have saved hello.py and it prints my name</li></ul>
   </section>
 
   <section class="segment do-now">
-    <h3>📍 Do Now — Error of the Day</h3>
-    <div class="rich-prose">
-      <p>Open a blank document and write in 2-3 lines: what do YOU remember about Python from Year 8? Variables? Lists? Loops? Write whatever comes to mind — this is a warm-up, no judgement.</p>
-    </div>
+    <div class="segment-header"><span class="segment-minutes">5 min</span><h3>Do Now — Error of the Day</h3></div>
+    <p>Open a blank document and answer in 2-3 lines: what do you think a "programming language" is? Compare it to English. You'll compare answers with a partner in 3 minutes.</p>
   </section>
 
   <section class="segment i-do">
-    <h3>👁 I Do — Teacher Demo</h3>
-    <div class="rich-prose">
-      <p>I hand out the 40-mark diagnostic test. Explains the 4 parts (Predict / Short answer / Code reading / Coding task). Sets a 50-minute timer. Walk around during the test to answer logistics questions only (not content).</p>
-    </div>
+    <div class="segment-header"><span class="segment-minutes">10 min</span><h3>I Do — Live-coded demo</h3></div>
+    <p>Teacher live-installs Python from python.org, installs VS Code, and opens it. Writes <code>print("Hello, Year 9!")</code> on screen. Runs it in the terminal. Shows what happens when you mis-spell <code>print</code> — introduces NameError. Point out: Python is literal. Every character matters.</p>
   </section>
 
   <section class="segment we-do">
-    <h3>🤝 We Do — Build Together</h3>
-    <div class="rich-prose">
-      <p>After the test — class review of 3 commonly-missed questions from today's Part A. Projector-based discussion: 'why does "5" + "3" give 53, not 8?' etc.</p>
-    </div>
+    <div class="segment-header"><span class="segment-minutes">15 min</span><h3>We Do — Guided build</h3></div>
+    <p>Class follows along at own laptops: install Python (teacher helps each student individually — this is the moment nobody can be left behind). Test by opening Command Prompt / Terminal and typing <code>python --version</code>. Install VS Code. Open it. Create hello.py. Type <code>print("Hello, my name is [YOUR NAME]!")</code>. Run it.</p>
   </section>
 
   <section class="segment you-do">
-    <h3>🚀 You Do — Your Turn</h3>
-    <div class="rich-prose">
-      <p>Refresh yourself on the topic from Part A you got wrong. Use the arcade's Predict + Drill quests below. No pressure — this is for YOU to know what to brush up on.</p>
-      <ul><li>Diagnostic test Parts A-D (Recognition / Short answer / Code reading / Coding task)</li><li>Hand-in for teacher marking</li><li>Teacher-led refresh of whichever concept the class scored lowest on</li></ul>
-    </div>
-
-    <h3 style="margin-top:1.5rem;">🎮 Practice Quests — work through these</h3>
-    <div id="lesson-quests">
-      <p style="color:var(--text-muted);">Loading practice quests for this lesson...</p>
-    </div>
-
-    <h3 style="margin-top:1.5rem;">Three tiers — pick yours</h3>
+    <div class="segment-header"><span class="segment-minutes">35 min</span><h3>You Do — Your turn</h3></div>
+    <p>Goal: write a 3-line program that prints a poster introducing yourself. Requirements: one line with your name, one line with your favourite game, one line with what you hope to learn. Save it as intro.py. Extension: use <code>print()</code> with no arguments to add blank lines for layout. Extension 2: add ASCII art (search 'ascii art' — try a gamer pattern).</p>
     <div class="diff-box">
-      <div class="diff-tier support">
-        <h4>Support</h4>
-        <p>test has Part D dropped; extra 10 min allowed</p>
-      </div>
-      <div class="diff-tier core">
-        <h4>Core</h4>
-        <p>Follow the plan as written. Attempt the arcade quests above at your own pace.</p>
-      </div>
-      <div class="diff-tier extension">
-        <h4>Extension</h4>
-        <p>bonus questions on functions + classes. EAL/D: test translated glossary of Python terms</p>
-      </div>
+      <div class="diff-tier support"><h4>Support</h4><p>Teacher pair-programs with you side-by-side for install. You follow along on your own screen. Pre-typed template intro.py with TODO markers.</p></div>
+      <div class="diff-tier core"><h4>Core</h4><p>Follow this tutorial independently. Complete intro.py with 3 working print statements.</p></div>
+      <div class="diff-tier extension"><h4>Extension</h4><p>Add 5+ print statements, use escape characters (\n, \t). Try <code>print("text", end="")</code> to control line endings.</p></div>
     </div>
-
-    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Finish early? Attempt bonus Part E questions.</li><li>Help a classmate (without giving them answers).</li></ul>
   </section>
+
+  
+<div class="whs-callout">
+  <h4>⚠ WHS Reminder</h4>
+  <p>First lesson at laptops — check posture and screen brightness. Take a 30-second eye-rest break at 35 min.</p>
+</div>
+
+  
 
   <section class="segment exit">
-    <h3>📝 Exit Ticket — Coding Journal</h3>
-    <div class="rich-prose">
-      <p>Journal entry: what's one concept you felt rusty on today? One thing you remembered easily?</p>
+    <div class="segment-header"><span class="segment-minutes">5 min</span><h3>Exit Ticket — Coding Journal</h3></div>
+    <p>Open Google Classroom. In the Journal assignment, write 3 sentences: (1) Did Python install work? (2) What did you print in your intro.py? (3) What was one thing that surprised you today?</p>
+    <div class="journal-callout">
+      <h4>📝 Journal submission</h4>
+      <p class="callout-note">Submit your 2-3 sentence journal entry in Google Classroom before you leave. Every entry contributes to your Coding Journal (/5) in the final assessment.</p>
     </div>
   </section>
 
-  <section>
-    <h2>Evidence of Learning</h2>
-    <p>Completed test. Individual tier placement. Teacher has diagnostic data for each of the 23 mainstream students.</p>
-  </section>
+  
+<section class="resources">
+<h2>Resources</h2>
+<ul>
+<li>📖 <a href='https://www.python.org/downloads/' target='_blank'>Python 3.12 download</a></li>
+<li>📖 <a href='https://code.visualstudio.com/' target='_blank'>VS Code download</a></li>
+<li>📖 <a href='https://nostarch.com/python-crash-course-3rd-edition' target='_blank'>Matthes book Ch 1 PDF sample</a></li>
+<li>📖 <a href='https://www.youtube.com/watch?v=rfscVS0vtbw' target='_blank'>freeCodeCamp Python intro (0:00-10:00)</a></li>
+</ul>
+</section>
 
-  <div class="prev-next"><span></span><a href="../index.html"><span>↑ Hub</span>All Lessons</a><a href="L02.html"><span>Next →</span>Lesson L02</a></div>
+  <div class="prev-next"><span></span><a href='../index.html'><span>↑ Hub</span>All Lessons</a><a href='L02.html'><span>Next →</span>Lesson L02</a></div>
 </main>
 
 <footer class="footer">
-  <p>Y9 Game On · Term 2 · Python Arcade</p>
+  <p>Year 9 Game On — Term 2 2026 — Arthur Phillip High School</p>
+  <p>Taught by <a href="https://github.com/YunshuGao">Ms Yunshu Gao</a> · Built with Python + a lot of patience</p>
 </footer>
-
-
-<script>
-(async function() {
-  try {
-    const res = await fetch("../arcade/exercises.json?v=" + Date.now());
-    const all = await res.json();
-    const mine = all.filter(q => q.lesson === "L01");
-    const box = document.getElementById("lesson-quests");
-    if (!mine.length) {
-      box.innerHTML = '<p style="color:var(--text-muted);">No arcade quests mapped to this lesson yet. Check the arcade directly.</p>';
-      return;
-    }
-    // Group by quest type
-    const typeEmoji = {code:"💻",drill:"⌨️",predict:"🔮",debug:"🔧",modify:"🔨",write:"✍️",multi:"✅",mini:"🎯",boss:"💥"};
-    const typeLabel = {code:"Code", drill:"Typing drill", predict:"Predict output", debug:"Debug", modify:"Modify code", write:"Writing", multi:"Quick quiz", mini:"Mini-game", boss:"Boss battle"};
-
-    // Sort: easy → medium → hard → boss
-    const diffOrder = {easy:0, medium:1, hard:2};
-    mine.sort((a, b) => {
-      if (a.num === 999) return 1;
-      if (b.num === 999) return -1;
-      return (diffOrder[a.difficulty] - diffOrder[b.difficulty]) || a.id.localeCompare(b.id);
-    });
-
-    const totalXP = mine.reduce((s, q) => s + q.xp, 0);
-    box.innerHTML = `
-      <p style="color:var(--text-muted);margin-bottom:1rem;">
-        <strong>${mine.length} quests</strong> for this lesson · <strong>${totalXP} XP</strong> available.
-        Click any quest to open it in the arcade (you keep XP + progress across lessons).
-      </p>
-      <div class="lesson-quest-grid">
-        ${mine.map(q => `
-          <a class="lesson-quest-card" href="../arcade/#exercise/${q.id}" target="_blank">
-            <div class="lq-header">
-              <span class="lq-emoji">${typeEmoji[q.type] || "❓"}</span>
-              <span class="lq-type">${typeLabel[q.type] || q.type}</span>
-              <span class="lq-xp">${q.xp} XP</span>
-            </div>
-            <div class="lq-title">${q.flavour || q.name}</div>
-            <div class="lq-meta">
-              <span class="diff-badge diff-${q.difficulty}">${q.difficulty}</span>
-              <span class="lq-id">${q.id}</span>
-            </div>
-          </a>
-        `).join("")}
-      </div>
-    `;
-  } catch (e) {
-    document.getElementById("lesson-quests").innerHTML =
-      '<p style="color:var(--red);">Could not load quests. Open the arcade directly from the nav.</p>';
-  }
-})();
-</script>
-
 </body>
 </html>
+

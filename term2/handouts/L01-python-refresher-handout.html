@@ -201,13 +201,13 @@ else:
   <div class="question" data-q="A6" data-type="mcq" data-correct="2" data-marks="2">
     <div class="qnum">A6 (2 marks)</div>
     <div class="qtext">What prints?</div>
-    <pre><code>name = "Priya"
+    <pre><code>name = "Ada"
 greet = f"Hello, {name}!"
 print(greet)</code></pre>
     <div class="choices">
       <label><input type="radio" name="A6" value="0"> Hello, {name}!</label>
       <label><input type="radio" name="A6" value="1"> Hello, name!</label>
-      <label><input type="radio" name="A6" value="2"> Hello, Priya!</label>
+      <label><input type="radio" name="A6" value="2"> Hello, Ada!</label>
       <label><input type="radio" name="A6" value="3"> Error — f-strings don't work</label>
     </div>
     <div class="feedback"></div>
@@ -278,12 +278,12 @@ print(type(score).__name__)</code></pre>
   <h2 class="part-title">Part B — Fill in the Blank</h2>
   <p class="part-meta">5 questions · 3 marks each · ~10 minutes. Type the exact Python code that goes in the blank.</p>
   <!-- B1 -->
-  <div class="question" data-q="B1" data-type="text" data-correct="name = input()" data-accept='["name = input()", "name=input()", "name = input(\"\")"]' data-marks="3">
+  <div class="question" data-q="B1" data-type="text" data-correct='name = input("What is your name? ")' data-marks="3">
     <div class="qnum">B1 (3 marks)</div>
-    <div class="qtext">Fill in the blank so the program asks the user for their name and prints a greeting.</div>
+    <div class="qtext">Fill in the blank so the program <strong>prompts</strong> the user for their name and then prints the greeting. Use <code>input(...)</code> with a prompt string so the user knows what to type.</div>
     <pre><code>_________________
 print(f"Hello, {name}!")</code></pre>
-    <input type="text" name="B1" placeholder="Type the missing line — exact code">
+    <input type="text" name="B1" placeholder='e.g. name = input("What is your name? ")'>
     <div class="feedback"></div>
   </div>
   <!-- B2 -->
@@ -297,9 +297,9 @@ print(fruits)  # ['apple', 'banana', 'grape']</code></pre>
     <div class="feedback"></div>
   </div>
   <!-- B3 -->
-  <div class="question" data-q="B3" data-type="text" data-correct="for i in range(5):" data-accept='["for i in range(5):", "for x in range(5):"]' data-marks="3">
+  <div class="question" data-q="B3" data-type="text" data-correct="for i in range(5):" data-marks="3">
     <div class="qnum">B3 (3 marks)</div>
-    <div class="qtext">Fill in the blank to print the numbers 0 through 4.</div>
+    <div class="qtext">Fill in the blank to print the numbers 0 through 4. (The loop variable must be <code>i</code> because the body below uses <code>print(i)</code>.)</div>
     <pre><code>_________________
     print(i)</code></pre>
     <input type="text" name="B3" placeholder="Type the missing line (include the colon)">
@@ -346,10 +346,10 @@ print(take_damage(100, 25))  # should print 75</code></pre>
   </div>
 
   <!-- C2 -->
-  <div class="question" data-q="C2" data-type="debug" data-correct='name = "Arthur"' data-marks="5">
+  <div class="question" data-q="C2" data-type="debug" data-correct='name = "Grace"' data-marks="5">
     <div class="qnum">C2 (5 marks)</div>
-    <div class="qtext">Fix this so it stores the string "Arthur" in the variable <code>name</code>.</div>
-    <pre><code>name = Arthur
+    <div class="qtext">Fix this so it stores the string "Grace" in the variable <code>name</code>.</div>
+    <pre><code>name = Grace
 print(name)</code></pre>
     <label>Fixed code (the first line only):</label>
     <input type="text" name="C2" placeholder="The corrected first line">
@@ -484,20 +484,38 @@ const ANSWERS = {
   A10: {correct: 2, explain: "type(42) is <class 'int'>. The .__name__ attribute gives the string 'int'."},
 
   // Part B — fill in
-  B1: {correct: 'name = input()', accept: ['name = input()', 'name=input()', 'name = input("")', 'name = input("What is your name? ")'], explain: "Call input() and store the result in a variable named 'name'."},
+  B1: {correct: 'name = input("What is your name? ")',
+       accept: [
+         'name = input("What is your name? ")',
+         "name = input('What is your name? ')",
+         'name = input("What\'s your name? ")',
+         "name = input('What is your name?')",
+         'name = input("Enter your name: ")',
+         'name = input("Name: ")',
+         'name = input()',
+         'name=input()',
+         'name = input("")'
+       ],
+       explain: "input(\"...\") shows the prompt and waits for the user. Calling input() with no prompt string works but the user only sees a blinking cursor — not good practice."},
   B2: {correct: 'fruits.append("grape")', accept: ['fruits.append("grape")', "fruits.append('grape')"], explain: ".append() adds an item to the end of a list."},
-  B3: {correct: 'for i in range(5):', accept: ['for i in range(5):', 'for x in range(5):', 'for n in range(5):'], explain: "range(5) gives 0, 1, 2, 3, 4. The for-loop variable can be any name."},
+  B3: {correct: 'for i in range(5):',
+       accept: ['for i in range(5):', 'for i in range(0, 5):', 'for i in range(0,5):'],
+       explain: "range(5) produces 0, 1, 2, 3, 4. The loop variable must be named 'i' here — the body already uses print(i), so i has to match."},
   B4: {correct: 'if score >= 50:', accept: ['if score >= 50:', 'if score>=50:', 'if score >=50:', 'if score>= 50:'], explain: "An if statement checks a condition, ends with a colon."},
   B5: {correct: 'return hp - damage', accept: ['return hp - damage', 'return hp-damage'], explain: "return sends a value back to whoever called the function."},
 
   // Part C — debug (compare fix line + require some explanation)
   C1: {correct: 'print("Hello, world!")', accept: ["print(\"Hello, world!\")", "print('Hello, world!')"], why_min: 15, explain: "Strings need quotes. print(Hello, world!) treats Hello and world as undefined variables."},
-  C2: {correct: 'name = "Arthur"', accept: ['name = "Arthur"', "name = 'Arthur'"], why_min: 15, explain: "Arthur without quotes is interpreted as a variable name that doesn't exist → NameError."},
-  C3: {correct: 'if age >= 18:', accept: ['if age >= 18:', 'if age>=18:', 'if age > 18:'], why_min: 15, explain: "= is ASSIGNMENT. == or >= is COMPARISON. The broken code uses = which is a SyntaxError inside an if."},
+  C2: {correct: 'name = "Grace"', accept: ['name = "Grace"', "name = 'Grace'"], why_min: 15, explain: "Grace without quotes is interpreted as a variable name that doesn't exist → NameError. Strings need quotes around them."},
+  C3: {correct: 'if age >= 18:',
+       accept: ['if age >= 18:', 'if age>=18:', 'if age >=18:', 'if age>= 18:'],
+       why_min: 15,
+       explain: "Single = is ASSIGNMENT (storing a value). >= is COMPARISON (asking a question). The question says '18 or over' — that means >= 18, not > 18, because > 18 excludes 18 itself."},
   C4: {correct: 'print(fruits[0])', accept: ['print(fruits[0])'], why_min: 15, explain: "Lists are 0-indexed. fruits[0] is the FIRST item. fruits[1] is the second."},
 
   // Part D — code tasks (manual review, graded on effort + output match)
-  D1: {rubric: "Code uses input() twice; uses if/else with > or < to compare; handles the equal case. Expected output on 5,9 = '9'.", explain: "Model answer: a = int(input()); b = int(input()); if a > b: print(a); elif b > a: print(b); else: print(\"They're equal\")"},
+  D1: {rubric: "Code must convert inputs to int with int(input()) (otherwise 100 vs 42 compares as strings and fails); uses if/elif/else to compare; handles the equal case. Expected on 5,9 → 9 · 10,10 → They're equal · 100,42 → 100.",
+       explain: "Model answer: a = int(input()); b = int(input()); if a > b: print(a); elif b > a: print(b); else: print(\"They're equal\"). Without int(), input() gives a string — string comparison fails for multi-digit numbers."},
   D2: {rubric: "Code defines a list of 5 characters; uses a for loop with enumerate or index counter; prints numbered lines.", explain: "Model answer: chars = ['Mario', 'Link', 'Samus', 'Kirby', 'Pikachu']; for i, c in enumerate(chars, 1): print(f'{i}. {c}')"},
 };
 

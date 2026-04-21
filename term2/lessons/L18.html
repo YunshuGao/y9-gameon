@@ -3,227 +3,98 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L18 — Lesson 18: Play Button + GameStats class (Matthes Ch 14 §1) · Y9 Game On</title>
-<link rel="stylesheet" href="../../assets/style.css">
+<title>L18 — Ship hits, lives, and game over · Y9 Game On</title>
+<link rel="stylesheet" href="../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-<style>
-.lesson-quest-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 0.8rem;
-  margin: 1rem 0;
-}
-.lesson-quest-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 1rem;
-  text-decoration: none;
-  color: var(--text);
-  transition: transform 0.2s, border-color 0.2s;
-  display: block;
-}
-.lesson-quest-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--py-gold);
-}
-.lq-header {
-  display: flex; align-items: center; gap: 8px; margin-bottom: 0.4rem;
-  font-size: 0.8rem; color: var(--text-muted);
-}
-.lq-emoji { font-size: 1.3rem; }
-.lq-type { flex: 1; font-weight: 600; }
-.lq-xp { color: var(--py-gold); font-weight: 700; font-family: 'Fira Code', monospace; }
-.lq-title { font-weight: 600; margin-bottom: 0.5rem; line-height: 1.3; }
-.lq-meta { display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; }
-.lq-id { font-family: 'Fira Code', monospace; color: var(--text-dim); }
-.rich-prose p { line-height: 1.7; margin-bottom: 0.8rem; }
-.rich-prose code {
-  background: rgba(255, 212, 59, 0.1);
-  color: var(--py-gold);
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 0.92em;
-  font-family: 'Fira Code', monospace;
-}
-.segment.i-do { border-left: 3px solid var(--py-blue); }
-.segment.do-now { border-left: 3px solid var(--red); }
-.segment.we-do { border-left: 3px solid var(--teal); }
-.segment.you-do { border-left: 3px solid var(--green); }
-.segment.exit { border-left: 3px solid var(--py-gold); }
-.segment {
-  margin-bottom: 1.5rem;
-  padding: 1.2rem 1.4rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-}
-.segment h3 { margin-top: 0; color: var(--text); }
-</style>
 </head>
 <body>
+
 
 <header class="site-header">
   <div class="site-header-inner">
     <a href="../index.html" class="site-brand">🎮 Y9 Game On · Term 2 · Python Arcade</a>
     <nav class="site-nav">
-      <a href="../index.html">Lessons</a>
-      <a href="../arcade/index.html">🎮 Arcade</a>
-      <a href="../arcade/index.html#hallfame">Hall of Fame</a>
-      <a href="../arcade/index.html#errors">Error Bestiary</a>
+      <a href="../index.html">Overview</a>
+      <a href="../twist-ideas.html">Your Twist ideas</a>
+      <a href="../journal.html">Coding Journal</a>
+      <a href="../../index.html">Term 1 archive</a>
     </nav>
   </div>
 </header>
 
 <main class="container lesson-page">
   <p class="meta-bar">
-    <span><strong>L18</strong> · T2 Week 9</span>
-    <span>🎯 CT5-DPM-01 · CT5-THI-01</span>
-    <span>📂 Phase 2 — Alien Invasion · Ch 14 Scoring + End</span>
+    <span><strong>L18</strong> · Week 9</span>
+    <span>⏱ 75 minutes</span>
+    <span>🎯 IND5-2 · IND5-3 · IND5-5 · IND5-8</span>
+    <span>📂 Phase 3 — Alien Invasion Mechanics</span>
   </p>
-  <h1>Lesson 18: Play Button + GameStats class (Matthes Ch 14 §1)</h1>
-
-  
+  <h1>Ship hits, lives, and game over</h1>
 
   <section>
     <h2>Learning Intentions</h2>
-    <ul class="intentions">
-      <li>Refactor the scattered ship_left counter into a proper GameStats class.</li>
-<li>Add a Play button so the game starts on click, not on launch.</li>
-    </ul>
+    <ul class="intentions"><li>I can detect when an alien hits my ship</li>
+<li>I can use a GameStats class to track lives</li>
+<li>I can end the game when lives run out</li></ul>
     <h2>Success Criteria</h2>
-    <ul class="success">
-      <li>My game_stats.py has a GameStats class with reset_stats() and game_active flag.</li>
-<li>Clicking &#x27;Play&#x27; starts the game; losing shows the Play button again.</li>
-<li>I can explain why we hide the mouse during play.</li>
-    </ul>
+    <ul class="success"><li>My ship dies when an alien hits it</li>
+<li>I have 3 lives; the game ends when all are gone</li>
+<li>Aliens reaching the bottom also counts as a hit</li></ul>
   </section>
 
   <section class="segment do-now">
-    <h3>📍 Do Now — Error of the Day</h3>
-    <div class="rich-prose">
-      <p>Right now your game ends and the window freezes. A real game shows a 'Play' button so the player can start again. Today we add one.</p>
-    </div>
+    <div class="segment-header"><span class="segment-minutes">5 min</span><h3>Do Now — Error of the Day</h3></div>
+    <p>Play your current game for 2 minutes. Right now there's no way to lose. Does that feel right?</p>
   </section>
 
   <section class="segment i-do">
-    <h3>👁 I Do — Teacher Demo</h3>
-    <div class="rich-prose">
-      <p>Live-code <code>GameStats</code> class (extracts <code>ships_left</code> + adds <code>game_active</code> flag). Then the <code>Button</code> class — a Rect with rendered text. Hook MOUSEBUTTONDOWN → <code>_check_play_button</code>.</p>
-    </div>
+    <div class="segment-header"><span class="segment-minutes">10 min</span><h3>I Do — Live-coded demo</h3></div>
+    <p>Live-code ship-alien collision using <code>pygame.sprite.spritecollideany()</code>. Create a GameStats class holding <code>ships_left</code>. On ship hit: decrement lives, pause briefly, reset fleet + ship. When lives = 0, game over.</p>
   </section>
 
   <section class="segment we-do">
-    <h3>🤝 We Do — Build Together</h3>
-    <div class="rich-prose">
-      <p>Class wires up click-to-start together. Play button shows on launch + after losing. Click → game resets, mouse hides, play begins.</p>
-    </div>
+    <div class="segment-header"><span class="segment-minutes">15 min</span><h3>We Do — Guided build</h3></div>
+    <p>Class implements _ship_hit() and _check_aliens_bottom(). Test: wait for fleet to reach ship. Watch ship 'die'. Test: let aliens reach the bottom — same behaviour.</p>
   </section>
 
   <section class="segment you-do">
-    <h3>🚀 You Do — Your Turn</h3>
-    <div class="rich-prose">
-      <p>Customise button colour + text. Extension: show a second button like 'HIGH SCORE'. Arcade quests cover MOUSEBUTTONDOWN + collidepoint.</p>
-      <ul><li>Create game_stats.py with class GameStats — reset_stats() sets ships_left + game_active</li><li>Create button.py with class Button — a Rect + rendered text</li><li>Add self.play_button = Button(self, &#x27;Play&#x27;) to Game.__init__</li><li>Add MOUSEBUTTONDOWN handler → _check_play_button</li><li>On play click: reset stats, empty groups, create new fleet, hide mouse</li></ul>
-    </div>
-
-    <h3 style="margin-top:1.5rem;">🎮 Practice Quests — work through these</h3>
-    <div id="lesson-quests">
-      <p style="color:var(--text-muted);">Loading practice quests for this lesson...</p>
-    </div>
-
-    <h3 style="margin-top:1.5rem;">Three tiers — pick yours</h3>
+    <div class="segment-header"><span class="segment-minutes">35 min</span><h3>You Do — Your turn</h3></div>
+    <p>Tune: 3 lives the right number? Add a <code>sleep(0.5)</code> pause between deaths (import time). Extension: display remaining ships as icons in the corner; use pygame.font to show 'GAME OVER'.</p>
     <div class="diff-box">
-      <div class="diff-tier support">
-        <h4>Support</h4>
-        <p>GameStats + Button skeletons pre-written</p>
-      </div>
-      <div class="diff-tier core">
-        <h4>Core</h4>
-        <p>build from scratch</p>
-      </div>
-      <div class="diff-tier extension">
-        <h4>Extension</h4>
-        <p>animated button</p>
-      </div>
+      <div class="diff-tier support"><h4>Support</h4><p>Use lives_starter.py with _ship_hit pre-written.</p></div>
+      <div class="diff-tier core"><h4>Core</h4><p>Build per Matthes Ch 14.</p></div>
+      <div class="diff-tier extension"><h4>Extension</h4><p>Add a combo system — consecutive hits without getting hit multiplies points.</p></div>
     </div>
-
-    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Add a &#x27;HIGH SCORE&#x27; title above the Play button.</li><li>Show a flashing &#x27;CLICK TO PLAY&#x27; hint.</li></ul>
   </section>
+
+  
+  
 
   <section class="segment exit">
-    <h3>📝 Exit Ticket — Coding Journal</h3>
-    <div class="rich-prose">
-      <p>Journal: explain the <code>game_active</code> flag — why do we need it separate from <code>ships_left</code>?</p>
+    <div class="segment-header"><span class="segment-minutes">5 min</span><h3>Exit Ticket — Coding Journal</h3></div>
+    <p>Journal: losing a life in a game is important. Why? What does it do to the player's emotional experience?</p>
+    <div class="journal-callout">
+      <h4>📝 Journal submission</h4>
+      <p class="callout-note">Submit your 2-3 sentence journal entry in Google Classroom before you leave. Every entry contributes to your Coding Journal (/5) in the final assessment.</p>
     </div>
   </section>
 
-  <section>
-    <h2>Evidence of Learning</h2>
-    <p>Game starts with Play button visible. Clicking it starts play. Dying shows it again.</p>
-  </section>
+  
+<section class="resources">
+<h2>Resources</h2>
+<ul>
+<li>📖 <a href='#' target='_blank'>Matthes Ch 14 start — Game Stats</a></li>
+</ul>
+</section>
 
-  <div class="prev-next"><a href="L17.html"><span>← Previous</span>Lesson L17</a><a href="../index.html"><span>↑ Hub</span>All Lessons</a><a href="L19.html"><span>Next →</span>Lesson L19</a></div>
+  <div class="prev-next"><a href='L17.html'><span>← Previous</span>Lesson L17</a><a href='../index.html'><span>↑ Hub</span>All Lessons</a><a href='L19.html'><span>Next →</span>Lesson L19</a></div>
 </main>
 
 <footer class="footer">
-  <p>Y9 Game On · Term 2 · Python Arcade</p>
+  <p>Year 9 Game On — Term 2 2026 — Arthur Phillip High School</p>
+  <p>Taught by <a href="https://github.com/YunshuGao">Ms Yunshu Gao</a> · Built with Python + a lot of patience</p>
 </footer>
-
-
-<script>
-(async function() {
-  try {
-    const res = await fetch("../arcade/exercises.json?v=" + Date.now());
-    const all = await res.json();
-    const mine = all.filter(q => q.lesson === "L18");
-    const box = document.getElementById("lesson-quests");
-    if (!mine.length) {
-      box.innerHTML = '<p style="color:var(--text-muted);">No arcade quests mapped to this lesson yet. Check the arcade directly.</p>';
-      return;
-    }
-    // Group by quest type
-    const typeEmoji = {code:"💻",drill:"⌨️",predict:"🔮",debug:"🔧",modify:"🔨",write:"✍️",multi:"✅",mini:"🎯",boss:"💥"};
-    const typeLabel = {code:"Code", drill:"Typing drill", predict:"Predict output", debug:"Debug", modify:"Modify code", write:"Writing", multi:"Quick quiz", mini:"Mini-game", boss:"Boss battle"};
-
-    // Sort: easy → medium → hard → boss
-    const diffOrder = {easy:0, medium:1, hard:2};
-    mine.sort((a, b) => {
-      if (a.num === 999) return 1;
-      if (b.num === 999) return -1;
-      return (diffOrder[a.difficulty] - diffOrder[b.difficulty]) || a.id.localeCompare(b.id);
-    });
-
-    const totalXP = mine.reduce((s, q) => s + q.xp, 0);
-    box.innerHTML = `
-      <p style="color:var(--text-muted);margin-bottom:1rem;">
-        <strong>${mine.length} quests</strong> for this lesson · <strong>${totalXP} XP</strong> available.
-        Click any quest to open it in the arcade (you keep XP + progress across lessons).
-      </p>
-      <div class="lesson-quest-grid">
-        ${mine.map(q => `
-          <a class="lesson-quest-card" href="../arcade/#exercise/${q.id}" target="_blank">
-            <div class="lq-header">
-              <span class="lq-emoji">${typeEmoji[q.type] || "❓"}</span>
-              <span class="lq-type">${typeLabel[q.type] || q.type}</span>
-              <span class="lq-xp">${q.xp} XP</span>
-            </div>
-            <div class="lq-title">${q.flavour || q.name}</div>
-            <div class="lq-meta">
-              <span class="diff-badge diff-${q.difficulty}">${q.difficulty}</span>
-              <span class="lq-id">${q.id}</span>
-            </div>
-          </a>
-        `).join("")}
-      </div>
-    `;
-  } catch (e) {
-    document.getElementById("lesson-quests").innerHTML =
-      '<p style="color:var(--red);">Could not load quests. Open the arcade directly from the nav.</p>';
-  }
-})();
-</script>
-
 </body>
 </html>
+

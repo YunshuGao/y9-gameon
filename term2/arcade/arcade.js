@@ -1152,9 +1152,9 @@ async function boot() {
         <h2>Welcome to the Arcade, hero!</h2>
         <p>So Ms Gao can track your progress, please enter your real name + class code.</p>
         <label style="display:block;text-align:left;font-size:0.85rem;color:var(--text-muted);">First name</label>
-        <input type="text" id="fn-input" maxlength="32" placeholder="e.g. Aarush">
+        <input type="text" id="fn-input" maxlength="32" placeholder="e.g. Ada">
         <label style="display:block;text-align:left;font-size:0.85rem;color:var(--text-muted);margin-top:6px;">Last name</label>
-        <input type="text" id="ln-input" maxlength="32" placeholder="e.g. Sharma">
+        <input type="text" id="ln-input" maxlength="32" placeholder="e.g. Lovelace">
         <label style="display:block;text-align:left;font-size:0.85rem;color:var(--text-muted);margin-top:6px;">Class code</label>
         <input type="text" id="cc-input" maxlength="16" value="9GAMZA">
         <button id="save-btn" class="btn-primary" style="margin-top:12px;">Enter the gauntlet →</button>
