@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L10 — Lesson 10: Alien Class + Fleet Creation (Matthes Ch 13 §1-2) · Y9 Game On</title>
+<title>L10 — Lesson 10: Bullet Class + Sprite Inheritance (Matthes Ch 12 §8 pt 1) · Y9 Game On</title>
 <link rel="stylesheet" href="../../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -80,49 +80,51 @@
   <p class="meta-bar">
     <span><strong>L10</strong> · T2 Week 5</span>
     <span>🎯 CT5-DPM-01 · CT5-THI-01</span>
-    <span>📂 Phase 2 — Alien Invasion</span>
+    <span>📂 Phase 2 — Alien Invasion · Ch 12 Ship + Bullets</span>
   </p>
-  <h1>Lesson 10: Alien Class + Fleet Creation (Matthes Ch 13 §1-2)</h1>
+  <h1>Lesson 10: Bullet Class + Sprite Inheritance (Matthes Ch 12 §8 pt 1)</h1>
 
   <section>
     <h2>Learning Intentions</h2>
     <ul class="intentions">
-      <li>Build an Alien class (structurally similar to Ship) and create a full fleet using nested loops.</li>
+      <li>Build a Bullet class that inherits from pygame.</li>
+<li>sprite.</li>
+<li>Sprite so it gets Group-management features for free.</li>
     </ul>
     <h2>Success Criteria</h2>
     <ul class="success">
-      <li>A single alien appears in the upper-left.</li>
-<li>A fleet of 5+ columns × 2+ rows appears when I run the program.</li>
-<li>I can explain the positioning maths for even spacing.</li>
+      <li>My Bullet class inherits from Sprite using class Bullet(Sprite).</li>
+<li>I can explain what super().__init__() does.</li>
+<li>A single bullet can be created manually and drawn at the ship&#x27;s top.</li>
     </ul>
   </section>
 
   <section class="segment do-now">
     <h3>📍 Do Now — Error of the Day</h3>
     <div class="rich-prose">
-      <p>Download alien.bmp. Put it in your game folder. Open your Ship class and look at it — what lines will change for an Alien class?</p>
+      <p>Look at this line: <code>class Bullet(pygame.sprite.Sprite):</code> — what does it mean? Turn to your neighbour and try to explain for 60 seconds.</p>
     </div>
   </section>
 
   <section class="segment i-do">
     <h3>👁 I Do — Teacher Demo</h3>
     <div class="rich-prose">
-      <p>Live-code the Alien class (90% same as Ship — just load alien.bmp, different starting position). Then live-code _create_fleet() with nested loops + positioning maths.</p>
+      <p>Live-code the Bullet class with Sprite inheritance + <code>super().__init__()</code>. Draw a diagram on the whiteboard: Sprite = parent (free methods), Bullet = child (adds bullet-specific stuff).</p>
     </div>
   </section>
 
   <section class="segment we-do">
     <h3>🤝 We Do — Build Together</h3>
     <div class="rich-prose">
-      <p>Class builds Alien + fleet together. Calculate num_cols, num_rows. See the fleet appear on screen. Magical moment.</p>
+      <p>Class builds the Bullet class together. Create ONE test bullet manually and draw it at ship's midtop. Verify everyone sees a bullet.</p>
     </div>
   </section>
 
   <section class="segment you-do">
     <h3>🚀 You Do — Your Turn</h3>
     <div class="rich-prose">
-      <p>Tune alien spacing. Try 3 rows, 5 cols. Try different row starting y. Arcade quests below focus on nested loops + fleet layout.</p>
-      <ul><li>Build Alien class inheriting from Sprite</li><li>Calculate number_cols = available_x // (2 * alien_width)</li><li>Calculate number_rows based on screen height</li><li>Nested loop creates aliens at correct x,y positions</li></ul>
+      <p>Finish Bullet's <code>update()</code> and <code>draw_bullet()</code> methods. Customise colour, width. Arcade quests cover Sprite inheritance + pygame.Rect.</p>
+      <ul><li>from pygame.sprite import Sprite at top of bullet.py</li><li>Build Bullet class with super().__init__()</li><li>Create Rect at ship.rect.midtop</li><li>Write update() and draw_bullet() methods</li></ul>
     </div>
 
     <h3 style="margin-top:1.5rem;">🎮 Practice Quests — work through these</h3>
@@ -134,7 +136,7 @@
     <div class="diff-box">
       <div class="diff-tier support">
         <h4>Support</h4>
-        <p>fleet_starter.py with _create_fleet pre-written. Whiteboard: grid maths diagram</p>
+        <p>Bullet class skeleton with super() line pre-written. Diagram of inheritance</p>
       </div>
       <div class="diff-tier core">
         <h4>Core</h4>
@@ -146,19 +148,19 @@
       </div>
     </div>
 
-    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>3 different alien colours across 3 rows.</li><li>Fleet starts 50 px lower to leave room for score UI.</li></ul>
+    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Parameterise bullet colour from Settings (prep for L11).</li><li>Experiment with different bullet shapes (circle, oval).</li></ul>
   </section>
 
   <section class="segment exit">
     <h3>📝 Exit Ticket — Coding Journal</h3>
     <div class="rich-prose">
-      <p>Journal: 1 sentence on how Alien class reuses Ship's structure. This is the #1 programmer skill.</p>
+      <p>Journal: in 1 sentence, what does <code>super().__init__()</code> do and why do we need it?</p>
     </div>
   </section>
 
   <section>
     <h2>Evidence of Learning</h2>
-    <p>Full fleet visible on screen with consistent spacing.</p>
+    <p>Student can create one bullet manually (not on keypress yet) and see it drawn at the ship&#x27;s top.</p>
   </section>
 
   <div class="prev-next"><a href="L09.html"><span>← Previous</span>Lesson L09</a><a href="../index.html"><span>↑ Hub</span>All Lessons</a><a href="L11.html"><span>Next →</span>Lesson L11</a></div>

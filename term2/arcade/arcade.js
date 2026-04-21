@@ -11,32 +11,38 @@ const ALL_LEADERBOARD_KEY = "py_arcade_leaderboard_v1";
 const SETTINGS_KEY = "py_arcade_settings_v1";
 
 // ---------- LESSON METADATA ----------
-// Matches the new teacher-led Alien Invasion walkthrough (no own-game sprints).
-// Every lesson is I Do / We Do — students code along live.
+// Book-faithful 22-lesson walkthrough of Matthes Python Crash Course 3rd ed.
+// Every lesson is I Do / We Do — teacher codes live, students code along.
 const LESSONS = [
-  { id: "L01", week: "Week 1", title: "Diagnostic Test + Python Refresher", phase: "Python Refresher" },
-  { id: "L02", week: "Week 1", title: "Loops + Functions (Faster Pace)", phase: "Python Refresher" },
-  { id: "L03", week: "Week 2", title: "Classes Part 1 — Attributes + Methods", phase: "Python Refresher" },
-  { id: "L04", week: "Week 2", title: "Classes Part 2 + Text Adventure Checkpoint", phase: "Python Refresher" },
-  { id: "L05", week: "Week 3", title: "Pygame Setup + First Window (Ch 12 §1-2)", phase: "Alien Invasion Core" },
-  { id: "L06", week: "Week 3", title: "Ship Class + Image Loading (Ch 12 §3)", phase: "Alien Invasion Core" },
-  { id: "L07", week: "Week 4", title: "Ship Movement — Keyboard + Float (Ch 12 §4)", phase: "Alien Invasion Core" },
-  { id: "L08", week: "Week 4", title: "Bullet Class + Sprite Inheritance (Ch 12 §5)", phase: "Alien Invasion Core" },
-  { id: "L09", week: "Week 5", title: "Sprite Groups + Firing + Cleanup (Ch 12 §6)", phase: "Alien Invasion Core" },
-  { id: "L10", week: "Week 5", title: "Alien Class + Fleet Creation (Ch 13 §1-2)", phase: "Alien Invasion Core" },
-  { id: "L11", week: "Week 6", title: "Fleet Movement + Edges + Flip (Ch 13 §3)", phase: "Alien Invasion Core" },
-  { id: "L12", week: "Week 6", title: "Collisions + Fleet Respawn (Ch 13 §4)", phase: "Alien Invasion Core" },
-  { id: "L13", week: "Week 7", title: "Ship Hits + GameStats + Lives (Ch 14 §1-2)", phase: "Alien Invasion Core" },
-  { id: "L14", week: "Week 7", title: "Scoring + Play Button + States (Ch 14 §3-4)", phase: "Alien Invasion Core" },
-  { id: "L15", week: "Week 8", title: "Difficulty Ramp + Level Progression", phase: "Alien Invasion Extensions" },
-  { id: "L16", week: "Week 8", title: "Scoring Display + High Score Persistence", phase: "Alien Invasion Extensions" },
-  { id: "L17", week: "Week 9", title: "Sound Effects + Explosion Particles", phase: "Alien Invasion Extensions" },
-  { id: "L18", week: "Week 9", title: "Multiple Alien Types + Boss Alien", phase: "Alien Invasion Extensions" },
-  { id: "L19", week: "Week 10", title: "Power-ups + Shield Mechanic", phase: "Alien Invasion Extensions" },
-  { id: "L20", week: "Week 10", title: "Custom Sprite Art + Reskin Prep", phase: "Alien Invasion Extensions" },
-  { id: "L21", week: "Week 11", title: "Personal Reskin Workshop Day", phase: "Reskin + Showcase" },
-  { id: "L22", week: "Week 11", title: "Showcase + Written Evaluation", phase: "Reskin + Showcase" },
-  { id: "EXT", week: "Bonus", title: "Extension Arena (Ch 6 Dicts + Ch 10 Files)", phase: "Bonus" },
+  // Phase 1 — Python Refresher (4 lessons)
+  { id: "L01", week: "Week 1",  title: "Diagnostic Test + Python Refresher", phase: "Python Refresher" },
+  { id: "L02", week: "Week 1",  title: "Loops + Functions (Faster Pace)", phase: "Python Refresher" },
+  { id: "L03", week: "Week 2",  title: "Classes Part 1 — Attributes + Methods", phase: "Python Refresher" },
+  { id: "L04", week: "Week 2",  title: "Classes Part 2 + Text Adventure Checkpoint", phase: "Python Refresher" },
+  // Phase 2a — Matthes Ch 12 Ship + Bullets (8 lessons)
+  { id: "L05", week: "Week 3",  title: "Pygame Setup + First Window (Ch 12 §1-3)", phase: "Ch 12 Ship + Bullets" },
+  { id: "L06", week: "Week 3",  title: "Ship Image + Ship Class (Ch 12 §4)", phase: "Ch 12 Ship + Bullets" },
+  { id: "L07", week: "Week 4",  title: "Refactoring — Settings + check_events (Ch 12 §5)", phase: "Ch 12 Ship + Bullets" },
+  { id: "L08", week: "Week 4",  title: "Moving the Ship — Keyboard Events (Ch 12 §6 pt 1)", phase: "Ch 12 Ship + Bullets" },
+  { id: "L09", week: "Week 5",  title: "Smooth Movement — Bounds + Float Tracking (Ch 12 §6 pt 2)", phase: "Ch 12 Ship + Bullets" },
+  { id: "L10", week: "Week 5",  title: "Bullet Class + Sprite Inheritance (Ch 12 §8 pt 1)", phase: "Ch 12 Ship + Bullets" },
+  { id: "L11", week: "Week 6",  title: "Firing Bullets + Sprite Groups (Ch 12 §8 pt 2)", phase: "Ch 12 Ship + Bullets" },
+  { id: "L12", week: "Week 6",  title: "Bullet Cleanup + Fire Limits (Ch 12 §8 pt 3)", phase: "Ch 12 Ship + Bullets" },
+  // Phase 2b — Matthes Ch 13 Aliens (4 lessons)
+  { id: "L13", week: "Week 7",  title: "First Alien — One Alien on Screen (Ch 13 §1-2)", phase: "Ch 13 Aliens" },
+  { id: "L14", week: "Week 7",  title: "Building the Fleet — Nested Loops (Ch 13 §3)", phase: "Ch 13 Aliens" },
+  { id: "L15", week: "Week 8",  title: "Fleet Movement — Edges + Drop (Ch 13 §4)", phase: "Ch 13 Aliens" },
+  { id: "L16", week: "Week 8",  title: "Shooting Aliens — groupcollide (Ch 13 §5)", phase: "Ch 13 Aliens" },
+  // Phase 2c — Matthes Ch 14 Scoring + End (5 lessons)
+  { id: "L17", week: "Week 9",  title: "Ship Hits + Lives + Game Over (Ch 13 §6)", phase: "Ch 14 Scoring + End" },
+  { id: "L18", week: "Week 9",  title: "Play Button + GameStats class (Ch 14 §1)", phase: "Ch 14 Scoring + End" },
+  { id: "L19", week: "Week 10", title: "Leveling Up — Difficulty Scaling (Ch 14 §2)", phase: "Ch 14 Scoring + End" },
+  { id: "L20", week: "Week 10", title: "Scoring HUD — Font Rendering (Ch 14 §3-4)", phase: "Ch 14 Scoring + End" },
+  { id: "L21", week: "Week 11", title: "High Scores + Level + Ships Remaining (Ch 14 §5-7)", phase: "Ch 14 Scoring + End" },
+  // Phase 3 — Submission (1 lesson)
+  { id: "L22", week: "Week 11", title: "Submit Your 2D Python Game + 500-word Evaluation", phase: "Submission" },
+  // Bonus
+  { id: "EXT", week: "Bonus",   title: "Extension Arena (Ch 6 Dicts + Ch 10 Files)", phase: "Bonus" },
 ];
 
 // ---------- BADGES ----------

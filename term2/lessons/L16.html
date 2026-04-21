@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L16 — Lesson 16: Scoring Display + High Score Persistence (Matthes Ch 14 §6) · Y9 Game On</title>
+<title>L16 — Lesson 16: Shooting Aliens — groupcollide + Fleet Respawn (Matthes Ch 13 §5) · Y9 Game On</title>
 <link rel="stylesheet" href="../../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -79,51 +79,51 @@
 <main class="container lesson-page">
   <p class="meta-bar">
     <span><strong>L16</strong> · T2 Week 8</span>
-    <span>🎯 CT5-DPM-01 · CT5-DAT-01</span>
-    <span>📂 Phase 3 — Alien Invasion Extensions</span>
+    <span>🎯 CT5-DPM-01 · CT5-THI-01</span>
+    <span>📂 Phase 2 — Alien Invasion · Ch 13 Aliens</span>
   </p>
-  <h1>Lesson 16: Scoring Display + High Score Persistence (Matthes Ch 14 §6)</h1>
+  <h1>Lesson 16: Shooting Aliens — groupcollide + Fleet Respawn (Matthes Ch 13 §5)</h1>
 
   <section>
     <h2>Learning Intentions</h2>
     <ul class="intentions">
-      <li>Show score + level + high score on screen.</li>
-<li>Save high score to a file so it survives program restarts.</li>
+      <li>Detect bullet-alien collisions with one Pygame function.</li>
+<li>respawn a new fleet when the current one is empty.</li>
     </ul>
     <h2>Success Criteria</h2>
     <ul class="success">
-      <li>Score, level and high score all display during play.</li>
-<li>High score saves to file and loads on next launch.</li>
-<li>I can explain json.dump() and json.load().</li>
+      <li>Bullets destroy aliens on contact (both disappear).</li>
+<li>When the fleet is empty, a new fleet appears.</li>
+<li>I can explain what groupcollide(a, b, True, True) does with those True/True args.</li>
     </ul>
   </section>
 
   <section class="segment do-now">
     <h3>📍 Do Now — Error of the Day</h3>
     <div class="rich-prose">
-      <p>Right now your score + level + lives are all tracked but INVISIBLE. Close your eyes and imagine where each should sit on screen.</p>
+      <p>Predict: <code>pygame.sprite.groupcollide(bullets, aliens, True, True)</code> — what does it return if 2 bullets hit 3 aliens? (Dict? List? Integer?)</p>
     </div>
   </section>
 
   <section class="segment i-do">
     <h3>👁 I Do — Teacher Demo</h3>
     <div class="rich-prose">
-      <p>Live-build the Scoreboard class — <code>pygame.font.SysFont</code>, <code>font.render()</code>, <code>screen.blit()</code>. Walk through <code>prep_score</code>, <code>prep_level</code>, <code>prep_high_score</code>.</p>
+      <p>Live-code <code>_check_bullet_alien_collisions()</code>. Print the groupcollide return value to see it IS a dict. Add the respawn pattern <code>if not self.aliens: ... self._create_fleet()</code>.</p>
     </div>
   </section>
 
   <section class="segment we-do">
     <h3>🤝 We Do — Build Together</h3>
     <div class="rich-prose">
-      <p>Integrate <code>self.sb = Scoreboard(self)</code> and call <code>self.sb.show_score()</code> in the draw loop. Confirm all three display.</p>
+      <p>Class wires up collisions. Shoot aliens — they disappear. Clear the fleet — new fleet respawns. Pure satisfaction.</p>
     </div>
   </section>
 
   <section class="segment you-do">
     <h3>🚀 You Do — Your Turn</h3>
     <div class="rich-prose">
-      <p>Add <code>json.dump</code> / <code>json.load</code> for <code>high_score.json</code>. Play + beat your own high score. Close + reopen the game — does the high score persist? Open the .json file in VS Code to see the number.</p>
-      <ul><li>Build Scoreboard class: prep_score(), prep_level(), prep_ships()</li><li>Render font with sb.score_image = self.font.render(score_str, True, text_color, bg_color)</li><li>Save high score: json.dump(high, open(&#x27;high.json&#x27;, &#x27;w&#x27;))</li><li>Load on boot: try json.load(open(&#x27;high.json&#x27;)) except FileNotFoundError</li></ul>
+      <p>Tune ship_speed, bullet_speed, alien_speed to find the 'feel' you like. Arcade quests cover groupcollide + respawn patterns.</p>
+      <ul><li>Add self._check_bullet_alien_collisions() call after self.bullets.update()</li><li>Inside: pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)</li><li>If not self.aliens: self.bullets.empty() + self._create_fleet()</li><li>Tune speed values — does the loop feel good?</li></ul>
     </div>
 
     <h3 style="margin-top:1.5rem;">🎮 Practice Quests — work through these</h3>
@@ -135,31 +135,31 @@
     <div class="diff-box">
       <div class="diff-tier support">
         <h4>Support</h4>
-        <p>Scoreboard starter with prep_score pre-written</p>
+        <p>collision code pre-written</p>
       </div>
       <div class="diff-tier core">
         <h4>Core</h4>
-        <p>build from scratch</p>
+        <p>write from scratch</p>
       </div>
       <div class="diff-tier extension">
         <h4>Extension</h4>
-        <p>top 5 leaderboard</p>
+        <p>piercing + indestructible alien variants</p>
       </div>
     </div>
 
-    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Show &#x27;NEW HIGH SCORE!&#x27; banner when player beats it.</li><li>Store top 5 high scores with player initials.</li></ul>
+    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Piercing bullets: change True, True to False, True.</li><li>Print the collision dict to console to see what groupcollide returns.</li></ul>
   </section>
 
   <section class="segment exit">
     <h3>📝 Exit Ticket — Coding Journal</h3>
     <div class="rich-prose">
-      <p>Journal: describe what was in <code>high_score.json</code> after you played. Why is it text, not binary?</p>
+      <p>Journal: what did it feel like when your first alien disappeared from a bullet hit?</p>
     </div>
   </section>
 
   <section>
     <h2>Evidence of Learning</h2>
-    <p>HUD shows score + level + lives. high_score.json file visible in project folder; persists across runs.</p>
+    <p>Playable: shoot aliens, see them disappear, fleet respawns when clear.</p>
   </section>
 
   <div class="prev-next"><a href="L15.html"><span>← Previous</span>Lesson L15</a><a href="../index.html"><span>↑ Hub</span>All Lessons</a><a href="L17.html"><span>Next →</span>Lesson L17</a></div>

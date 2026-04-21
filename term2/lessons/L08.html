@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L08 — Lesson 8: Bullet Class + Sprite Inheritance (Matthes Ch 12 §5) · Y9 Game On</title>
+<title>L08 — Lesson 8: Moving the Ship — Keyboard Events (Matthes Ch 12 §6 pt 1) · Y9 Game On</title>
 <link rel="stylesheet" href="../../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -80,51 +80,49 @@
   <p class="meta-bar">
     <span><strong>L08</strong> · T2 Week 4</span>
     <span>🎯 CT5-DPM-01 · CT5-COM-01</span>
-    <span>📂 Phase 2 — Alien Invasion</span>
+    <span>📂 Phase 2 — Alien Invasion · Ch 12 Ship + Bullets</span>
   </p>
-  <h1>Lesson 8: Bullet Class + Sprite Inheritance (Matthes Ch 12 §5)</h1>
+  <h1>Lesson 8: Moving the Ship — Keyboard Events (Matthes Ch 12 §6 pt 1)</h1>
 
   <section>
     <h2>Learning Intentions</h2>
     <ul class="intentions">
-      <li>Build a Bullet class that inherits from pygame.</li>
-<li>sprite.</li>
-<li>Sprite.</li>
+      <li>Make the ship respond to Right and Left arrow keys by tracking key-down / key-up events with a flag variable.</li>
     </ul>
     <h2>Success Criteria</h2>
     <ul class="success">
-      <li>My Bullet class inherits from Sprite using class Bullet(Sprite).</li>
-<li>I can explain what super().__init__() does.</li>
-<li>A single bullet can be fired and drawn.</li>
+      <li>Pressing Right arrow makes my ship move right.</li>
+<li>Releasing the key makes it stop.</li>
+<li>I can explain what the moving_right flag is for.</li>
     </ul>
   </section>
 
   <section class="segment do-now">
     <h3>📍 Do Now — Error of the Day</h3>
     <div class="rich-prose">
-      <p>Look at this line: <code>class Bullet(pygame.sprite.Sprite):</code> — what does it mean? Discuss with a partner for 1 minute.</p>
+      <p>Press and HOLD the Right arrow key right now (in any app). Notice — it fires once, pauses briefly, then repeats. That's the OS's keyboard autorepeat. We'll do it better with KEYDOWN/KEYUP.</p>
     </div>
   </section>
 
   <section class="segment i-do">
     <h3>👁 I Do — Teacher Demo</h3>
     <div class="rich-prose">
-      <p>Live-code the Bullet class with Sprite inheritance + super().__init__(). Draw a diagram: Sprite = parent class, Bullet = child class. Child gets everything parent has, plus extras.</p>
+      <p>Live-code the KEYDOWN/KEYUP flag pattern: <code>self.moving_right = True</code> on KEYDOWN, <code>False</code> on KEYUP. Ship.update moves <code>rect.x</code> while flag is True.</p>
     </div>
   </section>
 
   <section class="segment we-do">
     <h3>🤝 We Do — Build Together</h3>
     <div class="rich-prose">
-      <p>Class builds the Bullet class together. Create ONE test bullet and draw it on screen at ship's midtop. Verify: everyone sees a bullet.</p>
+      <p>Class wires up the flag pattern together. Press Right → ship moves right until you release. Same for Left. Troubleshoot stuck students live.</p>
     </div>
   </section>
 
   <section class="segment you-do">
     <h3>🚀 You Do — Your Turn</h3>
     <div class="rich-prose">
-      <p>Finish the Bullet class with update + draw_bullet methods. Customise colour, size. Arcade quests below cover Sprite inheritance + rect basics.</p>
-      <ul><li>Import Sprite from pygame.sprite</li><li>Build Bullet class with super().__init__()</li><li>Create Rect at ship.rect.midtop</li><li>Write update() and draw_bullet() methods</li></ul>
+      <p>Add Left key support (mirror of Right). Extension: add Up/Down. Arcade quests below practice KEYDOWN/KEYUP + flag patterns.</p>
+      <ul><li>Add self.moving_right = False to Ship.__init__</li><li>Write Ship.update() that uses moving_right to move rect.x</li><li>In _check_events, branch event.type: KEYDOWN vs KEYUP</li><li>If event.key == pygame.K_RIGHT, set ship.moving_right True (or False on KEYUP)</li></ul>
     </div>
 
     <h3 style="margin-top:1.5rem;">🎮 Practice Quests — work through these</h3>
@@ -136,31 +134,31 @@
     <div class="diff-box">
       <div class="diff-tier support">
         <h4>Support</h4>
-        <p>Bullet class skeleton with super() line pre-written. Diagram of inheritance</p>
+        <p>ship_v2_starter.py with moving_right pre-declared</p>
       </div>
       <div class="diff-tier core">
         <h4>Core</h4>
-        <p>Follow the plan as written. Attempt the arcade quests above at your own pace.</p>
+        <p>implement from scratch</p>
       </div>
       <div class="diff-tier extension">
         <h4>Extension</h4>
-        <p>Complete all quests above + try a Boss battle for bonus XP. Help a classmate if you finish.</p>
+        <p>4-direction movement</p>
       </div>
     </div>
 
-    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Add trail effect: draw a fading line behind bullet.</li><li>Experiment with different bullet shapes (circle, oval).</li></ul>
+    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Add Up/Down arrows using moving_up / moving_down flags.</li><li>Add WASD as alternative keys.</li></ul>
   </section>
 
   <section class="segment exit">
     <h3>📝 Exit Ticket — Coding Journal</h3>
     <div class="rich-prose">
-      <p>Journal: in 1 sentence, what does super().__init__() do and why do we need it?</p>
+      <p>Journal: explain why the flag pattern is smoother than 'move on KEYDOWN' (what would break?).</p>
     </div>
   </section>
 
   <section>
     <h2>Evidence of Learning</h2>
-    <p>Student can create one bullet manually and see it drawn at the ship&#x27;s top.</p>
+    <p>Ship moves right while key is held, stops when released. Left arrow works too.</p>
   </section>
 
   <div class="prev-next"><a href="L07.html"><span>← Previous</span>Lesson L07</a><a href="../index.html"><span>↑ Hub</span>All Lessons</a><a href="L09.html"><span>Next →</span>Lesson L09</a></div>

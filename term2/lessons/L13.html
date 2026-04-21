@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L13 — Lesson 13: Ship Hits + GameStats + Lives (Matthes Ch 14 §1-2) · Y9 Game On</title>
+<title>L13 — Lesson 13: The First Alien — One Alien on Screen (Matthes Ch 13 §1-2) · Y9 Game On</title>
 <link rel="stylesheet" href="../../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -79,50 +79,50 @@
 <main class="container lesson-page">
   <p class="meta-bar">
     <span><strong>L13</strong> · T2 Week 7</span>
-    <span>🎯 CT5-DPM-01 · CT5-COM-01</span>
-    <span>📂 Phase 2 — Alien Invasion</span>
+    <span>🎯 CT5-DPM-01 · CT5-THI-01</span>
+    <span>📂 Phase 2 — Alien Invasion · Ch 13 Aliens</span>
   </p>
-  <h1>Lesson 13: Ship Hits + GameStats + Lives (Matthes Ch 14 §1-2)</h1>
+  <h1>Lesson 13: The First Alien — One Alien on Screen (Matthes Ch 13 §1-2)</h1>
 
   <section>
     <h2>Learning Intentions</h2>
     <ul class="intentions">
-      <li>Add stakes — the ship can be hit, has 3 lives, game ends when they run out.</li>
+      <li>Build an Alien class (structurally similar to Ship) and place ONE alien in the top-left of the screen.</li>
     </ul>
     <h2>Success Criteria</h2>
     <ul class="success">
-      <li>Ship dies when an alien hits it.</li>
-<li>I have 3 lives; game ends when all are gone.</li>
-<li>Aliens reaching the bottom also counts as a hit.</li>
+      <li>My alien.py has class Alien(Sprite) with __init__ that loads alien.bmp.</li>
+<li>Exactly one alien appears in the upper-left.</li>
+<li>I can explain why Alien looks almost identical to Ship.</li>
     </ul>
   </section>
 
   <section class="segment do-now">
     <h3>📍 Do Now — Error of the Day</h3>
     <div class="rich-prose">
-      <p>Look at your game right now. Can you lose? What would 'game over' look like?</p>
+      <p>Download alien.bmp from the hub's checkpoints folder. Open your Ship class. Look at every line — which lines will change for an Alien class, and which can stay identical?</p>
     </div>
   </section>
 
   <section class="segment i-do">
     <h3>👁 I Do — Teacher Demo</h3>
     <div class="rich-prose">
-      <p>Live-code GameStats class. Add spritecollideany for ship-alien. _ship_hit with sleep + reset. _check_aliens_bottom. Wrap gameplay in game_active.</p>
+      <p>Live-code the Alien class (almost a copy of Ship — different image, different starting position). Add <code>self.aliens = pygame.sprite.Group()</code> to Game, call <code>self._create_fleet()</code>. For today, _create_fleet just adds ONE alien.</p>
     </div>
   </section>
 
   <section class="segment we-do">
     <h3>🤝 We Do — Build Together</h3>
     <div class="rich-prose">
-      <p>Class adds stakes together. Let an alien reach the ship — ship dies, lives drop, fleet respawns, ship re-centres. Lose all 3 lives — game ends.</p>
+      <p>Class builds Alien + places one on screen together. Highlight how much was copy-paste from Ship. 'Pattern reuse' is a core programmer skill.</p>
     </div>
   </section>
 
   <section class="segment you-do">
     <h3>🚀 You Do — Your Turn</h3>
     <div class="rich-prose">
-      <p>Tune: ship_limit (try 3, 5, 1). Arcade quests below cover spritecollideany + GameStats.</p>
-      <ul><li>Build GameStats class with reset_stats()</li><li>Add spritecollideany(ship, aliens) check in main loop</li><li>Build _ship_hit() with sleep(0.5) and reset</li><li>Add _check_aliens_bottom()</li></ul>
+      <p>Make sure ONE alien appears top-left. Experiment — move it to centre or top-right. Arcade quests cover class reuse + positioning.</p>
+      <ul><li>Create alien.py with class Alien(Sprite)</li><li>Load alien.bmp + get_rect() (exactly like Ship)</li><li>In Game.__init__: self.aliens = pygame.sprite.Group(); self._create_fleet()</li><li>_create_fleet (for now): just create ONE Alien and add it to self.aliens</li><li>Call self.aliens.draw(self.screen) in _update_screen</li></ul>
     </div>
 
     <h3 style="margin-top:1.5rem;">🎮 Practice Quests — work through these</h3>
@@ -134,31 +134,31 @@
     <div class="diff-box">
       <div class="diff-tier support">
         <h4>Support</h4>
-        <p>GameStats class skeleton</p>
+        <p>alien.bmp provided; fill in 2 lines in Alien.__init__</p>
       </div>
       <div class="diff-tier core">
         <h4>Core</h4>
-        <p>build from scratch</p>
+        <p>write class from scratch</p>
       </div>
       <div class="diff-tier extension">
         <h4>Extension</h4>
-        <p>invincibility + ship icons</p>
+        <p>2 alien files + random choice</p>
       </div>
     </div>
 
-    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Display remaining ships as icons in corner.</li><li>Add a brief invincibility window after respawn.</li></ul>
+    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Load a different alien.bmp colour.</li><li>Position the first alien in the centre of the top edge instead.</li></ul>
   </section>
 
   <section class="segment exit">
     <h3>📝 Exit Ticket — Coding Journal</h3>
     <div class="rich-prose">
-      <p>Journal: 1 sentence on why losing a life matters in game design. What does it do to the player?</p>
+      <p>Journal: 1 sentence on how Alien is similar to Ship. How does inheritance save typing?</p>
     </div>
   </section>
 
   <section>
     <h2>Evidence of Learning</h2>
-    <p>Lives decrement on hit; game ends cleanly after 3 deaths.</p>
+    <p>One alien sprite visible top-left of screen.</p>
   </section>
 
   <div class="prev-next"><a href="L12.html"><span>← Previous</span>Lesson L12</a><a href="../index.html"><span>↑ Hub</span>All Lessons</a><a href="L14.html"><span>Next →</span>Lesson L14</a></div>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L17 — Lesson 17: Sound Effects + Explosion Particles · Y9 Game On</title>
+<title>L17 — Lesson 17: Ship Hits + Lives + Game Over (Matthes Ch 13 §6) · Y9 Game On</title>
 <link rel="stylesheet" href="../../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -80,50 +80,50 @@
   <p class="meta-bar">
     <span><strong>L17</strong> · T2 Week 9</span>
     <span>🎯 CT5-DPM-01 · CT5-COM-01</span>
-    <span>📂 Phase 3 — Alien Invasion Extensions</span>
+    <span>📂 Phase 2 — Alien Invasion · Ch 14 Scoring + End</span>
   </p>
-  <h1>Lesson 17: Sound Effects + Explosion Particles</h1>
+  <h1>Lesson 17: Ship Hits + Lives + Game Over (Matthes Ch 13 §6)</h1>
 
   <section>
     <h2>Learning Intentions</h2>
     <ul class="intentions">
-      <li>Add juice — SFX on firing, explosions on alien hits, particle burst visuals.</li>
-<li>Game feel lesson.</li>
+      <li>Add real stakes — the ship can be hit, has 3 lives, game ends when they run out.</li>
+<li>Aliens reaching the bottom also counts as a hit.</li>
     </ul>
     <h2>Success Criteria</h2>
     <ul class="success">
-      <li>Firing a bullet plays a sound.</li>
-<li>Hitting an alien plays an explosion sound + shows a particle burst.</li>
-<li>I can explain the &#x27;game feel&#x27; concept.</li>
+      <li>When an alien touches my ship, I lose a life.</li>
+<li>I have 3 lives total; game ends when all are gone.</li>
+<li>Aliens reaching the bottom also counts as a hit.</li>
     </ul>
   </section>
 
   <section class="segment do-now">
     <h3>📍 Do Now — Error of the Day</h3>
     <div class="rich-prose">
-      <p>Play any arcade game on your phone for 60 seconds with the sound OFF. Then play for 60 seconds with the sound ON. How different does it feel?</p>
+      <p>Look at your L16 game. Right now, nothing bad happens if an alien reaches the bottom. Is that fair? What should happen?</p>
     </div>
   </section>
 
   <section class="segment i-do">
     <h3>👁 I Do — Teacher Demo</h3>
     <div class="rich-prose">
-      <p>Live-code <code>pygame.mixer.init()</code>, loading <code>Sound('shoot.wav')</code>, calling <code>.play()</code>. Show volume control via <code>.set_volume()</code>.</p>
+      <p>Live-code the ship-alien collision check with <code>spritecollideany</code>. Build <code>_ship_hit()</code> with <code>sleep(0.5)</code> + reset. Add <code>_check_aliens_bottom()</code> (reuses _ship_hit). Track <code>ships_left</code> as a simple counter (GameStats class comes next lesson).</p>
     </div>
   </section>
 
   <section class="segment we-do">
     <h3>🤝 We Do — Build Together</h3>
     <div class="rich-prose">
-      <p>Add shoot sfx + explode sfx to the game together. Build the <code>Particle</code> class — position, velocity, gravity, life, draw as a circle.</p>
+      <p>Class adds stakes together. Run into an alien — ship dies, lives drop, ship re-centres, 0.5s pause. Lose 3 lives — game exits (for now).</p>
     </div>
   </section>
 
   <section class="segment you-do">
     <h3>🚀 You Do — Your Turn</h3>
     <div class="rich-prose">
-      <p>Spawn 12 particles at each alien-death position. Tune the colour + life + gravity until it looks right. Arcade quests below are general Pygame + feedback patterns.</p>
-      <ul><li>Download 2 free SFX from freesound.org (shoot + explosion)</li><li>pygame.mixer.init() in Game.__init__</li><li>self.shoot_sfx = pygame.mixer.Sound(&#x27;sfx/shoot.wav&#x27;)</li><li>Call self.shoot_sfx.play() on bullet fire</li><li>Build Particle class (x, y, vx, vy, life). Draw as small circles.</li><li>Spawn 12 particles at alien collision point</li></ul>
+      <p>Tune <code>ship_limit</code>. Try 1 (brutal), 3 (book), 5 (easy). Arcade quests cover spritecollideany + counter tracking.</p>
+      <ul><li>Add self.ships_left = 3 to Game.__init__</li><li>Add pygame.sprite.spritecollideany(self.ship, self.aliens) check each frame</li><li>Build _ship_hit(): sleep(0.5), empty groups, respawn fleet + ship</li><li>Add _check_aliens_bottom() — treat bottom-reach the same as ship-hit</li></ul>
     </div>
 
     <h3 style="margin-top:1.5rem;">🎮 Practice Quests — work through these</h3>
@@ -135,31 +135,31 @@
     <div class="diff-box">
       <div class="diff-tier support">
         <h4>Support</h4>
-        <p>curated SFX pack in /assets/sfx/ and Particle class pre-written in particle_starter.py</p>
+        <p>_ship_hit pre-written</p>
       </div>
       <div class="diff-tier core">
         <h4>Core</h4>
-        <p>build Particle from scratch</p>
+        <p>build from scratch</p>
       </div>
       <div class="diff-tier extension">
         <h4>Extension</h4>
-        <p>screen shake + music</p>
+        <p>flash + brief invincibility</p>
       </div>
     </div>
 
-    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Screen shake for 150ms on alien hit (random 3-pixel offset).</li><li>Background music loop at 30% volume.</li></ul>
+    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Flash the ship briefly after respawn for a visual indicator.</li><li>Add a &#x27;ships_left&#x27; printout to the top-left corner (preview of L18 HUD).</li></ul>
   </section>
 
   <section class="segment exit">
     <h3>📝 Exit Ticket — Coding Journal</h3>
     <div class="rich-prose">
-      <p>Journal: which SFX did you pick? What vibe does your game now have?</p>
+      <p>Journal: why does <code>_ship_hit</code> call <code>sleep(0.5)</code>? What would happen if we didn't?</p>
     </div>
   </section>
 
   <section>
     <h2>Evidence of Learning</h2>
-    <p>Playing the game feels noticeably better than L16 — sound on fire, explosion on hits, little particles fly out.</p>
+    <p>Lives decrement on hit; game ends cleanly after 3 deaths.</p>
   </section>
 
   <div class="prev-next"><a href="L16.html"><span>← Previous</span>Lesson L16</a><a href="../index.html"><span>↑ Hub</span>All Lessons</a><a href="L18.html"><span>Next →</span>Lesson L18</a></div>

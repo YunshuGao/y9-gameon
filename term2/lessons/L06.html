@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L06 — Lesson 6: Ship Class + Image Loading + Rect (Matthes Ch 12 §3) · Y9 Game On</title>
+<title>L06 — Lesson 6: Ship Image + Ship Class (Matthes Ch 12 §4) · Y9 Game On</title>
 <link rel="stylesheet" href="../../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -80,9 +80,9 @@
   <p class="meta-bar">
     <span><strong>L06</strong> · T2 Week 3</span>
     <span>🎯 CT5-DPM-01 · CT5-THI-01</span>
-    <span>📂 Phase 2 — Alien Invasion</span>
+    <span>📂 Phase 2 — Alien Invasion · Ch 12 Ship + Bullets</span>
   </p>
-  <h1>Lesson 6: Ship Class + Image Loading + Rect (Matthes Ch 12 §3)</h1>
+  <h1>Lesson 6: Ship Image + Ship Class (Matthes Ch 12 §4)</h1>
 
   <section>
     <h2>Learning Intentions</h2>
@@ -100,7 +100,7 @@
   <section class="segment do-now">
     <h3>📍 Do Now — Error of the Day</h3>
     <div class="rich-prose">
-      <p>Download ship.bmp from the hub's checkpoints folder. Put it in your game folder (same place as alien_invasion.py). Type: it matters — Pygame won't find it if the name is slightly wrong.</p>
+      <p>Download ship.bmp from the hub's checkpoints folder. Put it in your game folder (same place as alien_invasion.py). The file name must match EXACTLY.</p>
     </div>
   </section>
 
@@ -114,14 +114,14 @@
   <section class="segment we-do">
     <h3>🤝 We Do — Build Together</h3>
     <div class="rich-prose">
-      <p>Class types along: everyone gets a Ship class + a ship sprite visible at bottom-centre. Check: raise hand when yours appears. Test different starting positions (top-left, centre, etc.).</p>
+      <p>Class types along: everyone gets a Ship class + a ship sprite visible at bottom-centre. Raise hand when yours appears. Test different starting positions.</p>
     </div>
   </section>
 
   <section class="segment you-do">
     <h3>🚀 You Do — Your Turn</h3>
     <div class="rich-prose">
-      <p>Complete the Ship class. Experiment with Rect properties. Arcade quests below cover image loading + Rect basics.</p>
+      <p>Complete the Ship class. Experiment with Rect properties — try top-centre, centre, off-screen. Arcade quests below cover image loading + Rect basics.</p>
       <ul><li>Download ship.bmp from the hub</li><li>Build the Ship class (type it)</li><li>Create ship = Ship(screen) in main</li><li>Call ship.blitme() in game loop after screen.fill()</li></ul>
     </div>
 

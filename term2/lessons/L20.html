@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L20 — Lesson 20: Custom Sprite Art + Reskin Prep · Y9 Game On</title>
+<title>L20 — Lesson 20: Scoring HUD — Font Rendering (Matthes Ch 14 §3-4) · Y9 Game On</title>
 <link rel="stylesheet" href="../../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -80,50 +80,50 @@
   <p class="meta-bar">
     <span><strong>L20</strong> · T2 Week 10</span>
     <span>🎯 CT5-DPM-01 · CT5-COM-01</span>
-    <span>📂 Phase 3 — Alien Invasion Extensions</span>
+    <span>📂 Phase 2 — Alien Invasion · Ch 14 Scoring + End</span>
   </p>
-  <h1>Lesson 20: Custom Sprite Art + Reskin Prep</h1>
+  <h1>Lesson 20: Scoring HUD — Font Rendering (Matthes Ch 14 §3-4)</h1>
 
   <section>
     <h2>Learning Intentions</h2>
     <ul class="intentions">
-      <li>Replace the default ship + alien sprites with your own pixel art.</li>
-<li>Preview how a full reskin will look.</li>
+      <li>Add a score that goes up when you hit aliens, rendered in the top-right corner using pygame.</li>
+<li>font.</li>
     </ul>
     <h2>Success Criteria</h2>
     <ul class="success">
-      <li>I&#x27;ve drawn a custom 32×48 ship sprite in piskelapp.com.</li>
-<li>I&#x27;ve drawn at least 1 custom alien sprite.</li>
-<li>My sprites load and display without errors.</li>
+      <li>Each alien kill awards +50 points.</li>
+<li>The current score displays in the top-right.</li>
+<li>I can explain the 3-step pygame.font pipeline (font → render → blit).</li>
     </ul>
   </section>
 
   <section class="segment do-now">
     <h3>📍 Do Now — Error of the Day</h3>
     <div class="rich-prose">
-      <p>Open piskelapp.com (no login). Create a new 32×48 sprite. Draw one coloured blob. Export as PNG. Now you've made pixel art.</p>
+      <p>Open any arcade game on your phone. Screenshot the HUD (score, lives, level). What pieces does it show? In what corners?</p>
     </div>
   </section>
 
   <section class="segment i-do">
     <h3>👁 I Do — Teacher Demo</h3>
     <div class="rich-prose">
-      <p>Projector tour of piskelapp.com — palette, pencil, bucket, export. Live-draw a simple 48×48 alien while you watch (5 min).</p>
+      <p>Live-code the <code>Scoreboard</code> class. Walk through the 3-step font pipeline: <code>SysFont</code> → <code>render</code> (returns Surface) → <code>blit</code>. Build <code>prep_score()</code> + <code>show_score()</code>.</p>
     </div>
   </section>
 
   <section class="segment we-do">
     <h3>🤝 We Do — Build Together</h3>
     <div class="rich-prose">
-      <p>Drop the exported file into your <code>assets/</code> folder. Update the <code>pygame.image.load</code> path in <code>Ship.__init__</code>. Run the game — your sprite appears.</p>
+      <p>Class adds scoring. Alien kill → <code>self.stats.score += self.settings.alien_points * len(aliens)</code>. Call <code>self.sb.prep_score()</code>. Watch the score climb in the top-right.</p>
     </div>
   </section>
 
   <section class="segment you-do">
     <h3>🚀 You Do — Your Turn</h3>
     <div class="rich-prose">
-      <p>Draw YOUR ship (32×48) + at least ONE custom alien (48×48). Export + swap in. Your game now visibly YOURS. Arcade quests below are general art + reskin prep.</p>
-      <ul><li>Go to piskelapp.com (free, no login)</li><li>Draw a 32×48 ship sprite (or 48×48 for a spaceship)</li><li>Export as PNG or BMP to /assets/</li><li>Change Ship.__init__ path: pygame.image.load(&#x27;assets/my_ship.bmp&#x27;)</li><li>Do the same for at least 1 alien sprite</li><li>Save + playtest</li></ul>
+      <p>Round the score to nearest 10 with <code>round(score, -1)</code>. Tune font size + text colour. Arcade quests cover pygame.font.</p>
+      <ul><li>Create scoreboard.py with class Scoreboard</li><li>__init__: store screen + stats + settings + font</li><li>prep_score(): render rounded score to a Surface; store score_image + score_rect</li><li>show_score(): blit score_image at score_rect</li><li>Add self.stats.score += self.settings.alien_points * len(aliens) in the collision check + self.sb.prep_score()</li></ul>
     </div>
 
     <h3 style="margin-top:1.5rem;">🎮 Practice Quests — work through these</h3>
@@ -135,31 +135,31 @@
     <div class="diff-box">
       <div class="diff-tier support">
         <h4>Support</h4>
-        <p>pre-drawn sprite pack to choose from; OR trace-over template</p>
+        <p>Scoreboard skeleton with prep_score pre-written</p>
       </div>
       <div class="diff-tier core">
         <h4>Core</h4>
-        <p>design own</p>
+        <p>build from scratch</p>
       </div>
       <div class="diff-tier extension">
         <h4>Extension</h4>
-        <p>animated sprites</p>
+        <p>comma-thousands formatting</p>
       </div>
     </div>
 
-    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Draw all 3 alien variants (Fast / Tank / Boss) in matching style.</li><li>Animated ship sprite using 2-frame flicker.</li></ul>
+    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Round score to nearest 10 using round(score, -1) for a cleaner HUD.</li><li>Use rect.right alignment so the score stays anchored even as digits grow.</li></ul>
   </section>
 
   <section class="segment exit">
     <h3>📝 Exit Ticket — Coding Journal</h3>
     <div class="rich-prose">
-      <p>Journal: post your ship sprite to Classroom. Write 1 sentence describing the vibe you're going for.</p>
+      <p>Journal: explain the 3 steps of rendering text in Pygame (SysFont → render → blit).</p>
     </div>
   </section>
 
   <section>
     <h2>Evidence of Learning</h2>
-    <p>Game runs with student&#x27;s own art. Screenshot posted to Classroom.</p>
+    <p>Score updates every alien kill. Visible in top-right corner of screen.</p>
   </section>
 
   <div class="prev-next"><a href="L19.html"><span>← Previous</span>Lesson L19</a><a href="../index.html"><span>↑ Hub</span>All Lessons</a><a href="L21.html"><span>Next →</span>Lesson L21</a></div>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L09 — Lesson 9: Sprite Groups + Firing + Cleanup (Matthes Ch 12 §6) · Y9 Game On</title>
+<title>L09 — Lesson 9: Smooth Movement — Bounds + Float Tracking (Matthes Ch 12 §6 pt 2) · Y9 Game On</title>
 <link rel="stylesheet" href="../../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -80,51 +80,50 @@
   <p class="meta-bar">
     <span><strong>L09</strong> · T2 Week 5</span>
     <span>🎯 CT5-DPM-01 · CT5-THI-01</span>
-    <span>📂 Phase 2 — Alien Invasion</span>
+    <span>📂 Phase 2 — Alien Invasion · Ch 12 Ship + Bullets</span>
   </p>
-  <h1>Lesson 9: Sprite Groups + Firing + Cleanup (Matthes Ch 12 §6)</h1>
+  <h1>Lesson 9: Smooth Movement — Bounds + Float Tracking (Matthes Ch 12 §6 pt 2)</h1>
 
   <section>
     <h2>Learning Intentions</h2>
     <ul class="intentions">
-      <li>Manage many bullets using a Sprite Group.</li>
-<li>fire on spacebar.</li>
-<li>clean up off-screen bullets.</li>
+      <li>Make movement smooth (not stuttering) by tracking the ship&#x27;s x position as a float.</li>
+<li>stop the ship going off-screen.</li>
     </ul>
     <h2>Success Criteria</h2>
     <ul class="success">
-      <li>Spacebar fires a bullet from my ship.</li>
-<li>Multiple bullets can exist at once (up to a limit).</li>
-<li>Bullets are removed when they leave the top of the screen.</li>
+      <li>My ship moves smoothly — no stutter at low speeds.</li>
+<li>My ship stops at the left and right edges of the screen.</li>
+<li>I can explain why we use self.x = float(self.rect.x).</li>
     </ul>
   </section>
 
   <section class="segment do-now">
     <h3>📍 Do Now — Error of the Day</h3>
     <div class="rich-prose">
-      <p>What would go wrong if we used a plain Python list for bullets instead of pygame.sprite.Group? (Hint: think about draw + update.)</p>
+      <p>Watch this GIF (I'll show on projector) — two ships side by side, one smooth, one stuttery. The stuttery one has <code>ship_speed = 0.3</code>. Why doesn't it move?</p>
     </div>
   </section>
 
   <section class="segment i-do">
     <h3>👁 I Do — Teacher Demo</h3>
     <div class="rich-prose">
-      <p>Live-code: bullets = pygame.sprite.Group(). Spacebar KEYDOWN adds a new Bullet. Call bullets.update() and draw each bullet in the game loop. Show the cleanup pattern with bullets.copy().</p>
+      <p>Live-demo the bug: set ship_speed = 0.3. The rect.x is an integer, so 0.3 added to it truncates to 0 — ship goes nowhere. FIX: track <code>self.x</code> as a float, sync <code>rect.x = self.x</code> after each move. Then add bounds check.</p>
     </div>
   </section>
 
   <section class="segment we-do">
     <h3>🤝 We Do — Build Together</h3>
     <div class="rich-prose">
-      <p>Class wires up the spacebar event together. Holding spacebar fires multiple bullets. Add the cleanup loop. Check: bullets fly up and disappear off the top.</p>
+      <p>Class adds float tracking + bounds together. Everyone's ship moves smoothly AND stops at screen edges. Test with ship_speed = 0.3, 1.5, 2.5.</p>
     </div>
   </section>
 
   <section class="segment you-do">
     <h3>🚀 You Do — Your Turn</h3>
     <div class="rich-prose">
-      <p>Tune: bullet speed, colour, max bullets allowed. Extension: add a fire cooldown (1 bullet per 200ms). Arcade quests below focus on Groups + cleanup.</p>
-      <ul><li>Create bullets = pygame.sprite.Group() in main</li><li>Handle K_SPACE to add new Bullet</li><li>Call bullets.update() each frame</li><li>Clean up: for bullet in bullets.copy(): if bullet.rect.bottom &lt;= 0: bullets.remove(bullet)</li></ul>
+      <p>Tune ship_speed until it feels right. Add bounds on ALL 4 sides if you did Up/Down in L08. Arcade quests cover float tracking + bounds.</p>
+      <ul><li>Add self.x = float(self.rect.x) to Ship.__init__</li><li>In Ship.update(): if self.moving_right and self.rect.right &lt; screen_rect.right: self.x += self.settings.ship_speed</li><li>After each move: self.rect.x = self.x (sync rect back to int)</li><li>Test with ship_speed = 0.3 — should be smooth, not stuttering</li></ul>
     </div>
 
     <h3 style="margin-top:1.5rem;">🎮 Practice Quests — work through these</h3>
@@ -136,7 +135,7 @@
     <div class="diff-box">
       <div class="diff-tier support">
         <h4>Support</h4>
-        <p>cleanup loop pre-written</p>
+        <p>print self.x + self.rect.x each frame to see the mismatch</p>
       </div>
       <div class="diff-tier core">
         <h4>Core</h4>
@@ -144,23 +143,23 @@
       </div>
       <div class="diff-tier extension">
         <h4>Extension</h4>
-        <p>cooldown timer</p>
+        <p>variable speed with Shift key</p>
       </div>
     </div>
 
-    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Add a fire cooldown (200ms between shots).</li><li>Spread shot: spacebar fires 3 bullets at different angles.</li></ul>
+    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Add vertical bounds (if you did Up/Down in L08 extension).</li><li>Make ship_speed a mutable — pressing Shift doubles it briefly.</li></ul>
   </section>
 
   <section class="segment exit">
     <h3>📝 Exit Ticket — Coding Journal</h3>
     <div class="rich-prose">
-      <p>Journal: why does our cleanup loop use bullets.copy()?</p>
+      <p>Journal: why does the ship need a float <code>self.x</code> if pygame.Rect only stores integers?</p>
     </div>
   </section>
 
   <section>
     <h2>Evidence of Learning</h2>
-    <p>Student can fire multiple bullets on spacebar; they disappear off the top.</p>
+    <p>Ship moves smoothly at any speed. Ship cannot leave the screen horizontally.</p>
   </section>
 
   <div class="prev-next"><a href="L08.html"><span>← Previous</span>Lesson L08</a><a href="../index.html"><span>↑ Hub</span>All Lessons</a><a href="L10.html"><span>Next →</span>Lesson L10</a></div>

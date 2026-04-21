@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L14 — Lesson 14: Scoring + Play Button + Game States (Matthes Ch 14 §3-4) · Y9 Game On</title>
+<title>L14 — Lesson 14: Building the Fleet — Nested Loops + Spacing Math (Matthes Ch 13 §3) · Y9 Game On</title>
 <link rel="stylesheet" href="../../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -79,50 +79,50 @@
 <main class="container lesson-page">
   <p class="meta-bar">
     <span><strong>L14</strong> · T2 Week 7</span>
-    <span>🎯 CT5-DPM-01 · CT5-EVL-01</span>
-    <span>📂 Phase 2 — Alien Invasion</span>
+    <span>🎯 CT5-DPM-01 · CT5-THI-01</span>
+    <span>📂 Phase 2 — Alien Invasion · Ch 13 Aliens</span>
   </p>
-  <h1>Lesson 14: Scoring + Play Button + Game States (Matthes Ch 14 §3-4)</h1>
+  <h1>Lesson 14: Building the Fleet — Nested Loops + Spacing Math (Matthes Ch 13 §3)</h1>
 
   <section>
     <h2>Learning Intentions</h2>
     <ul class="intentions">
-      <li>Add a live score display, Play button, and dynamic difficulty scaling.</li>
+      <li>Fill the screen with rows and columns of aliens using nested loops and a bit of spacing math.</li>
     </ul>
     <h2>Success Criteria</h2>
     <ul class="success">
-      <li>Score visible in corner during gameplay.</li>
-<li>Play button appears on title/game-over screen.</li>
-<li>Aliens speed up each cleared fleet.</li>
+      <li>A full fleet (6+ columns × 2+ rows) appears when I run the program.</li>
+<li>Spacing between aliens is even.</li>
+<li>I can explain number_aliens_x = available_x // (2 * alien_width).</li>
     </ul>
   </section>
 
   <section class="segment do-now">
     <h3>📍 Do Now — Error of the Day</h3>
     <div class="rich-prose">
-      <p>Without running the code, predict: what does <code>pygame.font.SysFont(None, 48)</code> return? A string? An image? Something else?</p>
+      <p>Whiteboard challenge — if the screen is 1200 px wide and each alien is 60 px wide (with 60 px gap between), how many aliens fit in a row? Write your calculation.</p>
     </div>
   </section>
 
   <section class="segment i-do">
     <h3>👁 I Do — Teacher Demo</h3>
     <div class="rich-prose">
-      <p>Live-code Scoreboard class (prep + show pattern). Button class with collidepoint. settings.initialize_dynamic_settings + increase_speed.</p>
+      <p>Derive the fleet-math formula on the whiteboard. Live-code <code>_create_fleet()</code> with nested for-loops: outer rows, inner columns. Calculate <code>number_aliens_x</code>, <code>number_rows</code> from screen dimensions.</p>
     </div>
   </section>
 
   <section class="segment we-do">
     <h3>🤝 We Do — Build Together</h3>
     <div class="rich-prose">
-      <p>Class wires up scoring, Play button, difficulty scaling. Full game loop: Play button → play → lose → Play button → play again.</p>
+      <p>Class builds the full fleet together. Nested loops. Magical moment when the grid appears. Tune the row/column counts together.</p>
     </div>
   </section>
 
   <section class="segment you-do">
     <h3>🚀 You Do — Your Turn</h3>
     <div class="rich-prose">
-      <p>Polish: tune colours, sizes, positions. Extension: save high score to a file. Arcade quests below cover pygame.font + click detection.</p>
-      <ul><li>Scoreboard class with prep_score + show_score</li><li>Award points per alien in collision</li><li>Button class with _prep_msg + draw_button</li><li>MOUSEBUTTONDOWN event → start new game</li><li>settings.increase_speed() on fleet clear</li></ul>
+      <p>Try 3 rows of 5, or 2 rows of 10. Which layout do you prefer? Arcade quests cover nested loops + spacing arithmetic.</p>
+      <ul><li>Whiteboard: screen 1200 px wide, alien 60 px → how many fit with gaps?</li><li>Write _create_fleet: calculate number_aliens_x from screen width</li><li>Outer loop: rows. Inner loop: columns. Create Alien, position, add to group</li><li>Test — you should see a full grid</li></ul>
     </div>
 
     <h3 style="margin-top:1.5rem;">🎮 Practice Quests — work through these</h3>
@@ -134,31 +134,31 @@
     <div class="diff-box">
       <div class="diff-tier support">
         <h4>Support</h4>
-        <p>Scoreboard starter</p>
+        <p>_create_fleet skeleton with the math pre-done. Whiteboard grid math diagram</p>
       </div>
       <div class="diff-tier core">
         <h4>Core</h4>
-        <p>build from scratch</p>
+        <p>Follow the plan as written. Attempt the arcade quests above at your own pace.</p>
       </div>
       <div class="diff-tier extension">
         <h4>Extension</h4>
-        <p>high-score persistence</p>
+        <p>Complete all quests above + try a Boss battle for bonus XP. Help a classmate if you finish.</p>
       </div>
     </div>
 
-    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>High-score file (save to highscore.txt across runs).</li><li>Level indicator next to score.</li></ul>
+    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>3 different alien row colours across 3 rows (image swap, not inheritance).</li><li>Fleet starts 50 px lower to leave room for future score UI.</li></ul>
   </section>
 
   <section class="segment exit">
     <h3>📝 Exit Ticket — Coding Journal</h3>
     <div class="rich-prose">
-      <p>Journal: ALIEN INVASION IS COMPLETE. Write 3 sentences on what you learned in these 10 Pygame lessons.</p>
+      <p>Journal: why do we use a NESTED loop (not two separate loops) to build the fleet?</p>
     </div>
   </section>
 
   <section>
     <h2>Evidence of Learning</h2>
-    <p>Fully playable Alien Invasion: Score, Play button, difficulty scaling, lives, game over, all working.</p>
+    <p>Full fleet visible on screen with consistent even spacing.</p>
   </section>
 
   <div class="prev-next"><a href="L13.html"><span>← Previous</span>Lesson L13</a><a href="../index.html"><span>↑ Hub</span>All Lessons</a><a href="L15.html"><span>Next →</span>Lesson L15</a></div>

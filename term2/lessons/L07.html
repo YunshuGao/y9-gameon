@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L07 — Lesson 7: Ship Movement — Keyboard Events + Float Tracking (Matthes Ch 12 §4) · Y9 Game On</title>
+<title>L07 — Lesson 7: Refactoring — Settings module + check_events (Matthes Ch 12 §5) · Y9 Game On</title>
 <link rel="stylesheet" href="../../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -80,50 +80,50 @@
   <p class="meta-bar">
     <span><strong>L07</strong> · T2 Week 4</span>
     <span>🎯 CT5-DPM-01 · CT5-THI-01</span>
-    <span>📂 Phase 2 — Alien Invasion</span>
+    <span>📂 Phase 2 — Alien Invasion · Ch 12 Ship + Bullets</span>
   </p>
-  <h1>Lesson 7: Ship Movement — Keyboard Events + Float Tracking (Matthes Ch 12 §4)</h1>
+  <h1>Lesson 7: Refactoring — Settings module + check_events (Matthes Ch 12 §5)</h1>
 
   <section>
     <h2>Learning Intentions</h2>
     <ul class="intentions">
-      <li>Make the ship move smoothly with arrow keys.</li>
-<li>understand why we need floats for positions.</li>
+      <li>Split alien_invasion.</li>
+<li>py into cleaner pieces — a Settings class in its own file, an _check_events helper method — so the main loop is readable.</li>
     </ul>
     <h2>Success Criteria</h2>
     <ul class="success">
-      <li>My ship moves L/R with arrow keys.</li>
-<li>Movement is smooth — no stutter.</li>
-<li>I can explain why we use self.x = float(self.rect.x).</li>
+      <li>My settings.py file contains a Settings class with screen_width/height/bg_color.</li>
+<li>My main file imports Settings and uses self.settings.screen_width.</li>
+<li>My game loop calls self._check_events() instead of a big inline for-loop.</li>
     </ul>
   </section>
 
   <section class="segment do-now">
     <h3>📍 Do Now — Error of the Day</h3>
     <div class="rich-prose">
-      <p>Watch this GIF (I'll show on projector) — two versions of ship movement, one smooth and one stuttery. Guess why the stuttery one is broken.</p>
+      <p>Open your alien_invasion.py from L06. Count: how many hard-coded numbers can you find? (1200? 800? 230? Every one is a 'magic number' we'll tidy up today.)</p>
     </div>
   </section>
 
   <section class="segment i-do">
     <h3>👁 I Do — Teacher Demo</h3>
     <div class="rich-prose">
-      <p>Live-code the KEYDOWN/KEYUP flag pattern (moving_right = True). Show the BUG: with ship_speed = 1.5, the ship doesn't move because rect.x is an integer. FIX: track position as a float, then set rect.x from float.</p>
+      <p>Live-code the refactor: create settings.py with class Settings holding screen_width/height/bg_color. Import it in main. Replace every hard-coded number with self.settings.*. Then extract the event-handling for-loop into a helper method _check_events.</p>
     </div>
   </section>
 
   <section class="segment we-do">
     <h3>🤝 We Do — Build Together</h3>
     <div class="rich-prose">
-      <p>Class adds flags + update method + float tracking together. Check: everyone's ship moves smoothly L/R. Troubleshoot stuck students live.</p>
+      <p>Class does the refactor together, file by file. Before/after diff on the projector. Run the game — same behaviour, cleaner code.</p>
     </div>
   </section>
 
   <section class="segment you-do">
     <h3>🚀 You Do — Your Turn</h3>
     <div class="rich-prose">
-      <p>Add bounds check (ship can't leave screen). Tune ship_speed (try 1.5, 2.5, 0.5). Arcade quests below practice float tracking + flag patterns.</p>
-      <ul><li>Add moving_right, moving_left flags to Ship.__init__</li><li>Event handlers set flags on KEYDOWN/KEYUP</li><li>Write Ship.update() with bounds check</li><li>Convert to float tracking for smooth sub-pixel movement</li></ul>
+      <p>Finish the Settings split on your own game. Add <code>ship_speed = 1.5</code> to Settings now (you'll use it in L08). Add docstrings to each file. Arcade quests cover module imports + refactoring.</p>
+      <ul><li>Create settings.py with class Settings + __init__ holding 3 values</li><li>In main: from settings import Settings + self.settings = Settings()</li><li>Replace hard-coded 1200, 800, (230,230,230) with self.settings.* references</li><li>Write _check_events(self) method + replace inline event loop with self._check_events()</li></ul>
     </div>
 
     <h3 style="margin-top:1.5rem;">🎮 Practice Quests — work through these</h3>
@@ -135,31 +135,31 @@
     <div class="diff-box">
       <div class="diff-tier support">
         <h4>Support</h4>
-        <p>ship_v2_starter.py with flags pre-declared</p>
+        <p>settings.py skeleton provided</p>
       </div>
       <div class="diff-tier core">
         <h4>Core</h4>
-        <p>implement from scratch</p>
+        <p>build from scratch</p>
       </div>
       <div class="diff-tier extension">
         <h4>Extension</h4>
-        <p>Complete all quests above + try a Boss battle for bonus XP. Help a classmate if you finish.</p>
+        <p>pre-add ship_speed in preparation for L08</p>
       </div>
     </div>
 
-    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Add W/S for up/down.</li><li>Hold Shift = slow motion; hold Ctrl = fast.</li></ul>
+    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Add ship_speed and bullet_speed to Settings now (L08 will use them).</li><li>Add a docstring at the top of each file explaining what it does.</li></ul>
   </section>
 
   <section class="segment exit">
     <h3>📝 Exit Ticket — Coding Journal</h3>
     <div class="rich-prose">
-      <p>Journal: in 1 sentence, why does the ship need float tracking for speeds below 1?</p>
+      <p>Journal: 1 sentence — why did we make the code MORE files, not fewer? What did we gain?</p>
     </div>
   </section>
 
   <section>
     <h2>Evidence of Learning</h2>
-    <p>Ship moves smoothly L/R with arrow keys, stays on screen.</p>
+    <p>Main game file is ~30 lines cleaner. Settings all in one place.</p>
   </section>
 
   <div class="prev-next"><a href="L06.html"><span>← Previous</span>Lesson L06</a><a href="../index.html"><span>↑ Hub</span>All Lessons</a><a href="L08.html"><span>Next →</span>Lesson L08</a></div>

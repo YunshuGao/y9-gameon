@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L18 — Lesson 18: Multiple Alien Types + Boss Alien · Y9 Game On</title>
+<title>L18 — Lesson 18: Play Button + GameStats class (Matthes Ch 14 §1) · Y9 Game On</title>
 <link rel="stylesheet" href="../../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -80,51 +80,50 @@
   <p class="meta-bar">
     <span><strong>L18</strong> · T2 Week 9</span>
     <span>🎯 CT5-DPM-01 · CT5-THI-01</span>
-    <span>📂 Phase 3 — Alien Invasion Extensions</span>
+    <span>📂 Phase 2 — Alien Invasion · Ch 14 Scoring + End</span>
   </p>
-  <h1>Lesson 18: Multiple Alien Types + Boss Alien</h1>
+  <h1>Lesson 18: Play Button + GameStats class (Matthes Ch 14 §1)</h1>
 
   <section>
     <h2>Learning Intentions</h2>
     <ul class="intentions">
-      <li>Stop all aliens being the same.</li>
-<li>Top row = fast/weak.</li>
-<li>Middle = standard.</li>
+      <li>Refactor the scattered ship_left counter into a proper GameStats class.</li>
+<li>Add a Play button so the game starts on click, not on launch.</li>
     </ul>
     <h2>Success Criteria</h2>
     <ul class="success">
-      <li>My fleet has 3 visually-different alien types.</li>
-<li>One alien type takes 3 hits to destroy.</li>
-<li>Destroying a BOSS alien awards 500 points.</li>
+      <li>My game_stats.py has a GameStats class with reset_stats() and game_active flag.</li>
+<li>Clicking &#x27;Play&#x27; starts the game; losing shows the Play button again.</li>
+<li>I can explain why we hide the mouse during play.</li>
     </ul>
   </section>
 
   <section class="segment do-now">
     <h3>📍 Do Now — Error of the Day</h3>
     <div class="rich-prose">
-      <p>Look at your current alien fleet. Every alien is identical. That's a design choice — do you love it, or does it feel flat?</p>
+      <p>Right now your game ends and the window freezes. A real game shows a 'Play' button so the player can start again. Today we add one.</p>
     </div>
   </section>
 
   <section class="segment i-do">
     <h3>👁 I Do — Teacher Demo</h3>
     <div class="rich-prose">
-      <p>Live-code subclassing: <code>class FastAlien(Alien)</code>, <code>class TankAlien(Alien)</code>, <code>class BossAlien(Alien)</code>. Override <code>self.hp</code>, <code>self.points</code>, the image path.</p>
+      <p>Live-code <code>GameStats</code> class (extracts <code>ships_left</code> + adds <code>game_active</code> flag). Then the <code>Button</code> class — a Rect with rendered text. Hook MOUSEBUTTONDOWN → <code>_check_play_button</code>.</p>
     </div>
   </section>
 
   <section class="segment we-do">
     <h3>🤝 We Do — Build Together</h3>
     <div class="rich-prose">
-      <p>Modify <code>_check_bullet_alien_collisions</code> to use <code>alien.hit()</code> instead of auto-killing. Spawn a mixed fleet: row 0 = Fast, row 1 = Standard, row 2 = Tank.</p>
+      <p>Class wires up click-to-start together. Play button shows on launch + after losing. Click → game resets, mouse hides, play begins.</p>
     </div>
   </section>
 
   <section class="segment you-do">
     <h3>🚀 You Do — Your Turn</h3>
     <div class="rich-prose">
-      <p>Draw 3 distinct alien sprites (or use the pack I'll share in Classroom). Add the BossAlien subclass. Playtest — does the fleet feel more strategic now?</p>
-      <ul><li>Add self.hp = 1 to Alien.__init__</li><li>Subclass FastAlien(Alien): self.hp = 1; self.speed_factor = 2</li><li>Subclass TankAlien(Alien): self.hp = 3; load red sprite</li><li>Subclass BossAlien(Alien): self.hp = 10; larger sprite</li><li>In _check_bullet_alien_collisions: decrement hp instead of kill; only kill when hp == 0</li></ul>
+      <p>Customise button colour + text. Extension: show a second button like 'HIGH SCORE'. Arcade quests cover MOUSEBUTTONDOWN + collidepoint.</p>
+      <ul><li>Create game_stats.py with class GameStats — reset_stats() sets ships_left + game_active</li><li>Create button.py with class Button — a Rect + rendered text</li><li>Add self.play_button = Button(self, &#x27;Play&#x27;) to Game.__init__</li><li>Add MOUSEBUTTONDOWN handler → _check_play_button</li><li>On play click: reset stats, empty groups, create new fleet, hide mouse</li></ul>
     </div>
 
     <h3 style="margin-top:1.5rem;">🎮 Practice Quests — work through these</h3>
@@ -136,31 +135,31 @@
     <div class="diff-box">
       <div class="diff-tier support">
         <h4>Support</h4>
-        <p>alien_variants_starter.py with subclasses scaffolded; student fills hp values</p>
+        <p>GameStats + Button skeletons pre-written</p>
       </div>
       <div class="diff-tier core">
         <h4>Core</h4>
-        <p>write subclasses from scratch</p>
+        <p>build from scratch</p>
       </div>
       <div class="diff-tier extension">
         <h4>Extension</h4>
-        <p>damaged-state sprites</p>
+        <p>animated button</p>
       </div>
     </div>
 
-    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Different point values per alien type (Fast = 5, Standard = 10, Tank = 25, Boss = 500).</li><li>Tank aliens show a damaged sprite when hp &lt; full.</li></ul>
+    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Add a &#x27;HIGH SCORE&#x27; title above the Play button.</li><li>Show a flashing &#x27;CLICK TO PLAY&#x27; hint.</li></ul>
   </section>
 
   <section class="segment exit">
     <h3>📝 Exit Ticket — Coding Journal</h3>
     <div class="rich-prose">
-      <p>Journal: which alien variant do you find hardest to fight? Why?</p>
+      <p>Journal: explain the <code>game_active</code> flag — why do we need it separate from <code>ships_left</code>?</p>
     </div>
   </section>
 
   <section>
     <h2>Evidence of Learning</h2>
-    <p>Fleet clearly shows 3 alien variants. Tank takes multiple hits. Boss visibly harder.</p>
+    <p>Game starts with Play button visible. Clicking it starts play. Dying shows it again.</p>
   </section>
 
   <div class="prev-next"><a href="L17.html"><span>← Previous</span>Lesson L17</a><a href="../index.html"><span>↑ Hub</span>All Lessons</a><a href="L19.html"><span>Next →</span>Lesson L19</a></div>

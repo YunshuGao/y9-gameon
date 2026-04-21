@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L11 — Lesson 11: Fleet Movement + Edges + Direction Flip (Matthes Ch 13 §3) · Y9 Game On</title>
+<title>L11 — Lesson 11: Firing Bullets + Sprite Groups (Matthes Ch 12 §8 pt 2) · Y9 Game On</title>
 <link rel="stylesheet" href="../../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -79,50 +79,51 @@
 <main class="container lesson-page">
   <p class="meta-bar">
     <span><strong>L11</strong> · T2 Week 6</span>
-    <span>🎯 CT5-DPM-01 · CT5-COL-01</span>
-    <span>📂 Phase 2 — Alien Invasion</span>
+    <span>🎯 CT5-DPM-01 · CT5-THI-01</span>
+    <span>📂 Phase 2 — Alien Invasion · Ch 12 Ship + Bullets</span>
   </p>
-  <h1>Lesson 11: Fleet Movement + Edges + Direction Flip (Matthes Ch 13 §3)</h1>
+  <h1>Lesson 11: Firing Bullets + Sprite Groups (Matthes Ch 12 §8 pt 2)</h1>
 
   <section>
     <h2>Learning Intentions</h2>
     <ul class="intentions">
-      <li>Make the fleet move side-to-side and drop at edges, using direction multiplication.</li>
+      <li>Manage many bullets using a Sprite Group.</li>
+<li>fire a bullet when the player presses Space.</li>
     </ul>
     <h2>Success Criteria</h2>
     <ul class="success">
-      <li>My fleet moves right, drops, reverses, repeats.</li>
-<li>I can explain the fleet_direction *= -1 trick.</li>
-<li>I understand why we need break after the first edge hit.</li>
+      <li>Spacebar fires a bullet from my ship.</li>
+<li>Multiple bullets can fly up the screen at once.</li>
+<li>I can explain what a Sprite Group gives me for free.</li>
     </ul>
   </section>
 
   <section class="segment do-now">
     <h3>📍 Do Now — Error of the Day</h3>
     <div class="rich-prose">
-      <p>Predict: if fleet_direction = 1 and we do <code>fleet_direction *= -1</code>, what's the new value? What about after a second *= -1?</p>
+      <p>What would go wrong if we used a plain Python list for bullets instead of <code>pygame.sprite.Group</code>? (Hint: think about draw + update calls.)</p>
     </div>
   </section>
 
   <section class="segment i-do">
     <h3>👁 I Do — Teacher Demo</h3>
     <div class="rich-prose">
-      <p>Live-code: Alien.check_edges() + Alien.update() with direction. Then _check_fleet_edges() + _change_fleet_direction(). Emphasise the break statement — why it matters.</p>
+      <p>Live-code: <code>self.bullets = pygame.sprite.Group()</code>. Spacebar KEYDOWN → <code>self._fire_bullet()</code>. Call <code>self.bullets.update()</code> and loop draws in <code>_update_screen</code>.</p>
     </div>
   </section>
 
   <section class="segment we-do">
     <h3>🤝 We Do — Build Together</h3>
     <div class="rich-prose">
-      <p>Class adds the movement code. Fleet slides right, drops, reverses. Test. Debug live any weirdness.</p>
+      <p>Class wires up the spacebar event together. Holding spacebar → stream of bullets flies up the screen. Check: raise hand when yours works.</p>
     </div>
   </section>
 
   <section class="segment you-do">
     <h3>🚀 You Do — Your Turn</h3>
     <div class="rich-prose">
-      <p>Tune alien_speed + fleet_drop_speed. Playtest until it feels right. Arcade quests below cover direction flipping + break statements.</p>
-      <ul><li>Alien.update() uses direction in position calc</li><li>Alien.check_edges() returns True/False</li><li>_check_fleet_edges() loops + breaks on first hit</li><li>_change_fleet_direction() drops all + flips direction</li></ul>
+      <p>Tune bullet_speed + bullet_color. Watch what happens when bullets fly off the top (next lesson will fix this). Arcade quests cover Sprite Groups.</p>
+      <ul><li>In Game.__init__: self.bullets = pygame.sprite.Group()</li><li>Extend _check_keydown_events: on K_SPACE, call self._fire_bullet()</li><li>Write _fire_bullet(self) that creates a Bullet and adds it to self.bullets</li><li>In _update_screen: self.bullets.update() + for bullet in self.bullets.sprites(): bullet.draw_bullet()</li></ul>
     </div>
 
     <h3 style="margin-top:1.5rem;">🎮 Practice Quests — work through these</h3>
@@ -134,31 +135,31 @@
     <div class="diff-box">
       <div class="diff-tier support">
         <h4>Support</h4>
-        <p>fleet_movement_starter.py. Physical demo: teacher walks left-right-drop pattern in class</p>
+        <p>_fire_bullet pre-written</p>
       </div>
       <div class="diff-tier core">
         <h4>Core</h4>
-        <p>Follow the plan as written. Attempt the arcade quests above at your own pace.</p>
+        <p>implement from scratch</p>
       </div>
       <div class="diff-tier extension">
         <h4>Extension</h4>
-        <p>Complete all quests above + try a Boss battle for bonus XP. Help a classmate if you finish.</p>
+        <p>custom bullet visuals</p>
       </div>
     </div>
 
-    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Increase alien speed 10% each direction change.</li><li>Diagonal wobble: add sine-wave y-movement.</li></ul>
+    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Customise bullet_color from settings (grey → red → whatever).</li><li>Faster bullets: increase settings.bullet_speed.</li></ul>
   </section>
 
   <section class="segment exit">
     <h3>📝 Exit Ticket — Coding Journal</h3>
     <div class="rich-prose">
-      <p>Journal: in 2 sentences, explain why we need 'break' in _check_fleet_edges().</p>
+      <p>Journal: what's one thing pygame.sprite.Group gives you for free that a plain list wouldn't?</p>
     </div>
   </section>
 
   <section>
     <h2>Evidence of Learning</h2>
-    <p>Fleet moves right, drops, reverses, drops, reverses — indefinitely.</p>
+    <p>Student can fire multiple bullets on spacebar — they all fly up the screen.</p>
   </section>
 
   <div class="prev-next"><a href="L10.html"><span>← Previous</span>Lesson L10</a><a href="../index.html"><span>↑ Hub</span>All Lessons</a><a href="L12.html"><span>Next →</span>Lesson L12</a></div>

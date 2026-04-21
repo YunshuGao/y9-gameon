@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L21 — Lesson 21: Personal Reskin Workshop Day · Y9 Game On</title>
+<title>L21 — Lesson 21: High Scores + Level + Ships Remaining (Matthes Ch 14 §5-7) · Y9 Game On</title>
 <link rel="stylesheet" href="../../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -79,52 +79,50 @@
 <main class="container lesson-page">
   <p class="meta-bar">
     <span><strong>L21</strong> · T2 Week 11</span>
-    <span>🎯 CT5-DPM-01 · CT5-COM-01</span>
-    <span>📂 Phase 4 — Reskin + Showcase</span>
+    <span>🎯 CT5-DPM-01 · CT5-DAT-01</span>
+    <span>📂 Phase 2 — Alien Invasion · Ch 14 Scoring + End</span>
   </p>
-  <h1>Lesson 21: Personal Reskin Workshop Day</h1>
+  <h1>Lesson 21: High Scores + Level + Ships Remaining (Matthes Ch 14 §5-7)</h1>
 
   <section>
     <h2>Learning Intentions</h2>
     <ul class="intentions">
-      <li>Turn your Alien Invasion into YOUR game.</li>
-<li>Swap all sprites, change every colour, tune every speed, add ONE small tweak — a finished reskin.</li>
+      <li>Add the final HUD pieces — high score (saved across runs), current level, ship-icon lives display.</li>
     </ul>
     <h2>Success Criteria</h2>
     <ul class="success">
-      <li>All my sprites (ship, alien, bullet) are custom.</li>
-<li>Background, text and bullet colours reflect my theme.</li>
-<li>I&#x27;ve tuned ship_speed / bullet_speed / alien_speed to feel right.</li>
-<li>I&#x27;ve added ONE small tweak (chosen from a list or pitched to me).</li>
+      <li>My high score persists after I close + reopen the game.</li>
+<li>Current level displays under the score.</li>
+<li>Remaining lives show as ship icons in the top-left.</li>
     </ul>
   </section>
 
   <section class="segment do-now">
     <h3>📍 Do Now — Error of the Day</h3>
     <div class="rich-prose">
-      <p>Pick a theme in 60 seconds. Cowboy? Underwater? Retro neon? Cyberpunk? Write it at the top of your workshop notes.</p>
+      <p>Your Alien Invasion is feature-complete except for one thing: when you close the game, your top score VANISHES. Who remembers what the highest score was last lesson?</p>
     </div>
   </section>
 
   <section class="segment i-do">
     <h3>👁 I Do — Teacher Demo</h3>
     <div class="rich-prose">
-      <p>5-minute kickoff: show 3 example reskins (cowboy, underwater, retro). Walk through the reskin checklist: sprites / colours / HUD / title / SFX / 3 numbers / 1 tweak.</p>
+      <p>Live-code high score persistence. <code>json.dump(self.stats.high_score, open('high_score.json', 'w'))</code>. Load with <code>try/except FileNotFoundError</code>. Extend Scoreboard with <code>prep_high_score</code>, <code>prep_level</code>, and <code>prep_ships</code> (reuses Ship as life icons).</p>
     </div>
   </section>
 
   <section class="segment we-do">
     <h3>🤝 We Do — Build Together</h3>
     <div class="rich-prose">
-      <p>Briefly check with a neighbour: 'what's your theme and what's your one tweak?' 30-second trade.</p>
+      <p>Class adds all 3 HUD elements. Full HUD: score top-right, high score top-centre, level under score, lives top-left as ship icons.</p>
     </div>
   </section>
 
   <section class="segment you-do">
     <h3>🚀 You Do — Your Turn</h3>
     <div class="rich-prose">
-      <p>65 minutes silent workshop. Work through the reskin checklist. I circulate to every desk. When you flag a quest in the arcade, tag the Classroom assignment — I'll see it.</p>
-      <ul><li>Reskin checklist: ship sprite / alien sprite(s) / bullet colour / bg colour / HUD colours / title text / sfx vibe</li><li>Tune 3 numbers: ship_speed, bullet_speed, alien_speed</li><li>Pick ONE tweak from the list: (a) background image (b) different firing key (c) ship emoji as sprite (d) custom fleet layout (e) start-level bonus (f) pitch your own</li><li>Test for 2 minutes straight — any crashes?</li><li>Show a neighbour; get 1 piece of feedback; apply it</li></ul>
+      <p>Beat your own high score. Close the game — reopen — check that <code>high_score.json</code> persists. Open it in VS Code to see the number. Arcade quests cover json file I/O.</p>
+      <ul><li>Add self.high_score = 0 + load from high_score.json in GameStats</li><li>Add _save_high_score() using json.dump</li><li>Extend Scoreboard: prep_high_score, prep_level, prep_ships (reuses Ship class)</li><li>Update high score on every score change</li><li>In show_score: blit all four (score, high_score, level, ships)</li></ul>
     </div>
 
     <h3 style="margin-top:1.5rem;">🎮 Practice Quests — work through these</h3>
@@ -136,31 +134,31 @@
     <div class="diff-box">
       <div class="diff-tier support">
         <h4>Support</h4>
-        <p>use my sprite pack + change 3 numbers + add ONE simple tweak (e.g. change fire key)</p>
+        <p>prep_* methods scaffolded; json helpers pre-written</p>
       </div>
       <div class="diff-tier core">
         <h4>Core</h4>
-        <p>custom sprites + 3 numbers + 1 tweak</p>
+        <p>build from scratch</p>
       </div>
       <div class="diff-tier extension">
         <h4>Extension</h4>
-        <p>cohesive themed reskin + 2 tweaks</p>
+        <p>top 5 leaderboard</p>
       </div>
     </div>
 
-    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>TWO tweaks instead of one.</li><li>Cohesive theme: all sprites + HUD + title screen in one aesthetic.</li></ul>
+    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Store TOP 5 high scores in a list instead of just one.</li><li>Flash &#x27;NEW HIGH SCORE!&#x27; briefly when it&#x27;s beaten.</li></ul>
   </section>
 
   <section class="segment exit">
     <h3>📝 Exit Ticket — Coding Journal</h3>
     <div class="rich-prose">
-      <p>Show your reskin to a neighbour for 60 seconds. Save a screenshot to Classroom.</p>
+      <p>Journal: describe what's in your <code>high_score.json</code> file. Why is it a text file, not binary? What else could we save there?</p>
     </div>
   </section>
 
   <section>
     <h2>Evidence of Learning</h2>
-    <p>Playable, visibly personalised Alien Invasion. Distinct look from every other student.</p>
+    <p>Full HUD: score + high score + level + ship icons. high_score.json persists across runs.</p>
   </section>
 
   <div class="prev-next"><a href="L20.html"><span>← Previous</span>Lesson L20</a><a href="../index.html"><span>↑ Hub</span>All Lessons</a><a href="L22.html"><span>Next →</span>Lesson L22</a></div>

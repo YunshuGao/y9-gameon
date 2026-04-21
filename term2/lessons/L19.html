@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L19 — Lesson 19: Power-ups + Shield Mechanic · Y9 Game On</title>
+<title>L19 — Lesson 19: Leveling Up — Difficulty Scaling (Matthes Ch 14 §2) · Y9 Game On</title>
 <link rel="stylesheet" href="../../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -80,51 +80,49 @@
   <p class="meta-bar">
     <span><strong>L19</strong> · T2 Week 10</span>
     <span>🎯 CT5-DPM-01 · CT5-THI-01</span>
-    <span>📂 Phase 3 — Alien Invasion Extensions</span>
+    <span>📂 Phase 2 — Alien Invasion · Ch 14 Scoring + End</span>
   </p>
-  <h1>Lesson 19: Power-ups + Shield Mechanic</h1>
+  <h1>Lesson 19: Leveling Up — Difficulty Scaling (Matthes Ch 14 §2)</h1>
 
   <section>
     <h2>Learning Intentions</h2>
     <ul class="intentions">
-      <li>Destroying an alien has a small chance to drop a power-up.</li>
-<li>Shield power-up gives the ship 5 seconds of invincibility.</li>
-<li>Rapid-fire drops bullet cooldown.</li>
+      <li>Make the game harder each time you clear a fleet — ship/bullet/alien speeds all multiply by a scale factor.</li>
     </ul>
     <h2>Success Criteria</h2>
     <ul class="success">
-      <li>Some aliens drop a visible power-up token.</li>
-<li>Colliding with a shield power-up makes the ship invincible for 5 seconds.</li>
-<li>Rapid-fire power-up doubles my fire rate for 10 seconds.</li>
+      <li>Each new fleet is visibly faster.</li>
+<li>Ship speed and bullet speed also scale (so the game stays fair).</li>
+<li>I can explain why we split Settings into static + dynamic methods.</li>
     </ul>
   </section>
 
   <section class="segment do-now">
     <h3>📍 Do Now — Error of the Day</h3>
     <div class="rich-prose">
-      <p>Name one moment in a game you've played where a random drop or power-up completely changed how you felt about the level.</p>
+      <p>Play your L18 build for 90 seconds. Notice: every run feels exactly the same. The fleet speed doesn't change. Today we fix that.</p>
     </div>
   </section>
 
   <section class="segment i-do">
     <h3>👁 I Do — Teacher Demo</h3>
     <div class="rich-prose">
-      <p>Live-code the <code>PowerUp</code> class. Introduce <code>pygame.time.get_ticks()</code> — the timer pattern for time-limited effects. Show how <code>self.shield_until = get_ticks() + 5000</code> works.</p>
+      <p>Live-split Settings into <code>__init__</code> (static: screen size, colours, <code>speedup_scale</code>) + <code>initialize_dynamic_settings()</code> (mutable: ship/bullet/alien speeds). Add <code>increase_speed()</code> that multiplies all three by scale.</p>
     </div>
   </section>
 
   <section class="segment we-do">
     <h3>🤝 We Do — Build Together</h3>
     <div class="rich-prose">
-      <p>Drop a PowerUp 10% of the time on alien death. Implement the shield: skip damage if <code>ship.is_shielded()</code>. Draw a blue halo when shielded.</p>
+      <p>Call <code>self.settings.increase_speed()</code> after fleet-clear. Call <code>initialize_dynamic_settings()</code> in <code>_check_play_button</code> (reset on new game). Each new fleet is faster.</p>
     </div>
   </section>
 
   <section class="segment you-do">
     <h3>🚀 You Do — Your Turn</h3>
     <div class="rich-prose">
-      <p>Add the rapid-fire power-up using the same timer pattern (doubles fire rate for 10s). Tune drop rate + durations. Arcade quests below cover timer + sprite patterns.</p>
-      <ul><li>Build PowerUp(Sprite) class with kind attribute (&#x27;shield&#x27; or &#x27;rapid&#x27;)</li><li>On alien death: if random.random() &lt; 0.1: spawn PowerUp at alien position, moving down</li><li>spritecollideany(ship, powerups) triggers pickup</li><li>Shield: ship.shielded_until = pygame.time.get_ticks() + 5000</li><li>In ship update: if ticks &lt; shielded_until: draw blue halo</li><li>In ship-alien collision: if ship.shielded_until &gt; ticks: skip damage</li></ul>
+      <p>Tune <code>speedup_scale</code>. Try 1.05 (gentle), 1.2 (stressful), 1.5 (brutal). Arcade quests cover static vs dynamic attributes.</p>
+      <ul><li>Refactor Settings: static attrs in __init__, dynamic attrs in initialize_dynamic_settings</li><li>Add speedup_scale = 1.1 to static</li><li>Write Settings.increase_speed() that multiplies all speeds by speedup_scale</li><li>In _check_bullet_alien_collisions, after fleet-clear: self.settings.increase_speed()</li><li>Call self.settings.initialize_dynamic_settings() in _check_play_button (reset on new game)</li></ul>
     </div>
 
     <h3 style="margin-top:1.5rem;">🎮 Practice Quests — work through these</h3>
@@ -136,31 +134,31 @@
     <div class="diff-box">
       <div class="diff-tier support">
         <h4>Support</h4>
-        <p>powerup_starter.py with PowerUp class pre-written</p>
+        <p>settings_v2_starter.py with split scaffolded</p>
       </div>
       <div class="diff-tier core">
         <h4>Core</h4>
-        <p>build from scratch</p>
+        <p>type along</p>
       </div>
       <div class="diff-tier extension">
         <h4>Extension</h4>
-        <p>magnet effect</p>
+        <p>level banner + cap</p>
       </div>
     </div>
 
-    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Triple-shot power-up: spacebar fires 3 bullets for 10s.</li><li>Power-up magnet: ship attracts nearby powerups.</li></ul>
+    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Cap speedup_scale at 3.0 so late-game stays playable.</li><li>Add a &#x27;LEVEL X&#x27; flash for 1 second when the fleet is cleared.</li></ul>
   </section>
 
   <section class="segment exit">
     <h3>📝 Exit Ticket — Coding Journal</h3>
     <div class="rich-prose">
-      <p>Journal: describe the ONE moment during playtest when a power-up changed your strategy.</p>
+      <p>Journal: why did we split Settings into two methods? What problem did it solve?</p>
     </div>
   </section>
 
   <section>
     <h2>Evidence of Learning</h2>
-    <p>Playable game where power-ups occasionally drop and give temporary buffs.</p>
+    <p>Each new fleet is faster. Reset clicks bring speeds back to start.</p>
   </section>
 
   <div class="prev-next"><a href="L18.html"><span>← Previous</span>Lesson L18</a><a href="../index.html"><span>↑ Hub</span>All Lessons</a><a href="L20.html"><span>Next →</span>Lesson L20</a></div>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L12 — Lesson 12: Collisions + Fleet Respawn (Matthes Ch 13 §4) · Y9 Game On</title>
+<title>L12 — Lesson 12: Bullet Cleanup + Fire Limits (Matthes Ch 12 §8 pt 3) · Y9 Game On</title>
 <link rel="stylesheet" href="../../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -80,49 +80,50 @@
   <p class="meta-bar">
     <span><strong>L12</strong> · T2 Week 6</span>
     <span>🎯 CT5-DPM-01 · CT5-THI-01</span>
-    <span>📂 Phase 2 — Alien Invasion</span>
+    <span>📂 Phase 2 — Alien Invasion · Ch 12 Ship + Bullets</span>
   </p>
-  <h1>Lesson 12: Collisions + Fleet Respawn (Matthes Ch 13 §4)</h1>
+  <h1>Lesson 12: Bullet Cleanup + Fire Limits (Matthes Ch 12 §8 pt 3)</h1>
 
   <section>
     <h2>Learning Intentions</h2>
     <ul class="intentions">
-      <li>Detect bullet-alien collisions and respawn the fleet when it&#x27;s clear.</li>
+      <li>Remove bullets once they leave the top of the screen.</li>
+<li>cap the number of bullets on screen at once.</li>
     </ul>
     <h2>Success Criteria</h2>
     <ul class="success">
-      <li>Bullets destroy aliens on contact (both disappear).</li>
-<li>When the fleet is empty, a new fleet appears.</li>
-<li>I can explain what groupcollide&#x27;s True, True arguments do.</li>
+      <li>Old bullets get removed when they reach the top of the screen.</li>
+<li>I can only have N bullets (say 3) on screen at once.</li>
+<li>I can explain why we loop over bullets.copy() not bullets.</li>
     </ul>
   </section>
 
   <section class="segment do-now">
     <h3>📍 Do Now — Error of the Day</h3>
     <div class="rich-prose">
-      <p>Predict: what does <code>pygame.sprite.groupcollide(bullets, aliens, True, True)</code> return if 2 bullets hit 3 aliens? (Dict? List? Set?)</p>
+      <p>Run your L11 game. Hold spacebar for 10 seconds without moving. Then <code>print(len(self.bullets))</code> in the loop. What number do you see climbing?</p>
     </div>
   </section>
 
   <section class="segment i-do">
     <h3>👁 I Do — Teacher Demo</h3>
     <div class="rich-prose">
-      <p>Live-code _check_bullet_alien_collisions(). Show the groupcollide return type (print it out). Introduce the respawn pattern: if not aliens.</p>
+      <p>Show the problem: bullets off-screen still live in the Group. List grows forever, game slows down. FIX: loop <code>for bullet in self.bullets.copy():</code> and remove offscreen ones. Add <code>bullets_allowed</code> to Settings.</p>
     </div>
   </section>
 
   <section class="segment we-do">
     <h3>🤝 We Do — Build Together</h3>
     <div class="rich-prose">
-      <p>Class wires up collision detection. Shoot aliens — they disappear. Clear fleet — new one appears. Satisfying.</p>
+      <p>Class adds cleanup + limit together. Hold spacebar — len(bullets) stays at 3. Explain why <code>.copy()</code> matters when modifying a collection during iteration.</p>
     </div>
   </section>
 
   <section class="segment you-do">
     <h3>🚀 You Do — Your Turn</h3>
     <div class="rich-prose">
-      <p>Tune: ship speed, bullet speed, alien speed. Find the 'feel' that works. Arcade quests below cover collision detection + respawn.</p>
-      <ul><li>Add pygame.sprite.groupcollide(bullets, aliens, True, True)</li><li>Check if aliens is empty</li><li>Call bullets.empty() + _create_fleet() to respawn</li><li>Tune speed values until game feels good</li></ul>
+      <p>Tune bullets_allowed. Try 1 (limited), 3 (book default), 10 (overwhelming). Which feels right? Arcade quests cover cleanup + len() checks.</p>
+      <ul><li>Add self.bullets_allowed = 3 to Settings</li><li>In _fire_bullet, wrap body in: if len(self.bullets) &lt; self.settings.bullets_allowed:</li><li>Add cleanup loop: for bullet in self.bullets.copy(): if bullet.rect.bottom &lt;= 0: self.bullets.remove(bullet)</li><li>Print len(self.bullets) each frame — confirm it stays ≤ 3</li></ul>
     </div>
 
     <h3 style="margin-top:1.5rem;">🎮 Practice Quests — work through these</h3>
@@ -134,31 +135,31 @@
     <div class="diff-box">
       <div class="diff-tier support">
         <h4>Support</h4>
-        <p>collision code pre-written</p>
+        <p>cleanup loop pre-written</p>
       </div>
       <div class="diff-tier core">
         <h4>Core</h4>
-        <p>write from scratch</p>
+        <p>implement from scratch</p>
       </div>
       <div class="diff-tier extension">
         <h4>Extension</h4>
-        <p>explore piercing + indestructible alien variants</p>
+        <p>cooldown timer</p>
       </div>
     </div>
 
-    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Piercing bullets (False, True).</li><li>Print collision dict to see what groupcollide returns.</li></ul>
+    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Add a fire cooldown (200 ms between shots) so holding Space doesn&#x27;t spam.</li><li>Draw a small counter showing bullets_remaining (preview of scoreboard).</li></ul>
   </section>
 
   <section class="segment exit">
     <h3>📝 Exit Ticket — Coding Journal</h3>
     <div class="rich-prose">
-      <p>Journal: what did it feel like when your first alien disappeared?</p>
+      <p>Journal: why does our cleanup loop iterate over <code>bullets.copy()</code> and not <code>bullets</code>?</p>
     </div>
   </section>
 
   <section>
     <h2>Evidence of Learning</h2>
-    <p>Playable: shoot aliens, see them disappear, fleet respawns when clear.</p>
+    <p>Bullets disappear off the top. At most N on screen at once.</p>
   </section>
 
   <div class="prev-next"><a href="L11.html"><span>← Previous</span>Lesson L11</a><a href="../index.html"><span>↑ Hub</span>All Lessons</a><a href="L13.html"><span>Next →</span>Lesson L13</a></div>
