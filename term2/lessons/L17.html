@@ -3,110 +3,227 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L17 — Shooting aliens — collision detection · Y9 Game On</title>
-<link rel="stylesheet" href="../assets/style.css">
+<title>L17 — Lesson 17: Ship Hits + Lives + Game Over (Matthes Ch 13 §6) · Y9 Game On</title>
+<link rel="stylesheet" href="../../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+.lesson-quest-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.8rem;
+  margin: 1rem 0;
+}
+.lesson-quest-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem;
+  text-decoration: none;
+  color: var(--text);
+  transition: transform 0.2s, border-color 0.2s;
+  display: block;
+}
+.lesson-quest-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--py-gold);
+}
+.lq-header {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 0.4rem;
+  font-size: 0.8rem; color: var(--text-muted);
+}
+.lq-emoji { font-size: 1.3rem; }
+.lq-type { flex: 1; font-weight: 600; }
+.lq-xp { color: var(--py-gold); font-weight: 700; font-family: 'Fira Code', monospace; }
+.lq-title { font-weight: 600; margin-bottom: 0.5rem; line-height: 1.3; }
+.lq-meta { display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; }
+.lq-id { font-family: 'Fira Code', monospace; color: var(--text-dim); }
+.rich-prose p { line-height: 1.7; margin-bottom: 0.8rem; }
+.rich-prose code {
+  background: rgba(255, 212, 59, 0.1);
+  color: var(--py-gold);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.92em;
+  font-family: 'Fira Code', monospace;
+}
+.segment.i-do { border-left: 3px solid var(--py-blue); }
+.segment.do-now { border-left: 3px solid var(--red); }
+.segment.we-do { border-left: 3px solid var(--teal); }
+.segment.you-do { border-left: 3px solid var(--green); }
+.segment.exit { border-left: 3px solid var(--py-gold); }
+.segment {
+  margin-bottom: 1.5rem;
+  padding: 1.2rem 1.4rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.segment h3 { margin-top: 0; color: var(--text); }
+</style>
 </head>
 <body>
-
 
 <header class="site-header">
   <div class="site-header-inner">
     <a href="../index.html" class="site-brand">🎮 Y9 Game On · Term 2 · Python Arcade</a>
     <nav class="site-nav">
-      <a href="../index.html">Overview</a>
-      <a href="../twist-ideas.html">Your Twist ideas</a>
-      <a href="../journal.html">Coding Journal</a>
-      <a href="../../index.html">Term 1 archive</a>
+      <a href="../index.html">Lessons</a>
+      <a href="../arcade/index.html">🎮 Arcade</a>
+      <a href="../arcade/index.html#hallfame">Hall of Fame</a>
+      <a href="../arcade/index.html#errors">Error Bestiary</a>
     </nav>
   </div>
 </header>
 
 <main class="container lesson-page">
   <p class="meta-bar">
-    <span><strong>L17</strong> · Week 9</span>
-    <span>⏱ 75 minutes</span>
-    <span>🎯 IND5-2 · IND5-3 · IND5-5</span>
-    <span>📂 Phase 3 — Alien Invasion Mechanics</span>
+    <span><strong>L17</strong> · T2 Week 9</span>
+    <span>🎯 CT5-DPM-01 · CT5-COM-01</span>
+    <span>📂 Phase 2 — Alien Invasion · Ch 14 Scoring + End</span>
   </p>
-  <h1>Shooting aliens — collision detection</h1>
+  <h1>Lesson 17: Ship Hits + Lives + Game Over (Matthes Ch 13 §6)</h1>
+
+  
 
   <section>
     <h2>Learning Intentions</h2>
-    <ul class="intentions"><li>I can use <code>pygame.sprite.groupcollide()</code> to detect bullet-alien collisions</li>
-<li>I can remove destroyed aliens and bullets</li>
-<li>I can respawn the fleet when all aliens are gone</li></ul>
+    <ul class="intentions">
+      <li>Add real stakes — the ship can be hit, has 3 lives, game ends when they run out.</li>
+<li>Aliens reaching the bottom also counts as a hit.</li>
+    </ul>
     <h2>Success Criteria</h2>
-    <ul class="success"><li>Hitting an alien with a bullet removes both</li>
-<li>When the fleet is empty, a new fleet appears</li>
-<li>My game feels satisfying when you hit an alien</li></ul>
+    <ul class="success">
+      <li>When an alien touches my ship, I lose a life.</li>
+<li>I have 3 lives total; game ends when all are gone.</li>
+<li>Aliens reaching the bottom also counts as a hit.</li>
+    </ul>
   </section>
 
   <section class="segment do-now">
-    <div class="segment-header"><span class="segment-minutes">5 min</span><h3>Do Now — Error of the Day</h3></div>
-    <p>Your ship has a rect. Your bullet has a rect. Your alien has a rect. How would Python know if a bullet hit an alien? (pygame.Rect.colliderect — or the Sprite equivalent.)</p>
+    <h3>📍 Do Now — Error of the Day</h3>
+    <div class="rich-prose">
+      <p>Look at your L16 game. Right now, nothing bad happens if an alien reaches the bottom. Is that fair? What should happen?</p>
+    </div>
   </section>
 
   <section class="segment i-do">
-    <div class="segment-header"><span class="segment-minutes">10 min</span><h3>I Do — Live-coded demo</h3></div>
-    <p>Live-code collision:
-<pre><code>def _check_bullet_alien_collisions(self):
-    collisions = pygame.sprite.groupcollide(
-        self.bullets, self.aliens, True, True)
-    if not self.aliens:
-        self.bullets.empty()
-        self._create_fleet()</code></pre>Explain True, True — delete bullet AND alien on collision. Could be False for piercing bullets.</p>
+    <h3>👁 I Do — Teacher Demo</h3>
+    <div class="rich-prose">
+      <p>Live-code the ship-alien collision check with <code>spritecollideany</code>. Build <code>_ship_hit()</code> with <code>sleep(0.5)</code> + reset. Add <code>_check_aliens_bottom()</code> (reuses _ship_hit). Track <code>ships_left</code> as a simple counter (GameStats class comes next lesson).</p>
+    </div>
   </section>
 
   <section class="segment we-do">
-    <div class="segment-header"><span class="segment-minutes">15 min</span><h3>We Do — Guided build</h3></div>
-    <p>Integrate collision check into main loop. Test: fire at aliens and they disappear. Fire at all aliens — the fleet respawns. Smile.</p>
+    <h3>🤝 We Do — Build Together</h3>
+    <div class="rich-prose">
+      <p>Class adds stakes together. Run into an alien — ship dies, lives drop, ship re-centres, 0.5s pause. Lose 3 lives — game exits (for now).</p>
+    </div>
   </section>
 
   <section class="segment you-do">
-    <div class="segment-header"><span class="segment-minutes">35 min</span><h3>You Do — Your turn</h3></div>
-    <p>Tune: what feels good? What feels too easy? Adjust ship_speed, bullet_speed, fleet_drop_speed. Extension: add a <code>score</code> variable; +10 per alien killed. Display with pygame.font.</p>
-    <div class="diff-box">
-      <div class="diff-tier support"><h4>Support</h4><p>Use collision_starter.py with the _check_bullet_alien_collisions method pre-written.</p></div>
-      <div class="diff-tier core"><h4>Core</h4><p>Build per Matthes Ch 13.</p></div>
-      <div class="diff-tier extension"><h4>Extension</h4><p>Bullet types: rapid (1 pt per alien) vs charged (5 pts per alien, slower fire rate).</p></div>
+    <h3>🚀 You Do — Your Turn</h3>
+    <div class="rich-prose">
+      <p>Tune <code>ship_limit</code>. Try 1 (brutal), 3 (book), 5 (easy). Arcade quests cover spritecollideany + counter tracking.</p>
+      <ul><li>Add self.ships_left = 3 to Game.__init__</li><li>Add pygame.sprite.spritecollideany(self.ship, self.aliens) check each frame</li><li>Build _ship_hit(): sleep(0.5), empty groups, respawn fleet + ship</li><li>Add _check_aliens_bottom() — treat bottom-reach the same as ship-hit</li></ul>
     </div>
+
+    <h3 style="margin-top:1.5rem;">🎮 Practice Quests — work through these</h3>
+    <div id="lesson-quests">
+      <p style="color:var(--text-muted);">Loading practice quests for this lesson...</p>
+    </div>
+
+    <h3 style="margin-top:1.5rem;">Three tiers — pick yours</h3>
+    <div class="diff-box">
+      <div class="diff-tier support">
+        <h4>Support</h4>
+        <p>_ship_hit pre-written</p>
+      </div>
+      <div class="diff-tier core">
+        <h4>Core</h4>
+        <p>build from scratch</p>
+      </div>
+      <div class="diff-tier extension">
+        <h4>Extension</h4>
+        <p>flash + brief invincibility</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Flash the ship briefly after respawn for a visual indicator.</li><li>Add a &#x27;ships_left&#x27; printout to the top-left corner (preview of L18 HUD).</li></ul>
   </section>
-
-  
-  
-<div class="checkpoint-callout">
-  <h4>🔖 Checkpoint</h4>
-  <p>✅ Major checkpoint. You have a playable alien invasion core. Download game-checkpoint-L17.py if broken.</p>
-  <p><a href='../checkpoints/game-checkpoint-L17.py'>Download game-checkpoint-L17.py</a></p>
-</div>
-
 
   <section class="segment exit">
-    <div class="segment-header"><span class="segment-minutes">5 min</span><h3>Exit Ticket — Coding Journal</h3></div>
-    <p>Journal: what did it feel like when your first alien disappeared? Write a short celebration.</p>
-    <div class="journal-callout">
-      <h4>📝 Journal submission</h4>
-      <p class="callout-note">Submit your 2-3 sentence journal entry in Google Classroom before you leave. Every entry contributes to your Coding Journal (/5) in the final assessment.</p>
+    <h3>📝 Exit Ticket — Coding Journal</h3>
+    <div class="rich-prose">
+      <p>Journal: why does <code>_ship_hit</code> call <code>sleep(0.5)</code>? What would happen if we didn't?</p>
     </div>
   </section>
 
-  
-<section class="resources">
-<h2>Resources</h2>
-<ul>
-<li>📖 <a href='#' target='_blank'>Matthes Ch 13 — Collisions</a></li>
-</ul>
-</section>
+  <section>
+    <h2>Evidence of Learning</h2>
+    <p>Lives decrement on hit; game ends cleanly after 3 deaths.</p>
+  </section>
 
-  <div class="prev-next"><a href='L16.html'><span>← Previous</span>Lesson L16</a><a href='../index.html'><span>↑ Hub</span>All Lessons</a><a href='L18.html'><span>Next →</span>Lesson L18</a></div>
+  <div class="prev-next"><a href="L16.html"><span>← Previous</span>Lesson L16</a><a href="../index.html"><span>↑ Hub</span>All Lessons</a><a href="L18.html"><span>Next →</span>Lesson L18</a></div>
 </main>
 
 <footer class="footer">
-  <p>Year 9 Game On — Term 2 2026 — Arthur Phillip High School</p>
-  <p>Taught by <a href="https://github.com/YunshuGao">Ms Yunshu Gao</a> · Built with Python + a lot of patience</p>
+  <p>Y9 Game On · Term 2 · Python Arcade</p>
 </footer>
+
+
+<script>
+(async function() {
+  try {
+    const res = await fetch("../arcade/exercises.json?v=" + Date.now());
+    const all = await res.json();
+    const mine = all.filter(q => q.lesson === "L17");
+    const box = document.getElementById("lesson-quests");
+    if (!mine.length) {
+      box.innerHTML = '<p style="color:var(--text-muted);">No arcade quests mapped to this lesson yet. Check the arcade directly.</p>';
+      return;
+    }
+    // Group by quest type
+    const typeEmoji = {code:"💻",drill:"⌨️",predict:"🔮",debug:"🔧",modify:"🔨",write:"✍️",multi:"✅",mini:"🎯",boss:"💥"};
+    const typeLabel = {code:"Code", drill:"Typing drill", predict:"Predict output", debug:"Debug", modify:"Modify code", write:"Writing", multi:"Quick quiz", mini:"Mini-game", boss:"Boss battle"};
+
+    // Sort: easy → medium → hard → boss
+    const diffOrder = {easy:0, medium:1, hard:2};
+    mine.sort((a, b) => {
+      if (a.num === 999) return 1;
+      if (b.num === 999) return -1;
+      return (diffOrder[a.difficulty] - diffOrder[b.difficulty]) || a.id.localeCompare(b.id);
+    });
+
+    const totalXP = mine.reduce((s, q) => s + q.xp, 0);
+    box.innerHTML = `
+      <p style="color:var(--text-muted);margin-bottom:1rem;">
+        <strong>${mine.length} quests</strong> for this lesson · <strong>${totalXP} XP</strong> available.
+        Click any quest to open it in the arcade (you keep XP + progress across lessons).
+      </p>
+      <div class="lesson-quest-grid">
+        ${mine.map(q => `
+          <a class="lesson-quest-card" href="../arcade/#exercise/${q.id}" target="_blank">
+            <div class="lq-header">
+              <span class="lq-emoji">${typeEmoji[q.type] || "❓"}</span>
+              <span class="lq-type">${typeLabel[q.type] || q.type}</span>
+              <span class="lq-xp">${q.xp} XP</span>
+            </div>
+            <div class="lq-title">${q.flavour || q.name}</div>
+            <div class="lq-meta">
+              <span class="diff-badge diff-${q.difficulty}">${q.difficulty}</span>
+              <span class="lq-id">${q.id}</span>
+            </div>
+          </a>
+        `).join("")}
+      </div>
+    `;
+  } catch (e) {
+    document.getElementById("lesson-quests").innerHTML =
+      '<p style="color:var(--red);">Could not load quests. Open the arcade directly from the nav.</p>';
+  }
+})();
+</script>
+
 </body>
 </html>
-

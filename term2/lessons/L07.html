@@ -3,110 +3,227 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L07 — User input and while loops — interactive games · Y9 Game On</title>
-<link rel="stylesheet" href="../assets/style.css">
+<title>L07 — Lesson 7: Refactoring — Settings module + check_events (Matthes Ch 12 §5) · Y9 Game On</title>
+<link rel="stylesheet" href="../../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+.lesson-quest-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.8rem;
+  margin: 1rem 0;
+}
+.lesson-quest-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem;
+  text-decoration: none;
+  color: var(--text);
+  transition: transform 0.2s, border-color 0.2s;
+  display: block;
+}
+.lesson-quest-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--py-gold);
+}
+.lq-header {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 0.4rem;
+  font-size: 0.8rem; color: var(--text-muted);
+}
+.lq-emoji { font-size: 1.3rem; }
+.lq-type { flex: 1; font-weight: 600; }
+.lq-xp { color: var(--py-gold); font-weight: 700; font-family: 'Fira Code', monospace; }
+.lq-title { font-weight: 600; margin-bottom: 0.5rem; line-height: 1.3; }
+.lq-meta { display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; }
+.lq-id { font-family: 'Fira Code', monospace; color: var(--text-dim); }
+.rich-prose p { line-height: 1.7; margin-bottom: 0.8rem; }
+.rich-prose code {
+  background: rgba(255, 212, 59, 0.1);
+  color: var(--py-gold);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.92em;
+  font-family: 'Fira Code', monospace;
+}
+.segment.i-do { border-left: 3px solid var(--py-blue); }
+.segment.do-now { border-left: 3px solid var(--red); }
+.segment.we-do { border-left: 3px solid var(--teal); }
+.segment.you-do { border-left: 3px solid var(--green); }
+.segment.exit { border-left: 3px solid var(--py-gold); }
+.segment {
+  margin-bottom: 1.5rem;
+  padding: 1.2rem 1.4rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.segment h3 { margin-top: 0; color: var(--text); }
+</style>
 </head>
 <body>
-
 
 <header class="site-header">
   <div class="site-header-inner">
     <a href="../index.html" class="site-brand">🎮 Y9 Game On · Term 2 · Python Arcade</a>
     <nav class="site-nav">
-      <a href="../index.html">Overview</a>
-      <a href="../twist-ideas.html">Your Twist ideas</a>
-      <a href="../journal.html">Coding Journal</a>
-      <a href="../../index.html">Term 1 archive</a>
+      <a href="../index.html">Lessons</a>
+      <a href="../arcade/index.html">🎮 Arcade</a>
+      <a href="../arcade/index.html#hallfame">Hall of Fame</a>
+      <a href="../arcade/index.html#errors">Error Bestiary</a>
     </nav>
   </div>
 </header>
 
 <main class="container lesson-page">
   <p class="meta-bar">
-    <span><strong>L07</strong> · Week 4</span>
-    <span>⏱ 75 minutes</span>
-    <span>🎯 IND5-3 · IND5-5 · IND5-7</span>
-    <span>📂 Phase 1 — Python Foundations</span>
+    <span><strong>L07</strong> · T2 Week 4</span>
+    <span>🎯 CT5-DPM-01 · CT5-THI-01</span>
+    <span>📂 Phase 2 — Alien Invasion · Ch 12 Ship + Bullets</span>
   </p>
-  <h1>User input and while loops — interactive games</h1>
+  <h1>Lesson 7: Refactoring — Settings module + check_events (Matthes Ch 12 §5)</h1>
+
+  
 
   <section>
     <h2>Learning Intentions</h2>
-    <ul class="intentions"><li>I can use <code>input()</code> to get user choices</li>
-<li>I can use a while-loop to keep asking until something happens</li>
-<li>I can use a flag variable to exit a loop cleanly</li></ul>
+    <ul class="intentions">
+      <li>Split alien_invasion.</li>
+<li>py into cleaner pieces — a Settings class in its own file, an _check_events helper method — so the main loop is readable.</li>
+    </ul>
     <h2>Success Criteria</h2>
-    <ul class="success"><li>My adventure v2 loops until the player quits or dies</li>
-<li>I've used a flag variable (e.g. <code>alive = True</code>)</li>
-<li>My program handles at least one wrong input</li></ul>
+    <ul class="success">
+      <li>My settings.py file contains a Settings class with screen_width/height/bg_color.</li>
+<li>My main file imports Settings and uses self.settings.screen_width.</li>
+<li>My game loop calls self._check_events() instead of a big inline for-loop.</li>
+    </ul>
   </section>
 
   <section class="segment do-now">
-    <div class="segment-header"><span class="segment-minutes">5 min</span><h3>Do Now — Error of the Day</h3></div>
-    <p>Spot the bug:
-<pre><code>count = 0
-while count < 5:
-    print(count)</code></pre>Why does this run forever? How do you fix it?</p>
+    <h3>📍 Do Now — Error of the Day</h3>
+    <div class="rich-prose">
+      <p>Open your alien_invasion.py from L06. Count: how many hard-coded numbers can you find? (1200? 800? 230? Every one is a 'magic number' we'll tidy up today.)</p>
+    </div>
   </section>
 
   <section class="segment i-do">
-    <div class="segment-header"><span class="segment-minutes">10 min</span><h3>I Do — Live-coded demo</h3></div>
-    <p>Live-code: guess-the-number game. Computer picks a secret; player guesses until correct.
-<pre><code>import random
-secret = random.randint(1, 100)
-guess = 0
-while guess != secret:
-    guess = int(input("Guess (1-100): "))
-    if guess < secret: print("Higher!")
-    elif guess > secret: print("Lower!")
-print("You got it!")</code></pre></p>
+    <h3>👁 I Do — Teacher Demo</h3>
+    <div class="rich-prose">
+      <p>Live-code the refactor: create settings.py with class Settings holding screen_width/height/bg_color. Import it in main. Replace every hard-coded number with self.settings.*. Then extract the event-handling for-loop into a helper method _check_events.</p>
+    </div>
   </section>
 
   <section class="segment we-do">
-    <div class="segment-header"><span class="segment-minutes">15 min</span><h3>We Do — Guided build</h3></div>
-    <p>Refactor adventure_v1 into adventure_v2.py with a main loop: <code>while alive:</code> — keep playing rooms until health runs out or player types 'quit'. Use a flag <code>alive = True</code> and set <code>alive = False</code> when ending.</p>
+    <h3>🤝 We Do — Build Together</h3>
+    <div class="rich-prose">
+      <p>Class does the refactor together, file by file. Before/after diff on the projector. Run the game — same behaviour, cleaner code.</p>
+    </div>
   </section>
 
   <section class="segment you-do">
-    <div class="segment-header"><span class="segment-minutes">35 min</span><h3>You Do — Your turn</h3></div>
-    <p>Extend adventure_v2 to have: minimum 4 rooms, health starts at 100, at least 2 ways to die, at least 1 way to heal, a <code>quit</code> option in every room. Handle wrong inputs with 'I don't understand'.</p>
-    <div class="diff-box">
-      <div class="diff-tier support"><h4>Support</h4><p>adventure_v2_starter.py with the while-loop structure. You fill in rooms.</p></div>
-      <div class="diff-tier core"><h4>Core</h4><p>Full adventure_v2 with 4+ rooms, proper end conditions.</p></div>
-      <div class="diff-tier extension"><h4>Extension</h4><p>Add inventory as a list; some rooms require items before proceeding.</p></div>
+    <h3>🚀 You Do — Your Turn</h3>
+    <div class="rich-prose">
+      <p>Finish the Settings split on your own game. Add <code>ship_speed = 1.5</code> to Settings now (you'll use it in L08). Add docstrings to each file. Arcade quests cover module imports + refactoring.</p>
+      <ul><li>Create settings.py with class Settings + __init__ holding 3 values</li><li>In main: from settings import Settings + self.settings = Settings()</li><li>Replace hard-coded 1200, 800, (230,230,230) with self.settings.* references</li><li>Write _check_events(self) method + replace inline event loop with self._check_events()</li></ul>
     </div>
-  </section>
 
-  
-  
+    <h3 style="margin-top:1.5rem;">🎮 Practice Quests — work through these</h3>
+    <div id="lesson-quests">
+      <p style="color:var(--text-muted);">Loading practice quests for this lesson...</p>
+    </div>
+
+    <h3 style="margin-top:1.5rem;">Three tiers — pick yours</h3>
+    <div class="diff-box">
+      <div class="diff-tier support">
+        <h4>Support</h4>
+        <p>settings.py skeleton provided</p>
+      </div>
+      <div class="diff-tier core">
+        <h4>Core</h4>
+        <p>build from scratch</p>
+      </div>
+      <div class="diff-tier extension">
+        <h4>Extension</h4>
+        <p>pre-add ship_speed in preparation for L08</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Add ship_speed and bullet_speed to Settings now (L08 will use them).</li><li>Add a docstring at the top of each file explaining what it does.</li></ul>
+  </section>
 
   <section class="segment exit">
-    <div class="segment-header"><span class="segment-minutes">5 min</span><h3>Exit Ticket — Coding Journal</h3></div>
-    <p>Journal: while-loops are dangerous. In 2 sentences, what's one way an infinite loop can happen, and how do you prevent it?</p>
-    <div class="journal-callout">
-      <h4>📝 Journal submission</h4>
-      <p class="callout-note">Submit your 2-3 sentence journal entry in Google Classroom before you leave. Every entry contributes to your Coding Journal (/5) in the final assessment.</p>
+    <h3>📝 Exit Ticket — Coding Journal</h3>
+    <div class="rich-prose">
+      <p>Journal: 1 sentence — why did we make the code MORE files, not fewer? What did we gain?</p>
     </div>
   </section>
 
-  
-<section class="resources">
-<h2>Resources</h2>
-<ul>
-<li>📖 <a href='#' target='_blank'>Matthes Ch 7 — User Input & while</a></li>
-<li>📖 <a href='https://docs.python.org/3/library/random.html' target='_blank'>random module docs</a></li>
-</ul>
-</section>
+  <section>
+    <h2>Evidence of Learning</h2>
+    <p>Main game file is ~30 lines cleaner. Settings all in one place.</p>
+  </section>
 
-  <div class="prev-next"><a href='L06.html'><span>← Previous</span>Lesson L06</a><a href='../index.html'><span>↑ Hub</span>All Lessons</a><a href='L08.html'><span>Next →</span>Lesson L08</a></div>
+  <div class="prev-next"><a href="L06.html"><span>← Previous</span>Lesson L06</a><a href="../index.html"><span>↑ Hub</span>All Lessons</a><a href="L08.html"><span>Next →</span>Lesson L08</a></div>
 </main>
 
 <footer class="footer">
-  <p>Year 9 Game On — Term 2 2026 — Arthur Phillip High School</p>
-  <p>Taught by <a href="https://github.com/YunshuGao">Ms Yunshu Gao</a> · Built with Python + a lot of patience</p>
+  <p>Y9 Game On · Term 2 · Python Arcade</p>
 </footer>
+
+
+<script>
+(async function() {
+  try {
+    const res = await fetch("../arcade/exercises.json?v=" + Date.now());
+    const all = await res.json();
+    const mine = all.filter(q => q.lesson === "L07");
+    const box = document.getElementById("lesson-quests");
+    if (!mine.length) {
+      box.innerHTML = '<p style="color:var(--text-muted);">No arcade quests mapped to this lesson yet. Check the arcade directly.</p>';
+      return;
+    }
+    // Group by quest type
+    const typeEmoji = {code:"💻",drill:"⌨️",predict:"🔮",debug:"🔧",modify:"🔨",write:"✍️",multi:"✅",mini:"🎯",boss:"💥"};
+    const typeLabel = {code:"Code", drill:"Typing drill", predict:"Predict output", debug:"Debug", modify:"Modify code", write:"Writing", multi:"Quick quiz", mini:"Mini-game", boss:"Boss battle"};
+
+    // Sort: easy → medium → hard → boss
+    const diffOrder = {easy:0, medium:1, hard:2};
+    mine.sort((a, b) => {
+      if (a.num === 999) return 1;
+      if (b.num === 999) return -1;
+      return (diffOrder[a.difficulty] - diffOrder[b.difficulty]) || a.id.localeCompare(b.id);
+    });
+
+    const totalXP = mine.reduce((s, q) => s + q.xp, 0);
+    box.innerHTML = `
+      <p style="color:var(--text-muted);margin-bottom:1rem;">
+        <strong>${mine.length} quests</strong> for this lesson · <strong>${totalXP} XP</strong> available.
+        Click any quest to open it in the arcade (you keep XP + progress across lessons).
+      </p>
+      <div class="lesson-quest-grid">
+        ${mine.map(q => `
+          <a class="lesson-quest-card" href="../arcade/#exercise/${q.id}" target="_blank">
+            <div class="lq-header">
+              <span class="lq-emoji">${typeEmoji[q.type] || "❓"}</span>
+              <span class="lq-type">${typeLabel[q.type] || q.type}</span>
+              <span class="lq-xp">${q.xp} XP</span>
+            </div>
+            <div class="lq-title">${q.flavour || q.name}</div>
+            <div class="lq-meta">
+              <span class="diff-badge diff-${q.difficulty}">${q.difficulty}</span>
+              <span class="lq-id">${q.id}</span>
+            </div>
+          </a>
+        `).join("")}
+      </div>
+    `;
+  } catch (e) {
+    document.getElementById("lesson-quests").innerHTML =
+      '<p style="color:var(--red);">Could not load quests. Open the arcade directly from the nav.</p>';
+  }
+})();
+</script>
+
 </body>
 </html>
-

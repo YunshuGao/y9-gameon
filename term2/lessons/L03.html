@@ -3,105 +3,226 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L03 — Numbers and Maths · Y9 Game On</title>
-<link rel="stylesheet" href="../assets/style.css">
+<title>L03 — Lesson 3: Classes Part 1 — Attributes + Methods · Y9 Game On</title>
+<link rel="stylesheet" href="../../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+.lesson-quest-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.8rem;
+  margin: 1rem 0;
+}
+.lesson-quest-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem;
+  text-decoration: none;
+  color: var(--text);
+  transition: transform 0.2s, border-color 0.2s;
+  display: block;
+}
+.lesson-quest-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--py-gold);
+}
+.lq-header {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 0.4rem;
+  font-size: 0.8rem; color: var(--text-muted);
+}
+.lq-emoji { font-size: 1.3rem; }
+.lq-type { flex: 1; font-weight: 600; }
+.lq-xp { color: var(--py-gold); font-weight: 700; font-family: 'Fira Code', monospace; }
+.lq-title { font-weight: 600; margin-bottom: 0.5rem; line-height: 1.3; }
+.lq-meta { display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; }
+.lq-id { font-family: 'Fira Code', monospace; color: var(--text-dim); }
+.rich-prose p { line-height: 1.7; margin-bottom: 0.8rem; }
+.rich-prose code {
+  background: rgba(255, 212, 59, 0.1);
+  color: var(--py-gold);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.92em;
+  font-family: 'Fira Code', monospace;
+}
+.segment.i-do { border-left: 3px solid var(--py-blue); }
+.segment.do-now { border-left: 3px solid var(--red); }
+.segment.we-do { border-left: 3px solid var(--teal); }
+.segment.you-do { border-left: 3px solid var(--green); }
+.segment.exit { border-left: 3px solid var(--py-gold); }
+.segment {
+  margin-bottom: 1.5rem;
+  padding: 1.2rem 1.4rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.segment h3 { margin-top: 0; color: var(--text); }
+</style>
 </head>
 <body>
-
 
 <header class="site-header">
   <div class="site-header-inner">
     <a href="../index.html" class="site-brand">🎮 Y9 Game On · Term 2 · Python Arcade</a>
     <nav class="site-nav">
-      <a href="../index.html">Overview</a>
-      <a href="../twist-ideas.html">Your Twist ideas</a>
-      <a href="../journal.html">Coding Journal</a>
-      <a href="../../index.html">Term 1 archive</a>
+      <a href="../index.html">Lessons</a>
+      <a href="../arcade/index.html">🎮 Arcade</a>
+      <a href="../arcade/index.html#hallfame">Hall of Fame</a>
+      <a href="../arcade/index.html#errors">Error Bestiary</a>
     </nav>
   </div>
 </header>
 
 <main class="container lesson-page">
   <p class="meta-bar">
-    <span><strong>L03</strong> · Week 2</span>
-    <span>⏱ 75 minutes</span>
-    <span>🎯 IND5-3</span>
-    <span>📂 Phase 1 — Python Foundations</span>
+    <span><strong>L03</strong> · T2 Week 2</span>
+    <span>🎯 CT5-DPM-01 · CT5-THI-01</span>
+    <span>📂 Phase 1 — Python Refresher</span>
   </p>
-  <h1>Numbers and Maths</h1>
+  <h1>Lesson 3: Classes Part 1 — Attributes + Methods</h1>
+
+  
 
   <section>
     <h2>Learning Intentions</h2>
-    <ul class="intentions"><li>I can do arithmetic in Python (+, -, *, /, **)</li>
-<li>I can mix ints and floats</li>
-<li>I can use the <code>int()</code> and <code>str()</code> functions to convert types</li></ul>
+    <ul class="intentions">
+      <li>Introduce object-oriented programming — the foundation for Pygame.</li>
+    </ul>
     <h2>Success Criteria</h2>
-    <ul class="success"><li>My calculator.py asks for two numbers and prints their sum</li>
-<li>I've used at least 3 different operators</li>
-<li>My program doesn't crash on normal inputs</li></ul>
+    <ul class="success">
+      <li>I can define a class with __init__ and 2+ methods.</li>
+<li>I&#x27;ve created 2+ instances of my class.</li>
+<li>I can explain what self refers to.</li>
+    </ul>
   </section>
 
   <section class="segment do-now">
-    <div class="segment-header"><span class="segment-minutes">5 min</span><h3>Do Now — Error of the Day</h3></div>
-    <p>Predict the output:
-<pre><code>print(10 / 3)
-print(10 // 3)
-print(10 % 3)
-print(2 ** 8)</code></pre>Discuss with partner. Then run each in VS Code.</p>
+    <h3>📍 Do Now — Error of the Day</h3>
+    <div class="rich-prose">
+      <p>Fix this broken code: <code>class Dog: def bark: print('Woof!')</code> — what's missing? (Three things.)</p>
+    </div>
   </section>
 
   <section class="segment i-do">
-    <div class="segment-header"><span class="segment-minutes">10 min</span><h3>I Do — Live-coded demo</h3></div>
-    <p>Live-code: demonstrate all 7 operators: +, -, *, /, //, %, **. Show <code>input()</code> returns a string: <code>input("age: ")</code>. Show the trap: <code>input() + 5</code> → TypeError. Fix with <code>int(input())</code>.</p>
+    <h3>👁 I Do — Teacher Demo</h3>
+    <div class="rich-prose">
+      <p>Live-code a Character class: (1) define class with <code>def __init__(self, name, hp)</code>; (2) add take_damage method; (3) create hero + enemy instances; (4) show what <code>self</code> refers to.</p>
+    </div>
   </section>
 
   <section class="segment we-do">
-    <div class="segment-header"><span class="segment-minutes">15 min</span><h3>We Do — Guided build</h3></div>
-    <p>Build <code>calculator.py</code> together:
-<pre><code>a = int(input("First number: "))
-b = int(input("Second number: "))
-print(f"Sum: {a + b}")</code></pre>Extend to subtract, multiply, divide.</p>
+    <h3>🤝 We Do — Build Together</h3>
+    <div class="rich-prose">
+      <p>Class builds together: Character class with 3 attributes + 2 methods. Create 2 instances. Have them attack each other once.</p>
+    </div>
   </section>
 
   <section class="segment you-do">
-    <div class="segment-header"><span class="segment-minutes">35 min</span><h3>You Do — Your turn</h3></div>
-    <p>Build <code>game_stats.py</code>: ask player for starting_health, damage_taken, potions_used (each +20 hp). Print final hp. If final hp < 0, print "You died 💀", else print health bar like <code>HP: {hp}/100</code>. Extension: damage_taken can be a float; use rounding in the print.</p>
-    <div class="diff-box">
-      <div class="diff-tier support"><h4>Support</h4><p>calculator_starter.py with 2 operators pre-written; fill in the other 2.</p></div>
-      <div class="diff-tier core"><h4>Core</h4><p>Independent game_stats.py build. Attempt Matthes Ch 2 exercises 2-5, 2-6.</p></div>
-      <div class="diff-tier extension"><h4>Extension</h4><p>Build a tax calculator that applies a 10% GST to a price; round to 2 decimals using <code>round(x, 2)</code>.</p></div>
+    <h3>🚀 You Do — Your Turn</h3>
+    <div class="rich-prose">
+      <p>Arcade quests below focus on class creation + self. Then: write your OWN Character class with the attributes you want for your game. Test it runs.</p>
+      <ul><li>Build a Character class with name + hp + attack</li><li>Write take_damage(amount) and is_alive() methods</li><li>Create 2 instances: hero + enemy</li></ul>
     </div>
-  </section>
 
-  
-  
+    <h3 style="margin-top:1.5rem;">🎮 Practice Quests — work through these</h3>
+    <div id="lesson-quests">
+      <p style="color:var(--text-muted);">Loading practice quests for this lesson...</p>
+    </div>
+
+    <h3 style="margin-top:1.5rem;">Three tiers — pick yours</h3>
+    <div class="diff-box">
+      <div class="diff-tier support">
+        <h4>Support</h4>
+        <p>starter class with __init__ pre-written; fill in the methods. Visual diagram: class vs instance</p>
+      </div>
+      <div class="diff-tier core">
+        <h4>Core</h4>
+        <p>Follow the plan as written. Attempt the arcade quests above at your own pace.</p>
+      </div>
+      <div class="diff-tier extension">
+        <h4>Extension</h4>
+        <p>Complete all quests above + try a Boss battle for bonus XP. Help a classmate if you finish.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>Add an __str__ method for readable printing.</li><li>Add a class-level counter tracking how many instances exist.</li></ul>
+  </section>
 
   <section class="segment exit">
-    <div class="segment-header"><span class="segment-minutes">5 min</span><h3>Exit Ticket — Coding Journal</h3></div>
-    <p>Journal: what's the difference between 10/3 and 10//3? Write it in your own words.</p>
-    <div class="journal-callout">
-      <h4>📝 Journal submission</h4>
-      <p class="callout-note">Submit your 2-3 sentence journal entry in Google Classroom before you leave. Every entry contributes to your Coding Journal (/5) in the final assessment.</p>
+    <h3>📝 Exit Ticket — Coding Journal</h3>
+    <div class="rich-prose">
+      <p>Journal: what's one thing about classes that clicked for you today? What's still confusing?</p>
     </div>
   </section>
 
-  
-<section class="resources">
-<h2>Resources</h2>
-<ul>
-<li>📖 <a href='#' target='_blank'>Matthes Ch 2 — Numbers section</a></li>
-</ul>
-</section>
+  <section>
+    <h2>Evidence of Learning</h2>
+    <p>Student&#x27;s character_class.py runs; hero and enemy can exchange attacks.</p>
+  </section>
 
-  <div class="prev-next"><a href='L02.html'><span>← Previous</span>Lesson L02</a><a href='../index.html'><span>↑ Hub</span>All Lessons</a><a href='L04.html'><span>Next →</span>Lesson L04</a></div>
+  <div class="prev-next"><a href="L02.html"><span>← Previous</span>Lesson L02</a><a href="../index.html"><span>↑ Hub</span>All Lessons</a><a href="L04.html"><span>Next →</span>Lesson L04</a></div>
 </main>
 
 <footer class="footer">
-  <p>Year 9 Game On — Term 2 2026 — Arthur Phillip High School</p>
-  <p>Taught by <a href="https://github.com/YunshuGao">Ms Yunshu Gao</a> · Built with Python + a lot of patience</p>
+  <p>Y9 Game On · Term 2 · Python Arcade</p>
 </footer>
+
+
+<script>
+(async function() {
+  try {
+    const res = await fetch("../arcade/exercises.json?v=" + Date.now());
+    const all = await res.json();
+    const mine = all.filter(q => q.lesson === "L03");
+    const box = document.getElementById("lesson-quests");
+    if (!mine.length) {
+      box.innerHTML = '<p style="color:var(--text-muted);">No arcade quests mapped to this lesson yet. Check the arcade directly.</p>';
+      return;
+    }
+    // Group by quest type
+    const typeEmoji = {code:"💻",drill:"⌨️",predict:"🔮",debug:"🔧",modify:"🔨",write:"✍️",multi:"✅",mini:"🎯",boss:"💥"};
+    const typeLabel = {code:"Code", drill:"Typing drill", predict:"Predict output", debug:"Debug", modify:"Modify code", write:"Writing", multi:"Quick quiz", mini:"Mini-game", boss:"Boss battle"};
+
+    // Sort: easy → medium → hard → boss
+    const diffOrder = {easy:0, medium:1, hard:2};
+    mine.sort((a, b) => {
+      if (a.num === 999) return 1;
+      if (b.num === 999) return -1;
+      return (diffOrder[a.difficulty] - diffOrder[b.difficulty]) || a.id.localeCompare(b.id);
+    });
+
+    const totalXP = mine.reduce((s, q) => s + q.xp, 0);
+    box.innerHTML = `
+      <p style="color:var(--text-muted);margin-bottom:1rem;">
+        <strong>${mine.length} quests</strong> for this lesson · <strong>${totalXP} XP</strong> available.
+        Click any quest to open it in the arcade (you keep XP + progress across lessons).
+      </p>
+      <div class="lesson-quest-grid">
+        ${mine.map(q => `
+          <a class="lesson-quest-card" href="../arcade/#exercise/${q.id}" target="_blank">
+            <div class="lq-header">
+              <span class="lq-emoji">${typeEmoji[q.type] || "❓"}</span>
+              <span class="lq-type">${typeLabel[q.type] || q.type}</span>
+              <span class="lq-xp">${q.xp} XP</span>
+            </div>
+            <div class="lq-title">${q.flavour || q.name}</div>
+            <div class="lq-meta">
+              <span class="diff-badge diff-${q.difficulty}">${q.difficulty}</span>
+              <span class="lq-id">${q.id}</span>
+            </div>
+          </a>
+        `).join("")}
+      </div>
+    `;
+  } catch (e) {
+    document.getElementById("lesson-quests").innerHTML =
+      '<p style="color:var(--red);">Could not load quests. Open the arcade directly from the nav.</p>';
+  }
+})();
+</script>
+
 </body>
 </html>
-
