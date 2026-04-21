@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teacher Dashboard · Y9 Game On Term 2</title>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+.drop-zone {
+  border: 3px dashed var(--py-gold);
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  text-align: center;
+  background: rgba(255, 212, 59, 0.05);
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 2rem;
+}
+.drop-zone.dragging {
+  background: rgba(255, 212, 59, 0.15);
+  border-style: solid;
+}
+.drop-zone h2 { color: var(--py-gold); margin: 0 0 0.5rem; }
+.drop-zone input[type="file"] { display: none; }
+.drop-zone .btn-primary { margin-top: 1rem; }
+
+.class-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.summary-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+}
+.summary-card .value {
+  font-size: 1.8rem;
+  font-weight: 800;
+  font-family: 'Fira Code', monospace;
+  color: var(--py-gold);
+}
+.summary-card .label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.3rem;
+}
+
+.dashboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+  background: var(--bg-card);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.dashboard-table th {
+  background: var(--navy);
+  color: white;
+  padding: 12px 14px;
+  text-align: left;
+  font-size: 0.85rem;
+  cursor: pointer;
+  user-select: none;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+.dashboard-table th:hover { background: #2a4e8a; }
+.dashboard-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.92rem;
+}
+.dashboard-table tr:hover td { background: var(--bg-card-hover); }
+.status-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+.status-strong { background: var(--green); }
+.status-mid { background: var(--py-gold); }
+.status-low { background: var(--orange); }
+.status-risk { background: var(--red); }
+
+.flagged-list {
+  background: var(--bg-card);
+  border-left: 4px solid var(--red);
+  border-radius: 10px;
+  padding: 1.2rem 1.4rem;
+  margin-bottom: 1.5rem;
+}
+.flagged-list h3 { margin-top: 0; color: var(--red); }
+.flagged-item {
+  padding: 0.4rem 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 0.9rem;
+}
+.flagged-item:last-child { border-bottom: none; }
+
+.student-detail {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.4rem;
+  margin-top: 1rem;
+  display: none;
+}
+.student-detail.visible { display: block; }
+.student-detail h3 { margin-top: 0; color: var(--py-gold); }
+.student-detail pre {
+  background: #0a0a1e;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  max-height: 400px;
+  overflow: auto;
+  white-space: pre-wrap;
+}
+
+.dashboard-actions {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.badge-mini {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  margin-right: 4px;
+}
+.badge-strong { background: rgba(74, 222, 128, 0.2); color: var(--green); }
+.badge-mid { background: rgba(255, 212, 59, 0.2); color: var(--py-gold); }
+.badge-low { background: rgba(249, 115, 22, 0.2); color: #fb923c; }
+.badge-risk { background: rgba(239, 68, 68, 0.2); color: var(--red); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="index.html" class="site-brand">🎮 Y9 Game On · Teacher Dashboard</a>
+    <nav class="site-nav">
+      <a href="index.html">← Main Hub</a>
+      <a href="term2/index.html">Term 2 Hub</a>
+      <a href="term2/arcade/">Arcade</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  <div class="arcade-banner" style="padding: 2rem; margin-bottom: 2rem;">
+    <h1>📊 Teacher Dashboard</h1>
+    <p class="subtitle">Drop in student TXT progress files · see the class at a glance</p>
+    <p class="tagline">Teacher-only view. No student data leaves this laptop.</p>
+  </div>
+
+  <section>
+    <h2>Step 1 — Drop student progress files</h2>
+    <p style="color: var(--text-muted);">
+      Students download their weekly progress as a .txt file from the arcade. Collect them from Google Classroom,
+      then drop them here (or click to select).
+    </p>
+
+    <label for="file-input" class="drop-zone" id="drop-zone">
+      <div style="font-size: 3rem; margin-bottom: 0.5rem;">📁</div>
+      <h2>Drop .txt files here</h2>
+      <p style="color: var(--text-muted); margin: 0.5rem 0;">Or click to select multiple files</p>
+      <p style="font-size: 0.82rem; color: var(--text-dim);">
+        Expected format: progress_[name]_YYYY-MM-DD.txt (auto-generated by the arcade)
+      </p>
+      <input type="file" id="file-input" multiple accept=".txt" />
+      <div class="btn-primary" onclick="document.getElementById('file-input').click()">Select files</div>
+    </label>
+
+    <div class="dashboard-actions" id="actions-bar" style="display: none;">
+      <button class="btn-secondary" onclick="exportCSV()">📊 Export class summary to CSV</button>
+      <button class="btn-secondary" onclick="clearAll()">🗑 Clear all (start over)</button>
+    </div>
+  </section>
+
+  <section id="summary-section" style="display: none;">
+    <h2>Class summary</h2>
+    <div class="class-summary" id="class-summary"></div>
+  </section>
+
+  <section id="flagged-section" style="display: none;">
+    <h2>🚩 Flagged — students who need help</h2>
+    <div class="flagged-list" id="flagged-list"></div>
+  </section>
+
+  <section id="table-section" style="display: none;">
+    <h2>Per-student breakdown</h2>
+    <p style="color: var(--text-muted);">Click any student row to see their full report.</p>
+    <table class="dashboard-table" id="dashboard-table"></table>
+  </section>
+
+  <section id="student-detail-section" class="student-detail">
+    <h3 id="student-detail-name"></h3>
+    <pre id="student-detail-body"></pre>
+  </section>
+</main>
+
+<footer class="footer">
+  <p>Y9 Game On · Term 2 · 2026 · Teacher Dashboard</p>
+</footer>
+
+<script>
+let students = [];
+
+// ========== FILE DROP / SELECT ==========
+const dropZone = document.getElementById('drop-zone');
+const fileInput = document.getElementById('file-input');
+
+['dragenter', 'dragover'].forEach(ev => {
+  dropZone.addEventListener(ev, (e) => {
+    e.preventDefault();
+    dropZone.classList.add('dragging');
+  });
+});
+['dragleave', 'drop'].forEach(ev => {
+  dropZone.addEventListener(ev, (e) => {
+    e.preventDefault();
+    dropZone.classList.remove('dragging');
+  });
+});
+dropZone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  handleFiles(e.dataTransfer.files);
+});
+fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+
+function handleFiles(files) {
+  for (const file of files) {
+    if (!file.name.endsWith('.txt')) continue;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const parsed = parseReport(e.target.result, file.name);
+      if (parsed) {
+        // Replace if same student already loaded
+        students = students.filter(s => s.name !== parsed.name);
+        students.push(parsed);
+        render();
+      }
+    };
+    reader.readAsText(file);
+  }
+}
+
+// ========== PARSER ==========
+function parseReport(text, filename) {
+  try {
+    const s = { name: "", class: "", exported: "", level: 0, xp: 0, questsDone: 0, questsTotal: 0,
+                streak: 0, badges: 0, badgesTotal: 0, flagged: [], writings: [], rawText: text,
+                filename, journalEntries: [], questsByLesson: {} };
+
+    // Detect journal vs progress report
+    if (text.includes("CODING JOURNAL")) {
+      const nameM = text.match(/Student:\s*(.+?)\s*\(/);
+      if (nameM) s.name = nameM[1].trim();
+      const classM = text.match(/\(([^)]+)\)/);
+      if (classM) s.class = classM[1].trim();
+      // Extract journal entries per week
+      const weekBlocks = text.split(/=== CODING JOURNAL —/);
+      for (const block of weekBlocks.slice(1)) {
+        const wkMatch = block.match(/^\s*(W\d+)\s*===/);
+        const q1 = block.match(/1\. What I built[^:]*:\s*([\s\S]+?)\n\n2\./);
+        const q2 = block.match(/2\. What broke[^:]*:\s*([\s\S]+?)\n\n3\./);
+        const q3 = block.match(/3\. What I want[^:]*:\s*([\s\S]+?)(?:\n\n|$)/);
+        if (wkMatch) {
+          s.journalEntries.push({
+            week: wkMatch[1],
+            built: q1 ? q1[1].trim() : "",
+            broke: q2 ? q2[1].trim() : "",
+            next: q3 ? q3[1].trim() : "",
+          });
+        }
+      }
+      s.reportType = "journal";
+      return s;
+    }
+
+    // Progress report
+    const nameM = text.match(/Student:\s*(.+?)\s+Class:\s*(\S+)/);
+    if (nameM) { s.name = nameM[1].trim(); s.class = nameM[2].trim(); }
+    const expM = text.match(/Exported:\s*(.+)/);
+    if (expM) s.exported = expM[1].trim();
+    const levelM = text.match(/Level:\s*(\d+)/);
+    if (levelM) s.level = parseInt(levelM[1]);
+    const xpM = text.match(/Total XP:\s*(\d+)/);
+    if (xpM) s.xp = parseInt(xpM[1]);
+    const questsM = text.match(/Quests defeated:\s*(\d+)\s*\/\s*(\d+)/);
+    if (questsM) { s.questsDone = parseInt(questsM[1]); s.questsTotal = parseInt(questsM[2]); }
+    const streakM = text.match(/Current streak:\s*(\d+)/);
+    if (streakM) s.streak = parseInt(streakM[1]);
+    const badgesM = text.match(/Badges earned:\s*(\d+)\s*\/\s*(\d+)/);
+    if (badgesM) { s.badges = parseInt(badgesM[1]); s.badgesTotal = parseInt(badgesM[2]); }
+
+    // Flagged
+    const flagSection = text.match(/=== I need help with ===([\s\S]+?)(?:===|$)/);
+    if (flagSection) {
+      const flagLines = flagSection[1].split('\n').filter(l => l.includes('🚩'));
+      s.flagged = flagLines.map(l => l.replace(/^\s*🚩\s*/, '').trim());
+    }
+
+    // Writings
+    const writingSection = text.match(/=== My written work this week ===([\s\S]+?)(?:===|$)/);
+    if (writingSection) {
+      const entries = writingSection[1].split(/\n\[Quest /).slice(1);
+      s.writings = entries.map(e => "[Quest " + e.split('\n')[0].trim() + "\n" + e.split('\n').slice(1, 5).join('\n').trim());
+    }
+
+    // Quests by lesson
+    const lessonSection = text.match(/=== Quests by lesson ===([\s\S]+?)(?:===|$)/);
+    if (lessonSection) {
+      const blocks = lessonSection[1].split(/\n\[(L\d+)\]\s*(\d+)/);
+      for (let i = 1; i < blocks.length; i += 3) {
+        const lesson = blocks[i];
+        const count = parseInt(blocks[i + 1]);
+        s.questsByLesson[lesson] = count;
+      }
+    }
+
+    s.reportType = "progress";
+    return s;
+  } catch (e) {
+    console.error("Parse error for", filename, e);
+    return null;
+  }
+}
+
+// ========== STATUS SCORING ==========
+function studentStatus(s) {
+  // Status based on: quests done, flagged count, streak
+  // Quest-based tier: target ~20 quests per week at this point in term
+  const score = s.questsDone * 1.5 + s.streak * 5 - s.flagged.length * 3 + s.writings.length * 2;
+  if (score >= 60 || s.questsDone >= 40) return { label: "strong", emoji: "✅", color: "strong" };
+  if (score >= 30 || s.questsDone >= 20) return { label: "on track", emoji: "👍", color: "mid" };
+  if (score >= 10 || s.questsDone >= 5) return { label: "needs push", emoji: "⚠️", color: "low" };
+  return { label: "at risk", emoji: "🚨", color: "risk" };
+}
+
+// ========== RENDER ==========
+function render() {
+  if (!students.length) return;
+  document.getElementById('actions-bar').style.display = 'flex';
+  document.getElementById('summary-section').style.display = 'block';
+  document.getElementById('table-section').style.display = 'block';
+
+  // Class summary
+  const progress = students.filter(s => s.reportType === 'progress');
+  const totalXP = progress.reduce((a, s) => a + s.xp, 0);
+  const avgQuests = progress.length ? (progress.reduce((a, s) => a + s.questsDone, 0) / progress.length) : 0;
+  const allFlagged = progress.flatMap(s => s.flagged.map(f => ({student: s.name, quest: f})));
+  const atRisk = progress.filter(s => studentStatus(s).color === 'risk').length;
+
+  document.getElementById('class-summary').innerHTML = `
+    <div class="summary-card">
+      <div class="label">Students loaded</div>
+      <div class="value">${students.length}</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">Total class XP</div>
+      <div class="value">${totalXP.toLocaleString()}</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">Avg quests done</div>
+      <div class="value">${avgQuests.toFixed(1)}</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">Flagged items</div>
+      <div class="value" style="color: var(--red);">${allFlagged.length}</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">Students at risk</div>
+      <div class="value" style="color: var(--red);">${atRisk}</div>
+    </div>
+  `;
+
+  // Flagged list
+  if (allFlagged.length) {
+    document.getElementById('flagged-section').style.display = 'block';
+    // Group by quest ID to spot common sticking points
+    const byQuest = {};
+    for (const f of allFlagged) {
+      const qid = (f.quest.match(/[A-Z-]+\d+-\w+|\d+-\d+/) || [f.quest])[0];
+      if (!byQuest[qid]) byQuest[qid] = [];
+      byQuest[qid].push(f.student);
+    }
+    const sorted = Object.entries(byQuest).sort((a, b) => b[1].length - a[1].length);
+    let html = '<h3>🚩 Flagged quests — who needs help with what</h3>';
+    for (const [qid, studentsStuck] of sorted) {
+      html += `<div class="flagged-item">
+        <strong>${qid}</strong> — ${studentsStuck.length} student${studentsStuck.length > 1 ? 's' : ''} stuck: ${studentsStuck.join(', ')}
+      </div>`;
+    }
+    document.getElementById('flagged-list').innerHTML = html;
+  } else {
+    document.getElementById('flagged-section').style.display = 'none';
+  }
+
+  // Per-student table
+  const headers = ['Student', 'Class', 'Status', 'Level', 'XP', 'Quests', 'Streak', 'Flagged', 'Writings', 'Exported'];
+  let tbl = '<thead><tr>' + headers.map(h => `<th onclick="sortBy('${h}')">${h}</th>`).join('') + '</tr></thead><tbody>';
+  const sortedStudents = [...progress].sort((a, b) => b.xp - a.xp);
+  for (const s of sortedStudents) {
+    const status = studentStatus(s);
+    tbl += `<tr onclick="showStudent('${s.name.replace(/'/g, "")}')" style="cursor:pointer;">
+      <td><strong>${s.name}</strong></td>
+      <td>${s.class}</td>
+      <td><span class="status-dot status-${status.color}"></span>${status.emoji} ${status.label}</td>
+      <td>${s.level}</td>
+      <td><strong>${s.xp}</strong></td>
+      <td>${s.questsDone}</td>
+      <td>${s.streak} 🔥</td>
+      <td>${s.flagged.length ? `<span style="color:var(--red);font-weight:700;">${s.flagged.length}</span>` : '0'}</td>
+      <td>${s.writings.length}</td>
+      <td style="font-size: 0.82rem; color: var(--text-muted);">${(s.exported || '').split(',')[0]}</td>
+    </tr>`;
+  }
+
+  // Also show journal entries
+  const journals = students.filter(s => s.reportType === 'journal');
+  if (journals.length) {
+    tbl += `<tr><td colspan="10" style="background: var(--bg); padding: 15px; font-weight: 700;">📓 Journal submissions (${journals.length})</td></tr>`;
+    for (const j of journals) {
+      const wksDone = j.journalEntries.filter(e => e.built || e.broke || e.next).length;
+      tbl += `<tr onclick="showStudent('${j.name.replace(/'/g, "")}')" style="cursor:pointer;">
+        <td><strong>${j.name}</strong></td>
+        <td>${j.class}</td>
+        <td>📓 ${wksDone} weeks submitted</td>
+        <td colspan="7" style="font-size: 0.85rem; color: var(--text-muted);">Click to read entries</td>
+      </tr>`;
+    }
+  }
+  tbl += '</tbody>';
+  document.getElementById('dashboard-table').innerHTML = tbl;
+}
+
+function showStudent(name) {
+  const matches = students.filter(s => s.name === name);
+  if (!matches.length) return;
+  const section = document.getElementById('student-detail-section');
+  section.classList.add('visible');
+  document.getElementById('student-detail-name').textContent = `${name} — full reports`;
+  document.getElementById('student-detail-body').textContent = matches.map(s => s.rawText).join('\n\n─────\n\n');
+  section.scrollIntoView({ behavior: 'smooth' });
+}
+
+function clearAll() {
+  if (confirm('Clear all loaded student data?')) {
+    students = [];
+    document.getElementById('summary-section').style.display = 'none';
+    document.getElementById('table-section').style.display = 'none';
+    document.getElementById('flagged-section').style.display = 'none';
+    document.getElementById('student-detail-section').classList.remove('visible');
+    document.getElementById('actions-bar').style.display = 'none';
+  }
+}
+
+function exportCSV() {
+  const progress = students.filter(s => s.reportType === 'progress');
+  let csv = 'Student,Class,Level,XP,Quests done,Streak,Flagged,Writings,Status,Exported\n';
+  for (const s of progress) {
+    const status = studentStatus(s);
+    csv += [s.name, s.class, s.level, s.xp, s.questsDone, s.streak, s.flagged.length,
+            s.writings.length, status.label, s.exported || ''].map(v => `"${v}"`).join(',') + '\n';
+  }
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `class-summary-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+}
+</script>
+</body>
+</html>
