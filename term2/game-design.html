@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🕹️ Design Your 2D Game · Y9 Game On Term 2</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+.genre-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 0.8rem;
+  margin: 1.5rem 0;
+}
+.genre-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.genre-card:hover { border-color: var(--py-gold); transform: translateY(-2px); }
+.genre-card.picked { border-color: var(--green); background: rgba(74, 222, 128, 0.08); }
+.genre-card h3 { margin: 0 0 0.4rem; color: var(--py-gold); }
+.genre-card .genre-examples { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+.genre-card .genre-difficulty { font-size: 0.78rem; }
+.gdd-form {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+.gdd-form label {
+  display: block; font-weight: 600; color: var(--py-gold);
+  margin: 0.8rem 0 0.3rem;
+}
+.gdd-form input[type="text"], .gdd-form textarea {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  background: #0a0a1e;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+}
+.gdd-form textarea { min-height: 80px; resize: vertical; line-height: 1.5; }
+.approval-stamp {
+  padding: 1rem 1.2rem;
+  border-radius: 10px;
+  margin-top: 1rem;
+  border-left: 4px solid var(--text-muted);
+}
+.approval-stamp.approved { border-color: var(--green); background: rgba(74, 222, 128, 0.1); }
+.tier-tag { display: inline-block; padding: 2px 10px; border-radius: 10px; font-size: 0.72rem; font-weight: 700; }
+.tier-s { background: rgba(20, 184, 166, 0.2); color: var(--teal); }
+.tier-c { background: rgba(55, 118, 171, 0.2); color: var(--py-blue); }
+.tier-e { background: rgba(255, 212, 59, 0.2); color: var(--py-gold); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="index.html" class="site-brand">🎮 Y9 Game On · Term 2</a>
+    <nav class="site-nav">
+      <a href="index.html">Lessons</a>
+      <a href="arcade/index.html">🎮 Arcade</a>
+      <a href="journal.html">📓 Journal</a>
+      <a href="game-design.html">🕹️ Game Design</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  <div class="arcade-banner" style="padding: 2rem;">
+    <h1>🕹️ Design Your Own 2D Game</h1>
+    <p class="subtitle">Phase 3 (Weeks 8-10) · Your assessment is to build + submit a 2D game YOU designed.</p>
+    <p class="tagline">"One core mechanic. One genre. Five sprints. One game that's yours."</p>
+  </div>
+
+  <section>
+    <h2>Step 1 — Pick a genre</h2>
+    <p style="color: var(--text-muted);">Click a card to pick. Your choice saves. Change your mind? Just click a different one.</p>
+    <div class="genre-grid" id="genre-grid"></div>
+  </section>
+
+  <section>
+    <h2>Step 2 — Fill in your Game Design Document (GDD)</h2>
+    <p style="color: var(--text-muted);">Answer all 8 questions. Auto-saves as you type. This IS your assessment portfolio design doc.</p>
+
+    <div class="gdd-form">
+      <label for="title">1. Game title</label>
+      <input type="text" id="title" oninput="save()" placeholder="e.g. 'Neon Drift' / 'Pixel Escape' / 'Code Crusher'">
+
+      <label for="genre-pick">2. Genre you picked</label>
+      <input type="text" id="genre-pick" oninput="save()" placeholder="(auto-fills from your pick above, or type your own)">
+
+      <label for="mechanic">3. Core mechanic — describe in 5 words max</label>
+      <input type="text" id="mechanic" oninput="save()" placeholder="e.g. 'run, jump, collect coins'">
+
+      <label for="goal">4. How does the player WIN? (1 sentence)</label>
+      <textarea id="goal" oninput="save()" placeholder="e.g. 'Reach the exit door after collecting all 5 gems.'"></textarea>
+
+      <label for="challenge">5. What makes it HARD? (enemies, obstacles, time?)</label>
+      <textarea id="challenge" oninput="save()" placeholder="e.g. 'Spiders patrol the platforms. Touching one costs 1 life. Only 3 lives.'"></textarea>
+
+      <label for="art">6. ART STYLE — one sentence + two reference images (optional, describe in words)</label>
+      <textarea id="art" oninput="save()" placeholder="e.g. 'Pixel art, dark fantasy colour palette (purple + green). Reminds me of Hollow Knight.'"></textarea>
+
+      <label for="controls">7. CONTROLS — which keys do what?</label>
+      <textarea id="controls" oninput="save()" placeholder="e.g. 'Arrow keys: move. Space: jump. Z: attack. P: pause. ESC: quit.'"></textarea>
+
+      <label for="sprint1">8. SPRINT 1 PLAN — what 3 things will you build FIRST? (L16)</label>
+      <textarea id="sprint1" oninput="save()" placeholder="e.g. '(1) Player moves left/right. (2) One platform to stand on. (3) Gravity so I fall.'"></textarea>
+    </div>
+
+    <div style="margin-top: 1rem; display: flex; gap: 10px; flex-wrap: wrap;">
+      <button class="btn-primary" onclick="downloadGDD()">📥 Download GDD as .txt</button>
+      <button class="btn-secondary" onclick="copyGDD()">📋 Copy to clipboard</button>
+      <button class="btn-secondary" onclick="pitchCheck()">✅ Check I've answered everything</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>Step 3 — Pitch to Ms Gao</h2>
+    <div class="approval-stamp" id="approval">
+      <p style="margin: 0;"><strong>When your GDD is complete:</strong> book a 2-min pitch slot in class. I'll read it + ask 1-2 questions + give you 2 pieces of feedback. Signed-off GDDs are green-lit for L16 build.</p>
+    </div>
+
+    <p style="margin-top: 1rem;"><strong>How to submit:</strong> paste your GDD (use the Copy button above) into Google Classroom under the L15 "Game Pitch" assignment, OR download + upload the .txt file.</p>
+  </section>
+
+  <section>
+    <h2>Step 4 — Tiers (optional reference)</h2>
+    <p style="color: var(--text-muted);">Not sure what level to aim for? Match your genre + ambition to a tier.</p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.8rem;">
+      <div class="settings-card" style="border-top: 3px solid var(--teal);">
+        <h4 style="color: var(--teal); margin-top: 0;">Support tier</h4>
+        <p style="font-size: 0.9rem;">Start from a template I provide (shooter / platformer / maze). Customise sprites, tune speeds, add 1 original feature.</p>
+      </div>
+      <div class="settings-card" style="border-top: 3px solid var(--py-blue);">
+        <h4 style="color: var(--py-blue); margin-top: 0;">Core tier</h4>
+        <p style="font-size: 0.9rem;">Pick any genre from the grid. Build from scratch using patterns from Alien Invasion (Ship class, Sprite Groups, GameStats).</p>
+      </div>
+      <div class="settings-card" style="border-top: 3px solid var(--py-gold);">
+        <h4 style="color: var(--py-gold); margin-top: 0;">Extension tier</h4>
+        <p style="font-size: 0.9rem;">Pitch your own genre or a novel concept. Extra features: high-score file, multiple levels, custom art.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer"><p>Y9 Game On · Term 2 · 2026</p></footer>
+
+<script>
+const GENRES = [
+  { id: "shooter", name: "🚀 Top-down shooter", examples: "zombies / ninjas / robots (NOT aliens)", diff: "medium", tier: "C" },
+  { id: "platformer", name: "🏃 Platformer", examples: "Mario-style — gravity, jump, platforms", diff: "medium", tier: "C" },
+  { id: "maze", name: "🧭 Maze / collect-all", examples: "Pac-Man-style — navigate, collect, exit", diff: "easy", tier: "S/C" },
+  { id: "runner", name: "💨 Endless runner", examples: "Subway Surfers-style — auto-run, dodge", diff: "medium", tier: "C" },
+  { id: "puzzle", name: "🧩 Puzzle", examples: "match-3, Tetris, logic", diff: "hard", tier: "E" },
+  { id: "racing", name: "🏎️ Top-down racing", examples: "simple track + turning", diff: "medium", tier: "C" },
+  { id: "pong", name: "🏓 Pong / Breakout", examples: "ball + paddle — classic", diff: "easy", tier: "S" },
+  { id: "own", name: "✨ Your own idea", examples: "pitch it — Extension tier only", diff: "hard", tier: "E" },
+];
+
+const STORAGE = "gdd_v1";
+
+function getGDD() {
+  try { return JSON.parse(localStorage.getItem(STORAGE) || "{}"); }
+  catch { return {}; }
+}
+function setGDD(d) { localStorage.setItem(STORAGE, JSON.stringify(d)); }
+
+function renderGenres() {
+  const d = getGDD();
+  document.getElementById("genre-grid").innerHTML = GENRES.map(g => `
+    <div class="genre-card ${d.genre === g.id ? 'picked' : ''}" onclick="pickGenre('${g.id}', '${g.name.replace(/'/g, "")}')">
+      <h3>${g.name}</h3>
+      <div class="genre-examples">${g.examples}</div>
+      <span class="tier-tag tier-${g.tier.toLowerCase()[0]}">Tier ${g.tier} · ${g.diff}</span>
+    </div>
+  `).join("");
+}
+
+function pickGenre(id, name) {
+  const d = getGDD();
+  d.genre = id;
+  if (!d.genrePick) {
+    d.genrePick = name;
+    document.getElementById("genre-pick").value = name;
+  }
+  setGDD(d);
+  renderGenres();
+}
+
+function save() {
+  const d = getGDD();
+  for (const f of ["title", "genre-pick", "mechanic", "goal", "challenge", "art", "controls", "sprint1"]) {
+    d[f.replace(/-/g, "_")] = document.getElementById(f).value;
+  }
+  d.updated = new Date().toISOString();
+  setGDD(d);
+}
+
+function load() {
+  const d = getGDD();
+  for (const f of ["title", "genre-pick", "mechanic", "goal", "challenge", "art", "controls", "sprint1"]) {
+    const el = document.getElementById(f);
+    if (el) el.value = d[f.replace(/-/g, "_")] || "";
+  }
+  renderGenres();
+}
+
+function getStudent() {
+  try {
+    const d = JSON.parse(localStorage.getItem("py_arcade_v2") || "{}");
+    return {
+      name: [(d.firstName||"").trim(), (d.lastName||"").trim()].filter(Boolean).join(" ") || "(unknown)",
+      classCode: d.classCode || "9GAMZA",
+    };
+  } catch { return { name: "(unknown)", classCode: "9GAMZA" }; }
+}
+
+function gddAsText() {
+  const d = getGDD();
+  const s = getStudent();
+  const g = GENRES.find(g => g.id === d.genre);
+  return `=== GAME DESIGN DOCUMENT ===
+Student: ${s.name} (${s.classCode})
+Updated: ${d.updated || "(not saved)"}
+
+1. Game title: ${d.title || "(not set)"}
+2. Genre: ${g ? g.name : (d.genre_pick || "(not picked)")}
+3. Core mechanic: ${d.mechanic || "(not set)"}
+4. How to win: ${d.goal || "(not set)"}
+5. What makes it hard: ${d.challenge || "(not set)"}
+6. Art style: ${d.art || "(not set)"}
+7. Controls: ${d.controls || "(not set)"}
+8. Sprint 1 plan: ${d.sprint1 || "(not set)"}
+`;
+}
+
+function downloadGDD() {
+  const s = getStudent();
+  const text = gddAsText();
+  const blob = new Blob([text], { type: "text/plain" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `GDD_${(s.name || "student").replace(/\s+/g, "_")}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function copyGDD() {
+  navigator.clipboard.writeText(gddAsText()).then(() => {
+    alert("✅ GDD copied. Paste into Google Classroom.");
+  });
+}
+
+function pitchCheck() {
+  const d = getGDD();
+  const required = ["title", "genre", "mechanic", "goal", "challenge", "art", "controls", "sprint1"];
+  const keys = { title: "title", genre: "genre", mechanic: "mechanic", goal: "goal", challenge: "challenge", art: "art", controls: "controls", sprint1: "sprint1" };
+  const missing = required.filter(k => !d[keys[k]] || d[keys[k]].length < 3);
+  if (missing.length === 0) {
+    document.getElementById("approval").classList.add("approved");
+    alert("✅ All 8 parts answered! Ready to pitch.");
+  } else {
+    alert("Missing: " + missing.join(", ") + "\n\nFinish these before pitching.");
+  }
+}
+
+load();
+</script>
+</body>
+</html>

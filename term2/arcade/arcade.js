@@ -853,9 +853,45 @@ function toggleHint(exId) {
 window.toggleHint = toggleHint;
 
 function flagQuest(exId) {
+  const ex = state.exercises.find(e => e.id === exId);
+  const wasFlagged = state.isFlagged(exId);
   state.toggleFlag(exId);
-  postToBackend(exId, 0, { flagged: true });
+  postToBackend(exId, 0, { flagged: !wasFlagged });
   renderExercise(exId);
+
+  // Only prompt when NEWLY flagging (not un-flagging)
+  if (!wasFlagged) {
+    const lesson = LESSONS.find(l => l.id === ex.lesson);
+    const lessonTitle = lesson ? lesson.title : ex.lesson;
+    const msg = "🚩 Stuck on Quest " + exId + " — " + (ex.flavour || ex.name) +
+                " (Lesson " + ex.lesson + ": " + lessonTitle + "). " +
+                "What I tried: [write what you tried, 1 sentence]. " +
+                "Where I'm stuck: [what's confusing]";
+    // Try to copy to clipboard
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(msg).then(() => {
+        alert("✅ Flagged! To get help:
+
+" +
+              "1. Open Google Classroom.
+" +
+              "2. Find today's lesson assignment.
+" +
+              "3. Click 'Add private comment' or 'Class comments'.
+" +
+              "4. Paste (Ctrl+V) — your message is already on your clipboard.
+" +
+              "5. Fill in the two [...] parts so I know what you tried.
+
+" +
+              "I check Classroom every break and lunch. I'll get to you.");
+      }).catch(() => {
+        prompt("Copy this message and paste into Google Classroom:", msg);
+      });
+    } else {
+      prompt("Copy this message and paste into Google Classroom:", msg);
+    }
+  }
 }
 window.flagQuest = flagQuest;
 
@@ -881,26 +917,106 @@ window.changeStudent = changeStudent;
 // ---------- EXPORT ----------
 function exportProgress() {
   const now = new Date();
-  const summary = {
-    student: state.studentName,
-    class: state.classCode,
-    exported_at: now.toISOString(),
-    total_xp: state.totalXP(),
-    level: state.level(),
-    streak: state.streak,
-    quests_completed: state.completed.length,
-    badges_earned: state.earnedBadges().map(b => b.name),
-    flagged_stuck: state.flagged,
-    writings: state.writings,
-    completed_detail: state.completed,
-  };
-  const blob = new Blob([JSON.stringify(summary, null, 2)], {type: "application/json"});
+
+  // Build a human-readable TXT summary for easy Classroom upload
+  const lines = [];
+  lines.push("=== WEEKLY PROGRESS REPORT ===");
+  lines.push(`Student: ${state.studentName}   Class: ${state.classCode}`);
+  lines.push(`Exported: ${now.toLocaleString()}`);
+  lines.push("");
+  lines.push(`Level: ${state.level()}   Total XP: ${state.totalXP()}`);
+  lines.push(`Quests defeated: ${state.completed.length} / ${state.exercises.length}`);
+  lines.push(`Current streak: ${state.streak} days`);
+  lines.push(`Badges earned: ${state.earnedBadges().length} / ${BADGES.length}`);
+  lines.push("");
+
+  // Group completions by lesson
+  const byLesson = {};
+  for (const c of state.completed) {
+    const ex = state.exercises.find(e => e.id === c.id);
+    const lesson = ex ? ex.lesson : "?";
+    if (!byLesson[lesson]) byLesson[lesson] = [];
+    byLesson[lesson].push({ id: c.id, ts: c.ts, xp: c.xp, name: ex ? ex.flavour || ex.name : c.id, type: ex ? ex.type : "?" });
+  }
+  const sortedLessons = Object.keys(byLesson).sort();
+  if (sortedLessons.length) {
+    lines.push("=== Quests by lesson ===");
+    for (const lesson of sortedLessons) {
+      lines.push(`
+[${lesson}] ${byLesson[lesson].length} quests`);
+      for (const q of byLesson[lesson]) {
+        const date = new Date(q.ts).toLocaleDateString();
+        lines.push(`  ${q.id} [${q.type}] ${q.name} +${q.xp} XP  (${date})`);
+      }
+    }
+    lines.push("");
+  }
+
+  // Flagged stuck quests
+  if (state.flagged.length) {
+    lines.push("=== I need help with ===");
+    for (const id of state.flagged) {
+      const ex = state.exercises.find(e => e.id === id);
+      lines.push(`  🚩 ${id} — ${ex ? ex.flavour || ex.name : id} (Lesson ${ex ? ex.lesson : "?"})`);
+    }
+    lines.push("");
+  }
+
+  // Writing submissions — include anything students wrote (predict explanations, debug reasoning, reflections)
+  const writingKeys = Object.keys(state.writings).filter(k => state.writings[k] && state.writings[k].length > 30);
+  if (writingKeys.length) {
+    lines.push("=== My written work this week ===");
+    for (const k of writingKeys) {
+      const text = state.writings[k];
+      lines.push(`
+[Quest ${k}]`);
+      lines.push(text.length > 500 ? text.slice(0, 500) + "…" : text);
+    }
+    lines.push("");
+  }
+
+  // Badges earned
+  if (state.earnedBadges().length) {
+    lines.push("=== Badges earned ===");
+    state.earnedBadges().forEach(b => {
+      lines.push(`  ${b.emoji} ${b.name}`);
+    });
+    lines.push("");
+  }
+
+  lines.push("=== How to submit ===");
+  lines.push("1. Open Google Classroom → today's 'Weekly Progress' assignment");
+  lines.push("2. Attach this .txt file");
+  lines.push("3. Click 'Mark as done'");
+  lines.push("");
+  lines.push("Ms Gao reviews these every Friday to see who needs help.");
+
+  const txt = lines.join("
+");
+  const safe = state.studentName.replace(/\s+/g, "_") || "student";
+  const date = now.toISOString().slice(0, 10);
+
+  // Download the TXT file
+  const blob = new Blob([txt], { type: "text/plain" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `arcade_progress_${state.studentName.replace(/\s+/g, "_")}_${now.toISOString().slice(0,10)}.json`;
+  a.download = `progress_${safe}_${date}.txt`;
   a.click();
   URL.revokeObjectURL(url);
+
+  // Show the Classroom-submit reminder
+  setTimeout(() => {
+    alert("✅ Downloaded!
+
+Next step:
+1. Open Google Classroom.
+2. Find 'Weekly Progress' assignment.
+3. Attach the .txt file I just downloaded.
+4. Click 'Mark as done'.
+
+Ms Gao will check it over the weekend.");
+  }, 300);
 }
 window.exportProgress = exportProgress;
 
