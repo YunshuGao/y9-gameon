@@ -3,98 +3,225 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L22 — Showcase + written evaluation · Y9 Game On</title>
-<link rel="stylesheet" href="../assets/style.css">
+<title>L22 — Lesson 22: Final Submission + Showcase · Y9 Game On</title>
+<link rel="stylesheet" href="../../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+.lesson-quest-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.8rem;
+  margin: 1rem 0;
+}
+.lesson-quest-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem;
+  text-decoration: none;
+  color: var(--text);
+  transition: transform 0.2s, border-color 0.2s;
+  display: block;
+}
+.lesson-quest-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--py-gold);
+}
+.lq-header {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 0.4rem;
+  font-size: 0.8rem; color: var(--text-muted);
+}
+.lq-emoji { font-size: 1.3rem; }
+.lq-type { flex: 1; font-weight: 600; }
+.lq-xp { color: var(--py-gold); font-weight: 700; font-family: 'Fira Code', monospace; }
+.lq-title { font-weight: 600; margin-bottom: 0.5rem; line-height: 1.3; }
+.lq-meta { display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; }
+.lq-id { font-family: 'Fira Code', monospace; color: var(--text-dim); }
+.rich-prose p { line-height: 1.7; margin-bottom: 0.8rem; }
+.rich-prose code {
+  background: rgba(255, 212, 59, 0.1);
+  color: var(--py-gold);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.92em;
+  font-family: 'Fira Code', monospace;
+}
+.segment.i-do { border-left: 3px solid var(--py-blue); }
+.segment.do-now { border-left: 3px solid var(--red); }
+.segment.we-do { border-left: 3px solid var(--teal); }
+.segment.you-do { border-left: 3px solid var(--green); }
+.segment.exit { border-left: 3px solid var(--py-gold); }
+.segment {
+  margin-bottom: 1.5rem;
+  padding: 1.2rem 1.4rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.segment h3 { margin-top: 0; color: var(--text); }
+</style>
 </head>
 <body>
-
 
 <header class="site-header">
   <div class="site-header-inner">
     <a href="../index.html" class="site-brand">🎮 Y9 Game On · Term 2 · Python Arcade</a>
     <nav class="site-nav">
-      <a href="../index.html">Overview</a>
-      <a href="../twist-ideas.html">Your Twist ideas</a>
-      <a href="../journal.html">Coding Journal</a>
-      <a href="../../index.html">Term 1 archive</a>
+      <a href="../index.html">Lessons</a>
+      <a href="../arcade/index.html">🎮 Arcade</a>
+      <a href="../arcade/index.html#hallfame">Hall of Fame</a>
+      <a href="../arcade/index.html#errors">Error Bestiary</a>
     </nav>
   </div>
 </header>
 
 <main class="container lesson-page">
   <p class="meta-bar">
-    <span><strong>L22</strong> · Week 11</span>
-    <span>⏱ 75 minutes</span>
-    <span>🎯 IND5-5 · IND5-7 · IND5-8</span>
-    <span>📂 Phase 4 — Polish, Twist & Showcase</span>
+    <span><strong>L22</strong> · T2 Week 11</span>
+    <span>🎯 CT5-COM-01 · CT5-DPM-01</span>
+    <span>📂 Phase 4 — Showcase</span>
   </p>
-  <h1>Showcase + written evaluation</h1>
+  <h1>Lesson 22: Final Submission + Showcase</h1>
 
   <section>
     <h2>Learning Intentions</h2>
-    <ul class="intentions"><li>I can write a clear 500-word evaluation of my game</li>
-<li>I can reflect on what I learned about programming</li>
-<li>I can submit a complete assessment package</li></ul>
+    <ul class="intentions">
+      <li>Submit your complete assessment (game + journal + evaluation).</li>
+<li>celebrate what you built.</li>
+    </ul>
     <h2>Success Criteria</h2>
-    <ul class="success"><li>My evaluation addresses all 5 evaluation questions</li>
-<li>My final game zip is submitted to Google Classroom</li>
-<li>My journal has 10+ entries</li></ul>
+    <ul class="success">
+      <li>game.zip + journal.docx + evaluation submitted.</li>
+<li>My evaluation answers all 5 questions.</li>
+<li>My journal has 10+ weekly entries.</li>
+    </ul>
   </section>
 
   <section class="segment do-now">
-    <div class="segment-header"><span class="segment-minutes">5 min</span><h3>Do Now — Error of the Day</h3></div>
-    <p>Open your journal. Read your Week 1 entry. What's different about what you can do now vs Week 1?</p>
+    <h3>📍 Do Now — Error of the Day</h3>
+    <div class="rich-prose">
+      <p>Your final build is done. Open a blank document — this is your evaluation.</p>
+    </div>
   </section>
 
   <section class="segment i-do">
-    <div class="segment-header"><span class="segment-minutes">10 min</span><h3>I Do — Live-coded demo</h3></div>
-    <p>Teacher models the evaluation writing: opens the 5 questions, writes a sample answer to #1 live. Emphasises: be specific. Use line numbers from your code. Screenshot key moments. Show the video option: a 2-minute phone-recorded walkthrough.</p>
+    <h3>👁 I Do — Teacher Demo</h3>
+    <div class="rich-prose">
+      <p>Read through the 5 evaluation questions on the board. Model the first paragraph live — how to write about your own code specifically.</p>
+    </div>
   </section>
 
   <section class="segment we-do">
-    <div class="segment-header"><span class="segment-minutes">15 min</span><h3>We Do — Guided build</h3></div>
-    <p>Together: write the opening paragraph (~100 words) of the evaluation. What does your game do? What is your twist? Why did you choose it?</p>
+    <h3>🤝 We Do — Build Together</h3>
+    <div class="rich-prose">
+      <p>Write the opening paragraph together (100 words). Then a pause to discuss what makes good writing here vs generic.</p>
+    </div>
   </section>
 
   <section class="segment you-do">
-    <div class="segment-header"><span class="segment-minutes">35 min</span><h3>You Do — Your turn</h3></div>
-    <p>Write the remaining 400 words (OR record the 2-min video). Then ZIP your game folder. Submit to Google Classroom: (1) game.zip, (2) journal.docx, (3) evaluation.docx or video link.</p>
-    <div class="diff-box">
-      <div class="diff-tier support"><h4>Support</h4><p>Use the evaluation_template.docx — fill in the 5 sections. 300 words minimum.</p></div>
-      <div class="diff-tier core"><h4>Core</h4><p>500 words OR 2-min video. Full 5 questions.</p></div>
-      <div class="diff-tier extension"><h4>Extension</h4><p>Write a 700-word evaluation AND a 60-sec hype video. Link both.</p></div>
+    <h3>🚀 You Do — Your Turn</h3>
+    <div class="rich-prose">
+      <p>Finish your 500-word evaluation OR record your 2-min video. Upload 3 files to Classroom: game.zip + journal.docx + evaluation. DUE TONIGHT.</p>
+      <ul><li>Polish evaluation (500 words OR 2-min video)</li><li>Zip game folder + test the zip works</li><li>Upload 3 files: game.zip + journal.docx + evaluation</li><li>Submit before 11:59pm tonight</li></ul>
     </div>
-  </section>
 
-  
-  
+    <h3 style="margin-top:1.5rem;">🎮 Practice Quests — work through these</h3>
+    <div id="lesson-quests">
+      <p style="color:var(--text-muted);">Loading practice quests for this lesson...</p>
+    </div>
+
+    <h3 style="margin-top:1.5rem;">Three tiers — pick yours</h3>
+    <div class="diff-box">
+      <div class="diff-tier support">
+        <h4>Support</h4>
+        <p>evaluation template with fill-ins</p>
+      </div>
+      <div class="diff-tier core">
+        <h4>Core</h4>
+        <p>own 500 words</p>
+      </div>
+      <div class="diff-tier extension">
+        <h4>Extension</h4>
+        <p>video walkthrough + public share</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:1.5rem;">Extensions</h3><ul><li>700-word evaluation + 60-sec hype video.</li><li>Share your game publicly on itch.io or similar.</li></ul>
+  </section>
 
   <section class="segment exit">
-    <div class="segment-header"><span class="segment-minutes">5 min</span><h3>Exit Ticket — Coding Journal</h3></div>
-    <p>Final journal entry: in 3 sentences, what will you remember about this term?</p>
-    <div class="journal-callout">
-      <h4>📝 Journal submission</h4>
-      <p class="callout-note">Submit your 2-3 sentence journal entry in Google Classroom before you leave. Every entry contributes to your Coding Journal (/5) in the final assessment.</p>
+    <h3>📝 Exit Ticket — Coding Journal</h3>
+    <div class="rich-prose">
+      <p>Final journal entry: write 'what you'll remember about this term' in 5 sentences.</p>
     </div>
   </section>
 
-  
-<section class="resources">
-<h2>Resources</h2>
-<ul>
-<li>📖 <a href='../evaluation-template.docx' target='_blank'>Evaluation template .docx</a></li>
-</ul>
-</section>
+  <section>
+    <h2>Evidence of Learning</h2>
+    <p>ASSESSMENT DUE: all 3 components submitted to Classroom.</p>
+  </section>
 
-  <div class="prev-next"><a href='L21.html'><span>← Previous</span>Lesson L21</a><a href='../index.html'><span>↑ Hub</span>All Lessons</a><span></span></div>
+  <div class="prev-next"><a href="L21.html"><span>← Previous</span>Lesson L21</a><a href="../index.html"><span>↑ Hub</span>All Lessons</a><span></span></div>
 </main>
 
 <footer class="footer">
-  <p>Year 9 Game On — Term 2 2026 — Arthur Phillip High School</p>
-  <p>Taught by <a href="https://github.com/YunshuGao">Ms Yunshu Gao</a> · Built with Python + a lot of patience</p>
+  <p>Y9 Game On · Term 2 · Python Arcade</p>
 </footer>
+
+
+<script>
+(async function() {
+  try {
+    const res = await fetch("../arcade/exercises.json?v=" + Date.now());
+    const all = await res.json();
+    const mine = all.filter(q => q.lesson === "L22");
+    const box = document.getElementById("lesson-quests");
+    if (!mine.length) {
+      box.innerHTML = '<p style="color:var(--text-muted);">No arcade quests mapped to this lesson yet. Check the arcade directly.</p>';
+      return;
+    }
+    // Group by quest type
+    const typeEmoji = {code:"💻",drill:"⌨️",predict:"🔮",debug:"🔧",modify:"🔨",write:"✍️",multi:"✅",mini:"🎯",boss:"💥"};
+    const typeLabel = {code:"Code", drill:"Typing drill", predict:"Predict output", debug:"Debug", modify:"Modify code", write:"Writing", multi:"Quick quiz", mini:"Mini-game", boss:"Boss battle"};
+
+    // Sort: easy → medium → hard → boss
+    const diffOrder = {easy:0, medium:1, hard:2};
+    mine.sort((a, b) => {
+      if (a.num === 999) return 1;
+      if (b.num === 999) return -1;
+      return (diffOrder[a.difficulty] - diffOrder[b.difficulty]) || a.id.localeCompare(b.id);
+    });
+
+    const totalXP = mine.reduce((s, q) => s + q.xp, 0);
+    box.innerHTML = `
+      <p style="color:var(--text-muted);margin-bottom:1rem;">
+        <strong>${mine.length} quests</strong> for this lesson · <strong>${totalXP} XP</strong> available.
+        Click any quest to open it in the arcade (you keep XP + progress across lessons).
+      </p>
+      <div class="lesson-quest-grid">
+        ${mine.map(q => `
+          <a class="lesson-quest-card" href="../arcade/#exercise/${q.id}" target="_blank">
+            <div class="lq-header">
+              <span class="lq-emoji">${typeEmoji[q.type] || "❓"}</span>
+              <span class="lq-type">${typeLabel[q.type] || q.type}</span>
+              <span class="lq-xp">${q.xp} XP</span>
+            </div>
+            <div class="lq-title">${q.flavour || q.name}</div>
+            <div class="lq-meta">
+              <span class="diff-badge diff-${q.difficulty}">${q.difficulty}</span>
+              <span class="lq-id">${q.id}</span>
+            </div>
+          </a>
+        `).join("")}
+      </div>
+    `;
+  } catch (e) {
+    document.getElementById("lesson-quests").innerHTML =
+      '<p style="color:var(--red);">Could not load quests. Open the arcade directly from the nav.</p>';
+  }
+})();
+</script>
+
 </body>
 </html>
-
