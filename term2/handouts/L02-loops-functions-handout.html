@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L02 Loops + Functions · Self-Check Handout · 9GAMZA</title>
+<link rel="stylesheet" href="../../assets/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body { max-width: 900px; margin: 0 auto; padding: 1.5rem;
+       overflow-x: hidden; }
+.part { overflow: hidden; }
+.part-title { overflow-wrap: break-word; }
+.handout-header { background: linear-gradient(135deg, rgba(31,58,104,0.4), rgba(255,212,59,0.12));
+                  border: 2px solid var(--py-gold); border-radius: 14px;
+                  padding: 1.4rem 1.6rem; margin-bottom: 1.5rem; }
+.handout-header h1 { margin: 0 0 0.6rem; color: var(--py-gold); font-size: 1.5rem; }
+.handout-header p { margin: 0.2rem 0; color: var(--text); font-size: 0.95rem; }
+.name-row { display: flex; gap: 1rem; margin-top: 1rem; }
+.name-row input { flex: 1; padding: 0.6rem 0.8rem; border: 1px solid var(--border);
+                  border-radius: 6px; background: var(--surface); color: var(--text);
+                  font-family: inherit; font-size: 0.95rem; }
+.progress-bar-wrap { position: sticky; top: 0; z-index: 10;
+                     background: var(--bg); padding: 0.8rem 0; margin-bottom: 1rem;
+                     border-bottom: 1px solid var(--border); }
+.progress-text { font-weight: 600; color: var(--text); margin-bottom: 0.5rem; }
+.progress-track { height: 10px; background: var(--surface); border-radius: 5px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #14b8a6, #22c55e);
+                 transition: width 0.3s; }
+.part { margin: 2rem 0; padding: 1.4rem; background: var(--surface);
+        border-radius: 12px; border: 1px solid var(--border); }
+.part-title { color: var(--py-gold); margin: 0 0 0.4rem; font-size: 1.2rem; }
+.part-meta { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1rem; }
+.question { margin: 1.6rem 0; padding: 1rem; background: rgba(31,58,104,0.15);
+            border-radius: 8px; border-left: 3px solid var(--py-blue);
+            overflow: hidden; }
+.question .qnum { color: var(--py-gold); font-weight: 600; font-size: 0.88rem; }
+.question .qtext { margin: 0.4rem 0 0.8rem; color: var(--text); line-height: 1.5;
+                   overflow-wrap: break-word; word-wrap: break-word; }
+.question .qtext code { background: rgba(0,0,0,0.3); padding: 0.1rem 0.4rem; border-radius: 3px;
+                        color: var(--py-gold); font-family: 'Fira Code', monospace;
+                        word-break: break-all; }
+.question pre { background: rgba(0,0,0,0.3); padding: 0.8rem; border-radius: 6px;
+                overflow-x: auto; overflow-y: hidden; margin: 0.6rem 0;
+                max-width: 100%; }
+.question pre code { font-family: 'Fira Code', monospace; font-size: 0.88rem;
+                     color: var(--py-gold); white-space: pre;
+                     display: block; min-width: 0; }
+.choices label { display: block; padding: 0.5rem 0.8rem; margin: 0.3rem 0;
+                 border-radius: 6px; cursor: pointer; transition: background 0.15s;
+                 color: var(--text); }
+.choices label:hover { background: rgba(255,212,59,0.08); }
+.choices input[type=radio] { margin-right: 0.6rem; }
+input[type=text], textarea { width: 100%; padding: 0.6rem 0.8rem;
+                             background: var(--bg); color: var(--text);
+                             border: 1px solid var(--border); border-radius: 6px;
+                             font-family: 'Fira Code', monospace; font-size: 0.9rem; }
+textarea { min-height: 90px; resize: vertical; }
+.feedback { margin-top: 0.6rem; padding: 0.7rem 1rem; border-radius: 6px;
+            font-size: 0.9rem; display: none;
+            overflow-wrap: break-word; word-wrap: break-word; }
+.feedback.correct { background: rgba(34,197,94,0.15); border-left: 3px solid #22c55e;
+                    color: #86efac; }
+.feedback.wrong { background: rgba(239,68,68,0.12); border-left: 3px solid #ef4444;
+                  color: #fca5a5; }
+.feedback.info { background: rgba(59,130,246,0.12); border-left: 3px solid #3b82f6;
+                 color: #93c5fd; }
+.feedback code { background: rgba(0,0,0,0.3); padding: 0.1rem 0.4rem; border-radius: 3px;
+                 color: var(--py-gold); word-break: break-all; }
+#submit-section { margin: 2.5rem 0; padding: 1.4rem; background: var(--surface);
+                  border-radius: 12px; border: 2px solid var(--border); text-align: center; }
+#submit-btn { padding: 1rem 2.5rem; font-size: 1.1rem; font-weight: 600;
+              border-radius: 8px; cursor: pointer; border: none;
+              background: linear-gradient(135deg, #3776AB, #14b8a6); color: white; }
+#submit-btn:disabled { background: var(--surface); color: var(--text-muted);
+                       cursor: not-allowed; border: 1px solid var(--border); }
+#results { display: none; margin: 2rem 0; padding: 1.6rem; background: var(--surface);
+           border-radius: 12px; border: 2px solid var(--py-gold); }
+#results h2 { color: var(--py-gold); margin: 0 0 1rem; }
+.score-hero { text-align: center; padding: 1rem; }
+.score-hero .big { font-size: 3rem; font-weight: 700; color: var(--py-gold); }
+.score-hero .sub { color: var(--text-muted); }
+.breakdown { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+             gap: 0.8rem; margin-top: 1rem; }
+.breakdown-item { padding: 0.8rem; background: rgba(31,58,104,0.15); border-radius: 8px; }
+.breakdown-item .label { color: var(--text-muted); font-size: 0.85rem; }
+.breakdown-item .value { color: var(--text); font-size: 1.3rem; font-weight: 600; }
+.submit-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.2rem; }
+.submit-actions button, .submit-actions a { flex: 1; padding: 0.8rem 1.2rem;
+                     border-radius: 8px; cursor: pointer; border: 1px solid var(--border);
+                     background: var(--bg); color: var(--text); font-weight: 500;
+                     text-align: center; text-decoration: none; font-family: inherit;
+                     font-size: 0.95rem; }
+.submit-actions .primary { background: linear-gradient(135deg, #3776AB, #14b8a6);
+                           color: white; border: none; }
+.callout { background: rgba(255,212,59,0.08); border-left: 3px solid var(--py-gold);
+           padding: 0.8rem 1rem; border-radius: 6px; margin: 1rem 0; font-size: 0.92rem; }
+.new-tag { display: inline-block; background: var(--py-gold); color: var(--bg);
+           padding: 0.1rem 0.5rem; border-radius: 4px; font-size: 0.75rem;
+           font-weight: 700; margin-left: 0.4rem; vertical-align: middle; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="site-brand">🐍 Y9 Game On · Term 2</a>
+    <nav class="site-nav">
+      <a href="../index.html">Overview</a>
+      <a href="../lessons/L02.html">← L02 Lesson Page</a>
+      <a href="../arcade/index.html">🎮 Arcade</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+<div class="handout-header">
+  <h1>🔁 L02 — Loops + Functions Self-Check Handout</h1>
+  <p><strong>Class:</strong> Year 9 Game On · 9GAMZA · Term 2 2026</p>
+  <p><strong>Duration:</strong> 75 minutes (target ~50 minutes; extra time for thinking)</p>
+  <p><strong>Marks:</strong> /75 total · Part A 20 · Part B 15 · Part C 20 · Part D 20</p>
+  <p><strong>What we're checking:</strong> for loops, while loops, list comprehensions <span class="new-tag">NEW</span>, functions (def + return + parameters), default values, *args <span class="new-tag">NEW</span>, scope.</p>
+  <p><strong>Rules:</strong> Answer EVERY question to unlock Submit. Once submitted, you'll see your score + correct answers. Your work auto-saves on this laptop as you type. No looking things up — only what you remember.</p>
+  <div class="name-row">
+    <input type="text" id="student-name" placeholder="First name" autocomplete="given-name">
+    <input type="text" id="student-last" placeholder="Last name" autocomplete="family-name">
+  </div>
+</div>
+
+<div class="progress-bar-wrap">
+  <div class="progress-text" id="progress-text">0 / 23 questions complete</div>
+  <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width: 0%"></div></div>
+</div>
+
+<section class="part" id="part-a">
+  <h2 class="part-title">Part A — Predict the Output</h2>
+  <p class="part-meta">10 questions · 2 marks each · ~15 minutes. Read the code carefully — don't run it.</p>
+
+  <!-- A1 -->
+  <div class="question" data-q="A1" data-type="mcq" data-marks="2">
+    <div class="qnum">A1 (2 marks)</div>
+    <div class="qtext">What prints?</div>
+    <pre><code>for i in range(4):
+    print(i)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="A1" value="0"> 0 1 2 3 4 (each on its own line)</label>
+      <label><input type="radio" name="A1" value="1"> 1 2 3 4 (each on its own line)</label>
+      <label><input type="radio" name="A1" value="2"> 0 1 2 3 (each on its own line)</label>
+      <label><input type="radio" name="A1" value="3"> 4</label>
+    </div>
+    <div class="feedback"></div>
+  </div>
+
+  <!-- A2 -->
+  <div class="question" data-q="A2" data-type="mcq" data-marks="2">
+    <div class="qnum">A2 (2 marks)</div>
+    <div class="qtext">What prints?</div>
+    <pre><code>for i in range(2, 6):
+    print(i)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="A2" value="0"> 2 3 4 5 6 (each on its own line)</label>
+      <label><input type="radio" name="A2" value="1"> 2 3 4 5 (each on its own line)</label>
+      <label><input type="radio" name="A2" value="2"> 0 1 2 3 4 5 (each on its own line)</label>
+      <label><input type="radio" name="A2" value="3"> 4</label>
+    </div>
+    <div class="feedback"></div>
+  </div>
+
+  <!-- A3 -->
+  <div class="question" data-q="A3" data-type="mcq" data-marks="2">
+    <div class="qnum">A3 (2 marks)</div>
+    <div class="qtext">What prints?</div>
+    <pre><code>n = 0
+while n &lt; 3:
+    n += 1
+print(n)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="A3" value="0"> 0</label>
+      <label><input type="radio" name="A3" value="1"> 1 2 3</label>
+      <label><input type="radio" name="A3" value="2"> 2</label>
+      <label><input type="radio" name="A3" value="3"> 3</label>
+    </div>
+    <div class="feedback"></div>
+  </div>
+
+  <!-- A4 -->
+  <div class="question" data-q="A4" data-type="mcq" data-marks="2">
+    <div class="qnum">A4 (2 marks) <span class="new-tag">LIST COMPREHENSION</span></div>
+    <div class="qtext">What prints?</div>
+    <pre><code>squares = [x * x for x in range(4)]
+print(squares)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="A4" value="0"> [0, 1, 4, 9]</label>
+      <label><input type="radio" name="A4" value="1"> [1, 4, 9, 16]</label>
+      <label><input type="radio" name="A4" value="2"> [0, 2, 4, 6]</label>
+      <label><input type="radio" name="A4" value="3"> Error — list comprehensions don't work like that</label>
+    </div>
+    <div class="feedback"></div>
+  </div>
+
+  <!-- A5 -->
+  <div class="question" data-q="A5" data-type="mcq" data-marks="2">
+    <div class="qnum">A5 (2 marks) <span class="new-tag">LIST COMPREHENSION</span></div>
+    <div class="qtext">What prints?</div>
+    <pre><code>nums = [1, 2, 3, 4, 5, 6]
+evens = [n for n in nums if n % 2 == 0]
+print(evens)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="A5" value="0"> [1, 3, 5]</label>
+      <label><input type="radio" name="A5" value="1"> [2, 4, 6]</label>
+      <label><input type="radio" name="A5" value="2"> [1, 2, 3, 4, 5, 6]</label>
+      <label><input type="radio" name="A5" value="3"> [0, 0, 0]</label>
+    </div>
+    <div class="feedback"></div>
+  </div>
+
+  <!-- A6 -->
+  <div class="question" data-q="A6" data-type="mcq" data-marks="2">
+    <div class="qnum">A6 (2 marks)</div>
+    <div class="qtext">What prints?</div>
+    <pre><code>def greet(name):
+    return f"Hello, {name}!"
+
+print(greet("Ada"))</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="A6" value="0"> Hello, name!</label>
+      <label><input type="radio" name="A6" value="1"> Hello, {name}!</label>
+      <label><input type="radio" name="A6" value="2"> Hello, Ada!</label>
+      <label><input type="radio" name="A6" value="3"> Nothing — the function was defined but not run</label>
+    </div>
+    <div class="feedback"></div>
+  </div>
+
+  <!-- A7 -->
+  <div class="question" data-q="A7" data-type="mcq" data-marks="2">
+    <div class="qnum">A7 (2 marks)</div>
+    <div class="qtext">What prints?</div>
+    <pre><code>def add(a, b=10):
+    return a + b
+
+print(add(5))</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="A7" value="0"> 5</label>
+      <label><input type="radio" name="A7" value="1"> 10</label>
+      <label><input type="radio" name="A7" value="2"> 15</label>
+      <label><input type="radio" name="A7" value="3"> Error — missing argument b</label>
+    </div>
+    <div class="feedback"></div>
+  </div>
+
+  <!-- A8 -->
+  <div class="question" data-q="A8" data-type="mcq" data-marks="2">
+    <div class="qnum">A8 (2 marks) <span class="new-tag">*args</span></div>
+    <div class="qtext">What prints?</div>
+    <pre><code>def total(*scores):
+    return sum(scores)
+
+print(total(10, 20, 30))</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="A8" value="0"> 10</label>
+      <label><input type="radio" name="A8" value="1"> 60</label>
+      <label><input type="radio" name="A8" value="2"> [10, 20, 30]</label>
+      <label><input type="radio" name="A8" value="3"> Error — *scores isn't valid</label>
+    </div>
+    <div class="feedback"></div>
+  </div>
+
+  <!-- A9 -->
+  <div class="question" data-q="A9" data-type="mcq" data-marks="2">
+    <div class="qnum">A9 (2 marks)</div>
+    <div class="qtext">What prints?</div>
+    <pre><code>def stats(hp, max_hp):
+    return hp, max_hp, hp / max_hp
+
+result = stats(40, 100)
+print(result)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="A9" value="0"> 40</label>
+      <label><input type="radio" name="A9" value="1"> 0.4</label>
+      <label><input type="radio" name="A9" value="2"> (40, 100, 0.4)</label>
+      <label><input type="radio" name="A9" value="3"> Error — can't return 3 things</label>
+    </div>
+    <div class="feedback"></div>
+  </div>
+
+  <!-- A10 -->
+  <div class="question" data-q="A10" data-type="mcq" data-marks="2">
+    <div class="qnum">A10 (2 marks) <span class="new-tag">SCOPE</span></div>
+    <div class="qtext">What happens?</div>
+    <pre><code>def make_score():
+    score = 100
+
+make_score()
+print(score)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="A10" value="0"> Prints 100</label>
+      <label><input type="radio" name="A10" value="1"> Prints None</label>
+      <label><input type="radio" name="A10" value="2"> NameError — score is local to the function, doesn't exist outside</label>
+      <label><input type="radio" name="A10" value="3"> Prints 0</label>
+    </div>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section class="part" id="part-b">
+  <h2 class="part-title">Part B — Fill in the Blank</h2>
+  <p class="part-meta">5 questions · 3 marks each · ~10 minutes. Type the missing line of code.</p>
+
+  <!-- B1 -->
+  <div class="question" data-q="B1" data-type="text" data-marks="3">
+    <div class="qnum">B1 (3 marks)</div>
+    <div class="qtext">Fill in the blank to print every item in <code>fruits</code>, one per line.</div>
+    <pre><code>fruits = ["apple", "banana", "cherry"]
+_________________
+    print(fruit)</code></pre>
+    <input type="text" name="B1" placeholder="Type the missing line (don't forget the colon)">
+    <div class="feedback"></div>
+  </div>
+
+  <!-- B2 -->
+  <div class="question" data-q="B2" data-type="text" data-marks="3">
+    <div class="qnum">B2 (3 marks) <span class="new-tag">LIST COMPREHENSION</span></div>
+    <div class="qtext">Fill in the blank using a list comprehension to make a list of squares: <code>[0, 1, 4, 9, 16]</code>.</div>
+    <pre><code>_________________
+print(squares)  # [0, 1, 4, 9, 16]</code></pre>
+    <input type="text" name="B2" placeholder='Type the missing line (use [...for...in...])'>
+    <div class="feedback"></div>
+  </div>
+
+  <!-- B3 -->
+  <div class="question" data-q="B3" data-type="text" data-marks="3">
+    <div class="qnum">B3 (3 marks)</div>
+    <div class="qtext">Fill in the blank to define a function that doubles a number and returns the result.</div>
+    <pre><code>_________________
+    return x * 2
+
+print(double(7))  # 14</code></pre>
+    <input type="text" name="B3" placeholder="Type the missing line (def ...)">
+    <div class="feedback"></div>
+  </div>
+
+  <!-- B4 -->
+  <div class="question" data-q="B4" data-type="text" data-marks="3">
+    <div class="qnum">B4 (3 marks)</div>
+    <div class="qtext">Fill in the blank — a while loop that counts down from 5 to 1 (inclusive).</div>
+    <pre><code>n = 5
+_________________
+    print(n)
+    n -= 1</code></pre>
+    <input type="text" name="B4" placeholder="Type the missing line (don't forget the colon)">
+    <div class="feedback"></div>
+  </div>
+
+  <!-- B5 -->
+  <div class="question" data-q="B5" data-type="text" data-marks="3">
+    <div class="qnum">B5 (3 marks)</div>
+    <div class="qtext">Fill in the blank — define <code>greet</code> with a default greeting of <code>"Hello"</code>.</div>
+    <pre><code>_________________
+    print(f"{greeting}, {name}!")
+
+greet("Sam")           # Hello, Sam!
+greet("Sam", "Hola")   # Hola, Sam!</code></pre>
+    <input type="text" name="B5" placeholder="Type the missing line (function with a default parameter)">
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section class="part" id="part-c">
+  <h2 class="part-title">Part C — Debug</h2>
+  <p class="part-meta">4 questions · 5 marks each · ~20 minutes. Find the bug, write the fix, explain in your own words (min 15 chars).</p>
+
+  <!-- C1 -->
+  <div class="question" data-q="C1" data-type="debug" data-marks="5">
+    <div class="qnum">C1 (5 marks)</div>
+    <div class="qtext">This for-loop should print 1 to 5. Fix it. Write the corrected first line only.</div>
+    <pre><code>for i in range(1, 5):
+    print(i)
+# wanted: 1 2 3 4 5  / actual: 1 2 3 4</code></pre>
+    <label>Fixed first line:</label>
+    <input type="text" name="C1" placeholder="The corrected for line">
+    <label>Explain the bug (1 sentence):</label>
+    <input type="text" name="C1_why" placeholder="Why it was broken">
+    <div class="feedback"></div>
+  </div>
+
+  <!-- C2 -->
+  <div class="question" data-q="C2" data-type="debug" data-marks="5">
+    <div class="qnum">C2 (5 marks)</div>
+    <div class="qtext">This function should return the bigger of two numbers, but it doesn't return anything. Fix the function body.</div>
+    <pre><code>def bigger(a, b):
+    if a &gt; b:
+        a
+    else:
+        b
+
+print(bigger(5, 9))  # prints None — should print 9</code></pre>
+    <label>Fixed function body (write BOTH branches, comma-separated or describe):</label>
+    <input type="text" name="C2" placeholder='e.g. "use return a / use return b" or just "return a / return b"'>
+    <label>Explain the bug (1 sentence):</label>
+    <input type="text" name="C2_why" placeholder="Why it was broken">
+    <div class="feedback"></div>
+  </div>
+
+  <!-- C3 -->
+  <div class="question" data-q="C3" data-type="debug" data-marks="5">
+    <div class="qnum">C3 (5 marks)</div>
+    <div class="qtext">This while loop never stops. Find the bug — write the line that needs adding (or fixing) inside the loop.</div>
+    <pre><code>n = 0
+while n &lt; 5:
+    print(n)
+# (this loop never ends!)</code></pre>
+    <label>The line that needs adding/fixing inside the loop:</label>
+    <input type="text" name="C3" placeholder="The missing or wrong line">
+    <label>Explain the bug (1 sentence):</label>
+    <input type="text" name="C3_why" placeholder="Why it loops forever">
+    <div class="feedback"></div>
+  </div>
+
+  <!-- C4 -->
+  <div class="question" data-q="C4" data-type="debug" data-marks="5">
+    <div class="qnum">C4 (5 marks) <span class="new-tag">SCOPE</span></div>
+    <div class="qtext">This code should print the doubled value. Fix it — write the corrected last line.</div>
+    <pre><code>def double_it(x):
+    result = x * 2
+
+double_it(7)
+print(result)  # NameError — result doesn't exist out here</code></pre>
+    <label>Fixed last line (and any change to the function if needed — describe in one line):</label>
+    <input type="text" name="C4" placeholder='e.g. "add return result + use print(double_it(7))"'>
+    <label>Explain the bug (1 sentence):</label>
+    <input type="text" name="C4_why" placeholder="Why result doesn't exist outside the function">
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section class="part" id="part-d">
+  <h2 class="part-title">Part D — Coding Tasks (Write Python)</h2>
+  <p class="part-meta">2 questions · 10 marks each · ~30 minutes. Write the code in VS Code, paste it below, then paste what it prints.</p>
+
+  <!-- D1 -->
+  <div class="question" data-q="D1" data-type="code" data-marks="10">
+    <div class="qnum">D1 (10 marks)</div>
+    <div class="qtext"><strong>Task:</strong> Write a function called <code>calculate_damage</code> that takes <code>hp</code>, <code>damage</code>, and <code>armour</code>, and returns the new HP after the hit. Damage that gets through = <code>damage - armour</code> (but never below 0). The new HP is <code>hp - damage_through</code>.</div>
+    <div class="callout">
+      <strong>Test cases your function must pass:</strong><br>
+      <code>calculate_damage(100, 30, 10)</code> → <code>80</code> (30 dmg, 10 armour soaks → 20 through → 100−20=80)<br>
+      <code>calculate_damage(100, 5, 50)</code> → <code>100</code> (5 dmg, 50 armour soaks all → 0 through → 100−0=100)<br>
+      <code>calculate_damage(50, 70, 0)</code> → <code>−20</code> (70 dmg, no armour → all through → 50−70=−20)
+    </div>
+    <label>Your function code:</label>
+    <textarea name="D1" placeholder="def calculate_damage(hp, damage, armour):
+    ..."></textarea>
+    <label>Test all 3 cases. Paste the 3 numbers your function returned (comma-separated):</label>
+    <input type="text" name="D1_output" placeholder="e.g. 80, 100, -20">
+    <div class="feedback"></div>
+  </div>
+
+  <!-- D2 -->
+  <div class="question" data-q="D2" data-type="code" data-marks="10">
+    <div class="qnum">D2 (10 marks) <span class="new-tag">LIST COMPREHENSION + *args</span></div>
+    <div class="qtext"><strong>Task:</strong> Write a function called <code>average</code> that takes <strong>any number of scores</strong> using <code>*args</code>, and returns their average. Then use a <strong>list comprehension</strong> to make a list of "high" scores (≥ 80) from a given list, and print the average of those high scores.</div>
+    <div class="callout">
+      <strong>Expected behaviour:</strong><br>
+      <code>average(80, 90, 100)</code> → <code>90.0</code><br>
+      Then for <code>scores = [55, 92, 78, 88, 100, 67, 85]</code>:<br>
+      <code>highs = [s for s in scores if s &gt;= 80]</code> → <code>[92, 88, 100, 85]</code><br>
+      <code>average(*highs)</code> → <code>91.25</code> (or similar — show what your code prints)
+    </div>
+    <label>Your code (function + the list comprehension + the print):</label>
+    <textarea name="D2" placeholder="def average(*scores):
+    ...
+
+scores = [55, 92, 78, 88, 100, 67, 85]
+highs = [s for s in scores if s >= 80]
+print(average(*highs))"></textarea>
+    <label>What did your code print for the average of the high scores?</label>
+    <input type="text" name="D2_output" placeholder="e.g. 91.25">
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<div id="submit-section">
+  <button id="submit-btn" disabled>Submit (answer all questions first)</button>
+  <p style="margin-top:0.8rem;color:var(--text-muted);font-size:0.9rem;">
+    Once submitted, all answers lock and you'll see your score + correct answers.
+  </p>
+</div>
+
+<div id="results">
+  <h2>📝 Your Results</h2>
+  <div class="score-hero">
+    <div class="big" id="score-total">0 / 75</div>
+    <div class="sub" id="score-pct">0%</div>
+  </div>
+  <div class="breakdown" id="score-breakdown"></div>
+
+  <div class="callout" style="margin-top:1.5rem;">
+    <strong>How to submit to Google Classroom:</strong><br>
+    1. Click <strong>Copy results for Classroom</strong> — a summary copies to your clipboard.<br>
+    2. Open today's L02 assignment in Google Classroom.<br>
+    3. Paste (Ctrl+V) into the comment / submission box.<br>
+    4. Click <strong>Mark as done</strong>.
+  </div>
+
+  <div class="submit-actions">
+    <button class="primary" id="copy-btn">📋 Copy results for Classroom</button>
+    <button id="download-btn">💾 Download results as .txt</button>
+    <a href="#" id="home-link" style="padding:0.8rem 1.2rem;">← Back to L02 lesson</a>
+  </div>
+</div>
+
+</main>
+
+<footer class="footer">
+  <p>Y9 Game On · Term 2 · 2026 · L02 Loops + Functions Self-Check Handout</p>
+</footer>
+
+<script>
+const STORAGE_KEY = "y9_handout_L02_v1";
+
+const ANSWERS = {
+  // Part A — MCQs
+  A1: {correct: 2, explain: "range(4) yields 0, 1, 2, 3 (NOT 4 — the end is exclusive). Each on its own line."},
+  A2: {correct: 1, explain: "range(2, 6) yields 2, 3, 4, 5 (start inclusive, end exclusive)."},
+  A3: {correct: 3, explain: "Loop runs while n < 3. Inside, n increments. After n becomes 3, the condition fails and loop stops. The print AFTER the loop shows 3."},
+  A4: {correct: 0, explain: "[x*x for x in range(4)] yields squares of 0, 1, 2, 3 → 0, 1, 4, 9."},
+  A5: {correct: 1, explain: "The 'if n % 2 == 0' filter keeps only even numbers from nums."},
+  A6: {correct: 2, explain: "f-string substitutes the value of name. greet(\"Ada\") returns 'Hello, Ada!' which print displays."},
+  A7: {correct: 2, explain: "b has a default value of 10. add(5) means a=5, b=10 (the default), so 5 + 10 = 15."},
+  A8: {correct: 1, explain: "*scores collects all positional arguments into a tuple (10, 20, 30). sum() adds them → 60."},
+  A9: {correct: 2, explain: "A function can return multiple values — Python packs them into a tuple. (40, 100, 0.4) is the tuple printed."},
+  A10: {correct: 2, explain: "score is a LOCAL variable inside make_score — it's destroyed when the function returns. Trying to use it outside raises NameError."},
+
+  // Part B — fill in
+  B1: {correct: 'for fruit in fruits:',
+       accept: ['for fruit in fruits:', 'for f in fruits:', 'for x in fruits:'],
+       explain: "Use 'for <variable> in <list>:' — but the variable name must match what the body uses (the body has print(fruit), so the variable must be 'fruit')."},
+  B2: {correct: 'squares = [x*x for x in range(5)]',
+       accept: ['squares = [x*x for x in range(5)]', 'squares = [x * x for x in range(5)]',
+                'squares=[x*x for x in range(5)]', 'squares = [x**2 for x in range(5)]',
+                'squares = [i*i for i in range(5)]', 'squares = [i**2 for i in range(5)]'],
+       explain: "List comprehension: [expression for variable in iterable]. range(5) gives 0..4 → squares 0, 1, 4, 9, 16."},
+  B3: {correct: 'def double(x):',
+       accept: ['def double(x):', 'def double(n):', 'def double(num):', 'def double(number):'],
+       explain: "def <name>(<parameter>): — the parameter name is your choice, but the body uses 'x', so it has to match."},
+  B4: {correct: 'while n >= 1:',
+       accept: ['while n >= 1:', 'while n>=1:', 'while n > 0:', 'while n>0:'],
+       explain: "Loop while n is at least 1. After 5,4,3,2,1 print, n becomes 0 and the condition fails."},
+  B5: {correct: 'def greet(name, greeting="Hello"):',
+       accept: ['def greet(name, greeting="Hello"):', "def greet(name, greeting='Hello'):",
+                'def greet(name,greeting="Hello"):', "def greet(name,greeting='Hello'):"],
+       explain: "Default parameters go AFTER non-default ones. Use parameter=defaultvalue inside the def line."},
+
+  // Part C — debug
+  C1: {correct: 'for i in range(1, 6):',
+       accept: ['for i in range(1, 6):', 'for i in range(1,6):', 'for i in range(1, 5+1):'],
+       why_min: 15,
+       explain: "range(1, 5) stops before 5 — gives 1,2,3,4. To include 5 you need range(1, 6) (end is exclusive)."},
+  C2: {correct: 'return a / return b',
+       accept: ['return a / return b', 'return a, return b', 'return a return b',
+                'use return a and return b', 'return a then return b'],
+       why_min: 15,
+       explain: "Without 'return', the function evaluates a (or b) and throws the value away. Need 'return a' / 'return b' so the value goes back to the caller."},
+  C3: {correct: 'n += 1',
+       accept: ['n += 1', 'n=n+1', 'n = n + 1', 'n+=1', 'add n += 1', 'increment n'],
+       why_min: 15,
+       explain: "n stays at 0 forever, so n < 5 is always True → infinite loop. Need to increment n inside the loop."},
+  C4: {correct: 'use return result + print(double_it(7))',
+       accept: ['use return result + print(double_it(7))',
+                'add return result, print(double_it(7))',
+                'return result and print(double_it(7))',
+                'add return + use print(double_it(7))'],
+       why_min: 15,
+       explain: "result is local to double_it — gone when the function returns. Either: (a) make the function return result and use print(double_it(7)), OR (b) declare 'global result' (less recommended)."},
+
+  // Part D — code tasks (manual review)
+  D1: {rubric: "Function takes 3 parameters; computes damage_through = max(0, damage - armour); returns hp - damage_through. Test cases: 80, 100, -20.",
+       explain: "Model: def calculate_damage(hp, damage, armour): damage_through = max(0, damage - armour); return hp - damage_through"},
+  D2: {rubric: "Function uses *args (or *scores) to collect any number of inputs; returns sum(scores)/len(scores). List comprehension filters scores >= 80. Final answer ≈ 91.25.",
+       explain: "Model: def average(*scores): return sum(scores) / len(scores). Then highs = [s for s in scores if s >= 80]; print(average(*highs))."},
+};
+
+const PART_MARKS = {A: 20, B: 15, C: 20, D: 20};
+const TOTAL_MARKS = 75;
+
+function countComplete() {
+  let complete = 0;
+  document.querySelectorAll(".question").forEach(q => {
+    const type = q.dataset.type;
+    const qid = q.dataset.q;
+    if (type === "mcq") {
+      if (q.querySelector(`input[name=${qid}]:checked`)) complete++;
+    } else if (type === "text") {
+      const val = q.querySelector(`input[name=${qid}]`)?.value.trim();
+      if (val && val.length > 0) complete++;
+    } else if (type === "debug") {
+      const fix = q.querySelector(`input[name=${qid}]`)?.value.trim();
+      const why = q.querySelector(`input[name=${qid}_why]`)?.value.trim();
+      if (fix && why && why.length >= 5) complete++;
+    } else if (type === "code") {
+      const code = q.querySelector(`textarea[name=${qid}]`)?.value.trim();
+      const out = q.querySelector(`input[name=${qid}_output]`)?.value.trim();
+      if (code && code.length >= 20 && out) complete++;
+    }
+  });
+  return complete;
+}
+
+function updateProgress() {
+  const total = document.querySelectorAll(".question").length;
+  const done = countComplete();
+  const pct = total ? (done / total) * 100 : 0;
+  document.getElementById("progress-text").textContent = `${done} / ${total} questions complete`;
+  document.getElementById("progress-fill").style.width = `${pct}%`;
+  const btn = document.getElementById("submit-btn");
+  if (done === total) {
+    btn.disabled = false;
+    btn.textContent = "Submit my answers";
+  } else {
+    btn.disabled = true;
+    btn.textContent = `Submit — finish ${total - done} more first`;
+  }
+  save();
+}
+
+function snapshot() {
+  const data = { firstName: document.getElementById("student-name").value,
+                 lastName: document.getElementById("student-last").value,
+                 answers: {}, submitted: false };
+  document.querySelectorAll(".question").forEach(q => {
+    const type = q.dataset.type;
+    const qid = q.dataset.q;
+    if (type === "mcq") {
+      const picked = q.querySelector(`input[name=${qid}]:checked`);
+      data.answers[qid] = picked ? picked.value : null;
+    } else if (type === "text") {
+      data.answers[qid] = q.querySelector(`input[name=${qid}]`)?.value || "";
+    } else if (type === "debug") {
+      data.answers[qid] = q.querySelector(`input[name=${qid}]`)?.value || "";
+      data.answers[qid + "_why"] = q.querySelector(`input[name=${qid}_why]`)?.value || "";
+    } else if (type === "code") {
+      data.answers[qid] = q.querySelector(`textarea[name=${qid}]`)?.value || "";
+      data.answers[qid + "_output"] = q.querySelector(`input[name=${qid}_output]`)?.value || "";
+    }
+  });
+  return data;
+}
+function save() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshot())); } catch {}
+}
+function restore() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    if (data.firstName) document.getElementById("student-name").value = data.firstName;
+    if (data.lastName) document.getElementById("student-last").value = data.lastName;
+    for (const [k, v] of Object.entries(data.answers || {})) {
+      const radio = document.querySelector(`input[name="${k}"][value="${v}"]`);
+      if (radio) { radio.checked = true; continue; }
+      const el = document.querySelector(`[name="${k}"]`);
+      if (el && v != null) el.value = v;
+    }
+    if (data.submitted) finaliseSubmission(false);
+  } catch (e) { console.warn("restore failed", e); }
+}
+
+function normalise(s) {
+  return (s || "").toLowerCase().replace(/\s+/g, " ").trim().replace(/[;\s]+$/, "");
+}
+
+function gradeQuestion(q) {
+  const type = q.dataset.type;
+  const qid = q.dataset.q;
+  const marks = parseInt(q.dataset.marks || "0");
+  const key = ANSWERS[qid];
+  const snap = snapshot().answers;
+
+  if (type === "mcq") {
+    const picked = snap[qid];
+    const ok = picked !== null && parseInt(picked) === key.correct;
+    return { marks: ok ? marks : 0, max: marks, correct: ok, explain: key.explain,
+             expected: q.querySelectorAll(".choices label")[key.correct].textContent.trim() };
+  }
+  if (type === "text") {
+    const ans = normalise(snap[qid]);
+    const ok = (key.accept || [key.correct]).some(a => normalise(a) === ans);
+    return { marks: ok ? marks : 0, max: marks, correct: ok, explain: key.explain,
+             expected: key.correct };
+  }
+  if (type === "debug") {
+    const fix = normalise(snap[qid]);
+    const why = (snap[qid + "_why"] || "").trim();
+    const fixOK = (key.accept || [key.correct]).some(a => normalise(a) === fix);
+    const whyOK = why.length >= (key.why_min || 10);
+    let got = 0;
+    if (fixOK && whyOK) got = marks;
+    else if (fixOK) got = Math.ceil(marks * 0.6);
+    else if (whyOK) got = Math.ceil(marks * 0.2);
+    return { marks: got, max: marks, correct: (fixOK && whyOK),
+             explain: key.explain, expected: key.correct,
+             partial: (fixOK && !whyOK) ? "Fix is right but explanation is too short. Add more detail in class."
+                      : (!fixOK && whyOK) ? "Explanation written but the fix isn't right. See correct answer."
+                      : null };
+  }
+  if (type === "code") {
+    const code = (snap[qid] || "").trim();
+    const out = (snap[qid + "_output"] || "").trim();
+    let got = 0;
+    if (code.length >= 40 && out.length > 0) got = marks;
+    else if (code.length >= 20) got = Math.ceil(marks * 0.5);
+    return { marks: got, max: marks,
+             correct: code.length >= 40 && out.length > 0,
+             explain: key.explain,
+             rubric: key.rubric,
+             partial: got > 0 && got < marks ? "Partial marks — teacher will review in class." : null };
+  }
+  return { marks: 0, max: marks, correct: false, explain: "" };
+}
+
+function finaliseSubmission(first) {
+  let total = 0;
+  const partTotals = { A: {got:0, max:0}, B: {got:0, max:0}, C: {got:0, max:0}, D: {got:0, max:0} };
+
+  document.querySelectorAll(".question").forEach(q => {
+    const qid = q.dataset.q;
+    const part = qid[0];
+    const grade = gradeQuestion(q);
+    total += grade.marks;
+    partTotals[part].got += grade.marks;
+    partTotals[part].max += grade.max;
+
+    const fb = q.querySelector(".feedback");
+    let cls = grade.correct ? "correct" : (grade.marks > 0 ? "info" : "wrong");
+    fb.className = "feedback " + cls;
+    fb.style.display = "block";
+    let html = "";
+    if (grade.correct) {
+      html = `<strong>✓ Correct</strong> — ${grade.marks} / ${grade.max} marks. <em>${grade.explain}</em>`;
+    } else if (grade.marks > 0) {
+      html = `<strong>● Partial — ${grade.marks} / ${grade.max} marks.</strong> ${grade.partial || ""}<br>`;
+      if (grade.expected) html += `Correct answer: <code>${escapeHtml(grade.expected)}</code><br>`;
+      if (grade.rubric) html += `<em>Marking rubric:</em> ${grade.rubric}<br>`;
+      html += `<em>${grade.explain || ""}</em>`;
+    } else {
+      html = `<strong>✗ Incorrect — 0 / ${grade.max} marks.</strong><br>`;
+      if (grade.expected) html += `Correct answer: <code>${escapeHtml(grade.expected)}</code><br>`;
+      if (grade.rubric) html += `<em>Marking rubric:</em> ${grade.rubric}<br>`;
+      html += `<em>${grade.explain || ""}</em>`;
+    }
+    fb.innerHTML = html;
+
+    q.querySelectorAll("input, textarea").forEach(el => el.disabled = true);
+  });
+
+  document.getElementById("score-total").textContent = `${total} / ${TOTAL_MARKS}`;
+  document.getElementById("score-pct").textContent = `${Math.round(total / TOTAL_MARKS * 100)}%`;
+
+  const bd = document.getElementById("score-breakdown");
+  bd.innerHTML = "";
+  for (const p of ["A", "B", "C", "D"]) {
+    const pt = partTotals[p];
+    const div = document.createElement("div");
+    div.className = "breakdown-item";
+    div.innerHTML = `<div class="label">Part ${p}</div><div class="value">${pt.got} / ${pt.max}</div>`;
+    bd.appendChild(div);
+  }
+
+  document.getElementById("results").style.display = "block";
+  document.getElementById("submit-btn").style.display = "none";
+  document.getElementById("results").scrollIntoView({behavior: "smooth"});
+
+  const data = snapshot(); data.submitted = true; data.score = total; data.breakdown = partTotals;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+
+  window._resultsPayload = buildResultsPayload(total, partTotals);
+}
+
+function buildResultsPayload(total, parts) {
+  const fn = document.getElementById("student-name").value.trim() || "(anonymous)";
+  const ln = document.getElementById("student-last").value.trim();
+  const now = new Date();
+  const lines = [];
+  lines.push(`=== L02 LOOPS + FUNCTIONS · SELF-CHECK RESULTS ===`);
+  lines.push(`Student: ${fn} ${ln}`);
+  lines.push(`Class:   Year 9 Game On · 9GAMZA`);
+  lines.push(`Date:    ${now.toLocaleString()}`);
+  lines.push("");
+  lines.push(`TOTAL SCORE: ${total} / ${TOTAL_MARKS}   (${Math.round(total / TOTAL_MARKS * 100)}%)`);
+  lines.push("");
+  lines.push(`Part A (Predict):    ${parts.A.got} / ${parts.A.max}`);
+  lines.push(`Part B (Fill-in):    ${parts.B.got} / ${parts.B.max}`);
+  lines.push(`Part C (Debug):      ${parts.C.got} / ${parts.C.max}`);
+  lines.push(`Part D (Coding):     ${parts.D.got} / ${parts.D.max}`);
+  lines.push("");
+  lines.push("Per-question detail:");
+  document.querySelectorAll(".question").forEach(q => {
+    const qid = q.dataset.q;
+    const grade = gradeQuestion(q);
+    const mark = grade.correct ? "✓" : (grade.marks > 0 ? "●" : "✗");
+    lines.push(`  ${mark} ${qid}: ${grade.marks} / ${grade.max} marks`);
+  });
+  lines.push("");
+  lines.push("Submit this summary in Google Classroom so Ms Gao can see your progress.");
+  return lines.join("\n");
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c =>
+    ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  restore();
+  document.body.addEventListener("input", updateProgress);
+  document.body.addEventListener("change", updateProgress);
+  updateProgress();
+
+  document.getElementById("submit-btn").addEventListener("click", () => {
+    if (countComplete() !== document.querySelectorAll(".question").length) {
+      alert("Please answer every question before submitting.");
+      return;
+    }
+    if (!confirm("Submit your answers? Once submitted, you can't change them. You'll see your score and the correct answers.")) return;
+    finaliseSubmission(true);
+  });
+
+  document.getElementById("copy-btn").addEventListener("click", () => {
+    if (!window._resultsPayload) return;
+    navigator.clipboard.writeText(window._resultsPayload)
+      .then(() => alert("✅ Copied! Now paste it into your L02 Google Classroom comment."))
+      .catch(() => prompt("Copy this summary manually:", window._resultsPayload));
+  });
+
+  document.getElementById("download-btn").addEventListener("click", () => {
+    if (!window._resultsPayload) return;
+    const fn = (document.getElementById("student-name").value.trim() || "student").replace(/\s+/g, "_");
+    const date = new Date().toISOString().slice(0, 10);
+    const blob = new Blob([window._resultsPayload], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = `L02_handout_${fn}_${date}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  document.getElementById("home-link").addEventListener("click", (e) => {
+    e.preventDefault();
+    window.location.href = "../lessons/L02.html";
+  });
+});
+</script>
+
+</body>
+</html>
