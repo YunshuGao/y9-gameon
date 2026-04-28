@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L03 Classes Part 1 · Self-Check Handout · 9GAMZA</title>
+<link rel="stylesheet" href="../../assets/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body { max-width: 900px; margin: 0 auto; padding: 1.5rem; overflow-x: hidden; }
+.part { overflow: hidden; }
+.part-title { overflow-wrap: break-word; }
+.handout-header { background: linear-gradient(135deg, rgba(31,58,104,0.4), rgba(255,212,59,0.12));
+                  border: 2px solid var(--py-gold); border-radius: 14px;
+                  padding: 1.4rem 1.6rem; margin-bottom: 1.5rem; }
+.handout-header h1 { margin: 0 0 0.6rem; color: var(--py-gold); font-size: 1.5rem; }
+.handout-header p { margin: 0.2rem 0; color: var(--text); font-size: 0.95rem; }
+.name-row { display: flex; gap: 1rem; margin-top: 1rem; }
+.name-row input { flex: 1; padding: 0.6rem 0.8rem; border: 1px solid var(--border);
+                  border-radius: 6px; background: var(--surface); color: var(--text);
+                  font-family: inherit; font-size: 0.95rem; }
+.progress-bar-wrap { position: sticky; top: 0; z-index: 10;
+                     background: var(--bg); padding: 0.8rem 0; margin-bottom: 1rem;
+                     border-bottom: 1px solid var(--border); }
+.progress-text { font-weight: 600; color: var(--text); margin-bottom: 0.5rem; }
+.progress-track { height: 10px; background: var(--surface); border-radius: 5px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #14b8a6, #22c55e);
+                 transition: width 0.3s; }
+.part { margin: 2rem 0; padding: 1.4rem; background: var(--surface);
+        border-radius: 12px; border: 1px solid var(--border); }
+.part-title { color: var(--py-gold); margin: 0 0 0.4rem; font-size: 1.2rem; }
+.part-meta { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1rem; }
+.question { margin: 1.6rem 0; padding: 1rem; background: rgba(31,58,104,0.15);
+            border-radius: 8px; border-left: 3px solid var(--py-blue); overflow: hidden; }
+.question .qnum { color: var(--py-gold); font-weight: 600; font-size: 0.88rem; }
+.question .qtext { margin: 0.4rem 0 0.8rem; color: var(--text); line-height: 1.5;
+                   overflow-wrap: break-word; word-wrap: break-word; }
+.question .qtext code { background: rgba(0,0,0,0.3); padding: 0.1rem 0.4rem; border-radius: 3px;
+                        color: var(--py-gold); font-family: 'Fira Code', monospace;
+                        word-break: break-all; }
+.question pre { background: rgba(0,0,0,0.3); padding: 0.8rem; border-radius: 6px;
+                overflow-x: auto; overflow-y: hidden; margin: 0.6rem 0; max-width: 100%; }
+.question pre code { font-family: 'Fira Code', monospace; font-size: 0.88rem;
+                     color: var(--py-gold); white-space: pre; display: block; min-width: 0; }
+.choices label { display: block; padding: 0.5rem 0.8rem; margin: 0.3rem 0;
+                 border-radius: 6px; cursor: pointer; transition: background 0.15s; color: var(--text); }
+.choices label:hover { background: rgba(255,212,59,0.08); }
+.choices input[type=radio] { margin-right: 0.6rem; }
+input[type=text], textarea { width: 100%; padding: 0.6rem 0.8rem;
+                             background: var(--bg); color: var(--text);
+                             border: 1px solid var(--border); border-radius: 6px;
+                             font-family: 'Fira Code', monospace; font-size: 0.9rem; }
+textarea { min-height: 110px; resize: vertical; }
+.feedback { margin-top: 0.6rem; padding: 0.7rem 1rem; border-radius: 6px;
+            font-size: 0.9rem; display: none; overflow-wrap: break-word; word-wrap: break-word; }
+.feedback.correct { background: rgba(34,197,94,0.15); border-left: 3px solid #22c55e; color: #86efac; }
+.feedback.wrong { background: rgba(239,68,68,0.12); border-left: 3px solid #ef4444; color: #fca5a5; }
+.feedback.info { background: rgba(59,130,246,0.12); border-left: 3px solid #3b82f6; color: #93c5fd; }
+.feedback code { background: rgba(0,0,0,0.3); padding: 0.1rem 0.4rem; border-radius: 3px;
+                 color: var(--py-gold); word-break: break-all; }
+#submit-section { margin: 2.5rem 0; padding: 1.4rem; background: var(--surface);
+                  border-radius: 12px; border: 2px solid var(--border); text-align: center; }
+#submit-btn { padding: 1rem 2.5rem; font-size: 1.1rem; font-weight: 600;
+              border-radius: 8px; cursor: pointer; border: none;
+              background: linear-gradient(135deg, #3776AB, #14b8a6); color: white; }
+#submit-btn:disabled { background: var(--surface); color: var(--text-muted);
+                       cursor: not-allowed; border: 1px solid var(--border); }
+#results { display: none; margin: 2rem 0; padding: 1.6rem; background: var(--surface);
+           border-radius: 12px; border: 2px solid var(--py-gold); }
+#results h2 { color: var(--py-gold); margin: 0 0 1rem; }
+.score-hero { text-align: center; padding: 1rem; }
+.score-hero .big { font-size: 3rem; font-weight: 700; color: var(--py-gold); }
+.score-hero .sub { color: var(--text-muted); }
+.breakdown { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+             gap: 0.8rem; margin-top: 1rem; }
+.breakdown-item { padding: 0.8rem; background: rgba(31,58,104,0.15); border-radius: 8px; }
+.breakdown-item .label { color: var(--text-muted); font-size: 0.85rem; }
+.breakdown-item .value { color: var(--text); font-size: 1.3rem; font-weight: 600; }
+.submit-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.2rem; }
+.submit-actions button, .submit-actions a { flex: 1; padding: 0.8rem 1.2rem;
+                     border-radius: 8px; cursor: pointer; border: 1px solid var(--border);
+                     background: var(--bg); color: var(--text); font-weight: 500;
+                     text-align: center; text-decoration: none; font-family: inherit; font-size: 0.95rem; }
+.submit-actions .primary { background: linear-gradient(135deg, #3776AB, #14b8a6); color: white; border: none; }
+.callout { background: rgba(255,212,59,0.08); border-left: 3px solid var(--py-gold);
+           padding: 0.8rem 1rem; border-radius: 6px; margin: 1rem 0; font-size: 0.92rem; }
+.new-tag { display: inline-block; background: var(--py-gold); color: var(--bg);
+           padding: 0.1rem 0.5rem; border-radius: 4px; font-size: 0.75rem;
+           font-weight: 700; margin-left: 0.4rem; vertical-align: middle; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="site-brand">🐍 Y9 Game On · Term 2</a>
+    <nav class="site-nav">
+      <a href="../index.html">Overview</a>
+      <a href="../lessons/L03.html">← L03 Lesson Page</a>
+      <a href="../arcade/index.html">🎮 Arcade</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+<div class="handout-header">
+  <h1>🧱 L03 — Classes Part 1 Self-Check Handout</h1>
+  <p><strong>Class:</strong> Year 9 Game On · 9GAMZA · Term 2 2026</p>
+  <p><strong>Duration:</strong> 75 minutes (target ~50 minutes)</p>
+  <p><strong>Marks:</strong> /75 total · Part A 20 · Part B 15 · Part C 20 · Part D 20</p>
+  <p><strong>What we're checking:</strong> the <code>class</code> keyword, <code>__init__</code>, <code>self</code>, attributes (<code>self.name</code>), methods, creating instances. <strong>Every concept here is brand-new today</strong> — that's expected.</p>
+  <p><strong>Rules:</strong> Answer EVERY question to unlock Submit. Once submitted, you'll see your score + correct answers. Auto-saves on this laptop. No looking things up.</p>
+  <div class="name-row">
+    <input type="text" id="student-name" placeholder="First name" autocomplete="given-name">
+    <input type="text" id="student-last" placeholder="Last name" autocomplete="family-name">
+  </div>
+</div>
+
+<div class="progress-bar-wrap">
+  <div class="progress-text" id="progress-text">0 / 21 questions complete</div>
+  <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width: 0%"></div></div>
+</div>
+
+<section class="part" id="part-a">
+  <h2 class="part-title">Part A — Predict the Output</h2>
+  <p class="part-meta">10 questions · 2 marks each · ~15 minutes. Read carefully — don't run the code.</p>
+
+  <!-- A1 -->
+  <div class="question" data-q="A1" data-type="mcq" data-marks="2">
+    <div class="qnum">A1 (2 marks)</div>
+    <div class="qtext">What prints?</div>
+    <pre><code>class Dog:
+    def __init__(self, name):
+        self.name = name
+
+d = Dog("Rex")
+print(d.name)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="A1" value="0"> Rex</label>
+      <label><input type="radio" name="A1" value="1"> name</label>
+      <label><input type="radio" name="A1" value="2"> self.name</label>
+      <label><input type="radio" name="A1" value="3"> Error</label>
+    </div>
+    <div class="feedback"></div>
+  </div>
+
+  <!-- A2 -->
+  <div class="question" data-q="A2" data-type="mcq" data-marks="2">
+    <div class="qnum">A2 (2 marks)</div>
+    <div class="qtext">What prints?</div>
+    <pre><code>class Hero:
+    def __init__(self, hp):
+        self.hp = hp
+
+h = Hero(100)
+h.hp = 50
+print(h.hp)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="A2" value="0"> 100</label>
+      <label><input type="radio" name="A2" value="1"> 50</label>
+      <label><input type="radio" name="A2" value="2"> 150</label>
+      <label><input type="radio" name="A2" value="3"> Error — can't change attributes after __init__</label>
+    </div>
+    <div class="feedback"></div>
+  </div>
+
+  <!-- A3 -->
+  <div class="question" data-q="A3" data-type="mcq" data-marks="2">
+    <div class="qnum">A3 (2 marks)</div>
+    <div class="qtext">What prints?</div>
+    <pre><code>class Counter:
+    def __init__(self):
+        self.value = 0
+
+    def increment(self):
+        self.value += 1
+
+c = Counter()
+c.increment()
+c.increment()
+c.increment()
+print(c.value)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="A3" value="0"> 0</label>
+      <label><input type="radio" name="A3" value="1"> 1</label>
+      <label><input type="radio" name="A3" value="2"> 3</label>
+      <label><input type="radio" name="A3" value="3"> 4</label>
+    </div>
+    <div class="feedback"></div>
+  </div>
+
+  <!-- A4 -->
+  <div class="question" data-q="A4" data-type="mcq" data-marks="2">
+    <div class="qnum">A4 (2 marks)</div>
+    <div class="qtext">Which line will run when <code>Character("Arrow", 100)</code> is created?</div>
+    <pre><code>class Character:
+    def __init__(self, name, hp):
+        self.name = name
+        self.hp = hp
+
+    def shout(self):
+        print(self.name)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="A4" value="0"> shout()</label>
+      <label><input type="radio" name="A4" value="1"> __init__()</label>
+      <label><input type="radio" name="A4" value="2"> Both shout() and __init__()</label>
+      <label><input type="radio" name="A4" value="3"> Neither — you have to call them yourself</label>
+    </div>
+    <div class="feedback"></div>
+  </div>
+
+  <!-- A5 -->
+  <div class="question" data-q="A5" data-type="mcq" data-marks="2">
+    <div class="qnum">A5 (2 marks)</div>
+    <div class="qtext">What prints?</div>
+    <pre><code>class Pet:
+    def __init__(self, name):
+        self.name = name
+
+a = Pet("Cat")
+b = Pet("Dog")
+print(a.name, b.name)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="A5" value="0"> Cat Cat</label>
+      <label><input type="radio" name="A5" value="1"> Dog Dog</label>
+      <label><input type="radio" name="A5" value="2"> Cat Dog</label>
+      <label><input type="radio" name="A5" value="3"> Dog Cat</label>
+    </div>
+    <div class="feedback"></div>
+  </div>
+
+  <!-- A6 -->
+  <div class="question" data-q="A6" data-type="mcq" data-marks="2">
+    <div class="qnum">A6 (2 marks)</div>
+    <div class="qtext">What prints?</div>
+    <pre><code>class Player:
+    def __init__(self, name, hp):
+        self.name = name
+        self.hp = hp
+
+    def take_damage(self, amount):
+        self.hp -= amount
+
+p = Player("Aria", 100)
+p.take_damage(40)
+p.take_damage(20)
+print(p.hp)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="A6" value="0"> 100</label>
+      <label><input type="radio" name="A6" value="1"> 60</label>
+      <label><input type="radio" name="A6" value="2"> 40</label>
+      <label><input type="radio" name="A6" value="3"> 20</label>
+    </div>
+    <div class="feedback"></div>
+  </div>
+
+  <!-- A7 -->
+  <div class="question" data-q="A7" data-type="mcq" data-marks="2">
+    <div class="qnum">A7 (2 marks)</div>
+    <div class="qtext">What prints?</div>
+    <pre><code>class Box:
+    def __init__(self):
+        self.items = []
+
+    def add(self, item):
+        self.items.append(item)
+
+b = Box()
+b.add("sword")
+b.add("potion")
+print(len(b.items))</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="A7" value="0"> 0</label>
+      <label><input type="radio" name="A7" value="1"> 1</label>
+      <label><input type="radio" name="A7" value="2"> 2</label>
+      <label><input type="radio" name="A7" value="3"> Error</label>
+    </div>
+    <div class="feedback"></div>
+  </div>
+
+  <!-- A8 -->
+  <div class="question" data-q="A8" data-type="mcq" data-marks="2">
+    <div class="qnum">A8 (2 marks)</div>
+    <div class="qtext">What prints? (Two instances do NOT share data.)</div>
+    <pre><code>class Hero:
+    def __init__(self):
+        self.hp = 100
+
+    def heal(self, amount):
+        self.hp += amount
+
+a = Hero()
+b = Hero()
+a.heal(50)
+print(b.hp)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="A8" value="0"> 50</label>
+      <label><input type="radio" name="A8" value="1"> 100</label>
+      <label><input type="radio" name="A8" value="2"> 150</label>
+      <label><input type="radio" name="A8" value="3"> Error</label>
+    </div>
+    <div class="feedback"></div>
+  </div>
+
+  <!-- A9 -->
+  <div class="question" data-q="A9" data-type="mcq" data-marks="2">
+    <div class="qnum">A9 (2 marks)</div>
+    <div class="qtext">What prints?</div>
+    <pre><code>class Hero:
+    def __init__(self, hp):
+        self.hp = hp
+
+    def is_alive(self):
+        return self.hp > 0
+
+h = Hero(0)
+print(h.is_alive())</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="A9" value="0"> True</label>
+      <label><input type="radio" name="A9" value="1"> False</label>
+      <label><input type="radio" name="A9" value="2"> 0</label>
+      <label><input type="radio" name="A9" value="3"> None</label>
+    </div>
+    <div class="feedback"></div>
+  </div>
+
+  <!-- A10 -->
+  <div class="question" data-q="A10" data-type="mcq" data-marks="2">
+    <div class="qnum">A10 (2 marks)</div>
+    <div class="qtext">Which TWO are correct ways to access an attribute? (Pick the option that lists exactly the correct ones.)</div>
+    <pre><code>class Pet:
+    def __init__(self, name):
+        self.name = name
+
+p = Pet("Rex")
+# Which of these work?
+# (i)   p.name
+# (ii)  p["name"]
+# (iii) Pet.name(p)
+# (iv)  print(p.name)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="A10" value="0"> (i) and (iv) only</label>
+      <label><input type="radio" name="A10" value="1"> (i), (ii), and (iv)</label>
+      <label><input type="radio" name="A10" value="2"> (i), (iii), (iv)</label>
+      <label><input type="radio" name="A10" value="3"> All four work</label>
+    </div>
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section class="part" id="part-b">
+  <h2 class="part-title">Part B — Fill in the Blank</h2>
+  <p class="part-meta">5 questions · 3 marks each · ~10 minutes. Type the missing line of code.</p>
+
+  <!-- B1 -->
+  <div class="question" data-q="B1" data-type="text" data-marks="3">
+    <div class="qnum">B1 (3 marks)</div>
+    <div class="qtext">Fill in the blank — the class definition line for a Dog class.</div>
+    <pre><code>_________________
+    def __init__(self, name):
+        self.name = name</code></pre>
+    <input type="text" name="B1" placeholder="Type the missing line (don't forget the colon!)">
+    <div class="feedback"></div>
+  </div>
+
+  <!-- B2 -->
+  <div class="question" data-q="B2" data-type="text" data-marks="3">
+    <div class="qnum">B2 (3 marks)</div>
+    <div class="qtext">Fill in the blank — the <code>__init__</code> signature for a Hero with name and hp parameters.</div>
+    <pre><code>class Hero:
+    _________________
+        self.name = name
+        self.hp = hp</code></pre>
+    <input type="text" name="B2" placeholder="Type the missing line (start with def, end with colon)">
+    <div class="feedback"></div>
+  </div>
+
+  <!-- B3 -->
+  <div class="question" data-q="B3" data-type="text" data-marks="3">
+    <div class="qnum">B3 (3 marks)</div>
+    <div class="qtext">Fill in the blank inside <code>__init__</code> to store the hp value as an attribute.</div>
+    <pre><code>class Hero:
+    def __init__(self, hp):
+        _________________
+
+h = Hero(100)
+print(h.hp)   # 100</code></pre>
+    <input type="text" name="B3" placeholder="Type the missing line (use self.)">
+    <div class="feedback"></div>
+  </div>
+
+  <!-- B4 -->
+  <div class="question" data-q="B4" data-type="text" data-marks="3">
+    <div class="qnum">B4 (3 marks)</div>
+    <div class="qtext">Fill in the blank — a method <code>shout</code> that prints "RAWR".</div>
+    <pre><code>class Dragon:
+    def __init__(self):
+        pass
+
+    _________________
+        print("RAWR")</code></pre>
+    <input type="text" name="B4" placeholder="Type the missing line (def + self + colon)">
+    <div class="feedback"></div>
+  </div>
+
+  <!-- B5 -->
+  <div class="question" data-q="B5" data-type="text" data-marks="3">
+    <div class="qnum">B5 (3 marks)</div>
+    <div class="qtext">Fill in the blank — create an instance of <code>Player</code> with name "Sam" and hp 100.</div>
+    <pre><code>class Player:
+    def __init__(self, name, hp):
+        self.name = name
+        self.hp = hp
+
+_________________
+print(p.name)   # Sam</code></pre>
+    <input type="text" name="B5" placeholder="Type the missing line (variable = ClassName(args))">
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section class="part" id="part-c">
+  <h2 class="part-title">Part C — Debug</h2>
+  <p class="part-meta">4 questions · 5 marks each · ~20 minutes. Find the bug, write the fix, explain in your own words (min 15 chars).</p>
+
+  <!-- C1 -->
+  <div class="question" data-q="C1" data-type="debug" data-marks="5">
+    <div class="qnum">C1 (5 marks)</div>
+    <div class="qtext">This Dog class is missing something — every method needs ONE special thing as its first parameter. Fix the <code>__init__</code> line.</div>
+    <pre><code>class Dog:
+    def __init__(name):
+        self.name = name
+
+# TypeError when running Dog("Rex")</code></pre>
+    <label>Fixed first line of __init__:</label>
+    <input type="text" name="C1" placeholder='Should look like: def __init__(...):'>
+    <label>Explain the bug (1 sentence):</label>
+    <input type="text" name="C1_why" placeholder="What was missing">
+    <div class="feedback"></div>
+  </div>
+
+  <!-- C2 -->
+  <div class="question" data-q="C2" data-type="debug" data-marks="5">
+    <div class="qnum">C2 (5 marks)</div>
+    <div class="qtext">This Hero class doesn't actually store the hp. Fix the line inside <code>__init__</code>.</div>
+    <pre><code>class Hero:
+    def __init__(self, hp):
+        hp = hp        # ← does nothing useful
+
+h = Hero(100)
+print(h.hp)   # AttributeError: 'Hero' object has no attribute 'hp'</code></pre>
+    <label>Fixed line:</label>
+    <input type="text" name="C2" placeholder="Use self.">
+    <label>Explain the bug (1 sentence):</label>
+    <input type="text" name="C2_why" placeholder="Why hp doesn't get stored">
+    <div class="feedback"></div>
+  </div>
+
+  <!-- C3 -->
+  <div class="question" data-q="C3" data-type="debug" data-marks="5">
+    <div class="qnum">C3 (5 marks)</div>
+    <div class="qtext">This code prints something weird (the method object, not the result). Fix the last line.</div>
+    <pre><code>class Hero:
+    def __init__(self, hp):
+        self.hp = hp
+
+    def is_alive(self):
+        return self.hp > 0
+
+h = Hero(50)
+print(h.is_alive)
+# Prints: &lt;bound method Hero.is_alive of ...&gt;
+# Should print: True</code></pre>
+    <label>Fixed last line:</label>
+    <input type="text" name="C3" placeholder="The corrected print line">
+    <label>Explain the bug (1 sentence):</label>
+    <input type="text" name="C3_why" placeholder="What's missing">
+    <div class="feedback"></div>
+  </div>
+
+  <!-- C4 -->
+  <div class="question" data-q="C4" data-type="debug" data-marks="5">
+    <div class="qnum">C4 (5 marks)</div>
+    <div class="qtext">This <code>take_damage</code> method has TWO bugs: missing <code>self</code> as a parameter AND wrong attribute access. Fix the def line and the body line.</div>
+    <pre><code>class Hero:
+    def __init__(self, hp):
+        self.hp = hp
+
+    def take_damage(amount):     # ← bug 1
+        hp -= amount             # ← bug 2
+
+h = Hero(100)
+h.take_damage(20)</code></pre>
+    <label>Fixed def line + fixed body line (write both, comma-separated):</label>
+    <input type="text" name="C4" placeholder='e.g. "def take_damage(self, amount): / self.hp -= amount"'>
+    <label>Explain the bug (1 sentence):</label>
+    <input type="text" name="C4_why" placeholder="Why the original was broken">
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<section class="part" id="part-d">
+  <h2 class="part-title">Part D — Coding Tasks (Write Python)</h2>
+  <p class="part-meta">2 questions · 10 marks each · ~30 minutes. Write the class in VS Code, paste it below, then paste what your test prints.</p>
+
+  <!-- D1 -->
+  <div class="question" data-q="D1" data-type="code" data-marks="10">
+    <div class="qnum">D1 (10 marks)</div>
+    <div class="qtext"><strong>Task:</strong> Write a <code>Player</code> class with three things: a <code>name</code> attribute, an <code>hp</code> attribute (starting at 100), and an <code>attack(target)</code> method that subtracts 10 from the <code>target</code>'s hp.</div>
+    <div class="callout">
+      <strong>Test your class with this code:</strong>
+<pre style="margin: 0.4rem 0;"><code>hero = Player("Aria")
+goblin = Player("Goblin")
+hero.attack(goblin)
+hero.attack(goblin)
+print(hero.name, hero.hp)
+print(goblin.name, goblin.hp)</code></pre>
+      <strong>Expected output:</strong><br>
+      <code>Aria 100</code><br>
+      <code>Goblin 80</code>
+    </div>
+    <label>Your full Player class (and the test code if you want to include it):</label>
+    <textarea name="D1" placeholder="class Player:
+    def __init__(self, name):
+        ..."></textarea>
+    <label>What did your code print? (paste both output lines, comma-separated):</label>
+    <input type="text" name="D1_output" placeholder="e.g. Aria 100, Goblin 80">
+    <div class="feedback"></div>
+  </div>
+
+  <!-- D2 -->
+  <div class="question" data-q="D2" data-type="code" data-marks="10">
+    <div class="qnum">D2 (10 marks)</div>
+    <div class="qtext"><strong>Task:</strong> Write a <code>Pet</code> class with: a <code>name</code> attribute, a <code>hunger</code> attribute (starts at 5), a <code>feed()</code> method that decreases hunger by 2 (but never below 0), and an <code>is_hungry()</code> method that returns <code>True</code> if hunger is more than 3.</div>
+    <div class="callout">
+      <strong>Test your class with this code:</strong>
+<pre style="margin: 0.4rem 0;"><code>p = Pet("Rex")
+print(p.is_hungry())   # True (hunger=5, more than 3)
+p.feed()
+print(p.is_hungry())   # False (hunger=3, NOT more than 3)
+p.feed()
+p.feed()
+print(p.hunger)        # 0 (capped, can't go below)</code></pre>
+      <strong>Expected output:</strong><br>
+      <code>True</code><br>
+      <code>False</code><br>
+      <code>0</code>
+    </div>
+    <label>Your full Pet class:</label>
+    <textarea name="D2" placeholder="class Pet:
+    def __init__(self, name):
+        ..."></textarea>
+    <label>What did your code print? (paste the 3 output lines, comma-separated):</label>
+    <input type="text" name="D2_output" placeholder="e.g. True, False, 0">
+    <div class="feedback"></div>
+  </div>
+</section>
+
+<div id="submit-section">
+  <button id="submit-btn" disabled>Submit (answer all questions first)</button>
+  <p style="margin-top:0.8rem;color:var(--text-muted);font-size:0.9rem;">
+    Once submitted, all answers lock and you'll see your score + correct answers.
+  </p>
+</div>
+
+<div id="results">
+  <h2>📝 Your Results</h2>
+  <div class="score-hero">
+    <div class="big" id="score-total">0 / 75</div>
+    <div class="sub" id="score-pct">0%</div>
+  </div>
+  <div class="breakdown" id="score-breakdown"></div>
+
+  <div class="callout" style="margin-top:1.5rem;">
+    <strong>How to submit to Google Classroom:</strong><br>
+    1. Click <strong>Copy results for Classroom</strong> — a summary copies to your clipboard.<br>
+    2. Open today's L03 assignment in Google Classroom.<br>
+    3. Paste (Ctrl+V) into the comment / submission box.<br>
+    4. Click <strong>Mark as done</strong>.
+  </div>
+
+  <div class="submit-actions">
+    <button class="primary" id="copy-btn">📋 Copy results for Classroom</button>
+    <button id="download-btn">💾 Download results as .txt</button>
+    <a href="#" id="home-link" style="padding:0.8rem 1.2rem;">← Back to L03 lesson</a>
+  </div>
+</div>
+
+</main>
+
+<footer class="footer">
+  <p>Y9 Game On · Term 2 · 2026 · L03 Classes Part 1 Self-Check Handout</p>
+</footer>
+
+<script>
+const STORAGE_KEY = "y9_handout_L03_v1";
+
+const ANSWERS = {
+  // Part A — MCQs
+  A1: {correct: 0, explain: "When you do Dog(\"Rex\"), Python calls __init__ with name=\"Rex\" and stores it on the instance as self.name. d.name reads it back."},
+  A2: {correct: 1, explain: "Attributes are reassignable. h.hp = 50 overwrites the value set by __init__."},
+  A3: {correct: 2, explain: "Counter() runs __init__ which sets self.value = 0. Each c.increment() adds 1. Three calls → 3."},
+  A4: {correct: 1, explain: "__init__ runs AUTOMATICALLY whenever you create a new instance. shout() only runs if you explicitly call it."},
+  A5: {correct: 2, explain: "Each instance has its own data. a.name=\"Cat\" and b.name=\"Dog\" are completely independent."},
+  A6: {correct: 2, explain: "Player starts with hp=100. take_damage(40) → 100-40=60. take_damage(20) → 60-20=40. Final hp is 40."},
+  A7: {correct: 2, explain: "Box() initialises self.items = []. b.add(\"sword\") appends → length 1. b.add(\"potion\") appends → length 2."},
+  A8: {correct: 1, explain: "a and b are separate instances. a.heal(50) only affects a. b.hp stays at the initial 100."},
+  A9: {correct: 1, explain: "h.hp is 0. is_alive returns 0 > 0, which is False."},
+  A10: {correct: 0, explain: "Only (i) p.name and (iv) print(p.name) work. (ii) is dict-style — wrong for objects. (iii) is wrong syntax for accessing attributes."},
+
+  // Re-check A6: 100-40-20 = 40, so correct_index=2 ("40")
+  // Wait, looking at choices: 0="100", 1="60", 2="40", 3="20". So correct is index 2.
+
+  // Part B — fill in
+  B1: {correct: 'class Dog:',
+       accept: ['class Dog:', 'class dog:'],
+       explain: "Class definitions: 'class' keyword + name (capital first letter is convention) + colon."},
+  B2: {correct: 'def __init__(self, name, hp):',
+       accept: ['def __init__(self, name, hp):', 'def __init__(self,name,hp):',
+                'def __init__(self, name,hp):', 'def __init__(self,name, hp):'],
+       explain: "__init__ method: 'def' + '__init__' + (self, then your other parameters) + colon."},
+  B3: {correct: 'self.hp = hp',
+       accept: ['self.hp = hp', 'self.hp=hp'],
+       explain: "Use 'self.attribute = value' to store data on the instance. Without 'self.', it's just a local variable that disappears."},
+  B4: {correct: 'def shout(self):',
+       accept: ['def shout(self):'],
+       explain: "Methods always need 'self' as the first parameter, even if you don't use it. End with a colon."},
+  B5: {correct: 'p = Player("Sam", 100)',
+       accept: ['p = Player("Sam", 100)', "p = Player('Sam', 100)",
+                'p=Player("Sam",100)', 'p=Player("Sam", 100)',
+                "p=Player('Sam', 100)", "p=Player('Sam',100)"],
+       explain: "Create an instance: variable = ClassName(args). DON'T pass self — Python adds it for you."},
+
+  // Part C — debug
+  C1: {correct: 'def __init__(self, name):',
+       accept: ['def __init__(self, name):', 'def __init__(self,name):'],
+       why_min: 15,
+       explain: "EVERY method's first parameter must be 'self'. The original was missing self, so Python tried to use 'name' as self → TypeError."},
+  C2: {correct: 'self.hp = hp',
+       accept: ['self.hp = hp', 'self.hp=hp'],
+       why_min: 15,
+       explain: "'hp = hp' assigns the parameter to itself — does nothing useful. To store on the instance, use 'self.hp = hp'."},
+  C3: {correct: 'print(h.is_alive())',
+       accept: ['print(h.is_alive())', 'print(h.is_alive() )'],
+       why_min: 15,
+       explain: "Without parentheses, h.is_alive refers to the METHOD OBJECT itself. Add () to actually CALL it and get the True/False back."},
+  C4: {correct: 'def take_damage(self, amount): / self.hp -= amount',
+       accept: ['def take_damage(self, amount): / self.hp -= amount',
+                'def take_damage(self, amount):, self.hp -= amount',
+                'def take_damage(self,amount): / self.hp -= amount',
+                'def take_damage(self, amount): self.hp -= amount',
+                'def take_damage(self,amount): self.hp -= amount'],
+       why_min: 15,
+       explain: "Two bugs: (1) method needs 'self' as first parameter, (2) 'hp' alone is undefined — must be 'self.hp' to access the attribute."},
+
+  // Part D — code tasks (manual review)
+  D1: {rubric: "Class Player has __init__(self, name) setting self.name and self.hp = 100. attack(self, target) sets target.hp -= 10. Test should print 'Aria 100' and 'Goblin 80'.",
+       explain: "Model:\nclass Player:\n    def __init__(self, name):\n        self.name = name\n        self.hp = 100\n    def attack(self, target):\n        target.hp -= 10"},
+  D2: {rubric: "Class Pet has __init__(self, name) setting self.name and self.hunger = 5. feed() reduces self.hunger by 2 but caps at 0 (use max(0, ...) or if-check). is_hungry() returns self.hunger > 3.",
+       explain: "Model:\nclass Pet:\n    def __init__(self, name):\n        self.name = name\n        self.hunger = 5\n    def feed(self):\n        self.hunger = max(0, self.hunger - 2)\n    def is_hungry(self):\n        return self.hunger > 3"},
+};
+
+const PART_MARKS = {A: 20, B: 15, C: 20, D: 20};
+const TOTAL_MARKS = 75;
+
+function countComplete() {
+  let complete = 0;
+  document.querySelectorAll(".question").forEach(q => {
+    const type = q.dataset.type;
+    const qid = q.dataset.q;
+    if (type === "mcq") {
+      if (q.querySelector(`input[name=${qid}]:checked`)) complete++;
+    } else if (type === "text") {
+      const val = q.querySelector(`input[name=${qid}]`)?.value.trim();
+      if (val && val.length > 0) complete++;
+    } else if (type === "debug") {
+      const fix = q.querySelector(`input[name=${qid}]`)?.value.trim();
+      const why = q.querySelector(`input[name=${qid}_why]`)?.value.trim();
+      if (fix && why && why.length >= 5) complete++;
+    } else if (type === "code") {
+      const code = q.querySelector(`textarea[name=${qid}]`)?.value.trim();
+      const out = q.querySelector(`input[name=${qid}_output]`)?.value.trim();
+      if (code && code.length >= 20 && out) complete++;
+    }
+  });
+  return complete;
+}
+
+function updateProgress() {
+  const total = document.querySelectorAll(".question").length;
+  const done = countComplete();
+  const pct = total ? (done / total) * 100 : 0;
+  document.getElementById("progress-text").textContent = `${done} / ${total} questions complete`;
+  document.getElementById("progress-fill").style.width = `${pct}%`;
+  const btn = document.getElementById("submit-btn");
+  if (done === total) {
+    btn.disabled = false;
+    btn.textContent = "Submit my answers";
+  } else {
+    btn.disabled = true;
+    btn.textContent = `Submit — finish ${total - done} more first`;
+  }
+  save();
+}
+
+function snapshot() {
+  const data = { firstName: document.getElementById("student-name").value,
+                 lastName: document.getElementById("student-last").value,
+                 answers: {}, submitted: false };
+  document.querySelectorAll(".question").forEach(q => {
+    const type = q.dataset.type;
+    const qid = q.dataset.q;
+    if (type === "mcq") {
+      const picked = q.querySelector(`input[name=${qid}]:checked`);
+      data.answers[qid] = picked ? picked.value : null;
+    } else if (type === "text") {
+      data.answers[qid] = q.querySelector(`input[name=${qid}]`)?.value || "";
+    } else if (type === "debug") {
+      data.answers[qid] = q.querySelector(`input[name=${qid}]`)?.value || "";
+      data.answers[qid + "_why"] = q.querySelector(`input[name=${qid}_why]`)?.value || "";
+    } else if (type === "code") {
+      data.answers[qid] = q.querySelector(`textarea[name=${qid}]`)?.value || "";
+      data.answers[qid + "_output"] = q.querySelector(`input[name=${qid}_output]`)?.value || "";
+    }
+  });
+  return data;
+}
+function save() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshot())); } catch {}
+}
+function restore() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    if (data.firstName) document.getElementById("student-name").value = data.firstName;
+    if (data.lastName) document.getElementById("student-last").value = data.lastName;
+    for (const [k, v] of Object.entries(data.answers || {})) {
+      const radio = document.querySelector(`input[name="${k}"][value="${v}"]`);
+      if (radio) { radio.checked = true; continue; }
+      const el = document.querySelector(`[name="${k}"]`);
+      if (el && v != null) el.value = v;
+    }
+    if (data.submitted) finaliseSubmission(false);
+  } catch (e) { console.warn("restore failed", e); }
+}
+
+function normalise(s) {
+  return (s || "").toLowerCase().replace(/\s+/g, " ").trim().replace(/[;\s]+$/, "");
+}
+
+function gradeQuestion(q) {
+  const type = q.dataset.type;
+  const qid = q.dataset.q;
+  const marks = parseInt(q.dataset.marks || "0");
+  const key = ANSWERS[qid];
+  const snap = snapshot().answers;
+
+  if (type === "mcq") {
+    const picked = snap[qid];
+    const ok = picked !== null && parseInt(picked) === key.correct;
+    return { marks: ok ? marks : 0, max: marks, correct: ok, explain: key.explain,
+             expected: q.querySelectorAll(".choices label")[key.correct].textContent.trim() };
+  }
+  if (type === "text") {
+    const ans = normalise(snap[qid]);
+    const ok = (key.accept || [key.correct]).some(a => normalise(a) === ans);
+    return { marks: ok ? marks : 0, max: marks, correct: ok, explain: key.explain,
+             expected: key.correct };
+  }
+  if (type === "debug") {
+    const fix = normalise(snap[qid]);
+    const why = (snap[qid + "_why"] || "").trim();
+    const fixOK = (key.accept || [key.correct]).some(a => normalise(a) === fix);
+    const whyOK = why.length >= (key.why_min || 10);
+    let got = 0;
+    if (fixOK && whyOK) got = marks;
+    else if (fixOK) got = Math.ceil(marks * 0.6);
+    else if (whyOK) got = Math.ceil(marks * 0.2);
+    return { marks: got, max: marks, correct: (fixOK && whyOK),
+             explain: key.explain, expected: key.correct,
+             partial: (fixOK && !whyOK) ? "Fix is right but explanation is too short. Add more detail in class."
+                      : (!fixOK && whyOK) ? "Explanation written but the fix isn't right. See correct answer."
+                      : null };
+  }
+  if (type === "code") {
+    const code = (snap[qid] || "").trim();
+    const out = (snap[qid + "_output"] || "").trim();
+    let got = 0;
+    if (code.length >= 40 && out.length > 0) got = marks;
+    else if (code.length >= 20) got = Math.ceil(marks * 0.5);
+    return { marks: got, max: marks,
+             correct: code.length >= 40 && out.length > 0,
+             explain: key.explain,
+             rubric: key.rubric,
+             partial: got > 0 && got < marks ? "Partial marks — teacher will review in class." : null };
+  }
+  return { marks: 0, max: marks, correct: false, explain: "" };
+}
+
+function finaliseSubmission(first) {
+  let total = 0;
+  const partTotals = { A: {got:0, max:0}, B: {got:0, max:0}, C: {got:0, max:0}, D: {got:0, max:0} };
+
+  document.querySelectorAll(".question").forEach(q => {
+    const qid = q.dataset.q;
+    const part = qid[0];
+    const grade = gradeQuestion(q);
+    total += grade.marks;
+    partTotals[part].got += grade.marks;
+    partTotals[part].max += grade.max;
+
+    const fb = q.querySelector(".feedback");
+    let cls = grade.correct ? "correct" : (grade.marks > 0 ? "info" : "wrong");
+    fb.className = "feedback " + cls;
+    fb.style.display = "block";
+    let html = "";
+    if (grade.correct) {
+      html = `<strong>✓ Correct</strong> — ${grade.marks} / ${grade.max} marks. <em>${grade.explain}</em>`;
+    } else if (grade.marks > 0) {
+      html = `<strong>● Partial — ${grade.marks} / ${grade.max} marks.</strong> ${grade.partial || ""}<br>`;
+      if (grade.expected) html += `Correct answer: <code>${escapeHtml(grade.expected)}</code><br>`;
+      if (grade.rubric) html += `<em>Marking rubric:</em> ${grade.rubric}<br>`;
+      html += `<em>${grade.explain || ""}</em>`;
+    } else {
+      html = `<strong>✗ Incorrect — 0 / ${grade.max} marks.</strong><br>`;
+      if (grade.expected) html += `Correct answer: <code>${escapeHtml(grade.expected)}</code><br>`;
+      if (grade.rubric) html += `<em>Marking rubric:</em> ${grade.rubric}<br>`;
+      html += `<em>${grade.explain || ""}</em>`;
+    }
+    fb.innerHTML = html;
+
+    q.querySelectorAll("input, textarea").forEach(el => el.disabled = true);
+  });
+
+  document.getElementById("score-total").textContent = `${total} / ${TOTAL_MARKS}`;
+  document.getElementById("score-pct").textContent = `${Math.round(total / TOTAL_MARKS * 100)}%`;
+
+  const bd = document.getElementById("score-breakdown");
+  bd.innerHTML = "";
+  for (const p of ["A", "B", "C", "D"]) {
+    const pt = partTotals[p];
+    const div = document.createElement("div");
+    div.className = "breakdown-item";
+    div.innerHTML = `<div class="label">Part ${p}</div><div class="value">${pt.got} / ${pt.max}</div>`;
+    bd.appendChild(div);
+  }
+
+  document.getElementById("results").style.display = "block";
+  document.getElementById("submit-btn").style.display = "none";
+  document.getElementById("results").scrollIntoView({behavior: "smooth"});
+
+  const data = snapshot(); data.submitted = true; data.score = total; data.breakdown = partTotals;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+
+  window._resultsPayload = buildResultsPayload(total, partTotals);
+}
+
+function buildResultsPayload(total, parts) {
+  const fn = document.getElementById("student-name").value.trim() || "(anonymous)";
+  const ln = document.getElementById("student-last").value.trim();
+  const now = new Date();
+  const lines = [];
+  lines.push(`=== L03 CLASSES PART 1 · SELF-CHECK RESULTS ===`);
+  lines.push(`Student: ${fn} ${ln}`);
+  lines.push(`Class:   Year 9 Game On · 9GAMZA`);
+  lines.push(`Date:    ${now.toLocaleString()}`);
+  lines.push("");
+  lines.push(`TOTAL SCORE: ${total} / ${TOTAL_MARKS}   (${Math.round(total / TOTAL_MARKS * 100)}%)`);
+  lines.push("");
+  lines.push(`Part A (Predict):    ${parts.A.got} / ${parts.A.max}`);
+  lines.push(`Part B (Fill-in):    ${parts.B.got} / ${parts.B.max}`);
+  lines.push(`Part C (Debug):      ${parts.C.got} / ${parts.C.max}`);
+  lines.push(`Part D (Coding):     ${parts.D.got} / ${parts.D.max}`);
+  lines.push("");
+  lines.push("Per-question detail:");
+  document.querySelectorAll(".question").forEach(q => {
+    const qid = q.dataset.q;
+    const grade = gradeQuestion(q);
+    const mark = grade.correct ? "✓" : (grade.marks > 0 ? "●" : "✗");
+    lines.push(`  ${mark} ${qid}: ${grade.marks} / ${grade.max} marks`);
+  });
+  lines.push("");
+  lines.push("Submit this summary in Google Classroom so Ms Gao can see your progress.");
+  return lines.join("\n");
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c =>
+    ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  restore();
+  document.body.addEventListener("input", updateProgress);
+  document.body.addEventListener("change", updateProgress);
+  updateProgress();
+
+  document.getElementById("submit-btn").addEventListener("click", () => {
+    if (countComplete() !== document.querySelectorAll(".question").length) {
+      alert("Please answer every question before submitting.");
+      return;
+    }
+    if (!confirm("Submit your answers? Once submitted, you can't change them. You'll see your score and the correct answers.")) return;
+    finaliseSubmission(true);
+  });
+
+  document.getElementById("copy-btn").addEventListener("click", () => {
+    if (!window._resultsPayload) return;
+    navigator.clipboard.writeText(window._resultsPayload)
+      .then(() => alert("✅ Copied! Now paste it into your L03 Google Classroom comment."))
+      .catch(() => prompt("Copy this summary manually:", window._resultsPayload));
+  });
+
+  document.getElementById("download-btn").addEventListener("click", () => {
+    if (!window._resultsPayload) return;
+    const fn = (document.getElementById("student-name").value.trim() || "student").replace(/\s+/g, "_");
+    const date = new Date().toISOString().slice(0, 10);
+    const blob = new Blob([window._resultsPayload], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = `L03_handout_${fn}_${date}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  document.getElementById("home-link").addEventListener("click", (e) => {
+    e.preventDefault();
+    window.location.href = "../lessons/L03.html";
+  });
+});
+</script>
+
+</body>
+</html>
