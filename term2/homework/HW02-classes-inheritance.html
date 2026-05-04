@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HW02 — Inheritance Power-Up (after L04) · 9GAMZA</title>
+<link rel="stylesheet" href="../../assets/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body { max-width: 920px; margin: 0 auto; padding: 1.5rem; overflow-x: hidden; }
+.hw-header { background: linear-gradient(135deg, rgba(31,58,104,0.45), rgba(20,184,166,0.15));
+             border: 2px solid var(--py-gold); border-radius: 14px;
+             padding: 1.4rem 1.6rem; margin-bottom: 1.5rem; }
+.hw-header h1 { margin: 0 0 0.6rem; color: var(--py-gold); font-size: 1.55rem; }
+.hw-header p { margin: 0.25rem 0; color: var(--text); font-size: 0.95rem; }
+.hw-header .meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+                   gap: 0.6rem; margin-top: 0.9rem; }
+.hw-header .meta div { background: rgba(0,0,0,0.25); padding: 0.5rem 0.7rem;
+                       border-radius: 6px; font-size: 0.85rem; }
+.hw-header .meta strong { color: var(--py-gold); display: block; font-size: 0.8rem;
+                          text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.2rem; }
+.name-row { display: flex; gap: 1rem; margin-top: 1rem; }
+.name-row input { flex: 1; padding: 0.6rem 0.8rem; border: 1px solid var(--border);
+                  border-radius: 6px; background: var(--surface); color: var(--text);
+                  font-family: inherit; font-size: 0.95rem; }
+.progress-bar-wrap { position: sticky; top: 0; z-index: 10;
+                     background: var(--bg); padding: 0.8rem 0; margin-bottom: 1rem;
+                     border-bottom: 1px solid var(--border); }
+.progress-text { font-weight: 600; color: var(--text); margin-bottom: 0.5rem;
+                 display: flex; justify-content: space-between; align-items: center; }
+.progress-text .marks { color: var(--text-muted); font-weight: 400; font-size: 0.85rem; }
+.progress-track { height: 10px; background: var(--surface); border-radius: 5px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #14b8a6, #22c55e);
+                 transition: width 0.3s; }
+.section { margin: 2rem 0; padding: 1.4rem; background: var(--surface);
+           border-radius: 12px; border: 1px solid var(--border); overflow: hidden; }
+.section h2 { color: var(--py-gold); margin: 0 0 0.4rem; font-size: 1.2rem; }
+.section .sub { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1rem; }
+.recap-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+              gap: 0.8rem; margin-top: 0.6rem; }
+.recap-card { background: rgba(31,58,104,0.25); padding: 0.9rem 1rem;
+              border-radius: 8px; border-left: 3px solid var(--py-gold); }
+.recap-card h3 { margin: 0 0 0.4rem; color: var(--py-gold); font-size: 0.95rem; }
+.recap-card p { margin: 0.2rem 0; font-size: 0.88rem; line-height: 1.45; color: var(--text); }
+.recap-card code { background: rgba(0,0,0,0.4); padding: 0.1rem 0.4rem; border-radius: 3px;
+                   font-family: 'Fira Code', monospace; color: var(--py-gold); font-size: 0.85rem; }
+.worked { background: rgba(20,184,166,0.08); border-left: 3px solid #14b8a6;
+          padding: 1rem 1.2rem; border-radius: 8px; margin: 1rem 0; }
+.worked h3 { margin: 0 0 0.6rem; color: #5eead4; font-size: 1rem; }
+.worked .step { margin: 0.8rem 0; padding-left: 0.6rem; border-left: 2px solid rgba(20,184,166,0.3); }
+.worked .step strong { color: #5eead4; display: block; margin-bottom: 0.2rem; font-size: 0.9rem; }
+.worked .step p { margin: 0.2rem 0; font-size: 0.9rem; line-height: 1.45; }
+pre { background: rgba(0,0,0,0.45); padding: 0.8rem; border-radius: 6px;
+      overflow-x: auto; overflow-y: hidden; margin: 0.6rem 0; max-width: 100%; }
+pre code { font-family: 'Fira Code', monospace; font-size: 0.86rem;
+           color: var(--py-gold); white-space: pre; display: block; min-width: 0; }
+.question { margin: 1.4rem 0; padding: 1rem 1.2rem; background: rgba(31,58,104,0.18);
+            border-radius: 8px; border-left: 3px solid var(--py-blue); overflow: hidden; }
+.question .qnum { color: var(--py-gold); font-weight: 600; font-size: 0.88rem;
+                  display: flex; justify-content: space-between; align-items: center; }
+.question .qnum .tier { background: rgba(0,0,0,0.4); color: var(--text-muted);
+                        padding: 0.1rem 0.5rem; border-radius: 4px; font-size: 0.7rem;
+                        font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+.question .qnum .tier.support { color: #86efac; }
+.question .qnum .tier.core { color: #fde047; }
+.question .qnum .tier.extension { color: #f0abfc; }
+.question .qtext { margin: 0.4rem 0 0.8rem; color: var(--text); line-height: 1.5;
+                   overflow-wrap: break-word; word-wrap: break-word; }
+.question .qtext code { background: rgba(0,0,0,0.35); padding: 0.1rem 0.4rem; border-radius: 3px;
+                        color: var(--py-gold); font-family: 'Fira Code', monospace; word-break: break-all; }
+.question pre { background: rgba(0,0,0,0.4); margin: 0.6rem 0; }
+.choices label { display: block; padding: 0.5rem 0.8rem; margin: 0.3rem 0;
+                 border-radius: 6px; cursor: pointer; transition: background 0.15s; color: var(--text); }
+.choices label:hover { background: rgba(255,212,59,0.08); }
+.choices input[type=radio] { margin-right: 0.6rem; }
+input[type=text], textarea { width: 100%; padding: 0.6rem 0.8rem;
+                              background: var(--bg); color: var(--text);
+                              border: 1px solid var(--border); border-radius: 6px;
+                              font-family: 'Fira Code', monospace; font-size: 0.9rem;
+                              box-sizing: border-box; }
+textarea { min-height: 110px; resize: vertical; }
+textarea.tall { min-height: 200px; }
+.feedback { margin-top: 0.6rem; padding: 0.7rem 1rem; border-radius: 6px;
+            font-size: 0.9rem; display: none; overflow-wrap: break-word; word-wrap: break-word; }
+.feedback.correct { background: rgba(34,197,94,0.15); border-left: 3px solid #22c55e; color: #86efac; }
+.feedback.wrong { background: rgba(239,68,68,0.12); border-left: 3px solid #ef4444; color: #fca5a5; }
+.feedback.info { background: rgba(59,130,246,0.12); border-left: 3px solid #3b82f6; color: #93c5fd; }
+.feedback code { background: rgba(0,0,0,0.3); padding: 0.1rem 0.4rem; border-radius: 3px;
+                 color: var(--py-gold); word-break: break-all; }
+.hint-box { margin-top: 0.6rem; }
+.hint-toggle { background: none; border: 1px dashed var(--border); color: var(--text-muted);
+               padding: 0.35rem 0.7rem; border-radius: 6px; cursor: pointer; font-size: 0.82rem;
+               font-family: inherit; }
+.hint-toggle:hover { color: var(--py-gold); border-color: var(--py-gold); }
+.hint-content { display: none; margin-top: 0.5rem; padding: 0.7rem 0.9rem;
+                background: rgba(255,212,59,0.06); border-left: 3px solid var(--py-gold);
+                border-radius: 6px; font-size: 0.88rem; line-height: 1.5; }
+.hint-content.open { display: block; }
+.hint-content code { background: rgba(0,0,0,0.35); padding: 0.1rem 0.4rem; border-radius: 3px;
+                     color: var(--py-gold); font-family: 'Fira Code', monospace; }
+.checklist { list-style: none; padding: 0; margin: 0.6rem 0; }
+.checklist li { padding: 0.45rem 0; border-bottom: 1px dashed rgba(255,255,255,0.08); }
+.checklist input { margin-right: 0.6rem; transform: scale(1.15); vertical-align: middle; }
+.bring-box { background: rgba(255,212,59,0.08); border: 2px solid var(--py-gold);
+             border-radius: 10px; padding: 1rem 1.2rem; margin: 1.5rem 0; }
+.bring-box h3 { margin: 0 0 0.6rem; color: var(--py-gold); }
+#submit-section { margin: 2.5rem 0; padding: 1.4rem; background: var(--surface);
+                  border-radius: 12px; border: 2px solid var(--border); text-align: center; }
+#submit-btn { padding: 1rem 2.5rem; font-size: 1.1rem; font-weight: 600;
+              border-radius: 8px; cursor: pointer; border: none;
+              background: linear-gradient(135deg, #3776AB, #14b8a6); color: white; }
+#submit-btn:disabled { background: var(--surface); color: var(--text-muted);
+                       cursor: not-allowed; border: 1px solid var(--border); }
+#results { display: none; margin: 2rem 0; padding: 1.6rem; background: var(--surface);
+           border-radius: 12px; border: 2px solid var(--py-gold); }
+#results h2 { color: var(--py-gold); margin: 0 0 1rem; }
+.score-hero { text-align: center; padding: 1rem; }
+.score-hero .big { font-size: 3rem; font-weight: 700; color: var(--py-gold); }
+.score-hero .sub { color: var(--text-muted); }
+.breakdown { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+             gap: 0.8rem; margin-top: 1rem; }
+.breakdown-item { padding: 0.8rem; background: rgba(31,58,104,0.15); border-radius: 8px; }
+.breakdown-item .label { color: var(--text-muted); font-size: 0.85rem; }
+.breakdown-item .value { color: var(--text); font-size: 1.3rem; font-weight: 600; }
+.submit-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.2rem; }
+.submit-actions button, .submit-actions a { flex: 1; padding: 0.8rem 1.2rem;
+                     border-radius: 8px; cursor: pointer; border: 1px solid var(--border);
+                     background: var(--bg); color: var(--text); font-weight: 500;
+                     text-align: center; text-decoration: none; font-family: inherit; font-size: 0.95rem; }
+.submit-actions .primary { background: linear-gradient(135deg, #3776AB, #14b8a6); color: white; border: none; }
+.callout { background: rgba(255,212,59,0.08); border-left: 3px solid var(--py-gold);
+           padding: 0.8rem 1rem; border-radius: 6px; margin: 1rem 0; font-size: 0.92rem; }
+.callout.info { background: rgba(59,130,246,0.08); border-left-color: #3b82f6; }
+.callout.warn { background: rgba(239,68,68,0.06); border-left-color: #ef4444; }
+.tier-key { display: flex; gap: 0.6rem; margin: 0.6rem 0; flex-wrap: wrap; font-size: 0.82rem; }
+.tier-key span { padding: 0.2rem 0.6rem; border-radius: 4px; background: rgba(0,0,0,0.4); }
+.tier-key .s { color: #86efac; } .tier-key .c { color: #fde047; } .tier-key .e { color: #f0abfc; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="site-brand">🐍 Y9 Game On · Term 2</a>
+    <nav class="site-nav">
+      <a href="../index.html">Overview</a>
+      <a href="../lessons/L04.html">← L04 Lesson Page</a>
+      <a href="../arcade/index.html">🎮 Arcade</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+<div class="hw-header">
+  <h1>⚡ HW02 — Inheritance Power-Up (after L04)</h1>
+  <p><strong>Class:</strong> Year 9 Game On · 9GAMZA · Term 2 2026</p>
+  <p><strong>Why this homework:</strong> L05 (next lesson) puts your classes to work in a real game system — heroes vs goblins. Before that you need to be confident with inheritance: parent classes, child classes, super(), and overriding methods.</p>
+  <div class="meta">
+    <div><strong>Time</strong>35–45 min</div>
+    <div><strong>Marks</strong>/40 self-checked</div>
+    <div><strong>Due</strong>Before L05</div>
+    <div><strong>Help</strong>Stuck? Use the hint button on each task</div>
+  </div>
+  <div class="tier-key">
+    <span class="s">SUPPORT — must do</span>
+    <span class="c">CORE — should do</span>
+    <span class="e">EXTENSION — try if time</span>
+  </div>
+  <div class="name-row">
+    <input type="text" id="student-name" placeholder="First name" autocomplete="given-name">
+    <input type="text" id="student-last" placeholder="Last name" autocomplete="family-name">
+  </div>
+</div>
+
+<div class="progress-bar-wrap">
+  <div class="progress-text">
+    <span><span id="answered-count">0</span> / <span id="total-count">0</span> tasks attempted</span>
+    <span class="marks">Estimated marks: <span id="est-marks">0</span> / 40</span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+</div>
+
+<section class="section">
+  <h2>📚 1 · Recap — what you should already know</h2>
+  <div class="sub">5-minute read. From L04 class. If any card is fuzzy, re-watch the lesson recording or ask in our class chat before continuing.</div>
+  <div class="recap-grid">
+    <div class="recap-card"><h3>Parent and child</h3><p>A child class inherits from a parent: <code>class Hero(Character):</code>. The child gets every attribute and method the parent has, for free.</p></div>
+    <div class="recap-card"><h3>What does super() do?</h3><p><code>super().__init__(...)</code> calls the parent's <code>__init__</code> first. Use it so you don't have to re-type everything the parent already does.</p></div>
+    <div class="recap-card"><h3>Overriding</h3><p>If the child defines a method with the same name as the parent, the child's version wins — that's overriding. Useful when the child needs different behaviour.</p></div>
+    <div class="recap-card"><h3>Why bother?</h3><p>DRY = Don't Repeat Yourself. <code>Hero</code>, <code>Goblin</code>, <code>Dragon</code> all need <code>name</code> and <code>hp</code>. Put it in <code>Character</code> once.</p></div>
+    <div class="recap-card"><h3>Pattern</h3><p><code>class Hero(Character):<br>&nbsp;&nbsp;def __init__(self, name, hp, weapon):<br>&nbsp;&nbsp;&nbsp;&nbsp;super().__init__(name, hp)<br>&nbsp;&nbsp;&nbsp;&nbsp;self.weapon = weapon</code></p></div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>👀 2 · Worked example — read this carefully</h2>
+  <div class="sub">5–10 minutes. Type each step into Replit / VS Code as you read. You learn way more from typing than copy-pasting.</div>
+  <div class="worked"><h3>👀 Worked example — read this carefully first</h3><p style="margin:0 0 0.6rem; color: var(--text);">Below is a complete inheritance example. Read it twice — first the <code>Animal</code> class, then how <code>Dog</code> extends it. The key is what <code>super()</code> does on Step 3.</p>
+    <div class="step"><strong>Step 1: Parent class — defines the shared stuff</strong><pre><code>class Animal:
+    def __init__(self, name, sound):
+        self.name = name
+        self.sound = sound
+    def speak(self):
+        print(f&quot;{self.name} says {self.sound}&quot;)</code></pre><p><code>Animal</code> has a name, a sound, and one method <code>speak()</code>. Every animal will share these.</p></div>
+    <div class="step"><strong>Step 2: Child class — inherits and adds more</strong><pre><code>class Dog(Animal):
+    def __init__(self, name, breed):
+        super().__init__(name, &quot;Woof&quot;)
+        self.breed = breed</code></pre><p><code>Dog(Animal)</code> means "Dog inherits from Animal". The child adds <code>breed</code>. The sound is hard-coded to "Woof" because all dogs woof.</p></div>
+    <div class="step"><strong>Step 3: What does super() do here?</strong><pre><code>super().__init__(name, &quot;Woof&quot;)</code></pre><p>It calls the parent's <code>__init__</code>, which sets <code>self.name = name</code> and <code>self.sound = "Woof"</code>. Without this line, a Dog would not have a <code>name</code> or <code>sound</code> attribute.</p></div>
+    <div class="step"><strong>Step 4: Use it — and notice speak() is inherited for free</strong><pre><code>rex = Dog(&quot;Rex&quot;, &quot;Labrador&quot;)
+rex.speak()      # Rex says Woof
+print(rex.breed) # Labrador</code></pre><p><code>Dog</code> never defined <code>speak()</code> — but it works because Dog inherited it from Animal. Inheritance saves you typing.</p></div>
+    <div class="step"><strong>Step 5: Overriding — child wants a different version</strong><pre><code>class Puppy(Dog):
+    def speak(self):
+        print(f&quot;{self.name} says yip!&quot;)
+
+bella = Puppy(&quot;Bella&quot;, &quot;Poodle&quot;)
+bella.speak()  # Bella says yip!</code></pre><p><code>Puppy</code> inherits from <code>Dog</code> (which inherits from <code>Animal</code>). Puppy <em>overrides</em> <code>speak()</code> — its version replaces the parent's for puppies.</p></div>
+  </div>
+  <div class="callout">📝 <strong>Before moving on:</strong> can you predict what would happen if you changed one name in the example? If yes, you're ready for the practice tasks.</div>
+</section>
+
+<section class="section">
+  <h2>🔍 3 · Read &amp; Predict — what does this code do?</h2>
+  <div class="sub">12 marks · 4 multiple choice. Don't run the code first — predict, then check. Builds your "code reading muscle".</div>
+  
+  <div class="question">
+    <div class="qnum">Q1 · 3 marks <span class="tier support">SUPPORT</span></div>
+    <div class="qtext">What does <code>class Hero(Character):</code> mean?</div>
+    
+    <div class="choices">
+      <label><input type="radio" name="p2q1" value="0"> Hero is the same thing as Character</label>
+      <label><input type="radio" name="p2q1" value="1"> Hero is a child class that inherits from Character</label>
+      <label><input type="radio" name="p2q1" value="2"> Hero replaces Character</label>
+      <label><input type="radio" name="p2q1" value="3"> Character is created inside Hero</label>
+    </div>
+    
+    <div class="feedback" id="fb-p2q1"></div>
+  </div>
+  <div class="question">
+    <div class="qnum">Q2 · 3 marks <span class="tier support">SUPPORT</span></div>
+    <div class="qtext">What does this code print?</div>
+    <pre><code>class Animal:
+    def __init__(self, name):
+        self.name = name
+    def speak(self):
+        print(f&quot;{self.name} makes a noise&quot;)
+
+class Cat(Animal):
+    pass
+
+c = Cat(&quot;Whiskers&quot;)
+c.speak()</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="p2q2" value="0"> Error — Cat has no speak()</label>
+      <label><input type="radio" name="p2q2" value="1"> Whiskers</label>
+      <label><input type="radio" name="p2q2" value="2"> Whiskers makes a noise</label>
+      <label><input type="radio" name="p2q2" value="3"> noise</label>
+    </div>
+    
+    <div class="feedback" id="fb-p2q2"></div>
+  </div>
+  <div class="question">
+    <div class="qnum">Q3 · 3 marks <span class="tier core">CORE</span></div>
+    <div class="qtext">What does <code>super().__init__(name, hp)</code> do?</div>
+    
+    <div class="choices">
+      <label><input type="radio" name="p2q3" value="0"> Calls the child class&#x27;s __init__ again</label>
+      <label><input type="radio" name="p2q3" value="1"> Creates a new parent class</label>
+      <label><input type="radio" name="p2q3" value="2"> Calls the parent class&#x27;s __init__ to set up name and hp</label>
+      <label><input type="radio" name="p2q3" value="3"> Imports the super module</label>
+    </div>
+    
+    <div class="feedback" id="fb-p2q3"></div>
+  </div>
+  <div class="question">
+    <div class="qnum">Q4 · 3 marks <span class="tier core">CORE</span></div>
+    <div class="qtext">What prints?</div>
+    <pre><code>class A:
+    def hi(self):
+        print(&quot;A says hi&quot;)
+
+class B(A):
+    def hi(self):
+        print(&quot;B says hi&quot;)
+
+B().hi()</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="p2q4" value="0"> A says hi</label>
+      <label><input type="radio" name="p2q4" value="1"> B says hi</label>
+      <label><input type="radio" name="p2q4" value="2"> A says hi then B says hi</label>
+      <label><input type="radio" name="p2q4" value="3"> Error — duplicate hi()</label>
+    </div>
+    
+    <div class="feedback" id="fb-p2q4"></div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>🐛 4 · Spot the Bug — find what's broken</h2>
+  <div class="sub">9 marks · 3 multiple choice. These are the EXACT mistakes most students make in their own code. Recognise them now → save 30 minutes of debugging later.</div>
+  
+  <div class="question">
+    <div class="qnum">Q5 · 3 marks <span class="tier core">CORE</span></div>
+    <div class="qtext"><code>print(h.name)</code> raises <code>AttributeError</code>. Why?</div>
+    <pre><code>class Character:
+    def __init__(self, name, hp):
+        self.name = name
+        self.hp = hp
+
+class Hero(Character):
+    def __init__(self, name, hp, weapon):
+        self.weapon = weapon
+
+h = Hero(&quot;Ada&quot;, 100, &quot;Sword&quot;)
+print(h.name)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="p2q5" value="0"> Hero forgot to call super().__init__(name, hp)</label>
+      <label><input type="radio" name="p2q5" value="1"> Character should be lowercase</label>
+      <label><input type="radio" name="p2q5" value="2"> Hero has too many parameters</label>
+      <label><input type="radio" name="p2q5" value="3"> self.weapon should be self.Weapon</label>
+    </div>
+    
+    <div class="feedback" id="fb-p2q5"></div>
+  </div>
+  <div class="question">
+    <div class="qnum">Q6 · 3 marks <span class="tier core">CORE</span></div>
+    <div class="qtext">What's the bug?</div>
+    <pre><code>class Animal:
+    def __init__(self, name):
+        self.name = name
+
+class Dog(Animal):
+    def __init__(self, name, breed):
+        super.__init__(name)
+        self.breed = breed
+
+d = Dog(&quot;Rex&quot;, &quot;Lab&quot;)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="p2q6" value="0"> Missing self in __init__</label>
+      <label><input type="radio" name="p2q6" value="1"> Should be super().__init__ with parentheses, not super.__init__</label>
+      <label><input type="radio" name="p2q6" value="2"> Should be Animal.__init__</label>
+      <label><input type="radio" name="p2q6" value="3"> Dog cannot have its own __init__</label>
+    </div>
+    
+    <div class="feedback" id="fb-p2q6"></div>
+  </div>
+  <div class="question">
+    <div class="qnum">Q7 · 3 marks <span class="tier extension">EXTENSION</span></div>
+    <div class="qtext">Why does <code>g.attack()</code> print <code>Goblin attacks for 5 damage</code> instead of <code>Goblin attacks for 12 damage</code>?</div>
+    <pre><code>class Enemy:
+    def __init__(self, name, dmg=5):
+        self.name = name
+        self.dmg = dmg
+    def attack(self):
+        print(f&quot;{self.name} attacks for {self.dmg} damage&quot;)
+
+class Goblin(Enemy):
+    def __init__(self, name, dmg=12):
+        super().__init__(name)
+
+g = Goblin(&quot;Grub&quot;)
+g.attack()</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="p2q7" value="0"> Goblin&#x27;s __init__ doesn&#x27;t pass dmg to super(), so the parent default 5 is used</label>
+      <label><input type="radio" name="p2q7" value="1"> Goblin has no attack() method</label>
+      <label><input type="radio" name="p2q7" value="2"> f-strings can&#x27;t read self.dmg</label>
+      <label><input type="radio" name="p2q7" value="3"> dmg=12 should be self.dmg=12</label>
+    </div>
+    
+    <div class="feedback" id="fb-p2q7"></div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>✏️ 5 · Fill the Blank — write the missing line</h2>
+  <div class="sub">9 marks · 3 short code answers. Auto-marked exact-match — copy the spacing exactly (e.g. <code>self.name</code> not <code>self . name</code>).</div>
+  
+  <div class="question">
+    <div class="qnum">Q8 · 3 marks <span class="tier support">SUPPORT</span></div>
+    <div class="qtext">Fill the blank to make Hero inherit from Character.</div>
+    <pre><code>class Character:
+    def __init__(self, name, hp):
+        self.name = name
+        self.hp = hp
+
+class Hero(___):
+    pass</code></pre>
+    <input type="text" id="p2q8" placeholder="ParentClassName">
+    <div class="hint-box">
+      <button class="hint-toggle" type="button">💡 Show hint</button>
+      <div class="hint-content">What goes in the parentheses is the parent class's name.</div>
+    </div>
+    <div class="feedback" id="fb-p2q8"></div>
+  </div>
+  <div class="question">
+    <div class="qnum">Q9 · 3 marks <span class="tier core">CORE</span></div>
+    <div class="qtext">Fill the line so Hero properly initialises name and hp from the parent.</div>
+    <pre><code>class Character:
+    def __init__(self, name, hp):
+        self.name = name
+        self.hp = hp
+
+class Hero(Character):
+    def __init__(self, name, hp, weapon):
+        ___
+        self.weapon = weapon</code></pre>
+    <input type="text" id="p2q9" placeholder="super().__init__(...)">
+    <div class="hint-box">
+      <button class="hint-toggle" type="button">💡 Show hint</button>
+      <div class="hint-content">Call the parent's __init__ and pass it the arguments it needs (name and hp).</div>
+    </div>
+    <div class="feedback" id="fb-p2q9"></div>
+  </div>
+  <div class="question">
+    <div class="qnum">Q10 · 3 marks <span class="tier extension">EXTENSION</span></div>
+    <div class="qtext">Override <code>speak()</code> in Cat so <code>c.speak()</code> prints <code>Whiskers says meow</code>. Type just the body of <code>speak</code> (one line, no <code>def</code>).</div>
+    <pre><code>class Animal:
+    def __init__(self, name):
+        self.name = name
+    def speak(self):
+        print(f&quot;{self.name} makes a noise&quot;)
+
+class Cat(Animal):
+    def speak(self):
+        ___
+
+c = Cat(&quot;Whiskers&quot;)
+c.speak()</code></pre>
+    <input type="text" id="p2q10" placeholder="print(f&quot;...&quot;)">
+    <div class="hint-box">
+      <button class="hint-toggle" type="button">💡 Show hint</button>
+      <div class="hint-content">Use an f-string. Read this instance's name with <code>self.name</code>.</div>
+    </div>
+    <div class="feedback" id="fb-p2q10"></div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>🛠️ 6 · Build It — write your own</h2>
+  <div class="sub">10 marks · self-marked. Paste your finished code below. Ms Gao will check it in class — you'll get the marks if it runs without crashing AND does what's asked.</div>
+  
+  <div class="question">
+    <div class="qnum">Q11 · 10 marks (self-marked) <span class="tier core">CORE</span></div>
+    <div class="qtext">Build the start of <code>adventure_v1.py</code>. Write: a <code>Character</code> class with <code>name</code> and <code>hp</code>. A <code>Hero(Character)</code> child that adds a <code>weapon</code> attribute and overrides <code>__init__</code> using <code>super()</code>. A <code>Goblin(Character)</code> child that sets <code>hp=20</code> by default. Create one Hero and one Goblin and print their names + hp. Paste full code below.</div>
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter code (copy into your editor):</p><pre><code># Build the foundation of adventure_v1.py
+class Character:
+    def __init__(self, name, hp):
+        ___
+        ___
+
+class Hero(Character):
+    def __init__(self, name, hp, weapon):
+        super().___
+        self.weapon = ___
+
+class Goblin(Character):
+    def __init__(self, name):
+        super().___
+
+# Test it
+ada = Hero(&quot;Ada&quot;, 100, &quot;Sword&quot;)
+grub = Goblin(&quot;Grub&quot;)
+print(f&quot;{ada.name} HP={ada.hp} weapon={ada.weapon}&quot;)
+print(f&quot;{grub.name} HP={grub.hp}&quot;)</code></pre>
+    <textarea id="p2q11" class="tall" placeholder="Paste your code or written answer here..."></textarea>
+    <div class="hint-box">
+      <button class="hint-toggle" type="button">💡 Show hint</button>
+      <div class="hint-content">Hero needs <code>super().__init__(name, hp)</code> then <code>self.weapon = weapon</code>. Goblin needs <code>super().__init__(name, 20)</code> — pass the hardcoded 20 to the parent.</div>
+    </div>
+    <div class="feedback" id="fb-p2q11"></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="bring-box">
+    <h3>🎒 Bring to next lesson</h3>
+    <ul class="checklist">
+    <li><label><input type="checkbox" id="chk-HW02-classes-inheritance-0" data-check="1"> Run the worked Animal/Dog/Puppy example yourself — change a name and re-run.</label></li>
+    <li><label><input type="checkbox" id="chk-HW02-classes-inheritance-1" data-check="1"> Don't skip the bug-spotting tasks — they map exactly to mistakes you'll make in adventure_v1.</label></li>
+    <li><label><input type="checkbox" id="chk-HW02-classes-inheritance-2" data-check="1"> Save your Q11 code — you'll keep building it in L05 and the final task.</label></li>
+    <li><label><input type="checkbox" id="chk-HW02-classes-inheritance-3" data-check="1"> Bring 1 question to L05 (e.g. "What if I forget super()?").</label></li>
+    </ul>
+  </div>
+</section>
+<div id="submit-section">
+  <p style="margin: 0 0 1rem; color: var(--text-muted);">Done? Submit to see your score and the answer key. You can keep editing after.</p>
+  <button id="submit-btn" disabled>Submit homework</button>
+  <p style="margin: 0.8rem 0 0; font-size: 0.85rem; color: var(--text-muted);">Auto-saves on this laptop. Come back anytime.</p>
+</div>
+
+<div id="results">
+  <h2>📊 Your homework score</h2>
+  <div class="score-hero">
+    <div class="big"><span id="final-score">0</span> / 40</div>
+    <div class="sub" id="score-comment">—</div>
+  </div>
+  <div class="breakdown" id="breakdown"></div>
+  <div class="submit-actions">
+    <button onclick="window.scrollTo({top:0, behavior:'smooth'})">↑ Review your answers</button>
+    <a href="../lessons/L04.html" class="primary">→ Back to L04 lesson</a>
+  </div>
+</div>
+
+</main>
+
+<script>
+const HW_KEY = "y9-hw02-classes-inheritance-v1";
+const QUESTIONS = [
+  {
+    "id": "p2q1",
+    "kind": "mcq",
+    "marks": 3,
+    "correct": 1,
+    "choices": [
+      "Hero is the same thing as Character",
+      "Hero is a child class that inherits from Character",
+      "Hero replaces Character",
+      "Character is created inside Hero"
+    ],
+    "explain": "<code>(Character)</code> in the parentheses tells Python: \"Hero inherits everything from Character.\""
+  },
+  {
+    "id": "p2q2",
+    "kind": "mcq",
+    "marks": 3,
+    "correct": 2,
+    "choices": [
+      "Error \u2014 Cat has no speak()",
+      "Whiskers",
+      "Whiskers makes a noise",
+      "noise"
+    ],
+    "explain": "<code>Cat</code> inherits <code>speak()</code> from <code>Animal</code> for free. <code>pass</code> just means \"no extra body\"."
+  },
+  {
+    "id": "p2q3",
+    "kind": "mcq",
+    "marks": 3,
+    "correct": 2,
+    "choices": [
+      "Calls the child class's __init__ again",
+      "Creates a new parent class",
+      "Calls the parent class's __init__ to set up name and hp",
+      "Imports the super module"
+    ],
+    "explain": "<code>super()</code> = the parent. <code>super().__init__(...)</code> = run the parent's setup. This is why we don't have to re-type <code>self.name = name</code>."
+  },
+  {
+    "id": "p2q4",
+    "kind": "mcq",
+    "marks": 3,
+    "correct": 1,
+    "choices": [
+      "A says hi",
+      "B says hi",
+      "A says hi then B says hi",
+      "Error \u2014 duplicate hi()"
+    ],
+    "explain": "Child <code>B</code> overrode <code>hi()</code>. The child's version always wins for child instances."
+  },
+  {
+    "id": "p2q5",
+    "kind": "mcq",
+    "marks": 3,
+    "correct": 0,
+    "choices": [
+      "Hero forgot to call super().__init__(name, hp)",
+      "Character should be lowercase",
+      "Hero has too many parameters",
+      "self.weapon should be self.Weapon"
+    ],
+    "explain": "Hero's __init__ overrode the parent's but never called <code>super().__init__(name, hp)</code>, so <code>self.name</code> was never set."
+  },
+  {
+    "id": "p2q6",
+    "kind": "mcq",
+    "marks": 3,
+    "correct": 1,
+    "choices": [
+      "Missing self in __init__",
+      "Should be super().__init__ with parentheses, not super.__init__",
+      "Should be Animal.__init__",
+      "Dog cannot have its own __init__"
+    ],
+    "explain": "<code>super</code> is a function \u2014 you must call it: <code>super()</code>. Then call <code>__init__</code> on the result: <code>super().__init__(name)</code>."
+  },
+  {
+    "id": "p2q7",
+    "kind": "mcq",
+    "marks": 3,
+    "correct": 0,
+    "choices": [
+      "Goblin's __init__ doesn't pass dmg to super(), so the parent default 5 is used",
+      "Goblin has no attack() method",
+      "f-strings can't read self.dmg",
+      "dmg=12 should be self.dmg=12"
+    ],
+    "explain": "<code>super().__init__(name)</code> only passed name. The parent then used its default <code>dmg=5</code>. Should be <code>super().__init__(name, dmg)</code>."
+  },
+  {
+    "id": "p2q8",
+    "kind": "fill",
+    "marks": 3,
+    "answer": "Character",
+    "explain": "<code>class Hero(Character):</code> = Hero inherits from Character."
+  },
+  {
+    "id": "p2q9",
+    "kind": "fill",
+    "marks": 3,
+    "answer": "super().__init__(name, hp)",
+    "explain": "<code>super().__init__(name, hp)</code> runs Character's setup so name and hp end up on self."
+  },
+  {
+    "id": "p2q10",
+    "kind": "fill",
+    "marks": 3,
+    "answer": "print(f\"{self.name} says meow\")",
+    "explain": "Inside the override you can still use <code>self.name</code> \u2014 that attribute came from Animal's __init__."
+  },
+  {
+    "id": "p2q11",
+    "kind": "build",
+    "marks": 10,
+    "rubric": "Full marks if: Character has name+hp on self / Hero calls super correctly + adds weapon / Goblin calls super with hp=20 hardcoded / both prints work without crashing."
+  }
+];
+
+// ----- restore -----
+function restore() {
+  const saved = JSON.parse(localStorage.getItem(HW_KEY) || "{}");
+  if (saved.name) document.getElementById("student-name").value = saved.name;
+  if (saved.last) document.getElementById("student-last").value = saved.last;
+  for (const id in saved.answers || {}) {
+    const val = saved.answers[id];
+    const el = document.querySelector(`[name="${id}"]`);
+    if (!el) continue;
+    if (el.type === "radio") {
+      const r = document.querySelector(`[name="${id}"][value="${val}"]`);
+      if (r) r.checked = true;
+    } else {
+      const node = document.getElementById(id);
+      if (node) node.value = val;
+    }
+  }
+  // checklists
+  for (const cid in saved.checks || {}) {
+    const cb = document.getElementById(cid);
+    if (cb) cb.checked = saved.checks[cid];
+  }
+  updateProgress();
+}
+
+function save() {
+  const data = { name: document.getElementById("student-name").value,
+                last: document.getElementById("student-last").value,
+                answers: {}, checks: {} };
+  QUESTIONS.forEach(q => {
+    if (q.kind === "mcq") {
+      const r = document.querySelector(`[name="${q.id}"]:checked`);
+      if (r) data.answers[q.id] = r.value;
+    } else {
+      const el = document.getElementById(q.id);
+      if (el && el.value) data.answers[q.id] = el.value;
+    }
+  });
+  document.querySelectorAll('input[type=checkbox][data-check]').forEach(cb => {
+    data.checks[cb.id] = cb.checked;
+  });
+  localStorage.setItem(HW_KEY, JSON.stringify(data));
+}
+
+function updateProgress() {
+  let answered = 0, est = 0;
+  QUESTIONS.forEach(q => {
+    let val = null;
+    if (q.kind === "mcq") {
+      const r = document.querySelector(`[name="${q.id}"]:checked`);
+      if (r) val = r.value;
+    } else {
+      const el = document.getElementById(q.id);
+      if (el && el.value.trim()) val = el.value.trim();
+    }
+    if (val !== null) {
+      answered++;
+      if (q.kind === "mcq" && String(val) === String(q.correct)) est += q.marks;
+      else if (q.kind === "fill" && q.answer && val.toLowerCase().replace(/\s+/g,'') === String(q.answer).toLowerCase().replace(/\s+/g,'')) est += q.marks;
+      else if (q.kind === "build" || q.kind === "reflect") est += Math.floor(q.marks * 0.6); // self-mark estimate
+    }
+  });
+  document.getElementById("answered-count").textContent = answered;
+  document.getElementById("total-count").textContent = QUESTIONS.length;
+  document.getElementById("est-marks").textContent = est;
+  document.getElementById("progress-fill").style.width = (answered/QUESTIONS.length*100) + "%";
+  document.getElementById("submit-btn").disabled = (answered < QUESTIONS.length);
+}
+
+document.addEventListener("input", () => { save(); updateProgress(); });
+document.addEventListener("change", () => { save(); updateProgress(); });
+
+document.querySelectorAll(".hint-toggle").forEach(btn => {
+  btn.addEventListener("click", e => {
+    e.preventDefault();
+    const c = btn.nextElementSibling;
+    c.classList.toggle("open");
+    btn.textContent = c.classList.contains("open") ? "🙈 Hide hint" : "💡 Show hint";
+  });
+});
+
+document.getElementById("submit-btn").addEventListener("click", () => {
+  let score = 0, mcqCorrect = 0, fillCorrect = 0;
+  QUESTIONS.forEach(q => {
+    let val = null;
+    if (q.kind === "mcq") {
+      const r = document.querySelector(`[name="${q.id}"]:checked`);
+      if (r) val = r.value;
+    } else {
+      const el = document.getElementById(q.id);
+      if (el) val = el.value.trim();
+    }
+    const fb = document.getElementById("fb-" + q.id);
+    if (q.kind === "mcq") {
+      if (String(val) === String(q.correct)) {
+        score += q.marks; mcqCorrect++;
+        if (fb) { fb.className = "feedback correct"; fb.style.display = "block";
+                  fb.innerHTML = `✅ Correct (+${q.marks}). ${q.explain || ''}`; }
+      } else {
+        const correctText = q.choices[q.correct];
+        if (fb) { fb.className = "feedback wrong"; fb.style.display = "block";
+                  fb.innerHTML = `❌ Correct answer: <code>${correctText}</code>. ${q.explain || ''}`; }
+      }
+    } else if (q.kind === "fill") {
+      const norm = (val || "").toLowerCase().replace(/\s+/g,'');
+      const target = String(q.answer).toLowerCase().replace(/\s+/g,'');
+      if (norm === target) {
+        score += q.marks; fillCorrect++;
+        if (fb) { fb.className = "feedback correct"; fb.style.display = "block";
+                  fb.innerHTML = `✅ Exactly right (+${q.marks}). ${q.explain || ''}`; }
+      } else {
+        if (fb) { fb.className = "feedback wrong"; fb.style.display = "block";
+                  fb.innerHTML = `❌ Expected: <code>${q.answer}</code>. ${q.explain || ''}`; }
+      }
+    } else if (q.kind === "build" || q.kind === "reflect") {
+      // self-mark — count as full marks if non-empty + > 30 chars, half if shorter
+      if (val && val.length > 30) {
+        score += q.marks;
+        if (fb) { fb.className = "feedback info"; fb.style.display = "block";
+                  fb.innerHTML = `✏️ Self-marked (+${q.marks}). Teacher will check your code in class. ${q.rubric || ''}`; }
+      } else if (val && val.length > 0) {
+        score += Math.floor(q.marks/2);
+        if (fb) { fb.className = "feedback info"; fb.style.display = "block";
+                  fb.innerHTML = `✏️ Partial (+${Math.floor(q.marks/2)}). Add more detail next time. ${q.rubric || ''}`; }
+      }
+    }
+  });
+
+  document.getElementById("final-score").textContent = score;
+  let cmt = "Keep going!";
+  if (score >= QUESTIONS.reduce((s,q)=>s+q.marks,0) * 0.85) cmt = "🌟 Outstanding — ready for the next lesson.";
+  else if (score >= QUESTIONS.reduce((s,q)=>s+q.marks,0) * 0.65) cmt = "✅ Solid — bring your questions to class.";
+  else if (score >= QUESTIONS.reduce((s,q)=>s+q.marks,0) * 0.4) cmt = "🛠️ Re-watch the L0X recap, then come ask Ms Gao.";
+  else cmt = "💛 No stress — bring this to class first thing and we'll work through it together.";
+  document.getElementById("score-comment").textContent = cmt;
+
+  const bd = document.getElementById("breakdown");
+  bd.innerHTML = `
+    <div class="breakdown-item"><div class="label">Multiple choice</div><div class="value">${mcqCorrect} / ${QUESTIONS.filter(q=>q.kind==='mcq').length}</div></div>
+    <div class="breakdown-item"><div class="label">Fill-in</div><div class="value">${fillCorrect} / ${QUESTIONS.filter(q=>q.kind==='fill').length}</div></div>
+    <div class="breakdown-item"><div class="label">Build tasks</div><div class="value">Self-marked</div></div>
+    <div class="breakdown-item"><div class="label">Total</div><div class="value">${score} / 40</div></div>
+  `;
+  document.getElementById("results").style.display = "block";
+  document.getElementById("results").scrollIntoView({behavior:"smooth", block:"start"});
+});
+
+restore();
+</script>
+</body>
+</html>

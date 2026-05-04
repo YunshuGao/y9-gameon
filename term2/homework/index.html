@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<title>Classes Homework Series · Y9 Game On</title>
+<link rel="stylesheet" href="../../assets/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body { max-width: 900px; margin: 0 auto; padding: 1.5rem; }
+.hw-list { display: grid; gap: 1rem; margin: 1.5rem 0; }
+.hw-card { display: flex; gap: 1rem; padding: 1.2rem 1.4rem;
+           background: var(--surface); border: 1px solid var(--border);
+           border-radius: 12px; text-decoration: none; color: var(--text);
+           transition: border 0.15s, transform 0.15s; }
+.hw-card:hover { border-color: var(--py-gold); transform: translateY(-2px); }
+.hw-card-emoji { font-size: 2.4rem; line-height: 1; }
+.hw-card-body h3 { margin: 0 0 0.3rem; color: var(--py-gold); font-size: 1.1rem; }
+.hw-card-meta { margin: 0 0 0.4rem; color: var(--text-muted); font-size: 0.85rem; }
+.hw-card-desc { margin: 0; font-size: 0.92rem; line-height: 1.5; }
+.intro { background: rgba(255,212,59,0.08); border-left: 3px solid var(--py-gold);
+         padding: 1rem 1.2rem; border-radius: 8px; margin: 1rem 0; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="site-brand">🐍 Y9 Game On · Term 2</a>
+    <nav class="site-nav">
+      <a href="../index.html">Overview</a>
+      <a href="../arcade/index.html">🎮 Arcade</a>
+    </nav>
+  </div>
+</header>
+<main class="container">
+  <h1>📚 Classes Homework Series</h1>
+  <div class="intro">
+    <strong>Why three parts?</strong> Classes are the trickiest concept in this term. Spreading them across 3 short homeworks (one after each Classes lesson) gives your brain time to absorb each idea before the next one stacks on top. Do them in order.
+  </div>
+  <div class="hw-list">
+
+    <a class="hw-card" href="HW01-classes-foundations.html">
+      <div class="hw-card-emoji">🧱</div>
+      <div class="hw-card-body">
+        <h3>HW01 — Classes Foundations (after L03)</h3>
+        <p class="hw-card-meta">After L03 · 30–40 min · /40 marks</p>
+        <p class="hw-card-desc">L04 (next lesson) introduces inheritance — that only makes sense if your class basics are rock-solid. This homework checks you can read, write, and debug a simple class.</p>
+      </div>
+    </a>
+
+    <a class="hw-card" href="HW02-classes-inheritance.html">
+      <div class="hw-card-emoji">⚡</div>
+      <div class="hw-card-body">
+        <h3>HW02 — Inheritance Power-Up (after L04)</h3>
+        <p class="hw-card-meta">After L04 · 35–45 min · /40 marks</p>
+        <p class="hw-card-desc">L05 (next lesson) puts your classes to work in a real game system — heroes vs goblins. Before that you need to be confident with inheritance: parent classes, child classes, super(), and overriding methods.</p>
+      </div>
+    </a>
+
+    <a class="hw-card" href="HW03-classes-systems.html">
+      <div class="hw-card-emoji">⚔️</div>
+      <div class="hw-card-body">
+        <h3>HW03 — Classes in Systems (after L05)</h3>
+        <p class="hw-card-meta">After L05 · 40–50 min · /40 marks</p>
+        <p class="hw-card-desc">Final classes homework before you build adventure_v1.py. This one stretches you: methods that change other objects, lists of instances, and combat loops. Get this right and adventure_v1 will feel easy.</p>
+      </div>
+    </a>
+  </div>
+  <div class="intro">
+    <strong>How marks work:</strong> Each homework is /40, self-marked. Multiple choice + fill-in are auto-graded. Build tasks (Q11) are checked by Ms Gao in class. <em>The point is learning, not the score</em> — but doing them honestly is the single best predictor of how easy adventure_v1.py will feel.
+  </div>
+</main>
+</body>
+</html>
