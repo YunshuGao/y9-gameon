@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📝 Task 2 Declaration · Y9 Game On · Python Mini-Program</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body { max-width: 920px; margin: 0 auto; padding: 1.5rem; overflow-x: hidden; }
+.dec-header { background: linear-gradient(135deg, rgba(31,58,104,0.45), rgba(20,184,166,0.15));
+              border: 2px solid var(--py-gold); border-radius: 14px;
+              padding: 1.4rem 1.6rem; margin-bottom: 1.5rem; }
+.dec-header h1 { margin: 0 0 0.6rem; color: var(--py-gold); font-size: 1.55rem; }
+.dec-header p { margin: 0.25rem 0; color: var(--text); font-size: 0.95rem; }
+.task-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+             gap: 0.6rem; margin-top: 0.9rem; }
+.task-meta div { background: rgba(0,0,0,0.25); padding: 0.5rem 0.7rem;
+                 border-radius: 6px; font-size: 0.85rem; }
+.task-meta strong { color: var(--py-gold); display: block; font-size: 0.8rem;
+                    text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.2rem; }
+.progress-bar-wrap { position: sticky; top: 0; z-index: 10;
+                     background: var(--bg); padding: 0.8rem 0; margin-bottom: 1rem;
+                     border-bottom: 1px solid var(--border); }
+.progress-text { font-weight: 600; color: var(--text); margin-bottom: 0.5rem;
+                 display: flex; justify-content: space-between; align-items: center; }
+.progress-text .pct { color: var(--text-muted); font-weight: 400; font-size: 0.85rem; }
+.progress-track { height: 10px; background: var(--surface); border-radius: 5px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #14b8a6, #22c55e);
+                 transition: width 0.3s; }
+.section { margin: 2rem 0; padding: 1.4rem; background: var(--surface);
+           border-radius: 12px; border: 1px solid var(--border); overflow: hidden; }
+.section h2 { color: var(--py-gold); margin: 0 0 0.4rem; font-size: 1.2rem; }
+.section .sub { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1rem; }
+.field { margin: 1rem 0; }
+.field label { display: block; font-weight: 600; margin-bottom: 0.4rem; color: var(--text); }
+.field input[type="text"], .field input[type="date"], .field textarea {
+    width: 100%; padding: 0.6rem 0.8rem;
+    background: var(--bg); color: var(--text);
+    border: 1px solid var(--border); border-radius: 6px;
+    font-family: 'Inter', sans-serif; font-size: 0.95rem;
+    box-sizing: border-box; }
+.field textarea { min-height: 80px; resize: vertical; }
+.name-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+.name-row > div { flex: 1; min-width: 200px; }
+.path-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+@media (max-width: 600px) { .path-grid { grid-template-columns: 1fr; } }
+.path-card { padding: 1rem 1.2rem; border-radius: 10px;
+             border: 2px solid var(--border); cursor: pointer;
+             transition: all 0.15s; background: var(--bg); }
+.path-card:hover { border-color: var(--py-gold); }
+.path-card.selected { border-color: #22c55e; background: rgba(34,197,94,0.1); }
+.path-card input[type="radio"] { margin-right: 0.5rem; }
+.path-card h3 { margin: 0 0 0.4rem; font-size: 1rem; }
+.path-card .badge { display: inline-block; padding: 0.15rem 0.5rem;
+                    border-radius: 4px; font-size: 0.7rem; font-weight: 700;
+                    text-transform: uppercase; letter-spacing: 0.5px; margin-left: 0.5rem; }
+.path-a .badge { background: #2E7D32; color: white; }
+.path-b .badge { background: #6A1B9A; color: white; }
+.path-card p { margin: 0.4rem 0; font-size: 0.85rem; line-height: 1.45; color: var(--text); }
+.path-card ul { margin: 0.4rem 0 0; padding-left: 1.2rem; font-size: 0.82rem;
+                color: var(--text-muted); line-height: 1.5; }
+.project-options { margin-top: 0.8rem; padding: 0.8rem;
+                   background: rgba(0,0,0,0.2); border-radius: 6px; display: none; }
+.project-options.show { display: block; }
+.project-options label { display: block; padding: 0.4rem 0.6rem; margin: 0.2rem 0;
+                         border-radius: 4px; cursor: pointer; font-size: 0.88rem;
+                         transition: background 0.15s; }
+.project-options label:hover { background: rgba(255,212,59,0.08); }
+.comp-question { margin: 1.2rem 0; padding: 1rem 1.2rem;
+                 background: rgba(31,58,104,0.18); border-radius: 8px;
+                 border-left: 3px solid var(--py-blue); }
+.comp-question .qnum { color: var(--py-gold); font-weight: 600; font-size: 0.85rem;
+                       margin-bottom: 0.3rem; }
+.comp-question .qtext { margin: 0 0 0.6rem; color: var(--text); line-height: 1.5; }
+.comp-question .hint-toggle { background: none; border: 1px dashed var(--border);
+                              color: var(--text-muted); padding: 0.3rem 0.6rem;
+                              border-radius: 5px; cursor: pointer; font-size: 0.78rem;
+                              font-family: inherit; margin-top: 0.4rem; }
+.comp-question .hint-toggle:hover { color: var(--py-gold); border-color: var(--py-gold); }
+.comp-question .hint-content { display: none; margin-top: 0.5rem; padding: 0.6rem 0.8rem;
+                               background: rgba(255,212,59,0.06); border-left: 3px solid var(--py-gold);
+                               border-radius: 5px; font-size: 0.85rem; line-height: 1.5; }
+.comp-question .hint-content.open { display: block; }
+.declaration-list { list-style: none; padding: 0; margin: 0.6rem 0; }
+.declaration-list li { padding: 0.7rem 0.9rem; margin: 0.5rem 0;
+                       background: rgba(0,0,0,0.18); border-radius: 8px;
+                       border-left: 3px solid var(--py-gold);
+                       transition: background 0.15s; }
+.declaration-list li:hover { background: rgba(255,212,59,0.05); }
+.declaration-list label { display: flex; align-items: flex-start;
+                          gap: 0.7rem; cursor: pointer; line-height: 1.5; }
+.declaration-list input[type="checkbox"] { transform: scale(1.3); margin-top: 0.2rem; flex-shrink: 0; }
+.declaration-list .strong-text { font-weight: 600; color: var(--text); }
+.signature-box { margin-top: 1.5rem; padding: 1.2rem;
+                 background: rgba(255,212,59,0.06); border: 2px solid var(--py-gold);
+                 border-radius: 10px; }
+.signature-box label { display: block; font-weight: 600; color: var(--py-gold);
+                       margin-bottom: 0.5rem; font-size: 1rem; }
+.signature-box .sig-help { font-size: 0.85rem; color: var(--text-muted);
+                           margin-bottom: 0.5rem; line-height: 1.5; }
+.signature-box input { width: 100%; padding: 0.7rem 0.9rem;
+                       background: var(--bg); color: var(--text);
+                       border: 1px solid var(--border); border-radius: 6px;
+                       font-family: 'Caveat', cursive, 'Inter', sans-serif;
+                       font-size: 1.4rem; font-weight: 600;
+                       box-sizing: border-box; }
+.callout { background: rgba(255,212,59,0.08); border-left: 3px solid var(--py-gold);
+           padding: 0.9rem 1.1rem; border-radius: 6px; margin: 1rem 0; font-size: 0.92rem;
+           line-height: 1.6; }
+.callout.warn { background: rgba(239,68,68,0.07); border-left-color: #ef4444; }
+.callout.info { background: rgba(59,130,246,0.08); border-left-color: #3b82f6; }
+.callout strong { color: var(--py-gold); }
+.callout.warn strong { color: #fca5a5; }
+.callout.info strong { color: #93c5fd; }
+.action-buttons { margin: 2rem 0; padding: 1.4rem; background: var(--surface);
+                  border-radius: 12px; border: 2px solid var(--border); text-align: center; }
+#save-pdf-btn { padding: 0.95rem 2.4rem; font-size: 1.05rem; font-weight: 600;
+                border-radius: 8px; cursor: pointer; border: none;
+                background: linear-gradient(135deg, #22c55e, #14b8a6); color: white; }
+#save-pdf-btn:disabled { background: var(--surface); color: var(--text-muted);
+                         cursor: not-allowed; border: 1px solid var(--border); }
+.submit-instructions { margin-top: 1rem; padding: 1.2rem; background: rgba(0,0,0,0.2);
+                       border-radius: 8px; text-align: left; font-size: 0.9rem;
+                       line-height: 1.6; }
+.submit-instructions h3 { color: var(--py-gold); margin: 0 0 0.5rem; font-size: 1rem; }
+.submit-instructions ol { margin: 0.4rem 0; padding-left: 1.4rem; }
+.submit-instructions li { margin: 0.3rem 0; }
+.submit-instructions code { background: rgba(0,0,0,0.4); padding: 0.1rem 0.4rem;
+                            border-radius: 3px; font-family: 'Fira Code', monospace;
+                            color: var(--py-gold); font-size: 0.85rem; }
+@media print {
+    .progress-bar-wrap, .action-buttons, .site-header, .hint-toggle { display: none !important; }
+    body { color: black; background: white; padding: 0; }
+    .section { background: white; border: 1px solid #999; break-inside: avoid; }
+    .declaration-list li { background: #f5f5f5; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="site-brand">🐍 Y9 Game On · Term 2</a>
+    <nav class="site-nav">
+      <a href="../index.html">Overview</a>
+      <a href="index.html">Term 2 hub</a>
+      <a href="declaration.html">📝 Declaration</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+<div class="dec-header">
+  <h1>📝 Task 2 Declaration · Python Mini-Program</h1>
+  <p><strong>School:</strong> Arthur Phillip High School &nbsp;·&nbsp; <strong>Class:</strong> Year 9 Game On (9GAMZA)</p>
+  <p><strong>Course:</strong> Information and Software Technology – Game Design</p>
+  <p>This declaration confirms you have read and understood the Task 2 notification, you have chosen your pathway, and you commit to writing your own code. You must complete this declaration BEFORE you start coding (in Lesson 6, Week 3).</p>
+  <div class="task-meta">
+    <div><strong>Marks</strong>/15</div>
+    <div><strong>Weighting</strong>15%</div>
+    <div><strong>Issued</strong>Wed 6 May 2026</div>
+    <div><strong>Due</strong>Fri 29 May 2026</div>
+  </div>
+</div>
+
+<div class="progress-bar-wrap">
+  <div class="progress-text">
+    <span>Declaration <span id="completed-count">0</span> / <span id="total-count">0</span> complete</span>
+    <span class="pct"><span id="pct">0</span>% — <span id="status-text">Keep going…</span></span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+</div>
+
+<!-- ========================================= -->
+<!-- SECTION 1 — YOUR DETAILS                 -->
+<!-- ========================================= -->
+<section class="section">
+  <h2>1 · Your details</h2>
+  <div class="sub">Fill in your name and class. This is the version of YOUR declaration.</div>
+
+  <div class="name-row">
+    <div class="field">
+      <label for="first-name">First name</label>
+      <input type="text" id="first-name" placeholder="e.g. Ada" autocomplete="given-name" data-track>
+    </div>
+    <div class="field">
+      <label for="last-name">Last name</label>
+      <input type="text" id="last-name" placeholder="e.g. Lovelace" autocomplete="family-name" data-track>
+    </div>
+  </div>
+  <div class="name-row">
+    <div class="field">
+      <label for="class-code">Class</label>
+      <input type="text" id="class-code" value="9GAMZA · Year 9 Game On" data-track>
+    </div>
+    <div class="field">
+      <label for="today-date">Today's date</label>
+      <input type="date" id="today-date" data-track>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================= -->
+<!-- SECTION 2 — CHOOSE YOUR PATH             -->
+<!-- ========================================= -->
+<section class="section">
+  <h2>2 · Choose your pathway 🌟</h2>
+  <div class="sub">Both paths can earn an A. Be honest with yourself about what's achievable in 4 weeks. Read both options before you tick.</div>
+
+  <div class="path-grid">
+    <label class="path-card path-a" id="path-a-card">
+      <h3>
+        <input type="radio" name="path" value="A" id="path-a-radio" data-track>
+        🟢 Path A <span class="badge">Python Basic</span>
+      </h3>
+      <p><strong>Pick this if:</strong> the L01 diagnostic was challenging, OR you'd rather build something achievable that you finish well.</p>
+      <p><strong>Skill bar:</strong> ONE basic class with <code>__init__</code> and a method. No inheritance required.</p>
+      <ul>
+        <li>Project options: Quiz · Number Guess · Mini Adventure · Pet Sim</li>
+        <li>~3 input() calls · 2 if/elif · 1 loop · 1 function · 1 class · 5 comments</li>
+      </ul>
+    </label>
+
+    <label class="path-card path-b" id="path-b-card">
+      <h3>
+        <input type="radio" name="path" value="B" id="path-b-radio" data-track>
+        🟣 Path B <span class="badge">Python Advanced</span>
+      </h3>
+      <p><strong>Pick this if:</strong> the L01 diagnostic felt comfortable AND you actively enjoy coding.</p>
+      <p><strong>Skill bar:</strong> Parent class + 2 children with <code>super()</code>, method override, methods that act on other instances.</p>
+      <ul>
+        <li>Project options: Text Adventure · Animal Shelter · RPG Inventory</li>
+        <li>~3+ inputs · main while loop · list of instances · override · method on other obj</li>
+      </ul>
+    </label>
+  </div>
+
+  <!-- Path A project options (shown only if Path A chosen) -->
+  <div class="project-options" id="path-a-options">
+    <strong>Path A — choose ONE project option:</strong>
+    <label><input type="radio" name="path-a-project" value="quiz" data-track>  (a) Quiz Game — at least 5 questions, score, Quiz class</label>
+    <label><input type="radio" name="path-a-project" value="numberguess" data-track>  (b) Number Guessing Game — random 1–100, higher/lower hints, Game class</label>
+    <label><input type="radio" name="path-a-project" value="adventure" data-track>  (c) Mini Adventure — 3+ rooms, choices via input(), Player class</label>
+    <label><input type="radio" name="path-a-project" value="petsim" data-track>  (d) Pet Simulator — feed/play/sleep loop, Pet class with hunger + happiness + energy</label>
+  </div>
+
+  <!-- Path B project options -->
+  <div class="project-options" id="path-b-options">
+    <strong>Path B — choose ONE project option:</strong>
+    <label><input type="radio" name="path-b-project" value="textadventure" data-track>  (a) Text Adventure with Combat — Hero + Goblin classes, turn-based fighting</label>
+    <label><input type="radio" name="path-b-project" value="shelter" data-track>  (b) Animal Shelter Sim — Animal/Dog/Cat/Rabbit with method overriding</label>
+    <label><input type="radio" name="path-b-project" value="rpginventory" data-track>  (c) RPG Inventory — Item/Weapon/Potion/Armour with polymorphism</label>
+  </div>
+
+  <!-- Personal hook -->
+  <div class="field" style="margin-top:1.5rem;">
+    <label for="personal-hook">⭐ Your personal hook — what makes this YOUR project, not a generic one?</label>
+    <div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.5rem;line-height:1.5;">
+      Examples: "My quiz is about Naruto trivia (my favourite anime)." · "My Tamagotchi pet is a sausage dog named Mochi (like my real dog)." · "My adventure is set inside Parramatta Westfield because I know it well." · "My RPG inventory has potions named after my friends."
+    </div>
+    <textarea id="personal-hook" placeholder="One sentence about what's uniquely YOURS in this project…" data-track></textarea>
+  </div>
+</section>
+
+<!-- ========================================= -->
+<!-- SECTION 3 — COMPREHENSION CHECK          -->
+<!-- ========================================= -->
+<section class="section">
+  <h2>3 · Comprehension check 🤔</h2>
+  <div class="sub">Five quick questions to confirm you've actually read the Task 2 notification. Type your own answer in your own words. Hints are available if you're stuck.</div>
+
+  <div class="comp-question">
+    <div class="qnum">Q1</div>
+    <div class="qtext">When is Task 2 due?</div>
+    <input type="text" id="q1" placeholder="Type the date and time…" data-track>
+    <button class="hint-toggle" type="button">💡 Show hint</button>
+    <div class="hint-content">Look at the top of this page or the Task 2 notification. The format is "Friday __ May 2026, by __pm".</div>
+  </div>
+
+  <div class="comp-question">
+    <div class="qnum">Q2</div>
+    <div class="qtext">What four things must you submit on Google Classroom by the due date?</div>
+    <textarea id="q2" placeholder="List all four…" data-track></textarea>
+    <button class="hint-toggle" type="button">💡 Show hint</button>
+    <div class="hint-content">.py file · Build-Along Folio · screenshot · (Path B only) class diagram. Look in Task Description → Submissions section.</div>
+  </div>
+
+  <div class="comp-question">
+    <div class="qnum">Q3</div>
+    <div class="qtext">What is the Build-Along Folio, and when do you fill it in?</div>
+    <textarea id="q3" placeholder="In your own words…" data-track></textarea>
+    <button class="hint-toggle" type="button">💡 Show hint</button>
+    <div class="hint-content">A folio with 3 phases (Planning, Coding Log, Submission). Filled in DURING the build, NOT all at once at the end. Phase 1 in L06, Phase 2 across L07-L09, Phase 3 in L10.</div>
+  </div>
+
+  <div class="comp-question">
+    <div class="qnum">Q4</div>
+    <div class="qtext">What is the Code Chat? When does it happen?</div>
+    <textarea id="q4" placeholder="In your own words…" data-track></textarea>
+    <button class="hint-toggle" type="button">💡 Show hint</button>
+    <div class="hint-content">A 5-minute conversation with Ms Gao after submission (Lessons 11–12, Week 6). She picks a random line of your code and asks you to explain it. It's how she verifies the code is YOURS.</div>
+  </div>
+
+  <div class="comp-question">
+    <div class="qnum">Q5</div>
+    <div class="qtext">Are you allowed to use AI tools (ChatGPT, Claude, Copilot) for this task? Explain the rule.</div>
+    <textarea id="q5" placeholder="In your own words…" data-track></textarea>
+    <button class="hint-toggle" type="button">💡 Show hint</button>
+    <div class="hint-content">AI may NOT write your code. AI may be used AFTER you've tried — to explain a concept or debug an error — but the code you submit must be YOURS. Honest AI disclosure in your folio is rewarded; hidden AI use caught in the Code Chat = automatic E.</div>
+  </div>
+</section>
+
+<!-- ========================================= -->
+<!-- SECTION 4 — DECLARATION STATEMENTS       -->
+<!-- ========================================= -->
+<section class="section">
+  <h2>4 · Declaration statements ✍️</h2>
+  <div class="sub">Tick every statement to confirm you understand and agree. You must read each one carefully — by ticking, you are making a serious commitment.</div>
+
+  <ul class="declaration-list">
+    <li>
+      <label>
+        <input type="checkbox" id="dec-1" data-track-dec>
+        <span><span class="strong-text">I have received the Task 2 notification</span> via Google Classroom and I have read it from start to finish — including the marking rubric, AI Policy, Important Note, and the Build-Along Folio requirements.</span>
+      </label>
+    </li>
+    <li>
+      <label>
+        <input type="checkbox" id="dec-2" data-track-dec>
+        <span><span class="strong-text">I understand what is required of me</span>: I will submit my .py file, my Build-Along Folio, a screenshot, and (if Path B) a class diagram by Friday 29 May 2026 11:59pm via Google Classroom.</span>
+      </label>
+    </li>
+    <li>
+      <label>
+        <input type="checkbox" id="dec-3" data-track-dec>
+        <span><span class="strong-text">I understand the marking rubric</span>: 3 holistic criteria (Program Functionality &amp; Python Skills · Code Quality &amp; Documentation · Build-Along Folio &amp; Process Evidence), each marked /5 across 5 bands (Outstanding · High · Sound · Basic · Limited).</span>
+      </label>
+    </li>
+    <li>
+      <label>
+        <input type="checkbox" id="dec-4" data-track-dec>
+        <span><span class="strong-text">I understand the rules about absences, extensions, plagiarism and AI</span>. If I am absent on the due date, I will follow the Stage 5 Procedures (medical certificate to HT, parent calls 8855 8100, Illness/Misadventure form). I will NOT use AI to write my code. Honest AI disclosure in my folio = rewarded. Hidden AI use, caught in the Code Chat = automatic E.</span>
+      </label>
+    </li>
+    <li>
+      <label>
+        <input type="checkbox" id="dec-5" data-track-dec>
+        <span><span class="strong-text">I will make a genuine attempt at every part of this task and write my own code.</span> Even if my code is messy or buggy, I commit to honest effort. I will keep my Build-Along Folio updated each week. I am ready to explain every line of my submitted code in the Code Chat.</span>
+      </label>
+    </li>
+  </ul>
+
+  <div class="callout warn">
+    <strong>Reminder:</strong> Polished AI code that you cannot explain = automatic E grade. Imperfect code that you wrote and understand = full marks possible. Choose authenticity over polish.
+  </div>
+
+  <div class="signature-box">
+    <label for="signature">Digital signature — type your full name to sign</label>
+    <div class="sig-help">By typing your full name here, you are confirming this declaration is honest and you commit to the rules above. This counts as your signature.</div>
+    <input type="text" id="signature" placeholder="Type your full name…" data-track-sig>
+  </div>
+</section>
+
+<!-- ========================================= -->
+<!-- SECTION 5 — SAVE & SUBMIT                -->
+<!-- ========================================= -->
+<section class="section action-buttons">
+  <h2 style="margin-bottom:0.6rem;">5 · Save and submit your declaration</h2>
+  <p style="margin: 0 0 1rem; color: var(--text-muted); font-size: 0.92rem;">
+    Once everything is complete, click "Save as PDF" below, then upload the PDF to the Task 2 assignment in Google Classroom.
+  </p>
+
+  <button id="save-pdf-btn" disabled>📄 Save as PDF</button>
+
+  <p style="margin: 0.8rem 0 0; font-size: 0.85rem; color: var(--text-muted);">
+    Auto-saves on this laptop. Come back anytime — your answers will still be here.
+  </p>
+
+  <div class="submit-instructions">
+    <h3>How to save and submit</h3>
+    <ol>
+      <li>Click "Save as PDF" above (only unlocks once everything is filled in).</li>
+      <li>In the print dialog, choose <strong>Save as PDF</strong> as the destination.</li>
+      <li>Save the file with this name: <code>firstname_lastname_T2_Declaration.pdf</code></li>
+      <li>Open Google Classroom → Task 2 assignment → Upload your declaration PDF.</li>
+      <li>You should also upload your <code>.py</code> file, folio, and screenshot when ready.</li>
+    </ol>
+  </div>
+
+  <div class="callout info" style="text-align:left; margin-top:1rem;">
+    <strong>Stuck?</strong> Show Ms Gao your screen — she'll help you save and upload. There's no penalty for asking.
+  </div>
+</section>
+
+</main>
+
+<script>
+const STORAGE_KEY = "y9-t2-declaration-v1";
+
+// ----- Track all required fields -----
+function getRequiredFields() {
+  return [
+    "#first-name", "#last-name", "#class-code", "#today-date",
+    "input[name='path']:checked",  // Path A or B
+    "#personal-hook",
+    "#q1", "#q2", "#q3", "#q4", "#q5",
+    "#dec-1", "#dec-2", "#dec-3", "#dec-4", "#dec-5",
+    "#signature",
+  ];
+}
+
+// ----- Save / Restore -----
+function save() {
+  const data = {};
+  document.querySelectorAll("[data-track]").forEach(el => {
+    if (el.type === "radio") {
+      if (el.checked) data[el.name] = el.value;
+    } else if (el.type === "checkbox") {
+      data[el.id] = el.checked;
+    } else {
+      data[el.id] = el.value;
+    }
+  });
+  document.querySelectorAll("[data-track-dec]").forEach(el => {
+    data[el.id] = el.checked;
+  });
+  document.querySelectorAll("[data-track-sig]").forEach(el => {
+    data[el.id] = el.value;
+  });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+function restore() {
+  const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+  // Text & date inputs
+  ["first-name", "last-name", "class-code", "today-date", "personal-hook",
+   "q1", "q2", "q3", "q4", "q5", "signature"].forEach(id => {
+    if (data[id] !== undefined) {
+      const el = document.getElementById(id);
+      if (el) el.value = data[id];
+    }
+  });
+  // Path radios
+  if (data["path"]) {
+    const r = document.querySelector(`input[name='path'][value='${data["path"]}']`);
+    if (r) { r.checked = true; updatePathOptions(); }
+  }
+  if (data["path-a-project"]) {
+    const r = document.querySelector(`input[name='path-a-project'][value='${data["path-a-project"]}']`);
+    if (r) r.checked = true;
+  }
+  if (data["path-b-project"]) {
+    const r = document.querySelector(`input[name='path-b-project'][value='${data["path-b-project"]}']`);
+    if (r) r.checked = true;
+  }
+  // Declaration checkboxes
+  ["dec-1","dec-2","dec-3","dec-4","dec-5"].forEach(id => {
+    if (data[id]) document.getElementById(id).checked = true;
+  });
+  // Today's date — default to today if empty
+  const dateField = document.getElementById("today-date");
+  if (!dateField.value) {
+    dateField.value = new Date().toISOString().split('T')[0];
+  }
+}
+
+// ----- Path option toggle -----
+function updatePathOptions() {
+  const pathA = document.getElementById("path-a-radio");
+  const pathB = document.getElementById("path-b-radio");
+  const optsA = document.getElementById("path-a-options");
+  const optsB = document.getElementById("path-b-options");
+  const cardA = document.getElementById("path-a-card");
+  const cardB = document.getElementById("path-b-card");
+
+  optsA.classList.toggle("show", pathA.checked);
+  optsB.classList.toggle("show", pathB.checked);
+  cardA.classList.toggle("selected", pathA.checked);
+  cardB.classList.toggle("selected", pathB.checked);
+}
+
+// ----- Progress -----
+function updateProgress() {
+  let total = 0, done = 0;
+
+  // Required text fields
+  ["first-name", "last-name", "class-code", "today-date",
+   "personal-hook", "q1", "q2", "q3", "q4", "q5", "signature"].forEach(id => {
+    total++;
+    const v = document.getElementById(id).value.trim();
+    if (v.length > 0) done++;
+  });
+
+  // Path selection
+  total++;
+  if (document.querySelector("input[name='path']:checked")) done++;
+
+  // Project sub-option (depends on path)
+  total++;
+  const pathChecked = document.querySelector("input[name='path']:checked");
+  if (pathChecked) {
+    const optsName = pathChecked.value === "A" ? "path-a-project" : "path-b-project";
+    if (document.querySelector(`input[name='${optsName}']:checked`)) done++;
+  }
+
+  // 5 declaration checkboxes
+  ["dec-1","dec-2","dec-3","dec-4","dec-5"].forEach(id => {
+    total++;
+    if (document.getElementById(id).checked) done++;
+  });
+
+  document.getElementById("completed-count").textContent = done;
+  document.getElementById("total-count").textContent = total;
+  const pct = Math.round((done / total) * 100);
+  document.getElementById("pct").textContent = pct;
+  document.getElementById("progress-fill").style.width = pct + "%";
+
+  let status;
+  if (pct < 40) status = "Keep going…";
+  else if (pct < 80) status = "Halfway there!";
+  else if (pct < 100) status = "Almost done…";
+  else status = "✅ Ready to submit!";
+  document.getElementById("status-text").textContent = status;
+
+  document.getElementById("save-pdf-btn").disabled = (done < total);
+}
+
+// ----- Hint toggles -----
+document.querySelectorAll(".hint-toggle").forEach(btn => {
+  btn.addEventListener("click", e => {
+    e.preventDefault();
+    const c = btn.nextElementSibling;
+    c.classList.toggle("open");
+    btn.textContent = c.classList.contains("open") ? "🙈 Hide hint" : "💡 Show hint";
+  });
+});
+
+// ----- Path radios — update options on change -----
+document.querySelectorAll("input[name='path']").forEach(r => {
+  r.addEventListener("change", () => { updatePathOptions(); save(); updateProgress(); });
+});
+
+// ----- Save & update on any input -----
+document.addEventListener("input", () => { save(); updateProgress(); });
+document.addEventListener("change", () => { save(); updateProgress(); });
+
+// ----- Save as PDF button -----
+document.getElementById("save-pdf-btn").addEventListener("click", () => {
+  window.print();
+});
+
+// ----- Init -----
+restore();
+updatePathOptions();
+updateProgress();
+</script>
+
+</body>
+</html>
