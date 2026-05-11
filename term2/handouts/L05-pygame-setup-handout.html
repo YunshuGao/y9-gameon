@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L05 Pygame Setup · Self-Check Handout · 9GAMZA</title>
+<link rel="stylesheet" href="../../assets/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body { max-width: 920px; margin: 0 auto; padding: 1.5rem; overflow-x: hidden; }
+.part { overflow: hidden; }
+.handout-header { background: linear-gradient(135deg, rgba(31,58,104,0.4), rgba(20,184,166,0.18));
+                  border: 2px solid var(--py-gold); border-radius: 14px;
+                  padding: 1.4rem 1.6rem; margin-bottom: 1.5rem; }
+.handout-header h1 { margin: 0 0 0.6rem; color: var(--py-gold); font-size: 1.5rem; }
+.handout-header p { margin: 0.2rem 0; color: var(--text); font-size: 0.95rem; }
+.name-row { display: flex; gap: 1rem; margin-top: 1rem; }
+.name-row input { flex: 1; padding: 0.6rem 0.8rem; border: 1px solid var(--border);
+                  border-radius: 6px; background: var(--surface); color: var(--text);
+                  font-family: inherit; font-size: 0.95rem; }
+.progress-bar-wrap { position: sticky; top: 0; z-index: 10;
+                     background: var(--bg); padding: 0.8rem 0; margin-bottom: 1rem;
+                     border-bottom: 1px solid var(--border); }
+.progress-text { font-weight: 600; color: var(--text); margin-bottom: 0.5rem; }
+.progress-track { height: 10px; background: var(--surface); border-radius: 5px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #14b8a6, #22c55e);
+                 transition: width 0.3s; }
+.part { margin: 2rem 0; padding: 1.4rem; background: var(--surface);
+        border-radius: 12px; border: 1px solid var(--border); }
+.part-title { color: var(--py-gold); margin: 0 0 0.4rem; font-size: 1.2rem; }
+.part-meta { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1rem; }
+.question { margin: 1.6rem 0; padding: 1rem; background: rgba(31,58,104,0.15);
+            border-radius: 8px; border-left: 3px solid var(--py-blue); overflow: hidden; }
+.question .qnum { color: var(--py-gold); font-weight: 600; font-size: 0.88rem; }
+.question .qtext { margin: 0.4rem 0 0.8rem; color: var(--text); line-height: 1.55;
+                   overflow-wrap: break-word; word-wrap: break-word; }
+.question .qtext code { background: rgba(0,0,0,0.3); padding: 0.1rem 0.4rem; border-radius: 3px;
+                        color: var(--py-gold); font-family: 'Fira Code', monospace;
+                        word-break: break-word; }
+.question pre { background: rgba(0,0,0,0.35); padding: 0.8rem; border-radius: 6px;
+                overflow-x: auto; overflow-y: hidden; margin: 0.6rem 0; max-width: 100%; }
+.question pre code { font-family: 'Fira Code', monospace; font-size: 0.86rem;
+                     color: var(--py-gold); white-space: pre; display: block; min-width: 0; }
+.choices label { display: block; padding: 0.5rem 0.8rem; margin: 0.3rem 0;
+                 border-radius: 6px; cursor: pointer; transition: background 0.15s; color: var(--text); }
+.choices label:hover { background: rgba(255,212,59,0.08); }
+.choices input[type=radio] { margin-right: 0.6rem; }
+input[type=text], textarea { width: 100%; padding: 0.6rem 0.8rem;
+                             background: var(--bg); color: var(--text);
+                             border: 1px solid var(--border); border-radius: 6px;
+                             font-family: 'Fira Code', monospace; font-size: 0.9rem;
+                             box-sizing: border-box; }
+textarea { min-height: 90px; resize: vertical; }
+.feedback { margin-top: 0.6rem; padding: 0.7rem 1rem; border-radius: 6px;
+            font-size: 0.9rem; display: none; overflow-wrap: break-word; }
+.feedback.correct { background: rgba(34,197,94,0.15); border-left: 3px solid #22c55e; color: #86efac; }
+.feedback.wrong { background: rgba(239,68,68,0.12); border-left: 3px solid #ef4444; color: #fca5a5; }
+.feedback.info { background: rgba(59,130,246,0.12); border-left: 3px solid #3b82f6; color: #93c5fd; }
+.feedback code { background: rgba(0,0,0,0.3); padding: 0.1rem 0.4rem; border-radius: 3px;
+                 color: var(--py-gold); word-break: break-word; }
+#submit-section { margin: 2.5rem 0; padding: 1.4rem; background: var(--surface);
+                  border-radius: 12px; border: 2px solid var(--border); text-align: center; }
+#submit-btn { padding: 1rem 2.5rem; font-size: 1.1rem; font-weight: 600;
+              border-radius: 8px; cursor: pointer; border: none;
+              background: linear-gradient(135deg, #3776AB, #14b8a6); color: white; }
+#submit-btn:disabled { background: var(--surface); color: var(--text-muted);
+                       cursor: not-allowed; border: 1px solid var(--border); }
+#results { display: none; margin: 2rem 0; padding: 1.6rem; background: var(--surface);
+           border-radius: 12px; border: 2px solid var(--py-gold); }
+#results h2 { color: var(--py-gold); margin: 0 0 1rem; }
+.score-hero { text-align: center; padding: 1rem; }
+.score-hero .big { font-size: 3rem; font-weight: 700; color: var(--py-gold); }
+.score-hero .sub { color: var(--text-muted); }
+.breakdown { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+             gap: 0.8rem; margin-top: 1rem; }
+.breakdown-item { padding: 0.8rem; background: rgba(31,58,104,0.15); border-radius: 8px; }
+.breakdown-item .label { color: var(--text-muted); font-size: 0.85rem; }
+.breakdown-item .value { color: var(--text); font-size: 1.3rem; font-weight: 600; }
+.callout { background: rgba(255,212,59,0.08); border-left: 3px solid var(--py-gold);
+           padding: 0.8rem 1rem; border-radius: 6px; margin: 1rem 0; font-size: 0.92rem; line-height: 1.55; }
+.callout.warn { background: rgba(239,68,68,0.07); border-left-color: #ef4444; }
+.callout.info { background: rgba(59,130,246,0.07); border-left-color: #3b82f6; }
+.error-card { background: rgba(0,0,0,0.25); border: 1px solid var(--border);
+              border-left: 4px solid #ef4444; border-radius: 6px;
+              padding: 0.9rem 1.1rem; margin: 0.8rem 0; }
+.error-card h4 { margin: 0 0 0.4rem; color: #fca5a5; font-family: 'Fira Code', monospace;
+                 font-size: 0.92rem; }
+.error-card p { margin: 0.3rem 0; font-size: 0.88rem; line-height: 1.5; color: var(--text); }
+.error-card code { background: rgba(0,0,0,0.4); padding: 0.1rem 0.4rem; border-radius: 3px;
+                   color: var(--py-gold); font-family: 'Fira Code', monospace; font-size: 0.85rem; }
+.error-card .fix { background: rgba(34,197,94,0.08); border-left: 3px solid #22c55e;
+                   padding: 0.5rem 0.7rem; margin-top: 0.5rem; border-radius: 4px;
+                   font-size: 0.86rem; color: #86efac; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="site-brand">🐍 Y9 Game On · Term 2</a>
+    <nav class="site-nav">
+      <a href="../index.html">Overview</a>
+      <a href="../lessons/L05.html">← L05 Lesson Page</a>
+      <a href="../arcade/index.html">🎮 Arcade</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+<div class="handout-header">
+  <h1>🪟 L05 — Pygame Setup &amp; First Window · Self-Check</h1>
+  <p><strong>Class:</strong> Year 9 Game On · 9GAMZA · Term 2 2026</p>
+  <p><strong>Reference:</strong> Matthes, <em>Python Crash Course</em> 3e — Chapter 12 §1–3</p>
+  <p><strong>Duration:</strong> ~40 minutes during the <em>You Do</em> segment</p>
+  <p><strong>Marks:</strong> /40 total · Part A 15 · Part B 15 · Part C 10</p>
+  <p><strong>What we're checking:</strong> Pygame installed correctly, your first window opens, and you can read the minimal skeleton code.</p>
+  <div class="name-row">
+    <input type="text" id="student-name" placeholder="First name" autocomplete="given-name">
+    <input type="text" id="student-last" placeholder="Last name" autocomplete="family-name">
+  </div>
+</div>
+
+<div class="progress-bar-wrap">
+  <div class="progress-text">Progress: <span id="answered-count">0</span> / <span id="total-count">14</span> answered</div>
+  <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+</div>
+
+<!-- ===================================================================== -->
+<!-- PART A — INSTALL VERIFICATION (15 marks)                              -->
+<!-- ===================================================================== -->
+<section class="part">
+  <h2 class="part-title">🔧 Part A — Install verification</h2>
+  <p class="part-meta">15 marks · 5 short answer · prove Pygame is installed correctly on your laptop</p>
+
+  <div class="callout info">
+    <strong>How to check:</strong> Open a <strong>terminal</strong> (Windows: PowerShell. Mac: Terminal. School laptops: VS Code's built-in Terminal — <code>Ctrl+`</code>). Type each command shown in <code>monospace</code>, press Enter, and copy what comes back into the answer box.
+  </div>
+
+  <!-- Q1 -->
+  <div class="question">
+    <div class="qnum">Q1 · 3 marks</div>
+    <div class="qtext">Run <code>python --version</code> in the terminal. Paste what comes back. (You need Python 3.8 or higher for Pygame.)</div>
+    <input type="text" id="q1" placeholder="e.g. Python 3.12.4">
+    <div class="feedback" id="fb-q1"></div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="question">
+    <div class="qnum">Q2 · 3 marks</div>
+    <div class="qtext">Run <code>pip --version</code> in the terminal. Paste what comes back.</div>
+    <input type="text" id="q2" placeholder="e.g. pip 24.0 from C:\Python312\Lib\site-packages\pip (python 3.12)">
+    <div class="feedback" id="fb-q2"></div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="question">
+    <div class="qnum">Q3 · 3 marks</div>
+    <div class="qtext">Run <code>pip install pygame</code>. Did it succeed? Paste the <em>last line</em> of the output (the line that starts with <code>Successfully installed</code> or with an error).</div>
+    <input type="text" id="q3" placeholder="e.g. Successfully installed pygame-2.6.0">
+    <div class="feedback" id="fb-q3"></div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="question">
+    <div class="qnum">Q4 · 3 marks</div>
+    <div class="qtext">Run this one-line check in the terminal:<br>
+      <code>python -c "import pygame; print(pygame.version.ver)"</code><br>
+      Paste what comes back. (If you see a version number like <code>2.6.0</code>, you're good. If you see an error, see Part C.)</div>
+    <input type="text" id="q4" placeholder="e.g. 2.6.0">
+    <div class="feedback" id="fb-q4"></div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="question">
+    <div class="qnum">Q5 · 3 marks</div>
+    <div class="qtext">Type the starter code into a file called <code>alien_invasion.py</code> (do NOT copy-paste — typing builds memory). Run it with <code>python alien_invasion.py</code>. Did a window open?</div>
+    <div class="choices">
+      <label><input type="radio" name="q5" value="yes"> ✅ Yes — a grey window with the title "Alien Invasion" appeared.</label>
+      <label><input type="radio" name="q5" value="opened-but-closed"> ⚠️ A window flashed open then closed immediately.</label>
+      <label><input type="radio" name="q5" value="no-error"> ❌ I got an error in the terminal — see Part C for fixes.</label>
+      <label><input type="radio" name="q5" value="no-nothing"> ❌ Nothing happened at all.</label>
+    </div>
+    <div class="feedback" id="fb-q5"></div>
+  </div>
+</section>
+
+<!-- ===================================================================== -->
+<!-- PART B — CODE COMPREHENSION (15 marks)                                -->
+<!-- ===================================================================== -->
+<section class="part">
+  <h2 class="part-title">📖 Part B — Code comprehension</h2>
+  <p class="part-meta">15 marks · 5 multiple choice · do you understand what each line of the skeleton does?</p>
+
+  <!-- Q6 -->
+  <div class="question">
+    <div class="qnum">Q6 · 3 marks</div>
+    <div class="qtext">What does <code>pygame.init()</code> do?</div>
+    <div class="choices">
+      <label><input type="radio" name="q6" value="0"> It creates the game window.</label>
+      <label><input type="radio" name="q6" value="1"> It activates Pygame's subsystems (display, events, sound) so other pygame calls can work.</label>
+      <label><input type="radio" name="q6" value="2"> It starts the main game loop.</label>
+      <label><input type="radio" name="q6" value="3"> It downloads Pygame from the internet.</label>
+    </div>
+    <div class="feedback" id="fb-q6"></div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="question">
+    <div class="qnum">Q7 · 3 marks</div>
+    <div class="qtext">Look at this line:
+      <pre><code>screen = pygame.display.set_mode((1200, 800))</code></pre>
+      What does <code>(1200, 800)</code> represent?
+    </div>
+    <div class="choices">
+      <label><input type="radio" name="q7" value="0"> The colour of the screen, as an RGB pair.</label>
+      <label><input type="radio" name="q7" value="1"> The number of pixels wide × pixels tall the window should be.</label>
+      <label><input type="radio" name="q7" value="2"> How fast the game should run (1200 frames per 800 seconds).</label>
+      <label><input type="radio" name="q7" value="3"> The X and Y position of the window on the desktop.</label>
+    </div>
+    <div class="feedback" id="fb-q7"></div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="question">
+    <div class="qnum">Q8 · 3 marks</div>
+    <div class="qtext">What does the <code>while True:</code> loop in the skeleton do?</div>
+    <div class="choices">
+      <label><input type="radio" name="q8" value="0"> It runs the game loop forever — once per frame — until the player closes the window.</label>
+      <label><input type="radio" name="q8" value="1"> It runs exactly once, when the program starts.</label>
+      <label><input type="radio" name="q8" value="2"> It only runs if the player presses the True key on the keyboard.</label>
+      <label><input type="radio" name="q8" value="3"> It checks if the game is True (running) and exits if False.</label>
+    </div>
+    <div class="feedback" id="fb-q8"></div>
+  </div>
+
+  <!-- Q9 -->
+  <div class="question">
+    <div class="qnum">Q9 · 3 marks</div>
+    <div class="qtext">What does this block do?
+      <pre><code>for event in pygame.event.get():
+    if event.type == pygame.QUIT:
+        sys.exit()</code></pre>
+    </div>
+    <div class="choices">
+      <label><input type="radio" name="q9" value="0"> It checks if the user has clicked the X (close button) and exits the program if so.</label>
+      <label><input type="radio" name="q9" value="1"> It quits the game every time the loop runs.</label>
+      <label><input type="radio" name="q9" value="2"> It draws the background colour onto the screen.</label>
+      <label><input type="radio" name="q9" value="3"> It downloads new events from the Pygame server.</label>
+    </div>
+    <div class="feedback" id="fb-q9"></div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="question">
+    <div class="qnum">Q10 · 3 marks</div>
+    <div class="qtext">What's the difference between <code>screen.fill(bg_color)</code> and <code>pygame.display.flip()</code>?</div>
+    <div class="choices">
+      <label><input type="radio" name="q10" value="0"> They do the same thing — both are needed because Pygame is fussy.</label>
+      <label><input type="radio" name="q10" value="1"> <code>fill</code> paints onto a hidden buffer; <code>flip</code> pushes that buffer to the actual visible window.</label>
+      <label><input type="radio" name="q10" value="2"> <code>fill</code> works on Mac; <code>flip</code> works on Windows.</label>
+      <label><input type="radio" name="q10" value="3"> <code>fill</code> draws the player; <code>flip</code> draws the aliens.</label>
+    </div>
+    <div class="feedback" id="fb-q10"></div>
+  </div>
+</section>
+
+<!-- ===================================================================== -->
+<!-- PART C — TROUBLESHOOTING COMMON ERRORS (10 marks)                     -->
+<!-- ===================================================================== -->
+<section class="part">
+  <h2 class="part-title">🐛 Part C — Common errors &amp; their fixes</h2>
+  <p class="part-meta">10 marks · 4 questions · read the error guide first, then answer.</p>
+
+  <div class="callout warn">
+    Most install problems show up as one of the four error messages below. Use this section as your reference any time Pygame breaks. Read it BEFORE asking Ms Gao for help — half the time you'll find the answer here.
+  </div>
+
+  <!-- Error reference card 1 -->
+  <div class="error-card">
+    <h4>Error 1: ModuleNotFoundError: No module named 'pygame'</h4>
+    <p><strong>What it means:</strong> Python can't find the pygame package on your laptop. Either pygame wasn't installed, OR it was installed for a different Python.</p>
+    <div class="fix"><strong>Fix:</strong> Run <code>pip install pygame</code> in the same terminal where you'll run your code. If you have multiple Pythons, try <code>python -m pip install pygame</code> instead — this guarantees it installs for the Python you're actually using.</div>
+  </div>
+
+  <!-- Error reference card 2 -->
+  <div class="error-card">
+    <h4>Error 2: 'pip' is not recognized as an internal or external command</h4>
+    <p><strong>What it means:</strong> Windows can't find pip in your PATH. This usually means Python was installed but the "Add to PATH" tickbox was not selected during install.</p>
+    <div class="fix"><strong>Fix:</strong> Use <code>python -m pip install pygame</code> instead of plain <code>pip install pygame</code>. The <code>python -m</code> prefix routes the request through Python directly, bypassing the PATH issue.</div>
+  </div>
+
+  <!-- Error reference card 3 -->
+  <div class="error-card">
+    <h4>Error 3: error: externally-managed-environment</h4>
+    <p><strong>What it means:</strong> You're on a newer macOS or Linux system that protects the system Python. Pygame is refusing to install globally.</p>
+    <div class="fix"><strong>Fix:</strong> Add <code>--break-system-packages</code> on the school laptop (we have admin permission), OR create a virtual environment (Ms Gao will show you in class).</div>
+  </div>
+
+  <!-- Error reference card 4 -->
+  <div class="error-card">
+    <h4>Error 4: Window opens but immediately closes</h4>
+    <p><strong>What it means:</strong> Your code doesn't have a <code>while True:</code> loop, OR the loop has nothing in it that keeps Python waiting. Without the loop, the program exits the moment it opens the window.</p>
+    <div class="fix"><strong>Fix:</strong> Check that the <code>while True:</code> block is present AND that <code>pygame.display.flip()</code> is inside it. If still broken, show Ms Gao your full code.</div>
+  </div>
+
+  <!-- Q11 -->
+  <div class="question">
+    <div class="qnum">Q11 · 2 marks</div>
+    <div class="qtext">A classmate runs <code>python alien_invasion.py</code> and sees:
+      <pre><code>ModuleNotFoundError: No module named 'pygame'</code></pre>
+      Which is the BEST fix?</div>
+    <div class="choices">
+      <label><input type="radio" name="q11" value="0"> Re-install Python from scratch.</label>
+      <label><input type="radio" name="q11" value="1"> Run <code>python -m pip install pygame</code> in the same terminal.</label>
+      <label><input type="radio" name="q11" value="2"> Change <code>import pygame</code> to <code>import Pygame</code>.</label>
+      <label><input type="radio" name="q11" value="3"> Delete the file and start over.</label>
+    </div>
+    <div class="feedback" id="fb-q11"></div>
+  </div>
+
+  <!-- Q12 -->
+  <div class="question">
+    <div class="qnum">Q12 · 2 marks</div>
+    <div class="qtext">On a Windows laptop, typing <code>pip install pygame</code> gives <code>'pip' is not recognized…</code> — but typing <code>python --version</code> works fine. What's going on?</div>
+    <div class="choices">
+      <label><input type="radio" name="q12" value="0"> Python is broken and needs reinstalling.</label>
+      <label><input type="radio" name="q12" value="1"> Python is installed but its <code>Scripts</code> folder isn't on the system PATH. Use <code>python -m pip install pygame</code> as a workaround.</label>
+      <label><input type="radio" name="q12" value="2"> pip is only for Mac users.</label>
+      <label><input type="radio" name="q12" value="3"> You need to run it as Administrator.</label>
+    </div>
+    <div class="feedback" id="fb-q12"></div>
+  </div>
+
+  <!-- Q13 -->
+  <div class="question">
+    <div class="qnum">Q13 · 3 marks</div>
+    <div class="qtext">A student's window opens, then closes within a fraction of a second. Looking at their code, which line is MOST LIKELY missing?</div>
+    <div class="choices">
+      <label><input type="radio" name="q13" value="0"> <code>import pygame</code></label>
+      <label><input type="radio" name="q13" value="1"> <code>pygame.init()</code></label>
+      <label><input type="radio" name="q13" value="2"> The <code>while True:</code> loop (or the body inside it)</label>
+      <label><input type="radio" name="q13" value="3"> <code>screen.fill(bg_color)</code></label>
+    </div>
+    <div class="feedback" id="fb-q13"></div>
+  </div>
+
+  <!-- Q14 -->
+  <div class="question">
+    <div class="qnum">Q14 · 3 marks</div>
+    <div class="qtext">Your window opens, looks great — but when you click the X to close it, nothing happens. You have to force-quit Python from Task Manager / Activity Monitor. What's missing in your code?</div>
+    <div class="choices">
+      <label><input type="radio" name="q14" value="0"> The <code>for event in pygame.event.get()</code> loop, OR the <code>if event.type == pygame.QUIT: sys.exit()</code> check inside it.</label>
+      <label><input type="radio" name="q14" value="1"> A bigger window size.</label>
+      <label><input type="radio" name="q14" value="2"> A different background colour.</label>
+      <label><input type="radio" name="q14" value="3"> The <code>pygame.display.flip()</code> line.</label>
+    </div>
+    <div class="feedback" id="fb-q14"></div>
+  </div>
+</section>
+
+<!-- ===================================================================== -->
+<!-- SUBMIT                                                                -->
+<!-- ===================================================================== -->
+<div id="submit-section">
+  <p style="margin: 0 0 1rem; color: var(--text-muted);">Done? Submit to see your score and the answer key. You can keep editing after.</p>
+  <button id="submit-btn" disabled>Submit handout</button>
+  <p style="margin: 0.8rem 0 0; font-size: 0.85rem; color: var(--text-muted);">Auto-saves on this laptop. Come back anytime.</p>
+</div>
+
+<div id="results">
+  <h2>📊 Your L05 self-check</h2>
+  <div class="score-hero">
+    <div class="big"><span id="final-score">0</span> / 40</div>
+    <div class="sub" id="score-comment">—</div>
+  </div>
+  <div class="breakdown" id="breakdown"></div>
+  <div style="margin-top: 1.4rem; text-align: center;">
+    <button onclick="window.scrollTo({top:0, behavior:'smooth'})" style="padding: 0.7rem 1.4rem; border-radius: 8px; cursor: pointer; border: 1px solid var(--border); background: var(--bg); color: var(--text);">↑ Review your answers</button>
+    <a href="../lessons/L05.html" style="padding: 0.7rem 1.4rem; border-radius: 8px; background: linear-gradient(135deg, #3776AB, #14b8a6); color: white; text-decoration: none; margin-left: 0.5rem;">→ Back to L05 lesson</a>
+  </div>
+</div>
+
+</main>
+
+<script>
+const STORAGE_KEY = "y9-L05-pygame-handout-v1";
+
+// ---- Question definitions for auto-marking ----
+const QUESTIONS = [
+  // Part A — short answer (15) — accept anything non-empty as right; flagged for teacher review
+  {id:"q1", kind:"text", part:"A", marks:3, expectPattern:/python\s*3/i, hint:"Look for 'Python 3.x.x'."},
+  {id:"q2", kind:"text", part:"A", marks:3, expectPattern:/pip\s*[0-9]/i, hint:"Look for 'pip xx.x from ...'"},
+  {id:"q3", kind:"text", part:"A", marks:3, expectPattern:/successfully installed pygame/i, hint:"Look for 'Successfully installed pygame-x.x.x'."},
+  {id:"q4", kind:"text", part:"A", marks:3, expectPattern:/^[0-9]/, hint:"Look for a version number like 2.6.0."},
+  {id:"q5", kind:"mcq",  part:"A", marks:3, correct:"yes", choices:["yes","opened-but-closed","no-error","no-nothing"]},
+  // Part B — MCQ (15)
+  {id:"q6",  kind:"mcq", part:"B", marks:3, correct:1, explain:"<code>pygame.init()</code> activates the Pygame subsystems — without it, every other pygame call would fail."},
+  {id:"q7",  kind:"mcq", part:"B", marks:3, correct:1, explain:"<code>(1200, 800)</code> is a (width, height) tuple in pixels."},
+  {id:"q8",  kind:"mcq", part:"B", marks:3, correct:0, explain:"The game loop runs once per frame, forever, until <code>sys.exit()</code> is called."},
+  {id:"q9",  kind:"mcq", part:"B", marks:3, explain:"The <code>QUIT</code> event fires when the user clicks the window's X button.", correct:0},
+  {id:"q10", kind:"mcq", part:"B", marks:3, correct:1, explain:"Pygame uses double-buffering — <code>fill</code> draws to the back buffer; <code>flip</code> swaps it to be visible. Without flip, you see nothing."},
+  // Part C — troubleshooting (10)
+  {id:"q11", kind:"mcq", part:"C", marks:2, correct:1, explain:"<code>python -m pip install pygame</code> bypasses PATH issues."},
+  {id:"q12", kind:"mcq", part:"C", marks:2, correct:1, explain:"<code>python -m pip</code> is the safest install command on Windows."},
+  {id:"q13", kind:"mcq", part:"C", marks:3, correct:2, explain:"Without the game loop, Python exits the moment after opening the window."},
+  {id:"q14", kind:"mcq", part:"C", marks:3, correct:0, explain:"The QUIT event handler is what lets the X button actually quit your game."},
+];
+
+// ---- Save / restore ----
+function save() {
+  const data = { name: document.getElementById("student-name").value,
+                 last: document.getElementById("student-last").value,
+                 answers: {} };
+  QUESTIONS.forEach(q => {
+    if (q.kind === "mcq") {
+      const r = document.querySelector(`[name="${q.id}"]:checked`);
+      if (r) data.answers[q.id] = r.value;
+    } else {
+      const el = document.getElementById(q.id);
+      if (el && el.value) data.answers[q.id] = el.value;
+    }
+  });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+function restore() {
+  const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+  if (data.name) document.getElementById("student-name").value = data.name;
+  if (data.last) document.getElementById("student-last").value = data.last;
+  for (const id in data.answers || {}) {
+    const val = data.answers[id];
+    const radio = document.querySelector(`[name="${id}"][value="${val}"]`);
+    if (radio) radio.checked = true;
+    else { const el = document.getElementById(id); if (el) el.value = val; }
+  }
+  updateProgress();
+}
+
+function updateProgress() {
+  let answered = 0;
+  QUESTIONS.forEach(q => {
+    if (q.kind === "mcq") {
+      if (document.querySelector(`[name="${q.id}"]:checked`)) answered++;
+    } else {
+      const el = document.getElementById(q.id);
+      if (el && el.value.trim()) answered++;
+    }
+  });
+  document.getElementById("answered-count").textContent = answered;
+  document.getElementById("progress-fill").style.width = (answered / QUESTIONS.length * 100) + "%";
+  document.getElementById("submit-btn").disabled = (answered < QUESTIONS.length);
+}
+
+document.addEventListener("input", () => { save(); updateProgress(); });
+document.addEventListener("change", () => { save(); updateProgress(); });
+
+// ---- Submit + mark ----
+document.getElementById("submit-btn").addEventListener("click", () => {
+  let score = 0;
+  let partScores = { A: 0, B: 0, C: 0 };
+
+  QUESTIONS.forEach(q => {
+    const fb = document.getElementById("fb-" + q.id);
+    if (q.kind === "mcq") {
+      const r = document.querySelector(`[name="${q.id}"]:checked`);
+      const val = r ? r.value : null;
+      const correct = (q.correct !== undefined && (String(val) === String(q.correct))) ||
+                      (q.correct !== undefined && (val === q.choices?.[q.correct]));
+      if (correct) {
+        score += q.marks; partScores[q.part] += q.marks;
+        fb.className = "feedback correct"; fb.style.display = "block";
+        fb.innerHTML = `✅ Correct (+${q.marks}). ${q.explain || ''}`;
+      } else {
+        fb.className = "feedback wrong"; fb.style.display = "block";
+        const correctText = q.choices ? q.choices[q.correct] : `option ${q.correct + 1}`;
+        fb.innerHTML = `❌ Correct answer: <code>${correctText}</code>. ${q.explain || ''}`;
+      }
+    } else if (q.kind === "text") {
+      const el = document.getElementById(q.id);
+      const val = (el?.value || "").trim();
+      if (q.expectPattern && q.expectPattern.test(val)) {
+        score += q.marks; partScores[q.part] += q.marks;
+        fb.className = "feedback correct"; fb.style.display = "block";
+        fb.innerHTML = `✅ Looks right (+${q.marks}). Ms Gao will verify at her marking check.`;
+      } else if (val.length > 0) {
+        // Non-empty but doesn't match expected pattern — flag for teacher review (give half marks)
+        const halfMarks = Math.floor(q.marks / 2);
+        score += halfMarks; partScores[q.part] += halfMarks;
+        fb.className = "feedback info"; fb.style.display = "block";
+        fb.innerHTML = `🔍 You wrote: <code>${val.slice(0, 100)}</code> — flagged for Ms Gao to check (+${halfMarks}). Hint: ${q.hint || ''}`;
+      } else {
+        fb.className = "feedback wrong"; fb.style.display = "block";
+        fb.innerHTML = `❌ No answer entered. Hint: ${q.hint || ''}`;
+      }
+    }
+  });
+
+  document.getElementById("final-score").textContent = score;
+  let cmt = "Keep going!";
+  if (score >= 34) cmt = "🌟 Pygame setup nailed — ready for L06.";
+  else if (score >= 26) cmt = "✅ Solid setup. Re-read Part C for the bits that tripped you.";
+  else if (score >= 16) cmt = "🛠️ You're partway there — review the error guide and ask Ms Gao for a 1-on-1.";
+  else cmt = "💛 Show Ms Gao your screen — let's get Pygame running together.";
+  document.getElementById("score-comment").textContent = cmt;
+
+  document.getElementById("breakdown").innerHTML = `
+    <div class="breakdown-item"><div class="label">Part A · Install</div><div class="value">${partScores.A} / 15</div></div>
+    <div class="breakdown-item"><div class="label">Part B · Code</div><div class="value">${partScores.B} / 15</div></div>
+    <div class="breakdown-item"><div class="label">Part C · Errors</div><div class="value">${partScores.C} / 10</div></div>
+    <div class="breakdown-item"><div class="label">Total</div><div class="value">${score} / 40</div></div>
+  `;
+  document.getElementById("results").style.display = "block";
+  document.getElementById("results").scrollIntoView({behavior: "smooth", block: "start"});
+});
+
+restore();
+</script>
+</body>
+</html>
