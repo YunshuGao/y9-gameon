@@ -1,6 +1,6 @@
-# starter-L05-pygame.py
+# starter-L06-pygame.py
 # =============================================================================
-# Lesson 5 — Pygame Setup + First Window
+# Lesson 6 — Pygame Setup + First Window
 # Y9 Game On (9GAMZA) · Term 2 2026 · Ms Gao
 # Reference: Eric Matthes, "Python Crash Course" 3rd ed., Chapter 12, §1–3
 # =============================================================================
@@ -8,8 +8,8 @@
 # WHAT THIS IS
 # ------------
 # The minimal Pygame skeleton — every Pygame game starts here.
-# Today (L05) you will TYPE this file yourself (do not copy-paste).
-# Typing the boilerplate builds the muscle memory you'll need in L06–L21.
+# Today (L06) you will TYPE this file yourself (do not copy-paste).
+# Typing the boilerplate builds the muscle memory you'll need in L07–L21.
 #
 # WHAT TO DO
 # ----------
