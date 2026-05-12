@@ -3,322 +3,183 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pygame Practice · L06 · Y9 Game On</title>
+<title>L06 Pygame Practice · 9GAMZA</title>
+<link rel="stylesheet" href="../../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* ============================================================
-   Anthropic-style — warm cream, serif headings, restrained
-   ============================================================ */
-:root {
-  --bg:        #F5F0E5;   /* warm cream */
-  --paper:     #FBFAF6;   /* slightly lighter for code/card backgrounds */
-  --ink:       #1F1F1C;   /* near-black text */
-  --ink-soft:  #5C5A55;   /* secondary text */
-  --rule:      #E2DCCB;   /* subtle dividers */
-  --accent:    #C97A57;   /* terracotta accent */
-  --accent-d:  #A95D3B;   /* darker terracotta for hover/link */
-  --code-bg:   #ECE6D6;   /* code block background */
-  --hl:        #EFE3C7;   /* subtle highlight */
-}
-
-* { box-sizing: border-box; }
-
-html { scroll-behavior: smooth; }
-
-body {
-  margin: 0;
-  padding: 0;
-  background: var(--bg);
-  color: var(--ink);
-  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  font-size: 16px;
-  line-height: 1.7;
-  -webkit-font-smoothing: antialiased;
-}
-
-.container {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 3rem 2rem 5rem;
-}
-
-@media (max-width: 640px) {
-  .container { padding: 2rem 1.25rem 4rem; }
-}
+body { max-width: 920px; margin: 0 auto; padding: 1.5rem; overflow-x: hidden; }
 
 /* ============================================================
-   Header
+   HEADER — same gradient + border as L01-L04 handouts
    ============================================================ */
-.hdr {
-  border-bottom: 1px solid var(--rule);
-  padding-bottom: 2rem;
-  margin-bottom: 2.5rem;
-}
-.hdr .kicker {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.82rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-.hdr h1 {
-  font-family: 'Source Serif 4', Georgia, serif;
-  font-size: 2.3rem;
-  font-weight: 600;
-  line-height: 1.15;
-  margin: 0 0 0.6rem;
-  color: var(--ink);
-  letter-spacing: -0.01em;
-}
-.hdr .sub {
-  font-family: 'Source Serif 4', Georgia, serif;
-  font-style: italic;
-  font-size: 1.1rem;
-  color: var(--ink-soft);
-  margin: 0 0 1.5rem;
-  line-height: 1.5;
-}
-.hdr .meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem 1.6rem;
-  font-size: 0.86rem;
-  color: var(--ink-soft);
-}
-.hdr .meta span { display: inline-flex; gap: 0.4rem; }
-.hdr .meta strong { color: var(--ink); font-weight: 600; }
+.practice-header { background: linear-gradient(135deg, rgba(31,58,104,0.45), rgba(20,184,166,0.18));
+                   border: 2px solid var(--py-gold); border-radius: 14px;
+                   padding: 1.4rem 1.6rem; margin-bottom: 1.5rem; }
+.practice-header .kicker { font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase;
+                           color: var(--py-gold); font-weight: 600; margin-bottom: 0.4rem; }
+.practice-header h1 { margin: 0 0 0.5rem; color: var(--py-gold); font-size: 1.55rem; line-height: 1.2; }
+.practice-header .sub { margin: 0 0 1rem; color: var(--text); font-size: 1rem;
+                        font-style: italic; line-height: 1.55; }
+.practice-header .meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                         gap: 0.6rem; margin-top: 0.9rem; }
+.practice-header .meta div { background: rgba(0,0,0,0.25); padding: 0.5rem 0.7rem;
+                             border-radius: 6px; font-size: 0.85rem; color: var(--text); }
+.practice-header .meta strong { color: var(--py-gold); display: block; font-size: 0.78rem;
+                                text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.2rem; }
 
 /* ============================================================
-   Intro paragraph
+   INTRO
    ============================================================ */
-.intro {
-  font-family: 'Source Serif 4', Georgia, serif;
-  font-size: 1.08rem;
-  line-height: 1.65;
-  color: var(--ink);
-  margin: 0 0 3rem;
-}
-.intro p { margin: 0 0 1rem; }
+.intro { margin: 1.5rem 0 2rem; padding: 1.4rem; background: var(--surface);
+         border-radius: 12px; border: 1px solid var(--border); }
+.intro p { margin: 0 0 0.9rem; color: var(--text); line-height: 1.65; font-size: 0.96rem; }
 .intro p:last-child { margin-bottom: 0; }
+.intro code { background: rgba(0,0,0,0.3); padding: 0.1rem 0.4rem; border-radius: 3px;
+              color: var(--py-gold); font-family: 'Fira Code', monospace; font-size: 0.88em; }
 
 /* ============================================================
-   Exercises
+   TIER DIVIDERS
    ============================================================ */
-.exercise {
-  margin: 0 0 3.5rem;
-  scroll-margin-top: 2rem;
-}
-
-.exercise-head {
-  display: flex;
-  align-items: baseline;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-bottom: 0.4rem;
-}
-.exercise h2 {
-  font-family: 'Source Serif 4', Georgia, serif;
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin: 0;
-  color: var(--ink);
-  letter-spacing: -0.01em;
-}
-.exercise .num {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: var(--accent);
-  background: var(--hl);
-  padding: 0.2rem 0.55rem;
-  border-radius: 3px;
-  letter-spacing: 0.04em;
-}
-.exercise .meta-row {
-  display: flex;
-  gap: 1.2rem;
-  font-size: 0.82rem;
-  color: var(--ink-soft);
-  margin-bottom: 1rem;
-}
-.exercise .stars { color: var(--accent); letter-spacing: 0.1em; }
-
-.exercise p {
-  margin: 0 0 0.9rem;
-  line-height: 1.65;
-}
-
-.exercise .goal {
-  font-family: 'Source Serif 4', Georgia, serif;
-  font-size: 1.04rem;
-  margin-bottom: 1.2rem;
-}
+.tier-divider { display: flex; align-items: center; gap: 1rem; margin: 2.5rem 0 1.5rem; }
+.tier-divider .line { flex: 1; height: 1px; background: var(--border); }
+.tier-divider .label { font-size: 0.82rem; font-weight: 700; letter-spacing: 0.14em;
+                       text-transform: uppercase; color: var(--py-gold); }
 
 /* ============================================================
-   Code blocks
+   EXERCISE CARDS — match the .part / .question pattern from L01-L04
    ============================================================ */
-pre {
-  background: var(--code-bg);
-  border: 1px solid var(--rule);
-  border-radius: 4px;
-  padding: 1rem 1.2rem;
-  overflow-x: auto;
-  margin: 0.8rem 0 1.2rem;
-}
-pre code {
-  font-family: 'JetBrains Mono', 'Consolas', monospace;
-  font-size: 0.9rem;
-  line-height: 1.6;
-  color: var(--ink);
-  display: block;
-  white-space: pre;
-}
-:not(pre) > code {
-  font-family: 'JetBrains Mono', 'Consolas', monospace;
-  font-size: 0.88em;
-  background: var(--code-bg);
-  padding: 0.1rem 0.35rem;
-  border-radius: 3px;
-  color: var(--ink);
-}
+.exercise { margin: 1.4rem 0; padding: 1.4rem; background: var(--surface);
+            border-radius: 12px; border: 1px solid var(--border); overflow: hidden;
+            scroll-margin-top: 1.5rem; }
+.exercise-head { display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap;
+                 margin-bottom: 0.3rem; }
+.exercise .num { font-family: 'Fira Code', monospace; font-size: 0.82rem; font-weight: 600;
+                 color: var(--bg); background: var(--py-gold);
+                 padding: 0.2rem 0.55rem; border-radius: 4px; letter-spacing: 0.04em; }
+.exercise h2 { margin: 0; color: var(--py-gold); font-size: 1.2rem; font-weight: 600; }
+.exercise .meta-row { display: flex; gap: 1.2rem; font-size: 0.82rem;
+                      color: var(--text-muted); margin-bottom: 0.9rem; }
+.exercise .stars { color: var(--py-gold); letter-spacing: 0.06em; font-weight: 600; }
+
+.exercise .goal { color: var(--text); line-height: 1.6; font-size: 0.96rem;
+                  margin: 0 0 1rem; }
+.exercise p { color: var(--text); line-height: 1.6; margin: 0 0 0.8rem; font-size: 0.94rem; }
+.exercise ul { margin: 0 0 1rem; padding-left: 1.4rem; line-height: 1.7; color: var(--text); }
+.exercise ul li { margin: 0.2rem 0; font-size: 0.94rem; }
 
 /* ============================================================
-   What-you-see + Try-this + Why blocks
+   CODE BLOCKS
+   ============================================================ */
+.exercise pre { background: rgba(0,0,0,0.35); padding: 0.9rem 1.1rem; border-radius: 6px;
+                overflow-x: auto; overflow-y: hidden; margin: 0.6rem 0 1rem; max-width: 100%; }
+.exercise pre code { font-family: 'Fira Code', monospace; font-size: 0.86rem;
+                     color: var(--py-gold); white-space: pre; display: block; min-width: 0;
+                     line-height: 1.55; }
+.exercise :not(pre) > code { background: rgba(0,0,0,0.3); padding: 0.1rem 0.4rem; border-radius: 3px;
+                             color: var(--py-gold); font-family: 'Fira Code', monospace;
+                             font-size: 0.88em; }
+
+/* ============================================================
+   CALLOUT BLOCKS — match the existing .callout/.feedback pattern
    ============================================================ */
 .result, .try, .why {
-  border-left: 2px solid var(--rule);
-  padding: 0.2rem 0 0.2rem 1.1rem;
-  margin: 0.8rem 0 1.2rem;
-  color: var(--ink-soft);
-}
-.result strong, .try strong, .why strong {
-  color: var(--ink);
-  font-weight: 600;
+  margin: 0.8rem 0 0;
+  padding: 0.7rem 0.9rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  line-height: 1.55;
 }
 .result {
-  font-family: 'Source Serif 4', Georgia, serif;
+  background: rgba(20,184,166,0.10);
+  border-left: 3px solid #14b8a6;
+  color: var(--text);
   font-style: italic;
 }
 .try {
-  border-left-color: var(--accent);
+  background: rgba(255,212,59,0.08);
+  border-left: 3px solid var(--py-gold);
+  color: var(--text);
 }
-
-/* ============================================================
-   Section divider between exercise tiers
-   ============================================================ */
-.tier-divider {
-  display: flex;
-  align-items: center;
-  gap: 1.2rem;
-  margin: 4rem 0 2.5rem;
+.why {
+  background: rgba(59,130,246,0.10);
+  border-left: 3px solid var(--py-blue);
+  color: var(--text);
 }
-.tier-divider .line {
-  flex: 1;
-  height: 1px;
-  background: var(--rule);
-}
-.tier-divider .label {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.8rem;
+.result strong, .try strong, .why strong {
+  display: block;
+  margin-bottom: 0.2rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--accent);
+}
+.result strong { color: #5eead4; }
+.try strong    { color: var(--py-gold); }
+.why strong    { color: #93c5fd; }
+.result code, .try code, .why code {
+  background: rgba(0,0,0,0.3); padding: 0.1rem 0.4rem; border-radius: 3px;
+  color: var(--py-gold); font-family: 'Fira Code', monospace; font-size: 0.88em;
 }
 
 /* ============================================================
-   Footer / closing note
+   CLOSING NOTE
    ============================================================ */
-.closing {
-  margin-top: 4rem;
-  padding-top: 2rem;
-  border-top: 1px solid var(--rule);
-  font-family: 'Source Serif 4', Georgia, serif;
-  color: var(--ink-soft);
-  font-size: 0.96rem;
-}
-.closing a {
-  color: var(--accent-d);
-  text-decoration: none;
-  border-bottom: 1px solid var(--rule);
-  transition: border-color 0.15s;
-}
-.closing a:hover { border-bottom-color: var(--accent); }
+.closing { margin: 2.5rem 0 1rem; padding: 1.4rem; background: var(--surface);
+           border-radius: 12px; border: 1px solid var(--border); }
+.closing p { margin: 0 0 0.9rem; color: var(--text); line-height: 1.65; font-size: 0.95rem; }
+.closing p:last-child { margin-bottom: 0; color: var(--text-muted); font-style: italic; }
+.closing a { color: var(--py-gold); text-decoration: none;
+             border-bottom: 1px dashed var(--py-gold); transition: opacity 0.15s; }
+.closing a:hover { opacity: 0.7; }
 
 /* ============================================================
-   Top-bar navigation back to hub
-   ============================================================ */
-.topnav {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.85rem;
-  margin-bottom: 2rem;
-}
-.topnav a {
-  color: var(--ink-soft);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.15s;
-}
-.topnav a:hover { border-bottom-color: var(--accent); color: var(--ink); }
-.topnav .sep { color: var(--rule); margin: 0 0.5rem; }
-
-/* ============================================================
-   Print style — clean handout
+   PRINT
    ============================================================ */
 @media print {
   body { background: white; color: black; font-size: 11pt; }
-  .container { max-width: 100%; padding: 1cm; }
-  .topnav, .closing a { color: #555; }
+  .site-header { display: none !important; }
+  .practice-header, .intro, .exercise, .closing {
+    background: white !important; color: black !important;
+    border: 1px solid #888 !important;
+  }
+  .practice-header h1, .exercise h2, .practice-header .kicker { color: #1F3A68 !important; }
+  .exercise pre { background: #F0F0F0 !important; }
+  .exercise pre code { color: #1F3A68 !important; }
+  .result, .try, .why { background: #FAFAFA !important; color: black !important; }
   .exercise { page-break-inside: avoid; }
-  pre { background: #F5F5F5; }
-  .tier-divider .line { background: #999; }
+  .tier-divider .label { color: #1F3A68 !important; }
+  .tier-divider .line { background: #888 !important; }
 }
-
-/* ============================================================
-   Subtle entry animation (Anthropic-ish)
-   ============================================================ */
-@keyframes gentle-in {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.hdr, .intro, .exercise, .tier-divider, .closing {
-  animation: gentle-in 0.5s ease-out both;
-}
-.exercise:nth-of-type(2)  { animation-delay: 0.05s; }
-.exercise:nth-of-type(3)  { animation-delay: 0.1s; }
-.exercise:nth-of-type(4)  { animation-delay: 0.15s; }
-.exercise:nth-of-type(5)  { animation-delay: 0.2s; }
 </style>
 </head>
 <body>
 
-<div class="container">
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="site-brand">🐍 Y9 Game On · Term 2</a>
+    <nav class="site-nav">
+      <a href="../index.html">Overview</a>
+      <a href="../lessons/L06.html">← L06 Lesson Page</a>
+      <a href="L06-pygame-setup-handout.html">📋 L06 Self-check (graded)</a>
+      <a href="../arcade/index.html">🎮 Arcade</a>
+    </nav>
+  </div>
+</header>
 
-<nav class="topnav">
-  <a href="../index.html">Y9 Game On</a>
-  <span class="sep">·</span>
-  <a href="../lessons/L06.html">L06 Lesson</a>
-  <span class="sep">·</span>
-  <a href="L06-pygame-setup-handout.html">Self-check (graded)</a>
-</nav>
+<main class="container">
 
 <!-- ============================================================
      HEADER
      ============================================================ -->
-<header class="hdr">
+<div class="practice-header">
   <div class="kicker">L06 · Pygame Practice</div>
-  <h1>Eight ways to play with Pygame</h1>
+  <h1>🎯 Eight ways to play with Pygame</h1>
   <p class="sub">Small, gentle exercises to build your Pygame confidence — one window, one shape, one idea at a time.</p>
   <div class="meta">
-    <span><strong>Course</strong>&nbsp;Year 9 Game On</span>
-    <span><strong>Lesson</strong>&nbsp;L06</span>
-    <span><strong>Time</strong>&nbsp;30–45 minutes</span>
-    <span><strong>Marks</strong>&nbsp;None — practice only</span>
+    <div><strong>Course</strong>Year 9 Game On</div>
+    <div><strong>Lesson</strong>L06</div>
+    <div><strong>Time</strong>30–45 min</div>
+    <div><strong>Marks</strong>None — practice only</div>
   </div>
-</header>
+</div>
 
 <!-- ============================================================
      INTRO
@@ -351,15 +212,15 @@ pre code {
 
   <p class="goal">Open your <code>starter-L06-pygame.py</code> file and change three things: the window size, the title, and the background colour. The point is to feel the file responding to your edits.</p>
 
-  <pre><code># Change these three lines in starter-L06-pygame.py:
+<pre><code># Change these three lines in starter-L06-pygame.py:
 
 screen = pygame.display.set_mode((1200, 800))        # 1. size
 pygame.display.set_caption("Alien Invasion")         # 2. title
 bg_color = (230, 230, 230)                           # 3. colour</code></pre>
 
-  <div class="result"><strong>What you'll see:</strong> A window of your chosen size, with your chosen title in the top bar, painted in your chosen colour. Run it. Close it. Change something else. Run it again.</div>
+  <div class="result"><strong>What you'll see</strong>A window of your chosen size, with your chosen title in the top bar, painted in your chosen colour. Run it. Close it. Change something else. Run it again.</div>
 
-  <div class="why"><strong>Why this matters:</strong> Pygame programs are small files you edit and re-run. The faster you get used to the loop of <em>edit → save → run → see → edit again</em>, the easier every following lesson becomes.</div>
+  <div class="why"><strong>Why this matters</strong>Pygame programs are small files you edit and re-run. The faster you get used to the loop of <em>edit → save → run → see → edit again</em>, the easier every following lesson becomes.</div>
 </section>
 
 <!-- ===== Exercise 2 ===== -->
@@ -375,7 +236,7 @@ bg_color = (230, 230, 230)                           # 3. colour</code></pre>
 
   <p class="goal">Add one rectangle to your window. Position it anywhere you like. Choose a colour that contrasts with your background so you can see it clearly.</p>
 
-  <pre><code># Add this INSIDE the while loop,
+<pre><code># Add this INSIDE the while loop,
 # AFTER screen.fill() but BEFORE pygame.display.flip():
 
 pygame.draw.rect(
@@ -384,9 +245,9 @@ pygame.draw.rect(
     (100, 100, 150, 80)    # (x, y, width, height)
 )</code></pre>
 
-  <div class="result"><strong>What you'll see:</strong> A solid rectangle sitting on your background. Try changing each number in the position tuple to see how the rectangle moves and resizes.</div>
+  <div class="result"><strong>What you'll see</strong>A solid rectangle sitting on your background. Try changing each number in the position tuple to see how the rectangle moves and resizes.</div>
 
-  <div class="try"><strong>Try this:</strong> Move the rectangle to the centre of your window. If your window is 800×600, the centre is roughly <code>(350, 270, 100, 60)</code>. The maths gets easier with practice.</div>
+  <div class="try"><strong>Try this</strong>Move the rectangle to the centre of your window. If your window is 800×600, the centre is roughly <code>(350, 270, 100, 60)</code>. The maths gets easier with practice.</div>
 </section>
 
 <!-- ===== Exercise 3 ===== -->
@@ -402,7 +263,7 @@ pygame.draw.rect(
 
   <p class="goal">Now add a circle. Both shapes should appear on the screen at the same time. Pygame draws them in the order you list them in your code.</p>
 
-  <pre><code>pygame.draw.rect(
+<pre><code>pygame.draw.rect(
     screen, (200, 50, 50),
     (100, 100, 150, 80)
 )
@@ -413,9 +274,9 @@ pygame.draw.circle(
     50                      # radius in pixels
 )</code></pre>
 
-  <div class="result"><strong>What you'll see:</strong> A red rectangle and a blue circle, both visible at the same time. They live happily side by side.</div>
+  <div class="result"><strong>What you'll see</strong>A red rectangle and a blue circle, both visible at the same time. They live happily side by side.</div>
 
-  <div class="why"><strong>Why this matters:</strong> Every Pygame frame is built by drawing shapes (or images) in order, one on top of the next. Once you can place two shapes, you can place two hundred — the pattern is the same.</div>
+  <div class="why"><strong>Why this matters</strong>Every Pygame frame is built by drawing shapes (or images) in order, one on top of the next. Once you can place two shapes, you can place two hundred — the pattern is the same.</div>
 </section>
 
 <!-- ============================================================
@@ -440,7 +301,7 @@ pygame.draw.circle(
 
   <p class="goal">Combine rectangles and circles to make something recognisable. A house, a face, a robot, a flag, a traffic light. The picture does not have to be art — it has to be made entirely from shapes.</p>
 
-  <pre><code># Example: a simple house
+<pre><code># Example: a simple house
 
 # Body of the house (brown rectangle)
 pygame.draw.rect(screen, (160, 120, 80), (200, 250, 200, 200))
@@ -455,9 +316,9 @@ pygame.draw.rect(screen, (90, 50, 30), (275, 350, 50, 100))
 # Window (small blue square)
 pygame.draw.rect(screen, (200, 220, 255), (230, 290, 40, 40))</code></pre>
 
-  <div class="result"><strong>What you'll see:</strong> Your chosen picture, built from coloured shapes. It will not look photo-real — that is fine. It is yours.</div>
+  <div class="result"><strong>What you'll see</strong>Your chosen picture, built from coloured shapes. It will not look photo-real — that is fine. It is yours.</div>
 
-  <div class="try"><strong>Try this:</strong> Photograph or screenshot your picture and post it on the L06 Google Classroom thread. Seeing thirty different pictures made from the same primitives is one of the best parts of teaching this lesson.</div>
+  <div class="try"><strong>Try this</strong>Photograph or screenshot your picture and post it on the L06 Google Classroom thread. Seeing thirty different pictures made from the same primitives is one of the best parts of teaching this lesson.</div>
 </section>
 
 <!-- ===== Exercise 5 ===== -->
@@ -473,18 +334,18 @@ pygame.draw.rect(screen, (200, 220, 255), (230, 290, 40, 40))</code></pre>
 
   <p class="goal">Use a <code>for</code> loop to draw ten circles in a row. Each one should be a little to the right of the last. This is the first hint at how Pygame draws fleets of aliens later in the term.</p>
 
-  <pre><code># Inside the while loop, after screen.fill():
+<pre><code># Inside the while loop, after screen.fill():
 
 for i in range(10):
     x = 50 + i * 60      # 50, 110, 170, 230, ...
     y = 300
     pygame.draw.circle(screen, (100, 150, 200), (x, y), 20)</code></pre>
 
-  <div class="result"><strong>What you'll see:</strong> A horizontal row of ten blue circles, evenly spaced. Each one is 60 pixels to the right of the previous one.</div>
+  <div class="result"><strong>What you'll see</strong>A horizontal row of ten blue circles, evenly spaced. Each one is 60 pixels to the right of the previous one.</div>
 
-  <div class="why"><strong>Why this matters:</strong> In a few lessons you will use almost exactly this code to spawn a fleet of aliens. The aliens will be images instead of plain circles, and there will be rows as well as columns — but the loop pattern is the same.</div>
+  <div class="why"><strong>Why this matters</strong>In a few lessons you will use almost exactly this code to spawn a fleet of aliens. The aliens will be images instead of plain circles, and there will be rows as well as columns — but the loop pattern is the same.</div>
 
-  <div class="try"><strong>Try this:</strong> Make a grid. Use two nested <code>for</code> loops — one for the row, one for the column — to draw a 5×4 grid of circles. This is genuinely how Matthes builds the alien fleet in Chapter 13.</div>
+  <div class="try"><strong>Try this</strong>Make a grid. Use two nested <code>for</code> loops — one for the row, one for the column — to draw a 5×4 grid of circles. This is genuinely how Matthes builds the alien fleet in Chapter 13.</div>
 </section>
 
 <!-- ============================================================
@@ -509,7 +370,7 @@ for i in range(10):
 
   <p class="goal">Animate a rectangle so that it slides across the screen by itself. Use a variable to remember the rectangle's <code>x</code> position, and add a little to it every frame.</p>
 
-  <pre><code># Before the while loop:
+<pre><code># Before the while loop:
 rect_x = 0
 rect_speed = 2
 
@@ -518,11 +379,11 @@ rect_x += rect_speed                       # move a bit each frame
 pygame.draw.rect(screen, (200, 100, 0),
                  (rect_x, 250, 80, 50))    # draw at new position</code></pre>
 
-  <div class="result"><strong>What you'll see:</strong> An orange rectangle gliding from left to right across your window. It will eventually slide off the right edge and disappear.</div>
+  <div class="result"><strong>What you'll see</strong>An orange rectangle gliding from left to right across your window. It will eventually slide off the right edge and disappear.</div>
 
-  <div class="try"><strong>Try this:</strong> Make the rectangle bounce. When <code>rect_x</code> goes past the right edge of the screen, reverse its direction by setting <code>rect_speed = -rect_speed</code>. Do the same on the left. You have just written your first piece of game logic.</div>
+  <div class="try"><strong>Try this</strong>Make the rectangle bounce. When <code>rect_x</code> goes past the right edge of the screen, reverse its direction by setting <code>rect_speed = -rect_speed</code>. Do the same on the left. You have just written your first piece of game logic.</div>
 
-  <div class="why"><strong>Why this matters:</strong> All animation in games is a variable, changed slightly every frame, then redrawn. Once you can move one rectangle, you can move a ship, a bullet, an alien, or a cloud across the sky. The pattern is the same.</div>
+  <div class="why"><strong>Why this matters</strong>All animation in games is a variable, changed slightly every frame, then redrawn. Once you can move one rectangle, you can move a ship, a bullet, an alien, or a cloud across the sky. The pattern is the same.</div>
 </section>
 
 <!-- ===== Exercise 7 ===== -->
@@ -538,7 +399,7 @@ pygame.draw.rect(screen, (200, 100, 0),
 
   <p class="goal">Make your rectangle move only when the right arrow key is held down. This is a small change to your event loop — but it is the start of every controllable character in every game you will ever write.</p>
 
-  <pre><code># Inside the event loop, after the QUIT check:
+<pre><code># Inside the event loop, after the QUIT check:
 
 keys = pygame.key.get_pressed()
 if keys[pygame.K_RIGHT]:
@@ -546,11 +407,11 @@ if keys[pygame.K_RIGHT]:
 if keys[pygame.K_LEFT]:
     rect_x -= 4</code></pre>
 
-  <div class="result"><strong>What you'll see:</strong> A rectangle that sits still — until you press the right arrow, when it slides right. Press left to slide left. Release both and it stops.</div>
+  <div class="result"><strong>What you'll see</strong>A rectangle that sits still — until you press the right arrow, when it slides right. Press left to slide left. Release both and it stops.</div>
 
-  <div class="try"><strong>Try this:</strong> Add up and down. Use <code>K_UP</code> and <code>K_DOWN</code> with a separate <code>rect_y</code> variable. Now you have a four-direction controllable square. This is essentially how Pac-Man moves.</div>
+  <div class="try"><strong>Try this</strong>Add up and down. Use <code>K_UP</code> and <code>K_DOWN</code> with a separate <code>rect_y</code> variable. Now you have a four-direction controllable square. This is essentially how Pac-Man moves.</div>
 
-  <div class="why"><strong>Why this matters:</strong> The whole reason we use a game loop is to keep checking — every frame — what the player is doing. Once you can read the keyboard, you can wire keys to anything: jump, shoot, pause, restart. The hard part is over.</div>
+  <div class="why"><strong>Why this matters</strong>The whole reason we use a game loop is to keep checking — every frame — what the player is doing. Once you can read the keyboard, you can wire keys to anything: jump, shoot, pause, restart. The hard part is over.</div>
 </section>
 
 <!-- ============================================================
@@ -577,7 +438,7 @@ if keys[pygame.K_LEFT]:
 
   <p>Some starting ideas, in case the blank page is intimidating:</p>
 
-  <ul style="margin: 0 0 1.2rem; padding-left: 1.4rem; line-height: 1.8;">
+  <ul>
     <li>A street scene with houses, a car that drives across, and a sun in the sky.</li>
     <li>A bouncing ball that changes colour each time it hits the wall.</li>
     <li>A tiny dot you can move around with the arrow keys, leaving a trail behind it.</li>
@@ -586,9 +447,9 @@ if keys[pygame.K_LEFT]:
     <li>A loading bar that fills up over five seconds and then stops.</li>
   </ul>
 
-  <div class="try"><strong>If you want feedback:</strong> Save your program as <code>practice_yourname.py</code> and email it to Ms Gao, or post a screenshot in the L06 Classroom thread. There are no marks. There is only the satisfaction of seeing what you made.</div>
+  <div class="try"><strong>If you want feedback</strong>Save your program as <code>practice_yourname.py</code> and email it to Ms Gao, or post a screenshot in the L06 Classroom thread. There are no marks. There is only the satisfaction of seeing what you made.</div>
 
-  <div class="why"><strong>Why this matters:</strong> Everything you have done in exercises 1–7 has been someone else's instruction. Exercise 8 is the first time the program is yours. The act of inventing a tiny project — even one that is silly — is how programmers grow.</div>
+  <div class="why"><strong>Why this matters</strong>Everything you have done in exercises 1–7 has been someone else's instruction. Exercise 8 is the first time the program is yours. The act of inventing a tiny project — even one that is silly — is how programmers grow.</div>
 </section>
 
 <!-- ============================================================
@@ -597,10 +458,10 @@ if keys[pygame.K_LEFT]:
 <div class="closing">
   <p>If you finished all eight exercises in one sitting, you are ahead. If you finished three or four, you are exactly on track. If you finished one, you have still learned something. Pygame rewards patience more than speed.</p>
   <p>The next lesson, <a href="../lessons/L07.html">L07</a>, adds a ship image to your window — your first sprite. Everything you have practised here will carry forward. The shapes become images, the rectangle becomes a player, and the key-press logic becomes movement. The pattern is already in your hands.</p>
-  <p style="margin-top: 2rem; font-style: italic; color: var(--ink-soft);">— Ms Gao</p>
+  <p>— Ms Gao 💛</p>
 </div>
 
-</div>
+</main>
 
 </body>
 </html>
