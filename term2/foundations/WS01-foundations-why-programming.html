@@ -30,6 +30,20 @@ body { max-width: 920px; margin: 0 auto; padding: 1.5rem; overflow-x: hidden; }
                    font-family: inherit; font-size: 0.95rem; }
 
 /* ============================================================
+   ORDER BANNER — "do this worksheet first, then Grok if needed"
+   ============================================================ */
+.order-banner { margin: 1.5rem 0; padding: 1.2rem 1.4rem;
+                 background: linear-gradient(135deg, rgba(220,38,38,0.12), rgba(255,212,59,0.10));
+                 border: 2px solid #ef4444; border-radius: 12px; }
+.order-banner h3 { margin: 0 0 0.7rem; color: #fca5a5; font-size: 1.05rem; }
+.order-banner ol { margin: 0; padding-left: 1.4rem; color: var(--text); font-size: 0.95rem;
+                    line-height: 1.65; }
+.order-banner ol li { margin: 0.35rem 0; }
+.order-banner ol li strong { color: var(--py-gold); }
+.order-banner .small { margin-top: 0.7rem; font-size: 0.85rem;
+                        color: var(--text-muted); line-height: 1.55; }
+
+/* ============================================================
    VIDEO PLAYER PANEL
    ============================================================ */
 .video-panel { background: var(--surface); border: 1px solid var(--border);
@@ -185,10 +199,10 @@ textarea { min-height: 110px; resize: vertical; }
   <p><strong>Class:</strong> Year 9 Game On · 9GAMZA · Term 2 2026</p>
   <p><strong>Use this if:</strong> you haven't started Grok Academy yet, OR the welcome was confusing.</p>
   <div class="meta">
-    <div><strong>Marks</strong>/30</div>
-    <div><strong>Time</strong>30 min</div>
+    <div><strong>Marks</strong>/42</div>
+    <div><strong>Time</strong>45 min</div>
     <div><strong>Pairs with</strong>Grok Academy — Python Intro 1, Module 1</div>
-    <div><strong>Series</strong>Foundations 1 of 3</div>
+    <div><strong>Series</strong>Foundations 1 of 2 of 3</div>
   </div>
   <div class="name-row">
     <input type="text" id="student-name" placeholder="First name" autocomplete="given-name">
@@ -196,9 +210,18 @@ textarea { min-height: 110px; resize: vertical; }
   </div>
 </div>
 
-<!-- ============ VIDEO PANEL ============ -->
+<div class="order-banner">
+  <h3>📋 In what order should you do this?</h3>
+  <ol>
+    <li><strong>Finish THIS worksheet first.</strong> Watch the video at the top, then work through every section. Don't skim — the exercises check whether you actually understood the video.</li>
+    <li><strong>Then, if you haven't already finished Grok Academy "Introduction to Programming 1 — Python"</strong> (specifically Module 1 — Getting Started), go and complete it.</li>
+  </ol>
+  <p class="small">If you've ALREADY finished Grok Academy, you can still do the worksheet — it's good extra practice. But the worksheet is the priority.</p>
+</div>
+
+<!-- ============ VIDEO PANEL(S) ============ -->
 <div class="video-panel">
-  <h2>📹 Watch this first</h2>
+  <h2>📹 Watch this first — Welcome to programming</h2>
   <p class="video-meta">Welcome to programming — what programming is, why it matters, what we'll build (12 min).</p>
   <div class="video-wrap">
     <video controls preload="metadata" poster="" controlslist="nodownload" oncontextmenu="return false;">
@@ -208,32 +231,34 @@ textarea { min-height: 110px; resize: vertical; }
     <div class="video-watermark"><span class="symbol">&copy;</span> Educational use &middot; APHS</div>
   </div>
   <div class="video-note">
-    <strong>💡 Tip:</strong> Watch with sound on. Don't take notes yet — let it wash over you the first time. Pause when something clicks.
-  </div>
-  <div class="copyright-panel">
-    <h3><span class="symbol">&copy;</span> Source &amp; Licence</h3>
-    <p><strong>Original lecture:</strong> <em>Python for Everybody</em> by Dr Charles Severance, School of Information, University of Michigan.</p>
-    <p><strong>Open-licence source:</strong> Full course materials are freely available at <a href="https://www.py4e.com" target="_blank" rel="noopener">py4e.com</a> under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0).</p>
-    <p><strong>This embed:</strong> Used for classroom learning at Arthur Phillip High School (NSW DoE) under Section 113P of the <em>Copyright Act 1968</em> &mdash; the Australian statutory educational licence administered by the Copyright Agency.</p>
-    <p class="warn"><strong>For students:</strong> please don't download, re-share, or post this video outside our class. If you'd like the original lectures for yourself, watch them free at <a href="https://www.py4e.com" target="_blank" rel="noopener">py4e.com</a>.</p>
+    <strong>💡 Tip:</strong> Watch the FULL video with sound on. The first time, just listen. The second time (yes — watch twice), pause and write a 1-line note for each big idea. The exercises below CHECK that you actually watched.
   </div>
 </div>
 
+<!-- ============ COMBINED SOURCE & LICENCE PANEL ============ -->
+<div class="copyright-panel" style="margin-top: 1rem;">
+  <h3><span class="symbol">&copy;</span> Source &amp; Licence (applies to all videos above)</h3>
+  <p><strong>Original lectures:</strong> <em>Python for Everybody</em> by Dr Charles Severance, School of Information, University of Michigan.</p>
+  <p><strong>Open-licence source:</strong> Full course materials are freely available at <a href="https://www.py4e.com" target="_blank" rel="noopener">py4e.com</a> under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0).</p>
+  <p><strong>This embed:</strong> Used for classroom learning at Arthur Phillip High School (NSW DoE) under Section 113P of the <em>Copyright Act 1968</em> &mdash; the Australian statutory educational licence administered by the Copyright Agency.</p>
+  <p class="warn"><strong>For students:</strong> please don't download, re-share, or post these videos outside our class. The originals are free at <a href="https://www.py4e.com" target="_blank" rel="noopener">py4e.com</a>.</p>
+</div>
+
 <div class="callout">
-  <strong>How this worksheet works:</strong> Four short sections — multiple choice, predict-the-output, fill-in-the-blank, and a tiny build-your-own. About 30 minutes total. Auto-saves as you go. Submit when you're done to see the answer key.
+  <strong>How this worksheet works:</strong> Five sections — multiple choice, predict-the-output, fill-in-the-blank, two short reflections, and a tiny build-your-own. About 45 minutes. Auto-saves as you go. Submit when you're done to see the answer key. <strong>Skipping the video is not an option</strong> — the exercises check whether you watched it.
 </div>
 
 <div class="progress-bar-wrap">
   <div class="progress-text">
     <span><span id="answered-count">0</span> / <span id="total-count">0</span> answered</span>
-    <span class="marks">Score so far: <span id="est-marks">0</span> / 30</span>
+    <span class="marks">Score so far: <span id="est-marks">0</span> / 42</span>
   </div>
   <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
 </div>
 
 <section class="section">
-  <h2>Part A · Big-picture multiple choice</h2>
-  <div class="sub">Four quick questions to check you absorbed the main ideas from the video. · 12 marks total</div>
+  <h2>Part A · Big-picture multiple choice (after the video)</h2>
+  <div class="sub">Five questions to check you absorbed the main ideas from the video. If you didn't watch — these will be hard. · 15 marks total</div>
 
   <div class="question">
     <div class="qnum">Q1 · 3 marks</div>
@@ -274,7 +299,7 @@ textarea { min-height: 110px; resize: vertical; }
   <div class="question">
     <div class="qnum">Q4 · 3 marks</div>
     <div class="qtext">Which line of Python does the simplest possible thing — show some text on the screen?</div>
-    <pre><code>Pick one of these.</code></pre>
+    
     <div class="choices">
       <label><input type="radio" name="ws1q4" value="0"> show(&#x27;hello&#x27;)</label>
       <label><input type="radio" name="ws1q4" value="1"> echo &#x27;hello&#x27;</label>
@@ -283,86 +308,122 @@ textarea { min-height: 110px; resize: vertical; }
     </div>
     <div class="feedback" id="fb-ws1q4"></div>
   </div>
+  <div class="question">
+    <div class="qnum">Q5 · 3 marks</div>
+    <div class="qtext">A student claims, "I don't need to learn programming because the apps I use already do everything I want." What's the BEST counter-argument from the video?</div>
+    
+    <div class="choices">
+      <label><input type="radio" name="ws1q5" value="0"> Apps only run on phones, not laptops</label>
+      <label><input type="radio" name="ws1q5" value="1"> Apps are slow</label>
+      <label><input type="radio" name="ws1q5" value="2"> Apps are limited to what their developers imagined — programming lets you build solutions that no app has yet</label>
+      <label><input type="radio" name="ws1q5" value="3"> Apps cost money and programming is free</label>
+    </div>
+    <div class="feedback" id="fb-ws1q5"></div>
+  </div>
 </section>
 
 <section class="section">
   <h2>Part B · Read this code (predict-the-output)</h2>
-  <div class="sub">Three short Python snippets. Don't run them — try to work out the answer in your head first. · 9 marks total</div>
+  <div class="sub">Four short Python snippets. Don't run them — work out the answer in your head first, then if you really want, run them to check. · 12 marks total</div>
 
   <div class="question">
-    <div class="qnum">Q5 · 3 marks</div>
+    <div class="qnum">Q6 · 3 marks</div>
     <div class="qtext">What does this Python program print?</div>
     <pre><code>print(&quot;Year 9&quot;)
 print(&quot;Game On&quot;)</code></pre>
     <div class="choices">
-      <label><input type="radio" name="ws1q5" value="0"> Year 9 Game On (on one line)</label>
-      <label><input type="radio" name="ws1q5" value="1"> Year 9 / Game On (on two lines)</label>
-      <label><input type="radio" name="ws1q5" value="2"> Just &#x27;Year 9&#x27;</label>
-      <label><input type="radio" name="ws1q5" value="3"> An error</label>
-    </div>
-    <div class="feedback" id="fb-ws1q5"></div>
-  </div>
-  <div class="question">
-    <div class="qnum">Q6 · 3 marks</div>
-    <div class="qtext">What does this print?</div>
-    <pre><code>name = &quot;Ada&quot;
-print(&quot;Hello&quot;, name)</code></pre>
-    <div class="choices">
-      <label><input type="radio" name="ws1q6" value="0"> Hello name</label>
-      <label><input type="radio" name="ws1q6" value="1"> Hello Ada</label>
-      <label><input type="radio" name="ws1q6" value="2"> Ada Hello</label>
-      <label><input type="radio" name="ws1q6" value="3"> Hello, name</label>
+      <label><input type="radio" name="ws1q6" value="0"> Year 9 Game On (on one line)</label>
+      <label><input type="radio" name="ws1q6" value="1"> Year 9 / Game On (on two lines)</label>
+      <label><input type="radio" name="ws1q6" value="2"> Just &#x27;Year 9&#x27;</label>
+      <label><input type="radio" name="ws1q6" value="3"> An error</label>
     </div>
     <div class="feedback" id="fb-ws1q6"></div>
   </div>
   <div class="question">
     <div class="qnum">Q7 · 3 marks</div>
+    <div class="qtext">What does this print?</div>
+    <pre><code>name = &quot;Ada&quot;
+print(&quot;Hello&quot;, name)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="ws1q7" value="0"> Hello name</label>
+      <label><input type="radio" name="ws1q7" value="1"> Hello Ada</label>
+      <label><input type="radio" name="ws1q7" value="2"> Ada Hello</label>
+      <label><input type="radio" name="ws1q7" value="3"> Hello, name</label>
+    </div>
+    <div class="feedback" id="fb-ws1q7"></div>
+  </div>
+  <div class="question">
+    <div class="qnum">Q8 · 3 marks</div>
     <div class="qtext">Which output does Python produce here?</div>
     <pre><code>age = 14
 print(&quot;Next year:&quot;, age + 1)</code></pre>
     <div class="choices">
-      <label><input type="radio" name="ws1q7" value="0"> Next year: 14</label>
-      <label><input type="radio" name="ws1q7" value="1"> Next year: 15</label>
-      <label><input type="radio" name="ws1q7" value="2"> Next year: age + 1</label>
-      <label><input type="radio" name="ws1q7" value="3"> An error — you can&#x27;t add to age</label>
+      <label><input type="radio" name="ws1q8" value="0"> Next year: 14</label>
+      <label><input type="radio" name="ws1q8" value="1"> Next year: 15</label>
+      <label><input type="radio" name="ws1q8" value="2"> Next year: age + 1</label>
+      <label><input type="radio" name="ws1q8" value="3"> An error — you can&#x27;t add to age</label>
     </div>
-    <div class="feedback" id="fb-ws1q7"></div>
-  </div>
-</section>
-
-<section class="section">
-  <h2>Part C · Fill in the blank</h2>
-  <div class="sub">Two short fill-ins. Match the spacing exactly — the checker is fussy. · 6 marks total</div>
-
-  <div class="question">
-    <div class="qnum">Q8 · 3 marks</div>
-    <div class="qtext">Complete the line so the program prints <code>Hello, World!</code> exactly.</div>
-    <pre><code>___(&quot;Hello, World!&quot;)</code></pre>
-    <input type="text" id="ws1q8" placeholder="type the function name">
     <div class="feedback" id="fb-ws1q8"></div>
   </div>
   <div class="question">
     <div class="qnum">Q9 · 3 marks</div>
-    <div class="qtext">Fill the blank so the variable stores the value 9 and the line is complete.</div>
-    <pre><code>year = ___</code></pre>
-    <input type="text" id="ws1q9" placeholder="just a number">
+    <div class="qtext">Trace through this short program. What is the FINAL value of <code>x</code> when the last line runs?</div>
+    <pre><code>x = 5
+x = 8
+x = x + 2
+print(x)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="ws1q9" value="0"> 5</label>
+      <label><input type="radio" name="ws1q9" value="1"> 8</label>
+      <label><input type="radio" name="ws1q9" value="2"> 10</label>
+      <label><input type="radio" name="ws1q9" value="3"> 15</label>
+    </div>
     <div class="feedback" id="fb-ws1q9"></div>
   </div>
 </section>
 
 <section class="section">
-  <h2>Part D · Build your own</h2>
-  <div class="sub">One tiny program. Self-marked — Ms Gao will look at it in class. · 3 marks total</div>
+  <h2>Part C · Fill in the blank</h2>
+  <div class="sub">Three short fill-ins. Match the spacing exactly — the checker is fussy. · 9 marks total</div>
 
   <div class="question">
-    <div class="qnum">Q10 · 3 marks (self-marked)</div>
-    <div class="qtext">Write a Python program (2–4 lines) that: (a) asks the user for their name with <code>input()</code>, (b) stores the name in a variable, (c) prints a friendly greeting that includes the name.</div>
-    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter to expand:</p><pre><code># starter you can expand
-name = input(&quot;What&#x27;s your name? &quot;)
-print(...)
-</code></pre>
-    <textarea id="ws1q10" placeholder="Paste your code (or written answer) here..."></textarea>
+    <div class="qnum">Q10 · 3 marks</div>
+    <div class="qtext">Complete the line so the program prints <code>Hello, World!</code> exactly.</div>
+    <pre><code>___(&quot;Hello, World!&quot;)</code></pre>
+    <input type="text" id="ws1q10" placeholder="type the function name">
     <div class="feedback" id="fb-ws1q10"></div>
+  </div>
+  <div class="question">
+    <div class="qnum">Q11 · 3 marks</div>
+    <div class="qtext">Fill the blank so the variable stores the value 9 and the line is complete.</div>
+    <pre><code>year = ___</code></pre>
+    <input type="text" id="ws1q11" placeholder="just a number">
+    <div class="feedback" id="fb-ws1q11"></div>
+  </div>
+  <div class="question">
+    <div class="qnum">Q12 · 3 marks</div>
+    <div class="qtext">Fill the blank with the keyword that READS what the user types on the keyboard.</div>
+    <pre><code>name = ___(&quot;Your name? &quot;)</code></pre>
+    <input type="text" id="ws1q12" placeholder="Python function">
+    <div class="feedback" id="fb-ws1q12"></div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Part D · Reflect in your own words</h2>
+  <div class="sub">Two short writing prompts. Two or three sentences each is plenty. Self-marked. · 6 marks total</div>
+
+  <div class="question">
+    <div class="qnum">Q13 · 3 marks (reflection)</div>
+    <div class="qtext">In TWO OR THREE sentences, explain in your own words: what is the difference between being a CONSUMER of technology and being a MAKER of technology? Give one example of each from your own life.</div>
+    <textarea id="ws1q13" placeholder="2–3 sentences in your own words..."></textarea>
+    <div class="feedback" id="fb-ws1q13"></div>
+  </div>
+  <div class="question">
+    <div class="qnum">Q14 · 3 marks (reflection)</div>
+    <div class="qtext">Write 2–3 sentences answering: what is ONE small thing you'd like to make with Python this term? It doesn't have to be impressive — small is fine.</div>
+    <textarea id="ws1q14" placeholder="2–3 sentences in your own words..."></textarea>
+    <div class="feedback" id="fb-ws1q14"></div>
   </div>
 </section>
 <div id="submit-section">
@@ -374,7 +435,7 @@ print(...)
 <div id="results">
   <h2>📊 Your foundations check</h2>
   <div class="score-hero">
-    <div class="big"><span id="final-score">0</span> / 30</div>
+    <div class="big"><span id="final-score">0</span> / 42</div>
     <div class="sub" id="score-comment">—</div>
   </div>
   <div class="breakdown" id="breakdown"></div>
@@ -397,7 +458,7 @@ print(...)
 </main>
 
 <script>
-const WS_KEY = "y9-foundations-01-v1";
+const WS_KEY = "y9-foundations-01-v2";
 const QUESTIONS = [
   {
     "id": "ws1q1",
@@ -455,6 +516,19 @@ const QUESTIONS = [
     "id": "ws1q5",
     "kind": "mcq",
     "marks": 3,
+    "correct": 2,
+    "choices": [
+      "Apps only run on phones, not laptops",
+      "Apps are slow",
+      "Apps are limited to what their developers imagined \u2014 programming lets you build solutions that no app has yet",
+      "Apps cost money and programming is free"
+    ],
+    "explain": "The big idea: programming gives you agency to make tools that don't yet exist."
+  },
+  {
+    "id": "ws1q6",
+    "kind": "mcq",
+    "marks": 3,
     "correct": 1,
     "choices": [
       "Year 9 Game On (on one line)",
@@ -465,7 +539,7 @@ const QUESTIONS = [
     "explain": "Each <code>print()</code> ends with a new line by default."
   },
   {
-    "id": "ws1q6",
+    "id": "ws1q7",
     "kind": "mcq",
     "marks": 3,
     "correct": 1,
@@ -478,7 +552,7 @@ const QUESTIONS = [
     "explain": "The variable <code>name</code> is replaced by its value, \"Ada\"."
   },
   {
-    "id": "ws1q7",
+    "id": "ws1q8",
     "kind": "mcq",
     "marks": 3,
     "correct": 1,
@@ -491,24 +565,50 @@ const QUESTIONS = [
     "explain": "<code>age + 1</code> is evaluated to <code>15</code> before printing."
   },
   {
-    "id": "ws1q8",
+    "id": "ws1q9",
+    "kind": "mcq",
+    "marks": 3,
+    "correct": 2,
+    "choices": [
+      "5",
+      "8",
+      "10",
+      "15"
+    ],
+    "explain": "Each assignment REPLACES the value. After line 2, x is 8. After line 3, x is 8+2 = 10."
+  },
+  {
+    "id": "ws1q10",
     "kind": "fill",
     "marks": 3,
     "answer": "print",
     "explain": "The function for output is always <code>print</code>."
   },
   {
-    "id": "ws1q9",
+    "id": "ws1q11",
     "kind": "fill",
     "marks": 3,
     "answer": "9",
     "explain": "Assignment is just <code>variable = value</code>."
   },
   {
-    "id": "ws1q10",
-    "kind": "build",
+    "id": "ws1q12",
+    "kind": "fill",
     "marks": 3,
-    "rubric": "Full marks for: input() captures the name, a variable holds it, the print uses the variable. Half marks for a near-miss (e.g. prints \"name\" as literal text instead of the variable's value)."
+    "answer": "input",
+    "explain": "<code>input()</code> pauses the program and waits for the user to type."
+  },
+  {
+    "id": "ws1q13",
+    "kind": "reflect",
+    "marks": 3,
+    "rubric": "Full marks for: clear distinction + at least one example of each. (Example consumer: scrolling TikTok. Example maker: writing a Python script to count words in your favourite song lyrics.)"
+  },
+  {
+    "id": "ws1q14",
+    "kind": "reflect",
+    "marks": 3,
+    "rubric": "Full marks for any specific, achievable idea (e.g. \"a program that tells me a random study tip each morning\"). Half marks for vague ideas (\"something cool\")."
   }
 ];
 
@@ -635,7 +735,7 @@ document.getElementById("submit-btn").addEventListener("click", () => {
     <div class="breakdown-item"><div class="label">Multiple choice</div><div class="value">${mcqOk} / ${QUESTIONS.filter(q=>q.kind==='mcq').length}</div></div>
     <div class="breakdown-item"><div class="label">Fill-in</div><div class="value">${fillOk} / ${QUESTIONS.filter(q=>q.kind==='fill').length}</div></div>
     <div class="breakdown-item"><div class="label">Build / reflect</div><div class="value">Self-marked</div></div>
-    <div class="breakdown-item"><div class="label">Total</div><div class="value">${score} / 30</div></div>
+    <div class="breakdown-item"><div class="label">Total</div><div class="value">${score} / 42</div></div>
   `;
   document.getElementById("results").style.display = "block";
   document.getElementById("results").scrollIntoView({behavior:"smooth", block:"start"});

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Foundations 03 — Writing paragraphs of code · 9GAMZA</title>
+<title>Foundations 02 — Python: vocabulary + paragraphs of code · 9GAMZA</title>
 <link rel="stylesheet" href="../../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -28,6 +28,20 @@ body { max-width: 920px; margin: 0 auto; padding: 1.5rem; overflow-x: hidden; }
 .name-row input { flex: 1; padding: 0.6rem 0.8rem; border: 1px solid var(--border);
                    border-radius: 6px; background: var(--surface); color: var(--text);
                    font-family: inherit; font-size: 0.95rem; }
+
+/* ============================================================
+   ORDER BANNER — "do this worksheet first, then Grok if needed"
+   ============================================================ */
+.order-banner { margin: 1.5rem 0; padding: 1.2rem 1.4rem;
+                 background: linear-gradient(135deg, rgba(220,38,38,0.12), rgba(255,212,59,0.10));
+                 border: 2px solid #ef4444; border-radius: 12px; }
+.order-banner h3 { margin: 0 0 0.7rem; color: #fca5a5; font-size: 1.05rem; }
+.order-banner ol { margin: 0; padding-left: 1.4rem; color: var(--text); font-size: 0.95rem;
+                    line-height: 1.65; }
+.order-banner ol li { margin: 0.35rem 0; }
+.order-banner ol li strong { color: var(--py-gold); }
+.order-banner .small { margin-top: 0.7rem; font-size: 0.85rem;
+                        color: var(--text-muted); line-height: 1.55; }
 
 /* ============================================================
    VIDEO PLAYER PANEL
@@ -181,14 +195,14 @@ textarea { min-height: 110px; resize: vertical; }
 <main class="container">
 
 <div class="ws-header">
-  <h1>📜 Foundations 03 — Writing paragraphs of code</h1>
+  <h1>🧩 Foundations 02 — Python: vocabulary + paragraphs of code</h1>
   <p><strong>Class:</strong> Year 9 Game On · 9GAMZA · Term 2 2026</p>
-  <p><strong>Use this if:</strong> you can write a single line of Python, but multi-line programs feel confusing.</p>
+  <p><strong>Use this if:</strong> you've done Foundations 01 and you want to understand how Python sentences fit together into programs.</p>
   <div class="meta">
-    <div><strong>Marks</strong>/36</div>
-    <div><strong>Time</strong>35–45 min</div>
-    <div><strong>Pairs with</strong>Grok Academy — Python Intro 1, Modules 4–6</div>
-    <div><strong>Series</strong>Foundations 3 of 3</div>
+    <div><strong>Marks</strong>/66</div>
+    <div><strong>Time</strong>60–75 min</div>
+    <div><strong>Pairs with</strong>Grok Academy — Python Intro 1, Modules 2–6</div>
+    <div><strong>Series</strong>Foundations 2 of 2 of 3</div>
   </div>
   <div class="name-row">
     <input type="text" id="student-name" placeholder="First name" autocomplete="given-name">
@@ -196,10 +210,33 @@ textarea { min-height: 110px; resize: vertical; }
   </div>
 </div>
 
-<!-- ============ VIDEO PANEL ============ -->
+<div class="order-banner">
+  <h3>📋 In what order should you do this?</h3>
+  <ol>
+    <li><strong>Finish THIS worksheet first.</strong> Watch the video at the top, then work through every section. Don't skim — the exercises check whether you actually understood the video.</li>
+    <li><strong>Then, if you haven't already finished Grok Academy "Introduction to Programming 1 — Python"</strong> (specifically Modules 2–6 — Variables, expressions, conditionals, loops), go and complete it.</li>
+  </ol>
+  <p class="small">If you've ALREADY finished Grok Academy, you can still do the worksheet — it's good extra practice. But the worksheet is the priority.</p>
+</div>
+
+<!-- ============ VIDEO PANEL(S) ============ -->
 <div class="video-panel">
-  <h2>📹 Watch this first</h2>
-  <p class="video-meta">Writing paragraphs of code — the four basic patterns: sequential, conditional, looping, store-and-retrieve (9 min).</p>
+  <h2>📹 Watch this FIRST — Python: the language itself</h2>
+  <p class="video-meta">Python as a programming language — reserved words, valid names, why indentation matters (7 min).</p>
+  <div class="video-wrap">
+    <video controls preload="metadata" poster="" controlslist="nodownload" oncontextmenu="return false;">
+      <source src="../videos/foundations-02-python-language.mp4" type="video/mp4">
+      Sorry, your browser doesn't support embedded videos. Ask Ms Gao for the source link.
+    </video>
+    <div class="video-watermark"><span class="symbol">&copy;</span> Educational use &middot; APHS</div>
+  </div>
+  <div class="video-note">
+    <strong>💡 Tip:</strong> Short video — but pause it AT LEAST twice. On each pause, write down (on paper) one rule about Python you just heard. The MCQs in Part A check whether you actually paused and noticed.
+  </div>
+</div>
+<div class="video-panel">
+  <h2>📹 Watch this SECOND — Writing paragraphs of code</h2>
+  <p class="video-meta">The four basic patterns: sequential, conditional, looping, store-and-retrieve (9 min).</p>
   <div class="video-wrap">
     <video controls preload="metadata" poster="" controlslist="nodownload" oncontextmenu="return false;">
       <source src="../videos/foundations-03-paragraphs-of-code.mp4" type="video/mp4">
@@ -208,192 +245,318 @@ textarea { min-height: 110px; resize: vertical; }
     <div class="video-watermark"><span class="symbol">&copy;</span> Educational use &middot; APHS</div>
   </div>
   <div class="video-note">
-    <strong>💡 Tip:</strong> This is the most important video of the three. Watch it twice. The four patterns it names are the FOUR things every program is built from.
-  </div>
-  <div class="copyright-panel">
-    <h3><span class="symbol">&copy;</span> Source &amp; Licence</h3>
-    <p><strong>Original lecture:</strong> <em>Python for Everybody</em> by Dr Charles Severance, School of Information, University of Michigan.</p>
-    <p><strong>Open-licence source:</strong> Full course materials are freely available at <a href="https://www.py4e.com" target="_blank" rel="noopener">py4e.com</a> under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0).</p>
-    <p><strong>This embed:</strong> Used for classroom learning at Arthur Phillip High School (NSW DoE) under Section 113P of the <em>Copyright Act 1968</em> &mdash; the Australian statutory educational licence administered by the Copyright Agency.</p>
-    <p class="warn"><strong>For students:</strong> please don't download, re-share, or post this video outside our class. If you'd like the original lectures for yourself, watch them free at <a href="https://www.py4e.com" target="_blank" rel="noopener">py4e.com</a>.</p>
+    <strong>💡 Tip:</strong> Watch this one TWICE. The four patterns it names — sequential, conditional, loop, store/retrieve — are the SCAFFOLD every Python program is built from. If you remember the names, the code reads itself.
   </div>
 </div>
 
+<!-- ============ COMBINED SOURCE & LICENCE PANEL ============ -->
+<div class="copyright-panel" style="margin-top: 1rem;">
+  <h3><span class="symbol">&copy;</span> Source &amp; Licence (applies to all videos above)</h3>
+  <p><strong>Original lectures:</strong> <em>Python for Everybody</em> by Dr Charles Severance, School of Information, University of Michigan.</p>
+  <p><strong>Open-licence source:</strong> Full course materials are freely available at <a href="https://www.py4e.com" target="_blank" rel="noopener">py4e.com</a> under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0).</p>
+  <p><strong>This embed:</strong> Used for classroom learning at Arthur Phillip High School (NSW DoE) under Section 113P of the <em>Copyright Act 1968</em> &mdash; the Australian statutory educational licence administered by the Copyright Agency.</p>
+  <p class="warn"><strong>For students:</strong> please don't download, re-share, or post these videos outside our class. The originals are free at <a href="https://www.py4e.com" target="_blank" rel="noopener">py4e.com</a>.</p>
+</div>
+
 <div class="callout">
-  <strong>How this worksheet works:</strong> Four sections — name the pattern, predict the output of sequential code, fill in if-conditions, and build a tiny program. Allow about 40 minutes — this is the meatiest of the three.
+  <strong>How this worksheet works:</strong> Six sections covering BOTH videos. ~70 minutes total. Auto-saves as you go. The MCQs in Parts A and C are the only way the system can tell whether you watched the videos — if you skip them, those marks evaporate. Build at the end is self-marked; Ms Gao will check it in class.
 </div>
 
 <div class="progress-bar-wrap">
   <div class="progress-text">
     <span><span id="answered-count">0</span> / <span id="total-count">0</span> answered</span>
-    <span class="marks">Score so far: <span id="est-marks">0</span> / 36</span>
+    <span class="marks">Score so far: <span id="est-marks">0</span> / 66</span>
   </div>
   <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
 </div>
 
 <section class="section">
-  <h2>Part A · Name the pattern</h2>
-  <div class="sub">Four MCQs. For each snippet, identify which of the four patterns it uses: sequential, conditional, loop, or store/retrieve. · 12 marks total</div>
+  <h2>Part A · After the LANGUAGE video — vocabulary check</h2>
+  <div class="sub">Four MCQs to check you caught the main ideas from the first video. If you didn't actually watch, these will be hard. · 12 marks total</div>
 
   <div class="question">
     <div class="qnum">Q1 · 3 marks</div>
+    <div class="qtext">Which of these is a Python <strong>reserved word</strong> (a keyword the language already uses)?</div>
+    
+    <div class="choices">
+      <label><input type="radio" name="ws2q1" value="0"> score</label>
+      <label><input type="radio" name="ws2q1" value="1"> if</label>
+      <label><input type="radio" name="ws2q1" value="2"> username</label>
+      <label><input type="radio" name="ws2q1" value="3"> answer</label>
+    </div>
+    <div class="feedback" id="fb-ws2q1"></div>
+  </div>
+  <div class="question">
+    <div class="qnum">Q2 · 3 marks</div>
+    <div class="qtext">Which line is a valid Python <strong>statement</strong>?</div>
+    
+    <div class="choices">
+      <label><input type="radio" name="ws2q2" value="0"> print &#x27;Hello&#x27;</label>
+      <label><input type="radio" name="ws2q2" value="1"> print(Hello)</label>
+      <label><input type="radio" name="ws2q2" value="2"> print(&quot;Hello&quot;)</label>
+      <label><input type="radio" name="ws2q2" value="3"> print = Hello</label>
+    </div>
+    <div class="feedback" id="fb-ws2q2"></div>
+  </div>
+  <div class="question">
+    <div class="qnum">Q3 · 3 marks</div>
+    <div class="qtext">What does the <code>=</code> sign do in Python?</div>
+    <pre><code>score = 7</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="ws2q3" value="0"> Tests if score and 7 are equal</label>
+      <label><input type="radio" name="ws2q3" value="1"> Stores the value 7 in the variable named score</label>
+      <label><input type="radio" name="ws2q3" value="2"> Adds 7 to score</label>
+      <label><input type="radio" name="ws2q3" value="3"> Prints &#x27;score&#x27; and then &#x27;7&#x27;</label>
+    </div>
+    <div class="feedback" id="fb-ws2q3"></div>
+  </div>
+  <div class="question">
+    <div class="qnum">Q4 · 3 marks</div>
+    <div class="qtext">Why does indentation MATTER in Python (unlike in many other languages)?</div>
+    
+    <div class="choices">
+      <label><input type="radio" name="ws2q4" value="0"> It doesn&#x27;t — Python ignores spaces and only cares about line breaks</label>
+      <label><input type="radio" name="ws2q4" value="1"> Python uses indentation to know which lines BELONG to which block (e.g. which lines are inside an if)</label>
+      <label><input type="radio" name="ws2q4" value="2"> Indentation only matters when you print to the screen</label>
+      <label><input type="radio" name="ws2q4" value="3"> Indentation prevents your file being read by viruses</label>
+    </div>
+    <div class="feedback" id="fb-ws2q4"></div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Part B · What's a VALID Python name?</h2>
+  <div class="sub">Four MCQs about variable names. Some allowed, some not. Read each option carefully. · 12 marks total</div>
+
+  <div class="question">
+    <div class="qnum">Q5 · 3 marks</div>
+    <div class="qtext">Which of these is a VALID Python variable name?</div>
+    
+    <div class="choices">
+      <label><input type="radio" name="ws2q5" value="0"> 2nd_score</label>
+      <label><input type="radio" name="ws2q5" value="1"> my-score</label>
+      <label><input type="radio" name="ws2q5" value="2"> my_score</label>
+      <label><input type="radio" name="ws2q5" value="3"> if</label>
+    </div>
+    <div class="feedback" id="fb-ws2q5"></div>
+  </div>
+  <div class="question">
+    <div class="qnum">Q6 · 3 marks</div>
+    <div class="qtext">Which of these is INVALID as a Python variable name?</div>
+    
+    <div class="choices">
+      <label><input type="radio" name="ws2q6" value="0"> highScore</label>
+      <label><input type="radio" name="ws2q6" value="1"> high_score</label>
+      <label><input type="radio" name="ws2q6" value="2"> high score</label>
+      <label><input type="radio" name="ws2q6" value="3"> high2score</label>
+    </div>
+    <div class="feedback" id="fb-ws2q6"></div>
+  </div>
+  <div class="question">
+    <div class="qnum">Q7 · 3 marks</div>
+    <div class="qtext">Spot the problem with this line:</div>
+    <pre><code>class = &quot;Year 9&quot;</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="ws2q7" value="0"> There&#x27;s nothing wrong with it</label>
+      <label><input type="radio" name="ws2q7" value="1"> &lt;code&gt;class&lt;/code&gt; is a reserved word — it can&#x27;t be used as a variable name</label>
+      <label><input type="radio" name="ws2q7" value="2"> Strings must use single quotes, not double quotes</label>
+      <label><input type="radio" name="ws2q7" value="3"> Variables can&#x27;t hold strings</label>
+    </div>
+    <div class="feedback" id="fb-ws2q7"></div>
+  </div>
+  <div class="question">
+    <div class="qnum">Q8 · 3 marks</div>
+    <div class="qtext">Which of these is the BEST variable name for storing a student's age in years?</div>
+    
+    <div class="choices">
+      <label><input type="radio" name="ws2q8" value="0"> a</label>
+      <label><input type="radio" name="ws2q8" value="1"> AgeOfStudent_2024_finalVersion_v2</label>
+      <label><input type="radio" name="ws2q8" value="2"> age</label>
+      <label><input type="radio" name="ws2q8" value="3"> age!</label>
+    </div>
+    <div class="feedback" id="fb-ws2q8"></div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Part C · After the PARAGRAPHS video — name the pattern</h2>
+  <div class="sub">Four MCQs. For each code snippet, identify which of the four patterns it uses: sequential, conditional, loop, or store/retrieve. · 12 marks total</div>
+
+  <div class="question">
+    <div class="qnum">Q9 · 3 marks</div>
     <div class="qtext">Which pattern does this snippet use?</div>
     <pre><code>x = 5
 y = 10
 print(x + y)</code></pre>
     <div class="choices">
-      <label><input type="radio" name="ws3q1" value="0"> Sequential — top to bottom</label>
-      <label><input type="radio" name="ws3q1" value="1"> Conditional (if)</label>
-      <label><input type="radio" name="ws3q1" value="2"> Loop (repeat)</label>
-      <label><input type="radio" name="ws3q1" value="3"> Store and retrieve only</label>
+      <label><input type="radio" name="ws2q9" value="0"> Sequential — top to bottom</label>
+      <label><input type="radio" name="ws2q9" value="1"> Conditional (if)</label>
+      <label><input type="radio" name="ws2q9" value="2"> Loop (repeat)</label>
+      <label><input type="radio" name="ws2q9" value="3"> Store and retrieve only</label>
     </div>
-    <div class="feedback" id="fb-ws3q1"></div>
+    <div class="feedback" id="fb-ws2q9"></div>
   </div>
   <div class="question">
-    <div class="qnum">Q2 · 3 marks</div>
+    <div class="qnum">Q10 · 3 marks</div>
     <div class="qtext">Which pattern does this snippet use?</div>
     <pre><code>if score &gt; 50:
     print(&quot;Pass&quot;)</code></pre>
     <div class="choices">
-      <label><input type="radio" name="ws3q2" value="0"> Sequential</label>
-      <label><input type="radio" name="ws3q2" value="1"> Conditional (if)</label>
-      <label><input type="radio" name="ws3q2" value="2"> Loop</label>
-      <label><input type="radio" name="ws3q2" value="3"> Store and retrieve</label>
+      <label><input type="radio" name="ws2q10" value="0"> Sequential</label>
+      <label><input type="radio" name="ws2q10" value="1"> Conditional (if)</label>
+      <label><input type="radio" name="ws2q10" value="2"> Loop</label>
+      <label><input type="radio" name="ws2q10" value="3"> Store and retrieve</label>
     </div>
-    <div class="feedback" id="fb-ws3q2"></div>
+    <div class="feedback" id="fb-ws2q10"></div>
   </div>
   <div class="question">
-    <div class="qnum">Q3 · 3 marks</div>
+    <div class="qnum">Q11 · 3 marks</div>
     <div class="qtext">Which pattern does this snippet use?</div>
     <pre><code>for i in range(5):
     print(&quot;Hi&quot;)</code></pre>
     <div class="choices">
-      <label><input type="radio" name="ws3q3" value="0"> Sequential</label>
-      <label><input type="radio" name="ws3q3" value="1"> Conditional</label>
-      <label><input type="radio" name="ws3q3" value="2"> Loop (repeat)</label>
-      <label><input type="radio" name="ws3q3" value="3"> Store and retrieve</label>
+      <label><input type="radio" name="ws2q11" value="0"> Sequential</label>
+      <label><input type="radio" name="ws2q11" value="1"> Conditional</label>
+      <label><input type="radio" name="ws2q11" value="2"> Loop (repeat)</label>
+      <label><input type="radio" name="ws2q11" value="3"> Store and retrieve</label>
     </div>
-    <div class="feedback" id="fb-ws3q3"></div>
+    <div class="feedback" id="fb-ws2q11"></div>
   </div>
   <div class="question">
-    <div class="qnum">Q4 · 3 marks</div>
-    <div class="qtext">Which pattern does this snippet use?</div>
+    <div class="qnum">Q12 · 3 marks</div>
+    <div class="qtext">Which pattern does this snippet PRIMARILY use?</div>
     <pre><code>name = input(&quot;Your name? &quot;)
 print(&quot;Hi&quot;, name)</code></pre>
     <div class="choices">
-      <label><input type="radio" name="ws3q4" value="0"> Just sequential</label>
-      <label><input type="radio" name="ws3q4" value="1"> Just store and retrieve</label>
-      <label><input type="radio" name="ws3q4" value="2"> BOTH sequential AND store/retrieve</label>
-      <label><input type="radio" name="ws3q4" value="3"> Just conditional</label>
+      <label><input type="radio" name="ws2q12" value="0"> Just sequential</label>
+      <label><input type="radio" name="ws2q12" value="1"> Just store and retrieve</label>
+      <label><input type="radio" name="ws2q12" value="2"> BOTH sequential AND store/retrieve</label>
+      <label><input type="radio" name="ws2q12" value="3"> Just conditional</label>
     </div>
-    <div class="feedback" id="fb-ws3q4"></div>
+    <div class="feedback" id="fb-ws2q12"></div>
   </div>
 </section>
 
 <section class="section">
-  <h2>Part B · Predict the output</h2>
-  <div class="sub">Three sequential snippets. Trace top-to-bottom — what does each print? · 9 marks total</div>
+  <h2>Part D · Trace through (predict the output)</h2>
+  <div class="sub">Four MULTI-step snippets. Track each variable line-by-line on paper or in your head — don't just guess. The last line is what you write down. · 12 marks total</div>
 
   <div class="question">
-    <div class="qnum">Q5 · 3 marks</div>
-    <div class="qtext">What does this print?</div>
+    <div class="qnum">Q13 · 3 marks</div>
+    <div class="qtext">Trace each line. What does this print?</div>
     <pre><code>x = 3
 x = x + 2
+x = x * 4
 print(x)</code></pre>
     <div class="choices">
-      <label><input type="radio" name="ws3q5" value="0"> 3</label>
-      <label><input type="radio" name="ws3q5" value="1"> 5</label>
-      <label><input type="radio" name="ws3q5" value="2"> 2</label>
-      <label><input type="radio" name="ws3q5" value="3"> x + 2</label>
+      <label><input type="radio" name="ws2q13" value="0"> 3</label>
+      <label><input type="radio" name="ws2q13" value="1"> 5</label>
+      <label><input type="radio" name="ws2q13" value="2"> 12</label>
+      <label><input type="radio" name="ws2q13" value="3"> 20</label>
     </div>
-    <div class="feedback" id="fb-ws3q5"></div>
+    <div class="feedback" id="fb-ws2q13"></div>
   </div>
   <div class="question">
-    <div class="qnum">Q6 · 3 marks</div>
-    <div class="qtext">What does this print?</div>
+    <div class="qnum">Q14 · 3 marks</div>
+    <div class="qtext">Trace each line. What does this print?</div>
     <pre><code>a = 4
 b = 6
 a = b
+b = 10
 print(a, b)</code></pre>
     <div class="choices">
-      <label><input type="radio" name="ws3q6" value="0"> 4 6</label>
-      <label><input type="radio" name="ws3q6" value="1"> 6 4</label>
-      <label><input type="radio" name="ws3q6" value="2"> 6 6</label>
-      <label><input type="radio" name="ws3q6" value="3"> 4 4</label>
+      <label><input type="radio" name="ws2q14" value="0"> 4 6</label>
+      <label><input type="radio" name="ws2q14" value="1"> 6 10</label>
+      <label><input type="radio" name="ws2q14" value="2"> 4 10</label>
+      <label><input type="radio" name="ws2q14" value="3"> 10 10</label>
     </div>
-    <div class="feedback" id="fb-ws3q6"></div>
+    <div class="feedback" id="fb-ws2q14"></div>
   </div>
   <div class="question">
-    <div class="qnum">Q7 · 3 marks</div>
-    <div class="qtext">What does this print?</div>
+    <div class="qnum">Q15 · 3 marks</div>
+    <div class="qtext">Trace each line. What does this print?</div>
     <pre><code>total = 0
-total = total + 1
-total = total + 1
-total = total + 1
+total = total + 5
+total = total + 5
+total = total + 5
 print(total)</code></pre>
     <div class="choices">
-      <label><input type="radio" name="ws3q7" value="0"> 0</label>
-      <label><input type="radio" name="ws3q7" value="1"> 1</label>
-      <label><input type="radio" name="ws3q7" value="2"> 3</label>
-      <label><input type="radio" name="ws3q7" value="3"> 111</label>
+      <label><input type="radio" name="ws2q15" value="0"> 0</label>
+      <label><input type="radio" name="ws2q15" value="1"> 5</label>
+      <label><input type="radio" name="ws2q15" value="2"> 15</label>
+      <label><input type="radio" name="ws2q15" value="3"> 555</label>
     </div>
-    <div class="feedback" id="fb-ws3q7"></div>
+    <div class="feedback" id="fb-ws2q15"></div>
+  </div>
+  <div class="question">
+    <div class="qnum">Q16 · 3 marks</div>
+    <div class="qtext">Trace each line. What does this print?</div>
+    <pre><code>score = 70
+if score &gt;= 50:
+    score = score + 10
+print(score)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="ws2q16" value="0"> 50</label>
+      <label><input type="radio" name="ws2q16" value="1"> 60</label>
+      <label><input type="radio" name="ws2q16" value="2"> 70</label>
+      <label><input type="radio" name="ws2q16" value="3"> 80</label>
+    </div>
+    <div class="feedback" id="fb-ws2q16"></div>
   </div>
 </section>
 
 <section class="section">
-  <h2>Part C · Fill in the condition</h2>
-  <div class="sub">Three conditional code lines. Fill the missing comparison or branch. · 9 marks total</div>
+  <h2>Part E · Fill in the missing piece</h2>
+  <div class="sub">Three fill-ins: comparison operator, conditional keyword, and a loop condition. · 9 marks total</div>
 
   <div class="question">
-    <div class="qnum">Q8 · 3 marks</div>
-    <div class="qtext">Fill the blank so the program prints <code>Win</code> when <code>score</code> is 10 or higher.</div>
-    <pre><code>score = 10
-if score ___ 10:
-    print(&quot;Win&quot;)</code></pre>
-    <input type="text" id="ws3q8" placeholder="comparison operator">
-    <div class="feedback" id="fb-ws3q8"></div>
+    <div class="qnum">Q17 · 3 marks</div>
+    <div class="qtext">Fill the blank so the program prints <code>Pass</code> when <code>score</code> is 50 OR HIGHER.</div>
+    <pre><code>score = 50
+if score ___ 50:
+    print(&quot;Pass&quot;)</code></pre>
+    <input type="text" id="ws2q17" placeholder="comparison operator">
+    <div class="feedback" id="fb-ws2q17"></div>
   </div>
   <div class="question">
-    <div class="qnum">Q9 · 3 marks</div>
-    <div class="qtext">Fill the blank so the program prints <code>Adult</code> when <code>age</code> is 18 or higher.</div>
-    <pre><code>age = 17
-if age ___ 18:
-    print(&quot;Adult&quot;)
-else:
-    print(&quot;Minor&quot;)</code></pre>
-    <input type="text" id="ws3q9" placeholder="comparison">
-    <div class="feedback" id="fb-ws3q9"></div>
-  </div>
-  <div class="question">
-    <div class="qnum">Q10 · 3 marks</div>
+    <div class="qnum">Q18 · 3 marks</div>
     <div class="qtext">Fill the blank with the keyword that begins the OTHERWISE branch (when the if test is false).</div>
     <pre><code>if temp &gt; 30:
     print(&quot;Hot&quot;)
 ___:
     print(&quot;Comfortable&quot;)</code></pre>
-    <input type="text" id="ws3q10" placeholder="Python keyword">
-    <div class="feedback" id="fb-ws3q10"></div>
+    <input type="text" id="ws2q18" placeholder="Python keyword">
+    <div class="feedback" id="fb-ws2q18"></div>
+  </div>
+  <div class="question">
+    <div class="qnum">Q19 · 3 marks</div>
+    <div class="qtext">Fill the blank so this loop prints "Hi" exactly 10 times.</div>
+    <pre><code>for i in range(___):
+    print(&quot;Hi&quot;)</code></pre>
+    <input type="text" id="ws2q19" placeholder="just a number">
+    <div class="feedback" id="fb-ws2q19"></div>
   </div>
 </section>
 
 <section class="section">
-  <h2>Part D · Build with 3 patterns</h2>
-  <div class="sub">One small program that uses sequential, conditional, AND store/retrieve patterns. · 6 marks total</div>
+  <h2>Part F · Build a program that uses 3 patterns</h2>
+  <div class="sub">One small program (6–10 lines) combining sequential, conditional, AND store/retrieve patterns. Self-marked — Ms Gao checks it in class. · 9 marks total</div>
 
   <div class="question">
-    <div class="qnum">Q11 · 6 marks (self-marked)</div>
-    <div class="qtext">Write a Python program that combines THREE patterns: (a) <strong>store</strong> — ask the user for their test score and store it in a variable, (b) <strong>conditional</strong> — print 'Pass' if the score is 50 or higher, otherwise print 'Try again', (c) <strong>sequential</strong> — finish by printing 'Thanks for taking the test'. (4–6 lines.)</div>
-    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter to expand:</p><pre><code># starter
-score = int(input(&quot;Your test score: &quot;))
-if ___:
-    print(&quot;Pass&quot;)
+    <div class="qnum">Q20 · 9 marks (self-marked)</div>
+    <div class="qtext">Write a Python program (6–10 lines) that combines THREE of the four patterns: <strong>store/retrieve</strong> + <strong>conditional</strong> + <strong>sequential</strong>. The program must: (1) ask the user for their age, (2) store it in a variable, (3) print one message if they're under 18 and a different message if they're 18 or older, (4) finish with a friendly sign-off line that always prints. Type your code below.</div>
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter to expand:</p><pre><code># starter — replace the ... with your own code
+age = int(input(&quot;Your age? &quot;))
+
+if age ___ 18:
+    print(&quot;...&quot;)
 else:
-    print(&quot;Try again&quot;)
-print(&quot;Thanks for taking the test&quot;)
+    print(&quot;...&quot;)
+
+print(&quot;Thanks for playing.&quot;)
 </code></pre>
-    <textarea id="ws3q11" placeholder="Paste your code (or written answer) here..."></textarea>
-    <div class="feedback" id="fb-ws3q11"></div>
+    <textarea id="ws2q20" placeholder="Paste your code (or written answer) here..."></textarea>
+    <div class="feedback" id="fb-ws2q20"></div>
   </div>
 </section>
 <div id="submit-section">
@@ -405,7 +568,7 @@ print(&quot;Thanks for taking the test&quot;)
 <div id="results">
   <h2>📊 Your foundations check</h2>
   <div class="score-hero">
-    <div class="big"><span id="final-score">0</span> / 36</div>
+    <div class="big"><span id="final-score">0</span> / 66</div>
     <div class="sub" id="score-comment">—</div>
   </div>
   <div class="breakdown" id="breakdown"></div>
@@ -428,10 +591,114 @@ print(&quot;Thanks for taking the test&quot;)
 </main>
 
 <script>
-const WS_KEY = "y9-foundations-03-v1";
+const WS_KEY = "y9-foundations-02-combined-v1";
 const QUESTIONS = [
   {
-    "id": "ws3q1",
+    "id": "ws2q1",
+    "kind": "mcq",
+    "marks": 3,
+    "correct": 1,
+    "choices": [
+      "score",
+      "if",
+      "username",
+      "answer"
+    ],
+    "explain": "<code>if</code> is a built-in keyword. You can't use it as a variable name."
+  },
+  {
+    "id": "ws2q2",
+    "kind": "mcq",
+    "marks": 3,
+    "correct": 2,
+    "choices": [
+      "print 'Hello'",
+      "print(Hello)",
+      "print(\"Hello\")",
+      "print = Hello"
+    ],
+    "explain": "<code>print()</code> needs parentheses around its arguments, and a string needs quotes."
+  },
+  {
+    "id": "ws2q3",
+    "kind": "mcq",
+    "marks": 3,
+    "correct": 1,
+    "choices": [
+      "Tests if score and 7 are equal",
+      "Stores the value 7 in the variable named score",
+      "Adds 7 to score",
+      "Prints 'score' and then '7'"
+    ],
+    "explain": "Single <code>=</code> is assignment. <code>==</code> would be the equality test."
+  },
+  {
+    "id": "ws2q4",
+    "kind": "mcq",
+    "marks": 3,
+    "correct": 1,
+    "choices": [
+      "It doesn't \u2014 Python ignores spaces and only cares about line breaks",
+      "Python uses indentation to know which lines BELONG to which block (e.g. which lines are inside an if)",
+      "Indentation only matters when you print to the screen",
+      "Indentation prevents your file being read by viruses"
+    ],
+    "explain": "Indentation is part of Python's grammar \u2014 not just formatting."
+  },
+  {
+    "id": "ws2q5",
+    "kind": "mcq",
+    "marks": 3,
+    "correct": 2,
+    "choices": [
+      "2nd_score",
+      "my-score",
+      "my_score",
+      "if"
+    ],
+    "explain": "Names must start with a letter (not a digit), can use underscores but not hyphens, and can't be a reserved word like <code>if</code>."
+  },
+  {
+    "id": "ws2q6",
+    "kind": "mcq",
+    "marks": 3,
+    "correct": 2,
+    "choices": [
+      "highScore",
+      "high_score",
+      "high score",
+      "high2score"
+    ],
+    "explain": "Names can't contain spaces. Spaces in a name make Python think you've written two separate words."
+  },
+  {
+    "id": "ws2q7",
+    "kind": "mcq",
+    "marks": 3,
+    "correct": 1,
+    "choices": [
+      "There's nothing wrong with it",
+      "<code>class</code> is a reserved word \u2014 it can't be used as a variable name",
+      "Strings must use single quotes, not double quotes",
+      "Variables can't hold strings"
+    ],
+    "explain": "<code>class</code> is reserved for defining classes. Use <code>year_level</code> or <code>class_name</code> instead."
+  },
+  {
+    "id": "ws2q8",
+    "kind": "mcq",
+    "marks": 3,
+    "correct": 2,
+    "choices": [
+      "a",
+      "AgeOfStudent_2024_finalVersion_v2",
+      "age",
+      "age!"
+    ],
+    "explain": "Good names are SHORT but DESCRIPTIVE. <code>a</code> is too short, the long one is unreadable, and <code>age!</code> has an illegal character."
+  },
+  {
+    "id": "ws2q9",
     "kind": "mcq",
     "marks": 3,
     "correct": 0,
@@ -441,10 +708,10 @@ const QUESTIONS = [
       "Loop (repeat)",
       "Store and retrieve only"
     ],
-    "explain": "Each line runs once, in order, top to bottom."
+    "explain": "Each line runs once, in order, top to bottom \u2014 that's the SEQUENTIAL pattern. (It does also use store/retrieve, but the dominant pattern is sequential.)"
   },
   {
-    "id": "ws3q2",
+    "id": "ws2q10",
     "kind": "mcq",
     "marks": 3,
     "correct": 1,
@@ -454,10 +721,10 @@ const QUESTIONS = [
       "Loop",
       "Store and retrieve"
     ],
-    "explain": "<code>if</code> means the line below may or may not run, depending on the test."
+    "explain": "<code>if</code> means the line below may or MAY NOT run, depending on the test. That's the CONDITIONAL pattern."
   },
   {
-    "id": "ws3q3",
+    "id": "ws2q11",
     "kind": "mcq",
     "marks": 3,
     "correct": 2,
@@ -467,10 +734,10 @@ const QUESTIONS = [
       "Loop (repeat)",
       "Store and retrieve"
     ],
-    "explain": "<code>for</code> repeats the indented block \u2014 5 times here."
+    "explain": "<code>for</code> repeats the indented block \u2014 five times here. That's the LOOP pattern."
   },
   {
-    "id": "ws3q4",
+    "id": "ws2q12",
     "kind": "mcq",
     "marks": 3,
     "correct": 2,
@@ -480,73 +747,86 @@ const QUESTIONS = [
       "BOTH sequential AND store/retrieve",
       "Just conditional"
     ],
-    "explain": "Lines run in order (sequential) AND we put a value into a variable then read it back (store/retrieve)."
+    "explain": "The lines run in order (sequential) AND we put a value into a variable, then read it back (store/retrieve)."
   },
   {
-    "id": "ws3q5",
+    "id": "ws2q13",
+    "kind": "mcq",
+    "marks": 3,
+    "correct": 3,
+    "choices": [
+      "3",
+      "5",
+      "12",
+      "20"
+    ],
+    "explain": "Line 1: x=3. Line 2: x = 3+2 = 5. Line 3: x = 5*4 = 20. Line 4: prints 20."
+  },
+  {
+    "id": "ws2q14",
     "kind": "mcq",
     "marks": 3,
     "correct": 1,
     "choices": [
-      "3",
-      "5",
-      "2",
-      "x + 2"
-    ],
-    "explain": "Line 1 stores 3. Line 2 reads 3, adds 2, stores 5. Line 3 prints 5."
-  },
-  {
-    "id": "ws3q6",
-    "kind": "mcq",
-    "marks": 3,
-    "correct": 2,
-    "choices": [
       "4 6",
-      "6 4",
-      "6 6",
-      "4 4"
+      "6 10",
+      "4 10",
+      "10 10"
     ],
-    "explain": "<code>a = b</code> copies b's value (6) into a. Both end up at 6."
+    "explain": "Line 3 copies b's CURRENT value (6) into a. Then line 4 changes b to 10. a stays 6 \u2014 it doesn't FOLLOW b. Final: a=6, b=10."
   },
   {
-    "id": "ws3q7",
+    "id": "ws2q15",
     "kind": "mcq",
     "marks": 3,
     "correct": 2,
     "choices": [
       "0",
-      "1",
-      "3",
-      "111"
+      "5",
+      "15",
+      "555"
     ],
-    "explain": "Each line adds 1 to total \u2014 three additions gives 3."
+    "explain": "Each line adds 5 to total. Three additions give 15. (This is the ACCUMULATOR pattern \u2014 used everywhere in programming.)"
   },
   {
-    "id": "ws3q8",
+    "id": "ws2q16",
+    "kind": "mcq",
+    "marks": 3,
+    "correct": 3,
+    "choices": [
+      "50",
+      "60",
+      "70",
+      "80"
+    ],
+    "explain": "score starts at 70. The if test (70 >= 50) is TRUE, so the indented line runs: score = 70+10 = 80. Print: 80."
+  },
+  {
+    "id": "ws2q17",
     "kind": "fill",
     "marks": 3,
     "answer": ">=",
-    "explain": "<code>>=</code> means \"greater than or equal to\" \u2014 10 passes."
+    "explain": "<code>>=</code> means \"greater than OR EQUAL to\" \u2014 so 50 passes."
   },
   {
-    "id": "ws3q9",
-    "kind": "fill",
-    "marks": 3,
-    "answer": ">=",
-    "explain": "Same operator pattern \u2014 <code>>=</code> covers \"or higher\"."
-  },
-  {
-    "id": "ws3q10",
+    "id": "ws2q18",
     "kind": "fill",
     "marks": 3,
     "answer": "else",
-    "explain": "<code>else</code> is the catch-all for when the <code>if</code> is false."
+    "explain": "<code>else</code> is the catch-all for when the <code>if</code> test is false."
   },
   {
-    "id": "ws3q11",
+    "id": "ws2q19",
+    "kind": "fill",
+    "marks": 3,
+    "answer": "10",
+    "explain": "<code>range(10)</code> gives the numbers 0 through 9 \u2014 that's 10 values, so 10 loop iterations."
+  },
+  {
+    "id": "ws2q20",
     "kind": "build",
-    "marks": 6,
-    "rubric": "Full marks: all three patterns are present and the program runs without error. Half marks: any one pattern missing or the comparison operator wrong."
+    "marks": 9,
+    "rubric": "Full marks (9): all three patterns present, program runs, comparison operator correct, both branches sensible, sign-off prints regardless. Partial (6): one pattern missing or comparison wrong. Half (4-5): conditional structure wrong but the rest works. Low: only one pattern attempted."
   }
 ];
 
@@ -673,7 +953,7 @@ document.getElementById("submit-btn").addEventListener("click", () => {
     <div class="breakdown-item"><div class="label">Multiple choice</div><div class="value">${mcqOk} / ${QUESTIONS.filter(q=>q.kind==='mcq').length}</div></div>
     <div class="breakdown-item"><div class="label">Fill-in</div><div class="value">${fillOk} / ${QUESTIONS.filter(q=>q.kind==='fill').length}</div></div>
     <div class="breakdown-item"><div class="label">Build / reflect</div><div class="value">Self-marked</div></div>
-    <div class="breakdown-item"><div class="label">Total</div><div class="value">${score} / 36</div></div>
+    <div class="breakdown-item"><div class="label">Total</div><div class="value">${score} / 66</div></div>
   `;
   document.getElementById("results").style.display = "block";
   document.getElementById("results").scrollIntoView({behavior:"smooth", block:"start"});
