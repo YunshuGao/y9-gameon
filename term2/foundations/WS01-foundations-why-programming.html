@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Foundations 01 — Why programming? · 9GAMZA</title>
+<link rel="stylesheet" href="../../assets/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body { max-width: 920px; margin: 0 auto; padding: 1.5rem; overflow-x: hidden; }
+
+/* ============================================================
+   HEADER — same pattern as L01-L04
+   ============================================================ */
+.ws-header { background: linear-gradient(135deg, rgba(31,58,104,0.45), rgba(20,184,166,0.18));
+              border: 2px solid var(--py-gold); border-radius: 14px;
+              padding: 1.4rem 1.6rem; margin-bottom: 1.5rem; }
+.ws-header h1 { margin: 0 0 0.6rem; color: var(--py-gold); font-size: 1.55rem; line-height: 1.2; }
+.ws-header p { margin: 0.25rem 0; color: var(--text); font-size: 0.95rem; }
+.ws-header .meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+                    gap: 0.6rem; margin-top: 0.9rem; }
+.ws-header .meta div { background: rgba(0,0,0,0.25); padding: 0.5rem 0.7rem;
+                        border-radius: 6px; font-size: 0.85rem; }
+.ws-header .meta strong { color: var(--py-gold); display: block; font-size: 0.8rem;
+                           text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.2rem; }
+.name-row { display: flex; gap: 1rem; margin-top: 1rem; }
+.name-row input { flex: 1; padding: 0.6rem 0.8rem; border: 1px solid var(--border);
+                   border-radius: 6px; background: var(--surface); color: var(--text);
+                   font-family: inherit; font-size: 0.95rem; }
+
+/* ============================================================
+   VIDEO PLAYER PANEL
+   ============================================================ */
+.video-panel { background: var(--surface); border: 1px solid var(--border);
+                border-radius: 12px; padding: 1.2rem; margin: 1.5rem 0; }
+.video-panel h2 { color: var(--py-gold); margin: 0 0 0.5rem; font-size: 1.15rem; }
+.video-panel .video-meta { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.8rem; }
+.video-panel video { width: 100%; max-width: 100%; height: auto; border-radius: 8px;
+                      background: #000; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+.video-panel .video-note { margin-top: 0.7rem; padding: 0.6rem 0.9rem;
+                            background: rgba(59,130,246,0.08); border-left: 3px solid var(--py-blue);
+                            border-radius: 6px; font-size: 0.88rem; color: var(--text); line-height: 1.5; }
+
+/* ============================================================
+   PROGRESS BAR
+   ============================================================ */
+.progress-bar-wrap { position: sticky; top: 0; z-index: 10;
+                      background: var(--bg); padding: 0.8rem 0; margin-bottom: 1rem;
+                      border-bottom: 1px solid var(--border); }
+.progress-text { font-weight: 600; color: var(--text); margin-bottom: 0.5rem;
+                  display: flex; justify-content: space-between; align-items: center; }
+.progress-text .marks { color: var(--text-muted); font-weight: 400; font-size: 0.85rem; }
+.progress-track { height: 10px; background: var(--surface); border-radius: 5px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #14b8a6, #22c55e);
+                  transition: width 0.3s; }
+
+/* ============================================================
+   SECTIONS + QUESTIONS
+   ============================================================ */
+.section { margin: 2rem 0; padding: 1.4rem; background: var(--surface);
+            border-radius: 12px; border: 1px solid var(--border); overflow: hidden; }
+.section h2 { color: var(--py-gold); margin: 0 0 0.4rem; font-size: 1.18rem; }
+.section .sub { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1rem; line-height: 1.5; }
+.question { margin: 1.4rem 0; padding: 1rem 1.2rem; background: rgba(31,58,104,0.18);
+             border-radius: 8px; border-left: 3px solid var(--py-blue); overflow: hidden; }
+.question .qnum { color: var(--py-gold); font-weight: 600; font-size: 0.88rem; }
+.question .qtext { margin: 0.4rem 0 0.8rem; color: var(--text); line-height: 1.5;
+                    overflow-wrap: break-word; word-wrap: break-word; }
+.question .qtext code { background: rgba(0,0,0,0.35); padding: 0.1rem 0.4rem; border-radius: 3px;
+                         color: var(--py-gold); font-family: 'Fira Code', monospace;
+                         word-break: break-all; }
+.question pre { background: rgba(0,0,0,0.4); padding: 0.8rem; border-radius: 6px;
+                 overflow-x: auto; margin: 0.6rem 0; max-width: 100%; }
+.question pre code { font-family: 'Fira Code', monospace; font-size: 0.88rem;
+                      color: var(--py-gold); white-space: pre; display: block; min-width: 0; }
+.choices label { display: block; padding: 0.5rem 0.8rem; margin: 0.3rem 0;
+                  border-radius: 6px; cursor: pointer; transition: background 0.15s; color: var(--text); }
+.choices label:hover { background: rgba(255,212,59,0.08); }
+.choices input[type=radio] { margin-right: 0.6rem; }
+input[type=text], textarea { width: 100%; padding: 0.6rem 0.8rem;
+                              background: var(--bg); color: var(--text);
+                              border: 1px solid var(--border); border-radius: 6px;
+                              font-family: 'Fira Code', monospace; font-size: 0.9rem;
+                              box-sizing: border-box; }
+textarea { min-height: 110px; resize: vertical; }
+.feedback { margin-top: 0.6rem; padding: 0.7rem 1rem; border-radius: 6px;
+             font-size: 0.9rem; display: none; overflow-wrap: break-word; }
+.feedback.correct { background: rgba(34,197,94,0.15); border-left: 3px solid #22c55e; color: #86efac; }
+.feedback.wrong { background: rgba(239,68,68,0.12); border-left: 3px solid #ef4444; color: #fca5a5; }
+.feedback.info { background: rgba(59,130,246,0.12); border-left: 3px solid #3b82f6; color: #93c5fd; }
+.feedback code { background: rgba(0,0,0,0.3); padding: 0.1rem 0.4rem; border-radius: 3px;
+                  color: var(--py-gold); }
+
+/* ============================================================
+   SUBMIT + RESULTS
+   ============================================================ */
+#submit-section { margin: 2.5rem 0; padding: 1.4rem; background: var(--surface);
+                   border-radius: 12px; border: 2px solid var(--border); text-align: center; }
+#submit-btn { padding: 1rem 2.5rem; font-size: 1.1rem; font-weight: 600;
+               border-radius: 8px; cursor: pointer; border: none;
+               background: linear-gradient(135deg, #3776AB, #14b8a6); color: white; }
+#submit-btn:disabled { background: var(--surface); color: var(--text-muted);
+                        cursor: not-allowed; border: 1px solid var(--border); }
+#results { display: none; margin: 2rem 0; padding: 1.6rem; background: var(--surface);
+            border-radius: 12px; border: 2px solid var(--py-gold); }
+#results h2 { color: var(--py-gold); margin: 0 0 1rem; }
+.score-hero { text-align: center; padding: 1rem; }
+.score-hero .big { font-size: 3rem; font-weight: 700; color: var(--py-gold); }
+.score-hero .sub { color: var(--text-muted); }
+.breakdown { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+              gap: 0.8rem; margin-top: 1rem; }
+.breakdown-item { padding: 0.8rem; background: rgba(31,58,104,0.15); border-radius: 8px; }
+.breakdown-item .label { color: var(--text-muted); font-size: 0.85rem; }
+.breakdown-item .value { color: var(--text); font-size: 1.3rem; font-weight: 600; }
+.submit-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.2rem; }
+.submit-actions button, .submit-actions a { flex: 1; padding: 0.8rem 1.2rem;
+                                              border-radius: 8px; cursor: pointer; border: 1px solid var(--border);
+                                              background: var(--bg); color: var(--text); font-weight: 500;
+                                              text-align: center; text-decoration: none; font-family: inherit; font-size: 0.95rem; }
+.submit-actions .primary { background: linear-gradient(135deg, #3776AB, #14b8a6); color: white; border: none; }
+.callout { background: rgba(255,212,59,0.08); border-left: 3px solid var(--py-gold);
+            padding: 0.8rem 1rem; border-radius: 6px; margin: 1rem 0; font-size: 0.92rem; line-height: 1.55; }
+.callout.info { background: rgba(59,130,246,0.08); border-left-color: var(--py-blue); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="site-brand">🐍 Y9 Game On · Term 2</a>
+    <nav class="site-nav">
+      <a href="../index.html">Overview</a>
+      <a href="index.html">🐍 Foundations</a>
+      <a href="../arcade/index.html">🎮 Arcade</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+<div class="ws-header">
+  <h1>🌱 Foundations 01 — Why programming?</h1>
+  <p><strong>Class:</strong> Year 9 Game On · 9GAMZA · Term 2 2026</p>
+  <p><strong>Use this if:</strong> you haven't started Grok Academy yet, OR the welcome was confusing.</p>
+  <div class="meta">
+    <div><strong>Marks</strong>/30</div>
+    <div><strong>Time</strong>30 min</div>
+    <div><strong>Pairs with</strong>Grok Academy — Python Intro 1, Module 1</div>
+    <div><strong>Series</strong>Foundations 1 of 3</div>
+  </div>
+  <div class="name-row">
+    <input type="text" id="student-name" placeholder="First name" autocomplete="given-name">
+    <input type="text" id="student-last" placeholder="Last name" autocomplete="family-name">
+  </div>
+</div>
+
+<!-- ============ VIDEO PANEL ============ -->
+<div class="video-panel">
+  <h2>📹 Watch this first</h2>
+  <p class="video-meta">Welcome to programming — what programming is, why it matters, what we'll build (12 min).</p>
+  <video controls preload="metadata" poster="">
+    <source src="../videos/foundations-01-welcome.mp4" type="video/mp4">
+    Sorry, your browser doesn't support embedded videos. Ask Ms Gao for a link to download the video file.
+  </video>
+  <div class="video-note">
+    <strong>💡 Tip:</strong> Watch with sound on. Don't take notes yet — let it wash over you the first time. Pause when something clicks.
+  </div>
+</div>
+
+<div class="callout">
+  <strong>How this worksheet works:</strong> Four short sections — multiple choice, predict-the-output, fill-in-the-blank, and a tiny build-your-own. About 30 minutes total. Auto-saves as you go. Submit when you're done to see the answer key.
+</div>
+
+<div class="progress-bar-wrap">
+  <div class="progress-text">
+    <span><span id="answered-count">0</span> / <span id="total-count">0</span> answered</span>
+    <span class="marks">Score so far: <span id="est-marks">0</span> / 30</span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+</div>
+
+<section class="section">
+  <h2>Part A · Big-picture multiple choice</h2>
+  <div class="sub">Four quick questions to check you absorbed the main ideas from the video. · 12 marks total</div>
+
+  <div class="question">
+    <div class="qnum">Q1 · 3 marks</div>
+    <div class="qtext">Which of these is the BEST description of a 'program'?</div>
+    
+    <div class="choices">
+      <label><input type="radio" name="ws1q1" value="0"> A picture made with a computer</label>
+      <label><input type="radio" name="ws1q1" value="1"> A list of instructions a computer follows in order</label>
+      <label><input type="radio" name="ws1q1" value="2"> A type of website</label>
+      <label><input type="radio" name="ws1q1" value="3"> A connection between two laptops</label>
+    </div>
+    <div class="feedback" id="fb-ws1q1"></div>
+  </div>
+  <div class="question">
+    <div class="qnum">Q2 · 3 marks</div>
+    <div class="qtext">Why is Python a popular FIRST programming language for students?</div>
+    
+    <div class="choices">
+      <label><input type="radio" name="ws1q2" value="0"> It&#x27;s the fastest language ever made</label>
+      <label><input type="radio" name="ws1q2" value="1"> It&#x27;s the only language used by professional developers</label>
+      <label><input type="radio" name="ws1q2" value="2"> Its syntax reads close to plain English, which makes the ideas easier to see</label>
+      <label><input type="radio" name="ws1q2" value="3"> It&#x27;s the only language that runs on school laptops</label>
+    </div>
+    <div class="feedback" id="fb-ws1q2"></div>
+  </div>
+  <div class="question">
+    <div class="qnum">Q3 · 3 marks</div>
+    <div class="qtext">When you 'become a maker of technology' (instead of just a consumer), what changes most?</div>
+    
+    <div class="choices">
+      <label><input type="radio" name="ws1q3" value="0"> You stop using your phone</label>
+      <label><input type="radio" name="ws1q3" value="1"> You can make the computer do what YOU want, instead of only what apps let you do</label>
+      <label><input type="radio" name="ws1q3" value="2"> You only work on game development</label>
+      <label><input type="radio" name="ws1q3" value="3"> Your laptop runs faster</label>
+    </div>
+    <div class="feedback" id="fb-ws1q3"></div>
+  </div>
+  <div class="question">
+    <div class="qnum">Q4 · 3 marks</div>
+    <div class="qtext">Which line of Python does the simplest possible thing — show some text on the screen?</div>
+    <pre><code>Pick one of these.</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="ws1q4" value="0"> show(&#x27;hello&#x27;)</label>
+      <label><input type="radio" name="ws1q4" value="1"> echo &#x27;hello&#x27;</label>
+      <label><input type="radio" name="ws1q4" value="2"> print(&#x27;hello&#x27;)</label>
+      <label><input type="radio" name="ws1q4" value="3"> display.text(&#x27;hello&#x27;)</label>
+    </div>
+    <div class="feedback" id="fb-ws1q4"></div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Part B · Read this code (predict-the-output)</h2>
+  <div class="sub">Three short Python snippets. Don't run them — try to work out the answer in your head first. · 9 marks total</div>
+
+  <div class="question">
+    <div class="qnum">Q5 · 3 marks</div>
+    <div class="qtext">What does this Python program print?</div>
+    <pre><code>print(&quot;Year 9&quot;)
+print(&quot;Game On&quot;)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="ws1q5" value="0"> Year 9 Game On (on one line)</label>
+      <label><input type="radio" name="ws1q5" value="1"> Year 9 / Game On (on two lines)</label>
+      <label><input type="radio" name="ws1q5" value="2"> Just &#x27;Year 9&#x27;</label>
+      <label><input type="radio" name="ws1q5" value="3"> An error</label>
+    </div>
+    <div class="feedback" id="fb-ws1q5"></div>
+  </div>
+  <div class="question">
+    <div class="qnum">Q6 · 3 marks</div>
+    <div class="qtext">What does this print?</div>
+    <pre><code>name = &quot;Ada&quot;
+print(&quot;Hello&quot;, name)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="ws1q6" value="0"> Hello name</label>
+      <label><input type="radio" name="ws1q6" value="1"> Hello Ada</label>
+      <label><input type="radio" name="ws1q6" value="2"> Ada Hello</label>
+      <label><input type="radio" name="ws1q6" value="3"> Hello, name</label>
+    </div>
+    <div class="feedback" id="fb-ws1q6"></div>
+  </div>
+  <div class="question">
+    <div class="qnum">Q7 · 3 marks</div>
+    <div class="qtext">Which output does Python produce here?</div>
+    <pre><code>age = 14
+print(&quot;Next year:&quot;, age + 1)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="ws1q7" value="0"> Next year: 14</label>
+      <label><input type="radio" name="ws1q7" value="1"> Next year: 15</label>
+      <label><input type="radio" name="ws1q7" value="2"> Next year: age + 1</label>
+      <label><input type="radio" name="ws1q7" value="3"> An error — you can&#x27;t add to age</label>
+    </div>
+    <div class="feedback" id="fb-ws1q7"></div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Part C · Fill in the blank</h2>
+  <div class="sub">Two short fill-ins. Match the spacing exactly — the checker is fussy. · 6 marks total</div>
+
+  <div class="question">
+    <div class="qnum">Q8 · 3 marks</div>
+    <div class="qtext">Complete the line so the program prints <code>Hello, World!</code> exactly.</div>
+    <pre><code>___(&quot;Hello, World!&quot;)</code></pre>
+    <input type="text" id="ws1q8" placeholder="type the function name">
+    <div class="feedback" id="fb-ws1q8"></div>
+  </div>
+  <div class="question">
+    <div class="qnum">Q9 · 3 marks</div>
+    <div class="qtext">Fill the blank so the variable stores the value 9 and the line is complete.</div>
+    <pre><code>year = ___</code></pre>
+    <input type="text" id="ws1q9" placeholder="just a number">
+    <div class="feedback" id="fb-ws1q9"></div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Part D · Build your own</h2>
+  <div class="sub">One tiny program. Self-marked — Ms Gao will look at it in class. · 3 marks total</div>
+
+  <div class="question">
+    <div class="qnum">Q10 · 3 marks (self-marked)</div>
+    <div class="qtext">Write a Python program (2–4 lines) that: (a) asks the user for their name with <code>input()</code>, (b) stores the name in a variable, (c) prints a friendly greeting that includes the name.</div>
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter to expand:</p><pre><code># starter you can expand
+name = input(&quot;What&#x27;s your name? &quot;)
+print(...)
+</code></pre>
+    <textarea id="ws1q10" placeholder="Paste your code (or written answer) here..."></textarea>
+    <div class="feedback" id="fb-ws1q10"></div>
+  </div>
+</section>
+<div id="submit-section">
+  <p style="margin: 0 0 1rem; color: var(--text-muted);">Done? Submit to see your score and the answer key. You can keep editing after.</p>
+  <button id="submit-btn" disabled>Submit worksheet</button>
+  <p style="margin: 0.8rem 0 0; font-size: 0.85rem; color: var(--text-muted);">Auto-saves on this laptop.</p>
+</div>
+
+<div id="results">
+  <h2>📊 Your foundations check</h2>
+  <div class="score-hero">
+    <div class="big"><span id="final-score">0</span> / 30</div>
+    <div class="sub" id="score-comment">—</div>
+  </div>
+  <div class="breakdown" id="breakdown"></div>
+  <div class="submit-actions">
+    <button onclick="window.scrollTo({top:0, behavior:'smooth'})">↑ Review your answers</button>
+    <a href="index.html" class="primary">→ Back to Foundations</a>
+  </div>
+</div>
+
+</main>
+
+<script>
+const WS_KEY = "y9-foundations-01-v1";
+const QUESTIONS = [
+  {
+    "id": "ws1q1",
+    "kind": "mcq",
+    "marks": 3,
+    "correct": 1,
+    "choices": [
+      "A picture made with a computer",
+      "A list of instructions a computer follows in order",
+      "A type of website",
+      "A connection between two laptops"
+    ],
+    "explain": "A program is a recipe of steps the computer follows."
+  },
+  {
+    "id": "ws1q2",
+    "kind": "mcq",
+    "marks": 3,
+    "correct": 2,
+    "choices": [
+      "It's the fastest language ever made",
+      "It's the only language used by professional developers",
+      "Its syntax reads close to plain English, which makes the ideas easier to see",
+      "It's the only language that runs on school laptops"
+    ],
+    "explain": "Python's readability is its #1 teaching strength."
+  },
+  {
+    "id": "ws1q3",
+    "kind": "mcq",
+    "marks": 3,
+    "correct": 1,
+    "choices": [
+      "You stop using your phone",
+      "You can make the computer do what YOU want, instead of only what apps let you do",
+      "You only work on game development",
+      "Your laptop runs faster"
+    ],
+    "explain": "Programming hands you the steering wheel."
+  },
+  {
+    "id": "ws1q4",
+    "kind": "mcq",
+    "marks": 3,
+    "correct": 2,
+    "choices": [
+      "show('hello')",
+      "echo 'hello'",
+      "print('hello')",
+      "display.text('hello')"
+    ],
+    "explain": "<code>print()</code> is the first function every Python student learns."
+  },
+  {
+    "id": "ws1q5",
+    "kind": "mcq",
+    "marks": 3,
+    "correct": 1,
+    "choices": [
+      "Year 9 Game On (on one line)",
+      "Year 9 / Game On (on two lines)",
+      "Just 'Year 9'",
+      "An error"
+    ],
+    "explain": "Each <code>print()</code> ends with a new line by default."
+  },
+  {
+    "id": "ws1q6",
+    "kind": "mcq",
+    "marks": 3,
+    "correct": 1,
+    "choices": [
+      "Hello name",
+      "Hello Ada",
+      "Ada Hello",
+      "Hello, name"
+    ],
+    "explain": "The variable <code>name</code> is replaced by its value, \"Ada\"."
+  },
+  {
+    "id": "ws1q7",
+    "kind": "mcq",
+    "marks": 3,
+    "correct": 1,
+    "choices": [
+      "Next year: 14",
+      "Next year: 15",
+      "Next year: age + 1",
+      "An error \u2014 you can't add to age"
+    ],
+    "explain": "<code>age + 1</code> is evaluated to <code>15</code> before printing."
+  },
+  {
+    "id": "ws1q8",
+    "kind": "fill",
+    "marks": 3,
+    "answer": "print",
+    "explain": "The function for output is always <code>print</code>."
+  },
+  {
+    "id": "ws1q9",
+    "kind": "fill",
+    "marks": 3,
+    "answer": "9",
+    "explain": "Assignment is just <code>variable = value</code>."
+  },
+  {
+    "id": "ws1q10",
+    "kind": "build",
+    "marks": 3,
+    "rubric": "Full marks for: input() captures the name, a variable holds it, the print uses the variable. Half marks for a near-miss (e.g. prints \"name\" as literal text instead of the variable's value)."
+  }
+];
+
+function restore() {
+  const saved = JSON.parse(localStorage.getItem(WS_KEY) || "{}");
+  if (saved.name) document.getElementById("student-name").value = saved.name;
+  if (saved.last) document.getElementById("student-last").value = saved.last;
+  for (const id in saved.answers || {}) {
+    const val = saved.answers[id];
+    const el = document.querySelector(`[name="${id}"]`);
+    if (!el) continue;
+    if (el.type === "radio") {
+      const r = document.querySelector(`[name="${id}"][value="${val}"]`);
+      if (r) r.checked = true;
+    } else {
+      const node = document.getElementById(id);
+      if (node) node.value = val;
+    }
+  }
+  updateProgress();
+}
+
+function save() {
+  const data = { name: document.getElementById("student-name").value,
+                  last: document.getElementById("student-last").value,
+                  answers: {} };
+  QUESTIONS.forEach(q => {
+    if (q.kind === "mcq") {
+      const r = document.querySelector(`[name="${q.id}"]:checked`);
+      if (r) data.answers[q.id] = r.value;
+    } else {
+      const el = document.getElementById(q.id);
+      if (el && el.value) data.answers[q.id] = el.value;
+    }
+  });
+  localStorage.setItem(WS_KEY, JSON.stringify(data));
+}
+
+function updateProgress() {
+  let answered = 0, est = 0;
+  QUESTIONS.forEach(q => {
+    let val = null;
+    if (q.kind === "mcq") {
+      const r = document.querySelector(`[name="${q.id}"]:checked`);
+      if (r) val = r.value;
+    } else {
+      const el = document.getElementById(q.id);
+      if (el && el.value.trim()) val = el.value.trim();
+    }
+    if (val !== null) {
+      answered++;
+      if (q.kind === "mcq" && String(val) === String(q.correct)) est += q.marks;
+      else if (q.kind === "fill" && q.answer && val.toLowerCase().replace(/\s+/g,'') === String(q.answer).toLowerCase().replace(/\s+/g,'')) est += q.marks;
+      else if (q.kind === "build" || q.kind === "reflect") est += Math.floor(q.marks * 0.6);
+    }
+  });
+  document.getElementById("answered-count").textContent = answered;
+  document.getElementById("total-count").textContent = QUESTIONS.length;
+  document.getElementById("est-marks").textContent = est;
+  document.getElementById("progress-fill").style.width = (answered/QUESTIONS.length*100) + "%";
+  document.getElementById("submit-btn").disabled = (answered < QUESTIONS.length);
+}
+
+document.addEventListener("input", () => { save(); updateProgress(); });
+document.addEventListener("change", () => { save(); updateProgress(); });
+
+document.getElementById("submit-btn").addEventListener("click", () => {
+  let score = 0, mcqOk = 0, fillOk = 0;
+  QUESTIONS.forEach(q => {
+    let val = null;
+    if (q.kind === "mcq") {
+      const r = document.querySelector(`[name="${q.id}"]:checked`);
+      if (r) val = r.value;
+    } else {
+      const el = document.getElementById(q.id);
+      if (el) val = el.value.trim();
+    }
+    const fb = document.getElementById("fb-" + q.id);
+    if (q.kind === "mcq") {
+      if (String(val) === String(q.correct)) {
+        score += q.marks; mcqOk++;
+        if (fb) { fb.className = "feedback correct"; fb.style.display = "block";
+                  fb.innerHTML = `✅ Correct (+${q.marks}). ${q.explain || ''}`; }
+      } else {
+        const correctText = q.choices[q.correct];
+        if (fb) { fb.className = "feedback wrong"; fb.style.display = "block";
+                  fb.innerHTML = `❌ Correct answer: <code>${correctText}</code>. ${q.explain || ''}`; }
+      }
+    } else if (q.kind === "fill") {
+      const norm = (val || "").toLowerCase().replace(/\s+/g,'');
+      const target = String(q.answer).toLowerCase().replace(/\s+/g,'');
+      if (norm === target) {
+        score += q.marks; fillOk++;
+        if (fb) { fb.className = "feedback correct"; fb.style.display = "block";
+                  fb.innerHTML = `✅ Exactly right (+${q.marks}). ${q.explain || ''}`; }
+      } else {
+        if (fb) { fb.className = "feedback wrong"; fb.style.display = "block";
+                  fb.innerHTML = `❌ Expected: <code>${q.answer}</code>. ${q.explain || ''}`; }
+      }
+    } else if (q.kind === "build" || q.kind === "reflect") {
+      if (val && val.length > 30) {
+        score += q.marks;
+        if (fb) { fb.className = "feedback info"; fb.style.display = "block";
+                  fb.innerHTML = `✏️ Self-marked (+${q.marks}). Ms Gao will check this in class. ${q.rubric || ''}`; }
+      } else if (val && val.length > 0) {
+        score += Math.floor(q.marks/2);
+        if (fb) { fb.className = "feedback info"; fb.style.display = "block";
+                  fb.innerHTML = `✏️ Partial (+${Math.floor(q.marks/2)}). Add more detail next time. ${q.rubric || ''}`; }
+      }
+    }
+  });
+
+  document.getElementById("final-score").textContent = score;
+  const totalMarks = QUESTIONS.reduce((s,q)=>s+q.marks,0);
+  let cmt;
+  if (score >= totalMarks * 0.85) cmt = "🌟 Strong foundations — ready for more advanced work.";
+  else if (score >= totalMarks * 0.65) cmt = "✅ Solid — review the bits you missed and you're set.";
+  else if (score >= totalMarks * 0.4) cmt = "🛠️ Re-watch the video, then try the missed questions again.";
+  else cmt = "💛 Come and find Ms Gao — let's go through this together at lunchtime.";
+  document.getElementById("score-comment").textContent = cmt;
+
+  const bd = document.getElementById("breakdown");
+  bd.innerHTML = `
+    <div class="breakdown-item"><div class="label">Multiple choice</div><div class="value">${mcqOk} / ${QUESTIONS.filter(q=>q.kind==='mcq').length}</div></div>
+    <div class="breakdown-item"><div class="label">Fill-in</div><div class="value">${fillOk} / ${QUESTIONS.filter(q=>q.kind==='fill').length}</div></div>
+    <div class="breakdown-item"><div class="label">Build / reflect</div><div class="value">Self-marked</div></div>
+    <div class="breakdown-item"><div class="label">Total</div><div class="value">${score} / 30</div></div>
+  `;
+  document.getElementById("results").style.display = "block";
+  document.getElementById("results").scrollIntoView({behavior:"smooth", block:"start"});
+});
+
+restore();
+</script>
+</body>
+</html>
