@@ -36,11 +36,52 @@ body { max-width: 920px; margin: 0 auto; padding: 1.5rem; overflow-x: hidden; }
                 border-radius: 12px; padding: 1.2rem; margin: 1.5rem 0; }
 .video-panel h2 { color: var(--py-gold); margin: 0 0 0.5rem; font-size: 1.15rem; }
 .video-panel .video-meta { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.8rem; }
+.video-wrap { position: relative; }
 .video-panel video { width: 100%; max-width: 100%; height: auto; border-radius: 8px;
-                      background: #000; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+                      background: #000; box-shadow: 0 4px 12px rgba(0,0,0,0.4); display: block; }
+.video-watermark { position: absolute; top: 12px; right: 12px;
+                    background: rgba(0,0,0,0.7); color: rgba(255,255,255,0.95);
+                    padding: 0.35rem 0.7rem; border-radius: 4px;
+                    font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 500;
+                    letter-spacing: 0.02em; pointer-events: none;
+                    border: 1px solid rgba(255,255,255,0.15);
+                    text-shadow: 0 1px 2px rgba(0,0,0,0.6); z-index: 5; }
+.video-watermark .symbol { color: var(--py-gold); margin-right: 0.25rem; font-weight: 700; }
 .video-panel .video-note { margin-top: 0.7rem; padding: 0.6rem 0.9rem;
                             background: rgba(59,130,246,0.08); border-left: 3px solid var(--py-blue);
                             border-radius: 6px; font-size: 0.88rem; color: var(--text); line-height: 1.5; }
+
+/* ============================================================
+   COPYRIGHT / ATTRIBUTION PANEL
+   ============================================================ */
+.copyright-panel { margin-top: 0.9rem; padding: 0.9rem 1.1rem;
+                    background: rgba(0,0,0,0.25); border: 1px solid var(--border);
+                    border-left: 3px solid var(--py-gold); border-radius: 6px;
+                    font-size: 0.85rem; line-height: 1.55; color: var(--text-muted); }
+.copyright-panel h3 { margin: 0 0 0.4rem; color: var(--py-gold); font-size: 0.9rem;
+                       font-weight: 600; letter-spacing: 0.02em; }
+.copyright-panel p { margin: 0.25rem 0; }
+.copyright-panel strong { color: var(--text); font-weight: 600; }
+.copyright-panel a { color: var(--py-gold); text-decoration: none;
+                      border-bottom: 1px dashed var(--py-gold); }
+.copyright-panel a:hover { opacity: 0.7; }
+.copyright-panel .symbol { color: var(--py-gold); font-weight: 700; }
+.copyright-panel .warn { margin-top: 0.5rem; padding-top: 0.5rem;
+                          border-top: 1px solid var(--border);
+                          color: #fca5a5; font-weight: 500; }
+
+/* ============================================================
+   PAGE FOOTER (copyright + attribution at bottom of every WS)
+   ============================================================ */
+.page-footer { margin: 3rem 0 1rem; padding: 1.2rem 1.4rem;
+                background: var(--surface); border: 1px solid var(--border);
+                border-radius: 10px; font-size: 0.82rem; color: var(--text-muted);
+                line-height: 1.55; }
+.page-footer .row { display: flex; gap: 1rem; flex-wrap: wrap;
+                     justify-content: space-between; align-items: baseline; }
+.page-footer strong { color: var(--text); }
+.page-footer a { color: var(--py-gold); text-decoration: none; }
+.page-footer a:hover { opacity: 0.7; }
 
 /* ============================================================
    PROGRESS BAR
@@ -159,12 +200,22 @@ textarea { min-height: 110px; resize: vertical; }
 <div class="video-panel">
   <h2>📹 Watch this first</h2>
   <p class="video-meta">Welcome to programming — what programming is, why it matters, what we'll build (12 min).</p>
-  <video controls preload="metadata" poster="">
-    <source src="../videos/foundations-01-welcome.mp4" type="video/mp4">
-    Sorry, your browser doesn't support embedded videos. Ask Ms Gao for a link to download the video file.
-  </video>
+  <div class="video-wrap">
+    <video controls preload="metadata" poster="" controlslist="nodownload" oncontextmenu="return false;">
+      <source src="../videos/foundations-01-welcome.mp4" type="video/mp4">
+      Sorry, your browser doesn't support embedded videos. Ask Ms Gao for the source link.
+    </video>
+    <div class="video-watermark"><span class="symbol">&copy;</span> Educational use &middot; APHS</div>
+  </div>
   <div class="video-note">
     <strong>💡 Tip:</strong> Watch with sound on. Don't take notes yet — let it wash over you the first time. Pause when something clicks.
+  </div>
+  <div class="copyright-panel">
+    <h3><span class="symbol">&copy;</span> Source &amp; Licence</h3>
+    <p><strong>Original lecture:</strong> <em>Python for Everybody</em> by Dr Charles Severance, School of Information, University of Michigan.</p>
+    <p><strong>Open-licence source:</strong> Full course materials are freely available at <a href="https://www.py4e.com" target="_blank" rel="noopener">py4e.com</a> under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0).</p>
+    <p><strong>This embed:</strong> Used for classroom learning at Arthur Phillip High School (NSW DoE) under Section 113P of the <em>Copyright Act 1968</em> &mdash; the Australian statutory educational licence administered by the Copyright Agency.</p>
+    <p class="warn"><strong>For students:</strong> please don't download, re-share, or post this video outside our class. If you'd like the original lectures for yourself, watch them free at <a href="https://www.py4e.com" target="_blank" rel="noopener">py4e.com</a>.</p>
   </div>
 </div>
 
@@ -332,6 +383,16 @@ print(...)
     <a href="index.html" class="primary">→ Back to Foundations</a>
   </div>
 </div>
+
+<footer class="page-footer">
+  <div class="row">
+    <div><strong>&copy; 2026 Y9 Game On (9GAMZA)</strong> &middot; Worksheet content &amp; design by Ms Yunshu Gao &middot; Arthur Phillip High School</div>
+    <div>Embedded video: <a href="https://www.py4e.com" target="_blank" rel="noopener">py4e.com</a> &middot; CC BY-NC-SA 4.0</div>
+  </div>
+  <div style="margin-top: 0.5rem; font-size: 0.78rem;">
+    Used under the Australian <em>Copyright Act 1968</em> Section 113P statutory educational licence. All exercises, code examples, and explanations are original works. Embedded video is attributed to its CC-licensed source above.
+  </div>
+</footer>
 
 </main>
 
