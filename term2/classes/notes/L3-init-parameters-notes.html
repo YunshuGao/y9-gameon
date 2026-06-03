@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study Notes — Lesson 3 — Objects that are DIFFERENT · 9GAMZA</title>
+<link rel="stylesheet" href="../../../assets/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body { max-width: 820px; margin: 0 auto; padding: 1.5rem; line-height: 1.7; }
+.notes-header { background: linear-gradient(135deg, rgba(31,58,104,0.45), rgba(168,85,247,0.15));
+                border: 2px solid var(--py-gold); border-radius: 14px; padding: 1.4rem 1.6rem; margin-bottom: 1.2rem; }
+.notes-header .kicker { color: var(--py-gold); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.notes-header h1 { margin: 0.3rem 0 0.4rem; color: var(--py-gold); font-size: 1.5rem; }
+.notes-header p { margin: 0; color: var(--text); font-size: 0.95rem; }
+.selfstudy { background: rgba(59,130,246,0.08); border-left: 3px solid var(--py-blue);
+             padding: 0.8rem 1.1rem; border-radius: 8px; margin: 1rem 0 1.5rem; font-size: 0.92rem; }
+.selfstudy strong { color: #93c5fd; }
+h2 { color: var(--py-gold); font-size: 1.3rem; margin: 2rem 0 0.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.3rem; }
+h3 { color: #5eead4; font-size: 1.05rem; margin: 1.3rem 0 0.4rem; }
+p { color: var(--text); margin: 0.5rem 0; }
+ul { color: var(--text); padding-left: 1.4rem; }
+li { margin: 0.3rem 0; }
+code { background: rgba(0,0,0,0.35); padding: 0.1rem 0.4rem; border-radius: 3px; color: var(--py-gold);
+       font-family: 'Fira Code', monospace; font-size: 0.88em; }
+pre.code { background: rgba(0,0,0,0.5); padding: 1rem 1.2rem; border-radius: 8px; overflow-x: auto; margin: 0.6rem 0; }
+pre.code code { background: none; padding: 0; color: var(--py-gold); white-space: pre; display: block;
+                font-size: 0.88rem; line-height: 1.6; }
+pre.code.bad { border-left: 3px solid #ef4444; }
+pre.code.good { border-left: 3px solid #22c55e; }
+.lbl { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin: 1rem 0 0.2rem; }
+.lbl.bad { color: #fca5a5; } .lbl.good { color: #86efac; }
+.visualise { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem; margin: 1.6rem 0; }
+.visualise h2 { border: none; margin: 0 0 0.3rem; padding: 0; }
+.visualise p { color: var(--text-muted); font-size: 0.88rem; margin: 0 0 0.7rem; }
+.visualise iframe { width: 100%; height: 460px; border: 1px solid var(--border); border-radius: 8px; background: #fff; }
+.resources { display: grid; gap: 0.7rem; margin: 1rem 0; }
+.res { display: flex; gap: 0.8rem; padding: 0.8rem 1rem; background: var(--surface); border: 1px solid var(--border);
+       border-radius: 10px; text-decoration: none; color: var(--text); transition: border 0.15s; }
+.res:hover { border-color: var(--py-gold); }
+.res .ico { font-size: 1.6rem; }
+.res h4 { margin: 0 0 0.2rem; color: var(--py-gold); font-size: 0.95rem; }
+.res p { margin: 0; font-size: 0.84rem; color: var(--text-muted); }
+.backbar { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 2rem 0 1rem; }
+.backbar a { flex: 1; min-width: 200px; padding: 0.9rem 1.2rem; border-radius: 8px; text-align: center;
+             text-decoration: none; font-weight: 600; }
+.backbar .primary { background: linear-gradient(135deg, #3776AB, #14b8a6); color: white; }
+.backbar .ghost { background: var(--bg); border: 1px solid var(--border); color: var(--text); }
+</style>
+</head>
+<body>
+<header class="site-header"><div class="site-header-inner">
+  <a href="../../index.html" class="site-brand">🐍 Y9 Game On · Term 2</a>
+  <nav class="site-nav">
+    <a href="../index.html">📚 Classes</a>
+    <a href="../L3-init-parameters.html">← Worksheet</a>
+  </nav>
+</div></header>
+<main class="container">
+
+<div class="notes-header">
+  <div class="kicker">Study Notes · self-learning · Lesson 3</div>
+  <h1>🎚️ Lesson 3 — Objects that are DIFFERENT</h1>
+  <p>Right now every object starts the same. Today: pass in values so each object can be different — Dog(&quot;Rex&quot;) vs Dog(&quot;Bella&quot;).</p>
+</div>
+
+<div class="selfstudy">
+  <strong>📖 These are your STUDY NOTES — read them at your own pace.</strong> This is the full explanation with
+  lots of examples. You don't have to memorise it — keep it open in another tab while you do the worksheet.
+  When you're ready to practise, go back to the <a href="../L3-init-parameters.html">worksheet</a>.
+</div>
+
+<h2>The problem: every object is identical</h2>
+<div class="lbl bad">❌ Every dog is the same</div><pre class="code bad"><code>class Dog:
+    def __init__(self):
+        self.name = &quot;Rex&quot;     # EVERY dog is Rex!
+
+a = Dog()
+b = Dog()
+print(a.name, b.name)    # Rex Rex  :(</code></pre>
+<h3>The fix: a PARAMETER in __init__</h3>
+<p>Add a parameter (an input) to <code>__init__</code> after <code>self</code>. Then the name comes from OUTSIDE when you build the object:</p>
+<div class="lbl good">✅ Each dog is different</div><pre class="code good"><code>class Dog:
+    def __init__(self, name):     # name comes IN
+        self.name = name          # store the value we were given
+
+a = Dog(&quot;Rex&quot;)
+b = Dog(&quot;Bella&quot;)
+print(a.name, b.name)    # Rex Bella  :)</code></pre>
+<h3>Reading it carefully</h3>
+<ul><li><code>def __init__(self, name):</code> — <code>self</code> first (always), then <code>name</code> is a value coming in.</li><li><code>self.name = name</code> — store the incoming <code>name</code> onto the object as <code>self.name</code>.</li><li><code>Dog("Rex")</code> — the "Rex" goes IN as <code>name</code>. This dog's name becomes Rex.</li><li><code>Dog("Bella")</code> — a different dog, name Bella. Same blueprint, different data.</li></ul>
+<h3>Passing in MORE than one value</h3>
+<pre class="code"><code>class Enemy:
+    def __init__(self, name, health):
+        self.name = name
+        self.health = health
+
+goblin = Enemy(&quot;Goblin&quot;, 30)
+orc = Enemy(&quot;Orc&quot;, 50)
+print(goblin.health)   # 30
+print(orc.health)      # 50</code></pre>
+<p>List the parameters in order after self. When you build, pass the values in the SAME order: <code>Enemy("Goblin", 30)</code> → name="Goblin", health=30.</p>
+<h3>The golden rule</h3>
+<p><strong><code>self.name = name</code></strong> is the most common line in all of classes. "Store the value I was given onto this object." You'll write it hundreds of times. Practise it until it's automatic.</p>
+
+<div class="visualise">
+  <h2>🔬 See it happen — step through this code</h2>
+  <p>Press <strong>Forward</strong> to run the code one line at a time and WATCH the objects appear. This is the
+  best way to understand what's really going on. (Loads from pythontutor.com.)</p>
+  <iframe src="https://pythontutor.com/iframe-embed.html#code=class%20Dog%3A%0A%20%20%20%20def%20__init__%28self%2C%20name%29%3A%0A%20%20%20%20%20%20%20%20self.name%20%3D%20name%0A%0Arex%20%3D%20Dog%28%22Rex%22%29%0Abella%20%3D%20Dog%28%22Bella%22%29%0Aprint%28rex.name%29%0Aprint%28bella.name%29&cumulative=false&py=3&curInstr=0&codeDivHeight=400&codeDivWidth=520&origin=opt-frontend.js&rawInputLstJSON=%5B%5D&textReferences=false" loading="lazy"></iframe>
+</div>
+
+<h2>🧰 More good resources</h2>
+<div class="resources">
+  <a class="res" href="https://pythontutor.com/visualize.html" target="_blank" rel="noopener">
+    <div class="ico">🔬</div>
+    <div><h4>Python Tutor — two different dogs</h4><p>Watch &quot;Rex&quot; and &quot;Bella&quot; flow IN and become each dog&#x27;s name. Two boxes, two names.</p></div>
+  </a>
+  <a class="res" href="https://trinket.io/python3" target="_blank" rel="noopener">
+    <div class="ico">✏️</div>
+    <div><h4>Trinket — run it yourself</h4><p>Type the Dog class and build your own dogs with different names. See them print.</p></div>
+  </a>
+</div>
+
+<div class="backbar">
+  <a class="primary" href="../L3-init-parameters.html">→ Go to the worksheet &amp; practise</a>
+  <a class="ghost" href="../index.html">All Classes lessons</a>
+</div>
+
+</main>
+</body>
+</html>

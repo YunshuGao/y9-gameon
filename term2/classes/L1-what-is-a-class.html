@@ -36,6 +36,34 @@ body { max-width: 940px; margin: 0 auto; padding: 1.5rem; overflow-x: hidden; }
 .video-panel video { width: 100%; border-radius: 8px; background: #000; }
 .video-panel iframe { width: 100%; aspect-ratio: 16/9; border: 0; border-radius: 8px; }
 
+/* LEARN panel — lean: watch + visualise + run + notes button */
+.learn { margin: 1.4rem 0; }
+.learn-grid { display: grid; gap: 1rem; }
+.learn-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem; }
+.learn-card h2 { color: var(--py-gold); margin: 0 0 0.3rem; font-size: 1.05rem; }
+.learn-card .sub { color: var(--text-muted); font-size: 0.84rem; margin: 0 0 0.7rem; line-height: 1.45; }
+.learn-card iframe.video { width: 100%; aspect-ratio: 16/9; border: 0; border-radius: 8px; }
+.learn-card iframe.tutor { width: 100%; height: 440px; border: 1px solid var(--border); border-radius: 8px; background: #fff; }
+.learn-card iframe.trinket { width: 100%; height: 360px; border: 1px solid var(--border); border-radius: 8px; background: #fff; }
+.notes-button { display: flex; align-items: center; gap: 1rem; padding: 1.1rem 1.3rem;
+                background: linear-gradient(135deg, rgba(168,85,247,0.18), rgba(31,58,104,0.25));
+                border: 2px solid #a855f7; border-radius: 12px; text-decoration: none; color: var(--text);
+                margin: 1.2rem 0; transition: transform 0.15s; }
+.notes-button:hover { transform: translateY(-2px); }
+.notes-button .big { font-size: 2rem; }
+.notes-button h3 { margin: 0 0 0.2rem; color: #d8b4fe; font-size: 1.05rem; }
+.notes-button p { margin: 0; font-size: 0.88rem; color: var(--text-muted); }
+/* quick reference cheat-sheet card */
+.quickref { background: rgba(0,0,0,0.28); border: 1px solid var(--border); border-left: 3px solid var(--py-gold);
+            border-radius: 10px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.quickref h3 { color: var(--py-gold); margin: 0 0 0.6rem; font-size: 1rem; }
+.quickref table { width: 100%; border-collapse: collapse; }
+.quickref td { padding: 0.3rem 0.4rem; vertical-align: top; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.quickref td.code { font-family: 'Fira Code', monospace; color: var(--py-gold); font-size: 0.85rem; white-space: nowrap; padding-right: 1rem; }
+.quickref td.mean { color: var(--text); font-size: 0.86rem; }
+.tools-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; margin: 0.5rem 0; }
+@media (max-width: 620px) { .tools-row { grid-template-columns: 1fr; } }
+
 /* concept teach block */
 .teach { margin: 1.6rem 0; padding: 1.3rem; background: var(--surface);
          border-radius: 12px; border: 1px solid var(--border); }
@@ -160,8 +188,8 @@ textarea { min-height: 120px; resize: vertical; }
   <p><strong>Today:</strong> The smallest possible start: a class is a blueprint, and an object is the thing you build from it.</p>
   <div class="meta">
     <div><strong>Lesson</strong>1 of 8</div>
-    <div><strong>Time</strong>50 min</div>
-    <div><strong>Marks</strong>/32 (classwork)</div>
+    <div><strong>Time</strong>75 min</div>
+    <div><strong>Marks</strong>/51 (classwork)</div>
     <div><strong>Builds toward</strong>Understanding objects</div>
   </div>
   <div class="name-row">
@@ -178,38 +206,40 @@ textarea { min-height: 120px; resize: vertical; }
   <strong>📋 This counts as classwork.</strong> Work through the <strong>MUST DO</strong> tier first — everyone finishes those. Then <strong>SHOULD DO</strong>. <strong>COULD DO</strong> is for when you're flying. Ms Gao checks your progress at the end. Auto-saves on this laptop.
 </div>
 
-
-<div class="video-panel">
-  <h2>📹 Watch first — Classes &amp; Objects, the simplest explanation</h2>
-  <p class="vmeta">A gentle 5-minute intro to what a class is and why we use one. Watch the whole thing before the exercises.</p>
-  <iframe src="https://www.youtube-nocookie.com/embed/8yjkWGRlUmY" title="Watch first — Classes &amp; Objects, the simplest explanation" allowfullscreen loading="lazy"></iframe>
+<div class="learn"><div class="learn-grid">
+<div class="learn-card">
+  <h2>📹 Watch this first</h2>
+  <p class="sub">A gentle 5-minute intro to what a class is and why we use one. Watch the whole thing before the exercises.</p>
+  <iframe class="video" src="https://www.youtube-nocookie.com/embed/8yjkWGRlUmY" title="Watch first — Classes &amp; Objects, the simplest explanation" allowfullscreen loading="lazy"></iframe>
 </div>
-
-<div class="teach">
-<h2>A class is a COOKIE CUTTER 🍪</h2>
-<p>Imagine a cookie cutter shaped like a star. The cutter is not a cookie — it's the SHAPE that makes cookies. You can stamp out as many star cookies as you like from one cutter.</p>
-<p>In Python: the <strong>class</strong> is the cookie cutter (the blueprint). An <strong>object</strong> is one cookie you stamp out from it.</p>
-<h3>The smallest class you can write</h3>
-<div class="codeblock"><code>class Dog:
-    pass</code></div>
-<p>That's a complete class! <code>class Dog:</code> names the blueprint. <code>pass</code> just means "nothing inside yet". You've made a cookie cutter called Dog.</p>
-<h3>Building an object (stamping a cookie)</h3>
-<p>To build an actual dog from the blueprint, you call the class like a function — with round brackets:</p>
-<div class="codeblock"><code>class Dog:
-    pass
-
-my_dog = Dog()       # build one dog
-your_dog = Dog()     # build another dog</code></div>
-<p><code>Dog()</code> stamps out a new dog object. <code>my_dog</code> and <code>your_dog</code> are two separate dogs, both made from the same Dog blueprint.</p>
-<h3>The two words to remember today</h3>
-<ul><li><strong>Class</strong> = the blueprint / cookie cutter. You write it once. Starts with <code>class</code>.</li><li><strong>Object</strong> = a thing built from the blueprint. You can build many. Made with <code>Dog()</code>.</li></ul>
-<p>That's the whole lesson. Don't worry about what goes INSIDE the class yet — that's Lesson 2. Today: just blueprint, and building objects from it.</p>
+<div class="learn-card">
+  <h2>🔬 See it happen — press Forward to step through</h2>
+  <p class="sub">Watch the objects appear and the data fill in, one line at a time. This is the best way to understand classes.</p>
+  <iframe class="tutor" src="https://pythontutor.com/iframe-embed.html#code=class%20Dog%3A%0A%20%20%20%20pass%0A%0Arex%20%3D%20Dog%28%29%0Abella%20%3D%20Dog%28%29%0A%0Aprint%28rex%29%0Aprint%28bella%29&cumulative=false&py=3&curInstr=0&codeDivHeight=400&codeDivWidth=520&origin=opt-frontend.js&rawInputLstJSON=%5B%5D&textReferences=false" loading="lazy"></iframe>
+</div>
+<div class="learn-card">
+  <h2>✏️ Try it yourself — write &amp; run Python here</h2>
+  <p class="sub">Type code and press the ▶ Run button. Use this whenever a question asks you to write or test code.</p>
+  <iframe class="trinket" src="https://trinket.io/embed/python3" loading="lazy"></iframe>
+</div>
+</div>
+<a class="notes-button" href="notes/L1-what-is-a-class-notes.html">
+  <span class="big">📖</span>
+  <div>
+    <h3>Want the full explanation? Open the Study Notes</h3>
+    <p>The detailed guide with lots of examples — read it at your own pace, then come back and practise.</p>
+  </div>
+</a>
+<div class="quickref">
+  <h3>⚡ Quick reference — today's syntax</h3>
+  <table><tr><td class="code">class Dog:</td><td class="mean">make a blueprint called Dog</td></tr><tr><td class="code">    pass</td><td class="mean">nothing inside yet</td></tr><tr><td class="code">rex = Dog()</td><td class="mean">build ONE dog object</td></tr><tr><td class="code">a = Dog()  b = Dog()</td><td class="mean">build as many as you like</td></tr></table>
+</div>
 </div>
 
 <div class="progress-bar-wrap">
   <div class="progress-text">
     <span><span id="answered-count">0</span> / <span id="total-count">0</span> attempted</span>
-    <span class="marks">Score: <span id="est-marks">0</span> / 32</span>
+    <span class="marks">Score: <span id="est-marks">0</span> / 51</span>
   </div>
   <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
 </div>
@@ -315,6 +345,75 @@ c = Dog()</code></pre>
     </div>
     <div class="feedback" id="fb-c1q8"></div>
   </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q14 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Make a class called <code>Car</code>. Fill BOTH blanks.</div>
+    <pre><code>______ Car:
+    ______</code></pre>
+    <input type="text" id="c1qe1" placeholder="class ... pass">
+    <div class="feedback" id="fb-c1qe1"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q15 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Build a car object called <code>my_car</code> from the Car blueprint.</div>
+    <pre><code>class Car:
+    pass
+
+my_car = ______</code></pre>
+    <input type="text" id="c1qe2" placeholder="build it">
+    <div class="feedback" id="fb-c1qe2"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q16 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Which one is the OBJECT (the cookie), not the blueprint?</div>
+    <pre><code>class Star:
+    pass
+
+twinkle = Star()</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="c1qe3" value="0"> class Star:</label>
+      <label><input type="radio" name="c1qe3" value="1"> pass</label>
+      <label><input type="radio" name="c1qe3" value="2"> twinkle = Star()</label>
+      <label><input type="radio" name="c1qe3" value="3"> Star</label>
+    </div>
+    <div class="feedback" id="fb-c1qe3"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q17 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">How many objects does this build?</div>
+    <pre><code>class Coin:
+    pass
+
+c1 = Coin()
+c2 = Coin()</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="c1qe4" value="0"> 0</label>
+      <label><input type="radio" name="c1qe4" value="1"> 1</label>
+      <label><input type="radio" name="c1qe4" value="2"> 2</label>
+      <label><input type="radio" name="c1qe4" value="3"> 3</label>
+    </div>
+    <div class="feedback" id="fb-c1qe4"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q18 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">True or false: a class is the SAME thing as an object.</div>
+    
+    <div class="choices">
+      <label><input type="radio" name="c1qe5" value="0"> True — they&#x27;re the same</label>
+      <label><input type="radio" name="c1qe5" value="1"> False — a class is the blueprint, an object is built from it</label>
+    </div>
+    <div class="feedback" id="fb-c1qe5"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q19 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Fill the brackets needed to build an object. (What goes after the class name?)</div>
+    <pre><code>class Tree:
+    pass
+
+oak = Tree______</code></pre>
+    <input type="text" id="c1qe6" placeholder="two symbols">
+    <div class="feedback" id="fb-c1qe6"></div>
+  </div>
 <div class="tier should">
   <span class="badge">⭐ SHOULD DO</span>
   <span class="tier-desc">Most of you will get here. This is applying the idea.</span>
@@ -351,6 +450,20 @@ c = Dog()</code></pre>
     </div>
     <div class="feedback" id="fb-c1q11"></div>
   </div>
+  <div class="question t-should">
+    <div class="qnum"><span>Q20 · 4 marks (self-marked)</span><span class="tiertag should">should</span></div>
+    <div class="qtext">STEP-BY-STEP. (1) Write a class called <code>Monster</code> with <code>pass</code> inside. (2) Build THREE monster objects called <code>m1</code>, <code>m2</code>, <code>m3</code>. (3) Print each one. Paste all your lines.</div>
+    
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code># 1. the class
+class Monster:
+    pass
+
+# 2. build three monsters
+
+# 3. print each one
+</code></pre><textarea id="c1qe7" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c1qe7"></div>
+  </div>
 <div class="tier could">
   <span class="badge">🚀 COULD DO</span>
   <span class="tier-desc">For when you're flying — stretch yourself, often with your OWN game code.</span>
@@ -375,6 +488,13 @@ c = Dog()</code></pre>
     <textarea id="c1q13" placeholder="Paste your code or written answer..."></textarea>
     <div class="feedback" id="fb-c1q13"></div>
   </div>
+  <div class="question t-could">
+    <div class="qnum"><span>Q21 · 3 marks (self-marked)</span><span class="tiertag could">could</span></div>
+    <div class="qtext">🚀 Open the Python Tutor visualiser at the top of this page. Press 'Forward' to step through the Dog example. Write 2-3 sentences: what did you SEE happen when <code>rex = Dog()</code> ran? Where did rex appear?</div>
+    
+    <textarea id="c1qe8" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c1qe8"></div>
+  </div>
 <div id="submit-section">
   <p style="margin: 0 0 1rem; color: var(--text-muted);">Done with your tier? Submit to see your score + answer key. Keep editing after if you want.</p>
   <button id="submit-btn" disabled>Submit worksheet</button>
@@ -384,7 +504,7 @@ c = Dog()</code></pre>
 <div id="results">
   <h2>📊 Your clean-code check</h2>
   <div class="score-hero">
-    <div class="big"><span id="final-score">0</span> / 32</div>
+    <div class="big"><span id="final-score">0</span> / 51</div>
     <div class="sub" id="score-comment">—</div>
   </div>
   <div class="breakdown" id="breakdown"></div>
@@ -542,6 +662,84 @@ const QUESTIONS = [
     "marks": 3,
     "tier": "could",
     "rubric": "Full marks: sensible empty class + three objects + a sentence showing they understand 'one blueprint, many objects'."
+  },
+  {
+    "id": "c1qe1",
+    "kind": "fill",
+    "marks": 2,
+    "tier": "must",
+    "answer": "class\npass",
+    "explain": "<code>class Car:</code> then <code>pass</code>."
+  },
+  {
+    "id": "c1qe2",
+    "kind": "fill",
+    "marks": 2,
+    "tier": "must",
+    "answer": "Car()",
+    "explain": "<code>Car()</code> with round brackets builds an object."
+  },
+  {
+    "id": "c1qe3",
+    "kind": "mcq",
+    "marks": 2,
+    "tier": "must",
+    "correct": 2,
+    "choices": [
+      "class Star:",
+      "pass",
+      "twinkle = Star()",
+      "Star"
+    ],
+    "explain": "<code>twinkle = Star()</code> builds an object. <code>class Star:</code> is the blueprint."
+  },
+  {
+    "id": "c1qe4",
+    "kind": "mcq",
+    "marks": 2,
+    "tier": "must",
+    "correct": 2,
+    "choices": [
+      "0",
+      "1",
+      "2",
+      "3"
+    ],
+    "explain": "Two <code>Coin()</code> calls = two coin objects."
+  },
+  {
+    "id": "c1qe5",
+    "kind": "mcq",
+    "marks": 2,
+    "tier": "must",
+    "correct": 1,
+    "choices": [
+      "True \u2014 they're the same",
+      "False \u2014 a class is the blueprint, an object is built from it"
+    ],
+    "explain": "Different! Class = blueprint (cookie cutter). Object = the thing you build (cookie)."
+  },
+  {
+    "id": "c1qe6",
+    "kind": "fill",
+    "marks": 2,
+    "tier": "must",
+    "answer": "()",
+    "explain": "Round brackets <code>()</code> build the object: <code>Tree()</code>."
+  },
+  {
+    "id": "c1qe7",
+    "kind": "build",
+    "marks": 4,
+    "tier": "should",
+    "rubric": "Full marks: class with pass, three objects built with Monster(), all three printed. Half: fewer than three objects."
+  },
+  {
+    "id": "c1qe8",
+    "kind": "build",
+    "marks": 3,
+    "tier": "could",
+    "rubric": "Full marks: describes seeing the rex object appear as a box when Dog() ran. Shows they used the visualiser and understood objects are 'things that appear'."
   }
 ];
 
@@ -638,7 +836,7 @@ document.getElementById("submit-btn").addEventListener("click", () => {
     <div class="breakdown-item"><div class="label">✅ Must do</div><div class="value">${tierScore.must}</div></div>
     <div class="breakdown-item"><div class="label">⭐ Should do</div><div class="value">${tierScore.should}</div></div>
     <div class="breakdown-item"><div class="label">🚀 Could do</div><div class="value">${tierScore.could}</div></div>
-    <div class="breakdown-item"><div class="label">Total</div><div class="value">${score} / 32</div></div>`;
+    <div class="breakdown-item"><div class="label">Total</div><div class="value">${score} / 51</div></div>`;
   document.getElementById("results").style.display = "block";
   document.getElementById("results").scrollIntoView({behavior:"smooth", block:"start"});
 });

@@ -36,6 +36,34 @@ body { max-width: 940px; margin: 0 auto; padding: 1.5rem; overflow-x: hidden; }
 .video-panel video { width: 100%; border-radius: 8px; background: #000; }
 .video-panel iframe { width: 100%; aspect-ratio: 16/9; border: 0; border-radius: 8px; }
 
+/* LEARN panel — lean: watch + visualise + run + notes button */
+.learn { margin: 1.4rem 0; }
+.learn-grid { display: grid; gap: 1rem; }
+.learn-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem; }
+.learn-card h2 { color: var(--py-gold); margin: 0 0 0.3rem; font-size: 1.05rem; }
+.learn-card .sub { color: var(--text-muted); font-size: 0.84rem; margin: 0 0 0.7rem; line-height: 1.45; }
+.learn-card iframe.video { width: 100%; aspect-ratio: 16/9; border: 0; border-radius: 8px; }
+.learn-card iframe.tutor { width: 100%; height: 440px; border: 1px solid var(--border); border-radius: 8px; background: #fff; }
+.learn-card iframe.trinket { width: 100%; height: 360px; border: 1px solid var(--border); border-radius: 8px; background: #fff; }
+.notes-button { display: flex; align-items: center; gap: 1rem; padding: 1.1rem 1.3rem;
+                background: linear-gradient(135deg, rgba(168,85,247,0.18), rgba(31,58,104,0.25));
+                border: 2px solid #a855f7; border-radius: 12px; text-decoration: none; color: var(--text);
+                margin: 1.2rem 0; transition: transform 0.15s; }
+.notes-button:hover { transform: translateY(-2px); }
+.notes-button .big { font-size: 2rem; }
+.notes-button h3 { margin: 0 0 0.2rem; color: #d8b4fe; font-size: 1.05rem; }
+.notes-button p { margin: 0; font-size: 0.88rem; color: var(--text-muted); }
+/* quick reference cheat-sheet card */
+.quickref { background: rgba(0,0,0,0.28); border: 1px solid var(--border); border-left: 3px solid var(--py-gold);
+            border-radius: 10px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.quickref h3 { color: var(--py-gold); margin: 0 0 0.6rem; font-size: 1rem; }
+.quickref table { width: 100%; border-collapse: collapse; }
+.quickref td { padding: 0.3rem 0.4rem; vertical-align: top; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.quickref td.code { font-family: 'Fira Code', monospace; color: var(--py-gold); font-size: 0.85rem; white-space: nowrap; padding-right: 1rem; }
+.quickref td.mean { color: var(--text); font-size: 0.86rem; }
+.tools-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; margin: 0.5rem 0; }
+@media (max-width: 620px) { .tools-row { grid-template-columns: 1fr; } }
+
 /* concept teach block */
 .teach { margin: 1.6rem 0; padding: 1.3rem; background: var(--surface);
          border-radius: 12px; border: 1px solid var(--border); }
@@ -160,8 +188,8 @@ textarea { min-height: 120px; resize: vertical; }
   <p><strong>Today:</strong> Everything you've learned, put together into ONE class you design and build — step by step, with scaffolding.</p>
   <div class="meta">
     <div><strong>Lesson</strong>8 of 8</div>
-    <div><strong>Time</strong>70 min</div>
-    <div><strong>Marks</strong>/41 (classwork)</div>
+    <div><strong>Time</strong>75 min</div>
+    <div><strong>Marks</strong>/73 (classwork)</div>
     <div><strong>Builds toward</strong>Ready for Term 3</div>
   </div>
   <div class="name-row">
@@ -178,48 +206,35 @@ textarea { min-height: 120px; resize: vertical; }
   <strong>📋 This counts as classwork.</strong> Work through the <strong>MUST DO</strong> tier first — everyone finishes those. Then <strong>SHOULD DO</strong>. <strong>COULD DO</strong> is for when you're flying. Ms Gao checks your progress at the end. Auto-saves on this laptop.
 </div>
 
-
-
-<div class="teach">
-<h2>The 7 things you now know</h2>
-<div class="codeblock"><code>1. CLASS    — the blueprint:           class Pet:
-2. __init__ — the setup method:        def __init__(self):
-3. self     — this object:             self.name
-4. PARAMS   — values coming in:        def __init__(self, name):
-5. ATTRIBUTE— data the object has:     self.health = 100
-6. METHOD   — an action it does:       def feed(self):
-7. CHANGE   — a method edits data:     self.hunger += 10</code></div>
-<h3>Build along: a complete Pet class, one piece at a time</h3>
-<p>We'll build a full virtual pet together. Each step adds ONE thing you already know. Follow along, then the tasks ask you to build your OWN.</p>
-<p><strong>Step 1 — the blueprint and setup:</strong></p>
-<div class="codeblock"><code>class Pet:
-    def __init__(self, name):
-        self.name = name
-        self.hunger = 50
-        self.happiness = 50</code></div>
-<p><strong>Step 2 — add a method that changes data (with capping):</strong></p>
-<div class="codeblock"><code>    def feed(self):
-        self.hunger = min(100, self.hunger + 20)
-        print(self.name + &quot; has been fed. Hunger: &quot; + str(self.hunger))</code></div>
-<p><strong>Step 3 — add another method:</strong></p>
-<div class="codeblock"><code>    def play(self):
-        self.happiness = min(100, self.happiness + 15)
-        print(self.name + &quot; played. Happiness: &quot; + str(self.happiness))</code></div>
-<p><strong>Step 4 — build the object and use it:</strong></p>
-<div class="codeblock"><code>my_pet = Pet(&quot;Mochi&quot;)
-my_pet.feed()
-my_pet.play()
-print(my_pet.hunger, my_pet.happiness)</code></div>
-<h3>That's a complete program made of one class!</h3>
-<p>Blueprint + attributes + methods + changing data — everything from Lessons 1-5. The capstone tasks below ask you to build your own version. Take it step by step, just like this. Run it after each step to check it works.</p>
-<h3>How to build without getting stuck</h3>
-<ul><li>Write the <code>class</code> line and <code>__init__</code> first. Run it. No errors? Good.</li><li>Add ONE method. Run it. Test it.</li><li>Add the next method. Run it.</li><li>Never write the whole thing then run — add one piece at a time.</li><li>Stuck? Look back at the build-along above, or ask Ms Gao.</li></ul>
+<div class="learn"><div class="learn-grid">
+<div class="learn-card">
+  <h2>🔬 See it happen — press Forward to step through</h2>
+  <p class="sub">Watch the objects appear and the data fill in, one line at a time. This is the best way to understand classes.</p>
+  <iframe class="tutor" src="https://pythontutor.com/iframe-embed.html#code=class%20Pet%3A%0A%20%20%20%20def%20__init__%28self%2C%20name%29%3A%0A%20%20%20%20%20%20%20%20self.name%20%3D%20name%0A%20%20%20%20%20%20%20%20self.hunger%20%3D%2050%0A%20%20%20%20def%20feed%28self%29%3A%0A%20%20%20%20%20%20%20%20self.hunger%20%3D%20min%28100%2C%20self.hunger%20%2B%2020%29%0A%0Amochi%20%3D%20Pet%28%22Mochi%22%29%0Amochi.feed%28%29%0Amochi.feed%28%29%0Aprint%28mochi.name%2C%20mochi.hunger%29&cumulative=false&py=3&curInstr=0&codeDivHeight=400&codeDivWidth=520&origin=opt-frontend.js&rawInputLstJSON=%5B%5D&textReferences=false" loading="lazy"></iframe>
+</div>
+<div class="learn-card">
+  <h2>✏️ Try it yourself — write &amp; run Python here</h2>
+  <p class="sub">Type code and press the ▶ Run button. Use this whenever a question asks you to write or test code.</p>
+  <iframe class="trinket" src="https://trinket.io/embed/python3" loading="lazy"></iframe>
+</div>
+</div>
+<a class="notes-button" href="notes/L8-build-your-own-notes.html">
+  <span class="big">📖</span>
+  <div>
+    <h3>Want the full explanation? Open the Study Notes</h3>
+    <p>The detailed guide with lots of examples — read it at your own pace, then come back and practise.</p>
+  </div>
+</a>
+<div class="quickref">
+  <h3>⚡ Quick reference — today's syntax</h3>
+  <table><tr><td class="code">class Pet:</td><td class="mean">1. blueprint</td></tr><tr><td class="code">  def __init__(self, name):</td><td class="mean">2. setup + parameters</td></tr><tr><td class="code">    self.name = name</td><td class="mean">3. store data</td></tr><tr><td class="code">  def feed(self):</td><td class="mean">4. a method</td></tr><tr><td class="code">    self.hunger += 10</td><td class="mean">5. change data</td></tr></table>
+</div>
 </div>
 
 <div class="progress-bar-wrap">
   <div class="progress-text">
     <span><span id="answered-count">0</span> / <span id="total-count">0</span> attempted</span>
-    <span class="marks">Score: <span id="est-marks">0</span> / 41</span>
+    <span class="marks">Score: <span id="est-marks">0</span> / 73</span>
   </div>
   <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
 </div>
@@ -282,6 +297,41 @@ my_character.______()
 </code></pre><textarea id="c8q6" placeholder="Paste your code or written answer..."></textarea>
     <div class="feedback" id="fb-c8q6"></div>
   </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q11 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Quick recall: fill the parameter so a name can come in.</div>
+    <pre><code>def __init__(self, ______):
+    self.name = name</code></pre>
+    <input type="text" id="c8qe1" placeholder="parameter">
+    <div class="feedback" id="fb-c8qe1"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q12 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Quick recall: fill the golden-rule line.</div>
+    <pre><code>def __init__(self, name):
+    ______ = name</code></pre>
+    <input type="text" id="c8qe2" placeholder="self dot name">
+    <div class="feedback" id="fb-c8qe2"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q13 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Quick recall: fill the brackets to CALL a method.</div>
+    <pre><code>mochi.feed______</code></pre>
+    <input type="text" id="c8qe3" placeholder="two symbols">
+    <div class="feedback" id="fb-c8qe3"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q14 · 3 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Put these in the RIGHT ORDER to build a working class: (P) a method, (Q) class line, (R) __init__ with attributes, (S) build an object and call the method.</div>
+    
+    <div class="choices">
+      <label><input type="radio" name="c8qe4" value="0"> Q, R, P, S</label>
+      <label><input type="radio" name="c8qe4" value="1"> P, Q, R, S</label>
+      <label><input type="radio" name="c8qe4" value="2"> S, R, Q, P</label>
+      <label><input type="radio" name="c8qe4" value="3"> R, Q, S, P</label>
+    </div>
+    <div class="feedback" id="fb-c8qe4"></div>
+  </div>
 <div class="tier should">
   <span class="badge">⭐ SHOULD DO</span>
   <span class="tier-desc">Most of you will get here. This is applying the idea.</span>
@@ -311,6 +361,33 @@ for character in characters:
 </code></pre><textarea id="c8q8" placeholder="Paste your code or written answer..."></textarea>
     <div class="feedback" id="fb-c8q8"></div>
   </div>
+  <div class="question t-should">
+    <div class="qnum"><span>Q15 · 6 marks (self-marked)</span><span class="tiertag should">should</span></div>
+    <div class="qtext">BUILD-ALONG STEP 1+2. (1) Write a class for a character of YOUR choice (dragon, knight, alien...). (2) Give it <code>__init__(self, name)</code> storing <code>self.name</code> and ONE number attribute (e.g. <code>self.power = 50</code>). (3) RUN it in Trinket — does it work with no errors? (4) Paste your class and write 'it runs' or the error you got.</div>
+    
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code>class ______:
+    def __init__(self, name):
+        self.name = name
+        # one number attribute
+
+# build one and print its attributes to test
+</code></pre><textarea id="c8qe5" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c8qe5"></div>
+  </div>
+  <div class="question t-should">
+    <div class="qnum"><span>Q16 · 6 marks (self-marked)</span><span class="tiertag should">should</span></div>
+    <div class="qtext">BUILD-ALONG STEP 3+4. Take your class from the last task. (1) Add a method that DOES something and prints using self.name (e.g. <code>roar(self)</code>). (2) Add a SECOND method that CHANGES the number attribute (e.g. <code>train(self)</code> raises power, capped with min()). (3) Build an object, call both methods, print the attribute. Paste it all.</div>
+    
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code># your class, now with two methods:
+    def roar(self):
+        # print something with self.name
+    def train(self):
+        # change the number attribute, cap with min()
+
+# build, call both, print
+</code></pre><textarea id="c8qe6" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c8qe6"></div>
+  </div>
 <div class="tier could">
   <span class="badge">🚀 COULD DO</span>
   <span class="tier-desc">For when you're flying — stretch yourself, often with your OWN game code.</span>
@@ -334,6 +411,26 @@ for character in characters:
     <textarea id="c8q10" placeholder="Paste your code or written answer..."></textarea>
     <div class="feedback" id="fb-c8q10"></div>
   </div>
+  <div class="question t-could">
+    <div class="qnum"><span>Q17 · 6 marks (self-marked)</span><span class="tiertag could">could</span></div>
+    <div class="qtext">🚀 BUILD-ALONG STEP 5. Make a LIST of three of your objects (different names). Loop over them and call one of your methods on each. Then pick TWO and make one affect the other (e.g. one trains the other, or attacks it). Paste your code and describe what happens.</div>
+    
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code># a list of three objects
+characters = [ ... ]
+
+# loop: call a method on each
+
+# two objects: make one affect the other
+</code></pre><textarea id="c8qe7" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c8qe7"></div>
+  </div>
+  <div class="question t-could">
+    <div class="qnum"><span>Q18 · 5 marks (self-marked)</span><span class="tiertag could">could</span></div>
+    <div class="qtext">🚀 REFLECTION + TERM 3 PLAN. In 4-5 sentences: which lesson (L1-L8) clicked most for you, and which was hardest? Now that you understand classes, what ONE game would you like to build with them in Term 3, and what classes would it need? (e.g. 'a maze game with a Player class and a Ghost class')</div>
+    
+    <textarea id="c8qe8" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c8qe8"></div>
+  </div>
 <div id="submit-section">
   <p style="margin: 0 0 1rem; color: var(--text-muted);">Done with your tier? Submit to see your score + answer key. Keep editing after if you want.</p>
   <button id="submit-btn" disabled>Submit worksheet</button>
@@ -343,7 +440,7 @@ for character in characters:
 <div id="results">
   <h2>📊 Your clean-code check</h2>
   <div class="score-hero">
-    <div class="big"><span id="final-score">0</span> / 41</div>
+    <div class="big"><span id="final-score">0</span> / 73</div>
     <div class="sub" id="score-comment">—</div>
   </div>
   <div class="breakdown" id="breakdown"></div>
@@ -430,6 +527,72 @@ const QUESTIONS = [
     "marks": 5,
     "tier": "could",
     "rubric": "Full marks: honest reflection naming a clicked + hard lesson, plus a Term 3 game idea with sensible classes named. Shows they can now THINK in classes."
+  },
+  {
+    "id": "c8qe1",
+    "kind": "fill",
+    "marks": 2,
+    "tier": "must",
+    "answer": "name",
+    "explain": "<code>def __init__(self, name):</code>."
+  },
+  {
+    "id": "c8qe2",
+    "kind": "fill",
+    "marks": 2,
+    "tier": "must",
+    "answer": "self.name",
+    "explain": "<code>self.name = name</code>."
+  },
+  {
+    "id": "c8qe3",
+    "kind": "fill",
+    "marks": 2,
+    "tier": "must",
+    "answer": "()",
+    "explain": "<code>mochi.feed()</code> \u2014 brackets run the method."
+  },
+  {
+    "id": "c8qe4",
+    "kind": "mcq",
+    "marks": 3,
+    "tier": "must",
+    "correct": 0,
+    "choices": [
+      "Q, R, P, S",
+      "P, Q, R, S",
+      "S, R, Q, P",
+      "R, Q, S, P"
+    ],
+    "explain": "Class line \u2192 __init__ \u2192 method \u2192 then build & use. Q, R, P, S."
+  },
+  {
+    "id": "c8qe5",
+    "kind": "build",
+    "marks": 6,
+    "tier": "should",
+    "rubric": "Full marks: named class, __init__ with name + number attribute, tested. The foundation of their capstone."
+  },
+  {
+    "id": "c8qe6",
+    "kind": "build",
+    "marks": 6,
+    "tier": "should",
+    "rubric": "Full marks: two working methods (one prints, one changes data with capping), tested. Brings L4+L5 together on their own class."
+  },
+  {
+    "id": "c8qe7",
+    "kind": "build",
+    "marks": 6,
+    "tier": "could",
+    "rubric": "Full marks: list + loop + one object affecting another. Brings L6+L7 together \u2014 the full picture."
+  },
+  {
+    "id": "c8qe8",
+    "kind": "build",
+    "marks": 5,
+    "tier": "could",
+    "rubric": "Full marks: honest reflection naming a clicked + hard lesson, plus a Term 3 game idea with sensible classes named."
   }
 ];
 
@@ -526,7 +689,7 @@ document.getElementById("submit-btn").addEventListener("click", () => {
     <div class="breakdown-item"><div class="label">✅ Must do</div><div class="value">${tierScore.must}</div></div>
     <div class="breakdown-item"><div class="label">⭐ Should do</div><div class="value">${tierScore.should}</div></div>
     <div class="breakdown-item"><div class="label">🚀 Could do</div><div class="value">${tierScore.could}</div></div>
-    <div class="breakdown-item"><div class="label">Total</div><div class="value">${score} / 41</div></div>`;
+    <div class="breakdown-item"><div class="label">Total</div><div class="value">${score} / 73</div></div>`;
   document.getElementById("results").style.display = "block";
   document.getElementById("results").scrollIntoView({behavior:"smooth", block:"start"});
 });

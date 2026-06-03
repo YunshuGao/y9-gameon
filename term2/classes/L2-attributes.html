@@ -36,6 +36,34 @@ body { max-width: 940px; margin: 0 auto; padding: 1.5rem; overflow-x: hidden; }
 .video-panel video { width: 100%; border-radius: 8px; background: #000; }
 .video-panel iframe { width: 100%; aspect-ratio: 16/9; border: 0; border-radius: 8px; }
 
+/* LEARN panel — lean: watch + visualise + run + notes button */
+.learn { margin: 1.4rem 0; }
+.learn-grid { display: grid; gap: 1rem; }
+.learn-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem; }
+.learn-card h2 { color: var(--py-gold); margin: 0 0 0.3rem; font-size: 1.05rem; }
+.learn-card .sub { color: var(--text-muted); font-size: 0.84rem; margin: 0 0 0.7rem; line-height: 1.45; }
+.learn-card iframe.video { width: 100%; aspect-ratio: 16/9; border: 0; border-radius: 8px; }
+.learn-card iframe.tutor { width: 100%; height: 440px; border: 1px solid var(--border); border-radius: 8px; background: #fff; }
+.learn-card iframe.trinket { width: 100%; height: 360px; border: 1px solid var(--border); border-radius: 8px; background: #fff; }
+.notes-button { display: flex; align-items: center; gap: 1rem; padding: 1.1rem 1.3rem;
+                background: linear-gradient(135deg, rgba(168,85,247,0.18), rgba(31,58,104,0.25));
+                border: 2px solid #a855f7; border-radius: 12px; text-decoration: none; color: var(--text);
+                margin: 1.2rem 0; transition: transform 0.15s; }
+.notes-button:hover { transform: translateY(-2px); }
+.notes-button .big { font-size: 2rem; }
+.notes-button h3 { margin: 0 0 0.2rem; color: #d8b4fe; font-size: 1.05rem; }
+.notes-button p { margin: 0; font-size: 0.88rem; color: var(--text-muted); }
+/* quick reference cheat-sheet card */
+.quickref { background: rgba(0,0,0,0.28); border: 1px solid var(--border); border-left: 3px solid var(--py-gold);
+            border-radius: 10px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.quickref h3 { color: var(--py-gold); margin: 0 0 0.6rem; font-size: 1rem; }
+.quickref table { width: 100%; border-collapse: collapse; }
+.quickref td { padding: 0.3rem 0.4rem; vertical-align: top; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.quickref td.code { font-family: 'Fira Code', monospace; color: var(--py-gold); font-size: 0.85rem; white-space: nowrap; padding-right: 1rem; }
+.quickref td.mean { color: var(--text); font-size: 0.86rem; }
+.tools-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; margin: 0.5rem 0; }
+@media (max-width: 620px) { .tools-row { grid-template-columns: 1fr; } }
+
 /* concept teach block */
 .teach { margin: 1.6rem 0; padding: 1.3rem; background: var(--surface);
          border-radius: 12px; border: 1px solid var(--border); }
@@ -160,8 +188,8 @@ textarea { min-height: 120px; resize: vertical; }
   <p><strong>Today:</strong> An empty object is boring. Today we give objects DATA — like a name or a score — using self.</p>
   <div class="meta">
     <div><strong>Lesson</strong>2 of 8</div>
-    <div><strong>Time</strong>55 min</div>
-    <div><strong>Marks</strong>/41 (classwork)</div>
+    <div><strong>Time</strong>75 min</div>
+    <div><strong>Marks</strong>/66 (classwork)</div>
     <div><strong>Builds toward</strong>Objects that hold information</div>
   </div>
   <div class="name-row">
@@ -178,47 +206,40 @@ textarea { min-height: 120px; resize: vertical; }
   <strong>📋 This counts as classwork.</strong> Work through the <strong>MUST DO</strong> tier first — everyone finishes those. Then <strong>SHOULD DO</strong>. <strong>COULD DO</strong> is for when you're flying. Ms Gao checks your progress at the end. Auto-saves on this laptop.
 </div>
 
-
-<div class="video-panel">
-  <h2>📹 Watch first — the __init__ method and self, explained slowly</h2>
-  <p class="vmeta">A beginner walkthrough of __init__ and self. These two words are new — let the video introduce them gently.</p>
-  <iframe src="https://www.youtube-nocookie.com/embed/apACNr7DC_s" title="Watch first — the __init__ method and self, explained slowly" allowfullscreen loading="lazy"></iframe>
+<div class="learn"><div class="learn-grid">
+<div class="learn-card">
+  <h2>📹 Watch this first</h2>
+  <p class="sub">A beginner walkthrough of __init__ and self. These two words are new — let the video introduce them gently.</p>
+  <iframe class="video" src="https://www.youtube-nocookie.com/embed/apACNr7DC_s" title="Watch first — the __init__ method and self, explained slowly" allowfullscreen loading="lazy"></iframe>
 </div>
-
-<div class="teach">
-<h2>Attributes = the data an object HAS</h2>
-<p>An <strong>attribute</strong> is a piece of data that belongs to an object. A dog HAS a name. A player HAS a score. We store these using a special setup method called <code>__init__</code>.</p>
-<h3>Meet __init__ (the setup method)</h3>
-<p><code>__init__</code> (that's TWO underscores on each side) runs automatically when you build an object. It's where you set up the starting data:</p>
-<div class="codeblock"><code>class Dog:
-    def __init__(self):
-        self.name = &quot;Rex&quot;
-        self.age = 3</code></div>
-<p>Now every Dog you build starts with a name of "Rex" and an age of 3. The data lives ON the object.</p>
-<h3>What is self?</h3>
-<p><code>self</code> means "this particular object". <code>self.name = "Rex"</code> means "THIS dog's name is Rex". You write <code>self</code> as the first thing in the brackets, and before every attribute. It's how the object refers to its own data.</p>
-<h3>Reading the data back</h3>
-<p>Once an object has attributes, you read them with a dot:</p>
-<div class="codeblock"><code>class Dog:
-    def __init__(self):
-        self.name = &quot;Rex&quot;
-        self.age = 3
-
-my_dog = Dog()
-print(my_dog.name)    # Rex
-print(my_dog.age)     # 3</code></div>
-<p><code>my_dog.name</code> = "go into my_dog and get its name". The dot means "belonging to".</p>
-<h3>The pattern to memorise</h3>
-<div class="codeblock"><code>class Thing:
-    def __init__(self):
-        self.something = a_value     # store data ON the object</code></div>
-<p>Three new things today: <code>__init__</code> (the setup), <code>self</code> (this object), and <code>self.name = ...</code> (storing data). Take them slowly — the exercises repeat them a LOT so they sink in.</p>
+<div class="learn-card">
+  <h2>🔬 See it happen — press Forward to step through</h2>
+  <p class="sub">Watch the objects appear and the data fill in, one line at a time. This is the best way to understand classes.</p>
+  <iframe class="tutor" src="https://pythontutor.com/iframe-embed.html#code=class%20Dog%3A%0A%20%20%20%20def%20__init__%28self%29%3A%0A%20%20%20%20%20%20%20%20self.name%20%3D%20%22Rex%22%0A%20%20%20%20%20%20%20%20self.age%20%3D%203%0A%0Amy_dog%20%3D%20Dog%28%29%0Aprint%28my_dog.name%29%0Aprint%28my_dog.age%29&cumulative=false&py=3&curInstr=0&codeDivHeight=400&codeDivWidth=520&origin=opt-frontend.js&rawInputLstJSON=%5B%5D&textReferences=false" loading="lazy"></iframe>
+</div>
+<div class="learn-card">
+  <h2>✏️ Try it yourself — write &amp; run Python here</h2>
+  <p class="sub">Type code and press the ▶ Run button. Use this whenever a question asks you to write or test code.</p>
+  <iframe class="trinket" src="https://trinket.io/embed/python3" loading="lazy"></iframe>
+</div>
+</div>
+<a class="notes-button" href="notes/L2-attributes-notes.html">
+  <span class="big">📖</span>
+  <div>
+    <h3>Want the full explanation? Open the Study Notes</h3>
+    <p>The detailed guide with lots of examples — read it at your own pace, then come back and practise.</p>
+  </div>
+</a>
+<div class="quickref">
+  <h3>⚡ Quick reference — today's syntax</h3>
+  <table><tr><td class="code">def __init__(self):</td><td class="mean">the setup method (two underscores each side)</td></tr><tr><td class="code">    self.name = &quot;Rex&quot;</td><td class="mean">store data ON this object</td></tr><tr><td class="code">d = Dog()</td><td class="mean">build the object (runs __init__)</td></tr><tr><td class="code">print(d.name)</td><td class="mean">read the data back with a dot</td></tr></table>
+</div>
 </div>
 
 <div class="progress-bar-wrap">
   <div class="progress-text">
     <span><span id="answered-count">0</span> / <span id="total-count">0</span> attempted</span>
-    <span class="marks">Score: <span id="est-marks">0</span> / 41</span>
+    <span class="marks">Score: <span id="est-marks">0</span> / 66</span>
   </div>
   <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
 </div>
@@ -336,6 +357,78 @@ print(______)</code></pre>
     <input type="text" id="c2q9" placeholder="object dot attribute">
     <div class="feedback" id="fb-c2q9"></div>
   </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q15 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Fill the setup method name (the one with underscores).</div>
+    <pre><code>class Bird:
+    def ______(self):
+        self.colour = &quot;blue&quot;</code></pre>
+    <input type="text" id="c2qe1" placeholder="setup method">
+    <div class="feedback" id="fb-c2qe1"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q16 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Fill the blank to store the colour ON the object.</div>
+    <pre><code>def __init__(self):
+    ______ = &quot;blue&quot;</code></pre>
+    <input type="text" id="c2qe2" placeholder="self dot colour">
+    <div class="feedback" id="fb-c2qe2"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q17 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">What does this print?</div>
+    <pre><code>class Bird:
+    def __init__(self):
+        self.colour = &quot;blue&quot;
+
+b = Bird()
+print(b.colour)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="c2qe3" value="0"> colour</label>
+      <label><input type="radio" name="c2qe3" value="1"> blue</label>
+      <label><input type="radio" name="c2qe3" value="2"> self.colour</label>
+      <label><input type="radio" name="c2qe3" value="3"> Bird</label>
+    </div>
+    <div class="feedback" id="fb-c2qe3"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q18 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Fill the blank to READ the bird's colour out of the object.</div>
+    <pre><code>b = Bird()
+print(______)</code></pre>
+    <input type="text" id="c2qe4" placeholder="object dot attribute">
+    <div class="feedback" id="fb-c2qe4"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q19 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">What MUST be the first word inside <code>__init__</code>'s brackets?</div>
+    
+    <div class="choices">
+      <label><input type="radio" name="c2qe5" value="0"> name</label>
+      <label><input type="radio" name="c2qe5" value="1"> self</label>
+      <label><input type="radio" name="c2qe5" value="2"> the class name</label>
+      <label><input type="radio" name="c2qe5" value="3"> init</label>
+    </div>
+    <div class="feedback" id="fb-c2qe5"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q20 · 3 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">What does this print?</div>
+    <pre><code>class Player:
+    def __init__(self):
+        self.lives = 3
+        self.score = 0
+
+p = Player()
+print(p.lives, p.score)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="c2qe6" value="0"> lives score</label>
+      <label><input type="radio" name="c2qe6" value="1"> 3 0</label>
+      <label><input type="radio" name="c2qe6" value="2"> 0 3</label>
+      <label><input type="radio" name="c2qe6" value="3"> an error</label>
+    </div>
+    <div class="feedback" id="fb-c2qe6"></div>
+  </div>
 <div class="tier should">
   <span class="badge">⭐ SHOULD DO</span>
   <span class="tier-desc">Most of you will get here. This is applying the idea.</span>
@@ -382,6 +475,31 @@ print(p.name)</code></pre>
 </code></pre><textarea id="c2q12" placeholder="Paste your code or written answer..."></textarea>
     <div class="feedback" id="fb-c2q12"></div>
   </div>
+  <div class="question t-should">
+    <div class="qnum"><span>Q21 · 5 marks (self-marked)</span><span class="tiertag should">should</span></div>
+    <div class="qtext">STEP-BY-STEP. (1) Write a class <code>Hero</code>. (2) In <code>__init__</code> give it <code>self.name = "Knight"</code>, <code>self.health = 100</code>, and <code>self.gold = 0</code>. (3) Build a hero. (4) Print all THREE attributes on separate lines.</div>
+    
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code>class Hero:
+    def __init__(self):
+        # 3 attributes here
+
+# build a hero, print all three
+</code></pre><textarea id="c2qe7" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c2qe7"></div>
+  </div>
+  <div class="question t-should">
+    <div class="qnum"><span>Q22 · 4 marks (self-marked)</span><span class="tiertag should">should</span></div>
+    <div class="qtext">FIX THE BUG. This code crashes with 'AttributeError: no attribute name'. The bug is on the marked line. Rewrite the whole class correctly so <code>print(c.name)</code> works.</div>
+    <pre><code>class Cat:
+    def __init__(self):
+        name = &quot;Felix&quot;   # &lt;-- BUG: missing self.
+
+c = Cat()
+print(c.name)</code></pre>
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code># rewrite the class with the bug fixed:
+</code></pre><textarea id="c2qe8" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c2qe8"></div>
+  </div>
 <div class="tier could">
   <span class="badge">🚀 COULD DO</span>
   <span class="tier-desc">For when you're flying — stretch yourself, often with your OWN game code.</span>
@@ -413,6 +531,13 @@ print(b.score)</code></pre>
     <textarea id="c2q14" placeholder="Paste your code or written answer..."></textarea>
     <div class="feedback" id="fb-c2q14"></div>
   </div>
+  <div class="question t-could">
+    <div class="qnum"><span>Q23 · 3 marks (self-marked)</span><span class="tiertag could">could</span></div>
+    <div class="qtext">🚀 Use the Python Tutor visualiser at the top. Step through the Dog example until <code>self.name = "Rex"</code> runs. Describe what you saw appear INSIDE the dog object. Then explain in one sentence why we need <code>self.</code> in front of name.</div>
+    
+    <textarea id="c2qe9" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c2qe9"></div>
+  </div>
 <div id="submit-section">
   <p style="margin: 0 0 1rem; color: var(--text-muted);">Done with your tier? Submit to see your score + answer key. Keep editing after if you want.</p>
   <button id="submit-btn" disabled>Submit worksheet</button>
@@ -422,7 +547,7 @@ print(b.score)</code></pre>
 <div id="results">
   <h2>📊 Your clean-code check</h2>
   <div class="score-hero">
-    <div class="big"><span id="final-score">0</span> / 41</div>
+    <div class="big"><span id="final-score">0</span> / 66</div>
     <div class="sub" id="score-comment">—</div>
   </div>
   <div class="breakdown" id="breakdown"></div>
@@ -587,6 +712,93 @@ const QUESTIONS = [
     "marks": 4,
     "tier": "could",
     "rubric": "Full marks: a class with 2+ attributes, two objects built and given different data, both printed. Shows they understand objects are independent."
+  },
+  {
+    "id": "c2qe1",
+    "kind": "fill",
+    "marks": 2,
+    "tier": "must",
+    "answer": "__init__",
+    "explain": "<code>__init__</code> \u2014 two underscores, init, two underscores."
+  },
+  {
+    "id": "c2qe2",
+    "kind": "fill",
+    "marks": 2,
+    "tier": "must",
+    "answer": "self.colour",
+    "explain": "<code>self.colour = \"blue\"</code> stores it on this object."
+  },
+  {
+    "id": "c2qe3",
+    "kind": "mcq",
+    "marks": 2,
+    "tier": "must",
+    "correct": 1,
+    "choices": [
+      "colour",
+      "blue",
+      "self.colour",
+      "Bird"
+    ],
+    "explain": "<code>b.colour</code> reads the colour attribute: \"blue\"."
+  },
+  {
+    "id": "c2qe4",
+    "kind": "fill",
+    "marks": 2,
+    "tier": "must",
+    "answer": "b.colour",
+    "explain": "<code>b.colour</code> \u2014 object name, dot, attribute name."
+  },
+  {
+    "id": "c2qe5",
+    "kind": "mcq",
+    "marks": 2,
+    "tier": "must",
+    "correct": 1,
+    "choices": [
+      "name",
+      "self",
+      "the class name",
+      "init"
+    ],
+    "explain": "<code>self</code> always comes first."
+  },
+  {
+    "id": "c2qe6",
+    "kind": "mcq",
+    "marks": 3,
+    "tier": "must",
+    "correct": 1,
+    "choices": [
+      "lives score",
+      "3 0",
+      "0 3",
+      "an error"
+    ],
+    "explain": "<code>p.lives</code> is 3, <code>p.score</code> is 0."
+  },
+  {
+    "id": "c2qe7",
+    "kind": "build",
+    "marks": 5,
+    "tier": "should",
+    "rubric": "Full marks: three attributes set with self, hero built, all three printed. Half: fewer attributes or not all printed."
+  },
+  {
+    "id": "c2qe8",
+    "kind": "build",
+    "marks": 4,
+    "tier": "should",
+    "rubric": "Full marks: changes <code>name =</code> to <code>self.name =</code>. Shows they understand self. is what stores data on the object."
+  },
+  {
+    "id": "c2qe9",
+    "kind": "build",
+    "marks": 3,
+    "tier": "could",
+    "rubric": "Full marks: describes seeing 'name: Rex' appear inside the object box, and explains self. attaches data to the object."
   }
 ];
 
@@ -683,7 +895,7 @@ document.getElementById("submit-btn").addEventListener("click", () => {
     <div class="breakdown-item"><div class="label">✅ Must do</div><div class="value">${tierScore.must}</div></div>
     <div class="breakdown-item"><div class="label">⭐ Should do</div><div class="value">${tierScore.should}</div></div>
     <div class="breakdown-item"><div class="label">🚀 Could do</div><div class="value">${tierScore.could}</div></div>
-    <div class="breakdown-item"><div class="label">Total</div><div class="value">${score} / 41</div></div>`;
+    <div class="breakdown-item"><div class="label">Total</div><div class="value">${score} / 66</div></div>`;
   document.getElementById("results").style.display = "block";
   document.getElementById("results").scrollIntoView({behavior:"smooth", block:"start"});
 });

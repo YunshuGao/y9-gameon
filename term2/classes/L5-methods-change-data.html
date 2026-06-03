@@ -36,6 +36,34 @@ body { max-width: 940px; margin: 0 auto; padding: 1.5rem; overflow-x: hidden; }
 .video-panel video { width: 100%; border-radius: 8px; background: #000; }
 .video-panel iframe { width: 100%; aspect-ratio: 16/9; border: 0; border-radius: 8px; }
 
+/* LEARN panel — lean: watch + visualise + run + notes button */
+.learn { margin: 1.4rem 0; }
+.learn-grid { display: grid; gap: 1rem; }
+.learn-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem; }
+.learn-card h2 { color: var(--py-gold); margin: 0 0 0.3rem; font-size: 1.05rem; }
+.learn-card .sub { color: var(--text-muted); font-size: 0.84rem; margin: 0 0 0.7rem; line-height: 1.45; }
+.learn-card iframe.video { width: 100%; aspect-ratio: 16/9; border: 0; border-radius: 8px; }
+.learn-card iframe.tutor { width: 100%; height: 440px; border: 1px solid var(--border); border-radius: 8px; background: #fff; }
+.learn-card iframe.trinket { width: 100%; height: 360px; border: 1px solid var(--border); border-radius: 8px; background: #fff; }
+.notes-button { display: flex; align-items: center; gap: 1rem; padding: 1.1rem 1.3rem;
+                background: linear-gradient(135deg, rgba(168,85,247,0.18), rgba(31,58,104,0.25));
+                border: 2px solid #a855f7; border-radius: 12px; text-decoration: none; color: var(--text);
+                margin: 1.2rem 0; transition: transform 0.15s; }
+.notes-button:hover { transform: translateY(-2px); }
+.notes-button .big { font-size: 2rem; }
+.notes-button h3 { margin: 0 0 0.2rem; color: #d8b4fe; font-size: 1.05rem; }
+.notes-button p { margin: 0; font-size: 0.88rem; color: var(--text-muted); }
+/* quick reference cheat-sheet card */
+.quickref { background: rgba(0,0,0,0.28); border: 1px solid var(--border); border-left: 3px solid var(--py-gold);
+            border-radius: 10px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.quickref h3 { color: var(--py-gold); margin: 0 0 0.6rem; font-size: 1rem; }
+.quickref table { width: 100%; border-collapse: collapse; }
+.quickref td { padding: 0.3rem 0.4rem; vertical-align: top; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.quickref td.code { font-family: 'Fira Code', monospace; color: var(--py-gold); font-size: 0.85rem; white-space: nowrap; padding-right: 1rem; }
+.quickref td.mean { color: var(--text); font-size: 0.86rem; }
+.tools-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; margin: 0.5rem 0; }
+@media (max-width: 620px) { .tools-row { grid-template-columns: 1fr; } }
+
 /* concept teach block */
 .teach { margin: 1.6rem 0; padding: 1.3rem; background: var(--surface);
          border-radius: 12px; border: 1px solid var(--border); }
@@ -160,8 +188,8 @@ textarea { min-height: 120px; resize: vertical; }
   <p><strong>Today:</strong> The real power: a method can change the object's own attributes. A score goes up, health goes down — and the object remembers.</p>
   <div class="meta">
     <div><strong>Lesson</strong>5 of 8</div>
-    <div><strong>Time</strong>60 min</div>
-    <div><strong>Marks</strong>/43 (classwork)</div>
+    <div><strong>Time</strong>75 min</div>
+    <div><strong>Marks</strong>/75 (classwork)</div>
     <div><strong>Builds toward</strong>Game state that updates</div>
   </div>
   <div class="name-row">
@@ -178,53 +206,35 @@ textarea { min-height: 120px; resize: vertical; }
   <strong>📋 This counts as classwork.</strong> Work through the <strong>MUST DO</strong> tier first — everyone finishes those. Then <strong>SHOULD DO</strong>. <strong>COULD DO</strong> is for when you're flying. Ms Gao checks your progress at the end. Auto-saves on this laptop.
 </div>
 
-
-
-<div class="teach">
-<h2>Methods can change attributes</h2>
-<p>Until now methods just printed. But a method can also CHANGE the object's own data. Watch a method add to the score:</p>
-<div class="code-label good">✅ The score goes up and STAYS up</div><div class="codeblock good"><code>class Player:
-    def __init__(self):
-        self.score = 0
-    def add_point(self):
-        self.score = self.score + 1      # change the object&#x27;s own data
-
-p = Player()
-p.add_point()
-p.add_point()
-print(p.score)        # 2</code></div>
-<p>Each <code>p.add_point()</code> raises the score by 1. And here's the key thing: the object <strong>remembers</strong>. After two calls, the score is 2 and stays 2. The data lives on, change after change.</p>
-<h3>The shortcut: +=  and  -=</h3>
-<p><code>self.score = self.score + 1</code> is so common there's a shortcut:</p>
-<div class="codeblock"><code>self.score += 1      # same as self.score = self.score + 1
-self.health -= 10    # same as self.health = self.health - 10</code></div>
-<p><code>+=</code> means "add to". <code>-=</code> means "take away from". You'll use these constantly for score and health.</p>
-<h3>A health example</h3>
-<div class="codeblock"><code>class Player:
-    def __init__(self):
-        self.health = 100
-    def take_damage(self, amount):
-        self.health -= amount
-
-p = Player()
-p.take_damage(30)
-p.take_damage(20)
-print(p.health)       # 50</code></div>
-<p>100, then take 30 → 70, then take 20 → 50. The method changes <code>self.health</code> each time, and the object holds onto the latest value.</p>
-<h3>Stopping a value going too far (a real game trick)</h3>
-<p>A pet game in our class needed hunger to never go above 100 or below 0. The clean way uses <code>min()</code> and <code>max()</code>:</p>
-<div class="codeblock"><code>def feed(self):
-    self.hunger = min(100, self.hunger + 10)   # never above 100
-
-def wait(self):
-    self.hunger = max(0, self.hunger - 5)      # never below 0</code></div>
-<p><code>min(100, x)</code> = the smaller of 100 and x → caps the top. <code>max(0, x)</code> = the bigger of 0 and x → caps the bottom. Two tiny tools that stop bugs.</p>
+<div class="learn"><div class="learn-grid">
+<div class="learn-card">
+  <h2>🔬 See it happen — press Forward to step through</h2>
+  <p class="sub">Watch the objects appear and the data fill in, one line at a time. This is the best way to understand classes.</p>
+  <iframe class="tutor" src="https://pythontutor.com/iframe-embed.html#code=class%20Player%3A%0A%20%20%20%20def%20__init__%28self%29%3A%0A%20%20%20%20%20%20%20%20self.score%20%3D%200%0A%20%20%20%20def%20add_point%28self%29%3A%0A%20%20%20%20%20%20%20%20self.score%20%2B%3D%201%0A%0Ap%20%3D%20Player%28%29%0Ap.add_point%28%29%0Ap.add_point%28%29%0Ap.add_point%28%29%0Aprint%28p.score%29&cumulative=false&py=3&curInstr=0&codeDivHeight=400&codeDivWidth=520&origin=opt-frontend.js&rawInputLstJSON=%5B%5D&textReferences=false" loading="lazy"></iframe>
+</div>
+<div class="learn-card">
+  <h2>✏️ Try it yourself — write &amp; run Python here</h2>
+  <p class="sub">Type code and press the ▶ Run button. Use this whenever a question asks you to write or test code.</p>
+  <iframe class="trinket" src="https://trinket.io/embed/python3" loading="lazy"></iframe>
+</div>
+</div>
+<a class="notes-button" href="notes/L5-methods-change-data-notes.html">
+  <span class="big">📖</span>
+  <div>
+    <h3>Want the full explanation? Open the Study Notes</h3>
+    <p>The detailed guide with lots of examples — read it at your own pace, then come back and practise.</p>
+  </div>
+</a>
+<div class="quickref">
+  <h3>⚡ Quick reference — today's syntax</h3>
+  <table><tr><td class="code">self.score += 1</td><td class="mean">add 1 to the object&#x27;s score</td></tr><tr><td class="code">self.health -= 10</td><td class="mean">take 10 off the object&#x27;s health</td></tr><tr><td class="code">self.hp = min(100, self.hp+20)</td><td class="mean">raise but never above 100</td></tr><tr><td class="code">self.hp = max(0, self.hp-5)</td><td class="mean">lower but never below 0</td></tr></table>
+</div>
 </div>
 
 <div class="progress-bar-wrap">
   <div class="progress-text">
     <span><span id="answered-count">0</span> / <span id="total-count">0</span> attempted</span>
-    <span class="marks">Score: <span id="est-marks">0</span> / 43</span>
+    <span class="marks">Score: <span id="est-marks">0</span> / 75</span>
   </div>
   <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
 </div>
@@ -339,6 +349,99 @@ print(p.health)</code></pre>
     </div>
     <div class="feedback" id="fb-c5q8"></div>
   </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q14 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Fill the shortcut that adds 5 to coins.</div>
+    <pre><code>def collect(self):
+    self.coins ______ 5</code></pre>
+    <input type="text" id="c5qe1" placeholder="two symbols">
+    <div class="feedback" id="fb-c5qe1"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q15 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Fill the shortcut that takes 10 off energy.</div>
+    <pre><code>def run(self):
+    self.energy ______ 10</code></pre>
+    <input type="text" id="c5qe2" placeholder="two symbols">
+    <div class="feedback" id="fb-c5qe2"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q16 · 3 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">What does this print?</div>
+    <pre><code>class Player:
+    def __init__(self):
+        self.coins = 0
+    def collect(self):
+        self.coins += 10
+
+p = Player()
+p.collect()
+p.collect()
+print(p.coins)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="c5qe3" value="0"> 0</label>
+      <label><input type="radio" name="c5qe3" value="1"> 10</label>
+      <label><input type="radio" name="c5qe3" value="2"> 20</label>
+      <label><input type="radio" name="c5qe3" value="3"> an error</label>
+    </div>
+    <div class="feedback" id="fb-c5qe3"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q17 · 3 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">What does this print?</div>
+    <pre><code>class Pet:
+    def __init__(self):
+        self.energy = 100
+    def play(self):
+        self.energy -= 30
+
+p = Pet()
+p.play()
+p.play()
+print(p.energy)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="c5qe4" value="0"> 100</label>
+      <label><input type="radio" name="c5qe4" value="1"> 70</label>
+      <label><input type="radio" name="c5qe4" value="2"> 40</label>
+      <label><input type="radio" name="c5qe4" value="3"> an error</label>
+    </div>
+    <div class="feedback" id="fb-c5qe4"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q18 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">What does <code>min(100, 140)</code> give?</div>
+    
+    <div class="choices">
+      <label><input type="radio" name="c5qe5" value="0"> 140</label>
+      <label><input type="radio" name="c5qe5" value="1"> 100</label>
+      <label><input type="radio" name="c5qe5" value="2"> 240</label>
+      <label><input type="radio" name="c5qe5" value="3"> 40</label>
+    </div>
+    <div class="feedback" id="fb-c5qe5"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q19 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">What does <code>max(0, -15)</code> give?</div>
+    
+    <div class="choices">
+      <label><input type="radio" name="c5qe6" value="0"> -15</label>
+      <label><input type="radio" name="c5qe6" value="1"> 0</label>
+      <label><input type="radio" name="c5qe6" value="2"> 15</label>
+      <label><input type="radio" name="c5qe6" value="3"> an error</label>
+    </div>
+    <div class="feedback" id="fb-c5qe6"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q20 · 3 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Fill the method body so happiness goes up by 15.</div>
+    <pre><code>class Pet:
+    def __init__(self):
+        self.happiness = 50
+    def play(self):
+        ______</code></pre>
+    <input type="text" id="c5qe7" placeholder="self.happiness += ...">
+    <div class="feedback" id="fb-c5qe7"></div>
+  </div>
 <div class="tier should">
   <span class="badge">⭐ SHOULD DO</span>
   <span class="tier-desc">Most of you will get here. This is applying the idea.</span>
@@ -394,6 +497,34 @@ print(p.hunger)</code></pre>
 </code></pre><textarea id="c5q11" placeholder="Paste your code or written answer..."></textarea>
     <div class="feedback" id="fb-c5q11"></div>
   </div>
+  <div class="question t-should">
+    <div class="qnum"><span>Q21 · 5 marks (self-marked)</span><span class="tiertag should">should</span></div>
+    <div class="qtext">STEP-BY-STEP. (1) Write a class <code>Player</code> with <code>self.score = 0</code>. (2) Add a method <code>win_round(self)</code> that adds 10 to score. (3) Build a player. (4) Win 4 rounds. (5) Print the final score (should be 40).</div>
+    
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code>class Player:
+    def __init__(self):
+        self.score = 0
+    def win_round(self):
+        # add 10
+
+# build, win 4 rounds, print score
+</code></pre><textarea id="c5qe8" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c5qe8"></div>
+  </div>
+  <div class="question t-should">
+    <div class="qnum"><span>Q22 · 6 marks (self-marked)</span><span class="tiertag should">should</span></div>
+    <div class="qtext">STEP-BY-STEP with CAPPING. (1) Write a <code>Pet</code> with <code>self.hunger = 50</code>. (2) Method <code>feed(self)</code> raises hunger by 30 but CAPS at 100 using <code>min()</code>. (3) Build a pet. (4) Feed it 3 times. (5) Print hunger (should be 100, because it capped!).</div>
+    
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code>class Pet:
+    def __init__(self):
+        self.hunger = 50
+    def feed(self):
+        self.hunger = min(100, self.hunger + 30)
+
+# build, feed 3 times, print hunger
+</code></pre><textarea id="c5qe9" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c5qe9"></div>
+  </div>
 <div class="tier could">
   <span class="badge">🚀 COULD DO</span>
   <span class="tier-desc">For when you're flying — stretch yourself, often with your OWN game code.</span>
@@ -422,6 +553,13 @@ print(p.hunger)</code></pre>
     <textarea id="c5q13" placeholder="Paste your code or written answer..."></textarea>
     <div class="feedback" id="fb-c5q13"></div>
   </div>
+  <div class="question t-could">
+    <div class="qnum"><span>Q23 · 4 marks (self-marked)</span><span class="tiertag could">could</span></div>
+    <div class="qtext">🚀 Use the Python Tutor visualiser at the top. Step through the add_point example. Write 2-3 sentences: what value was inside <code>self.score</code> after the FIRST call? After the SECOND? After the THIRD? Why does the number keep growing instead of resetting?</div>
+    
+    <textarea id="c5qe10" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c5qe10"></div>
+  </div>
 <div id="submit-section">
   <p style="margin: 0 0 1rem; color: var(--text-muted);">Done with your tier? Submit to see your score + answer key. Keep editing after if you want.</p>
   <button id="submit-btn" disabled>Submit worksheet</button>
@@ -431,7 +569,7 @@ print(p.hunger)</code></pre>
 <div id="results">
   <h2>📊 Your clean-code check</h2>
   <div class="score-hero">
-    <div class="big"><span id="final-score">0</span> / 43</div>
+    <div class="big"><span id="final-score">0</span> / 75</div>
     <div class="sub" id="score-comment">—</div>
   </div>
   <div class="breakdown" id="breakdown"></div>
@@ -581,6 +719,107 @@ const QUESTIONS = [
     "marks": 4,
     "tier": "could",
     "rubric": "Full marks: connects to their real game with a method that changes the object's data, or correctly explains their existing one."
+  },
+  {
+    "id": "c5qe1",
+    "kind": "fill",
+    "marks": 2,
+    "tier": "must",
+    "answer": "+=",
+    "explain": "<code>+=</code> adds to the current value."
+  },
+  {
+    "id": "c5qe2",
+    "kind": "fill",
+    "marks": 2,
+    "tier": "must",
+    "answer": "-=",
+    "explain": "<code>-=</code> subtracts from the current value."
+  },
+  {
+    "id": "c5qe3",
+    "kind": "mcq",
+    "marks": 3,
+    "tier": "must",
+    "correct": 2,
+    "choices": [
+      "0",
+      "10",
+      "20",
+      "an error"
+    ],
+    "explain": "Two collect() calls, each adds 10 \u2192 20. The object remembers."
+  },
+  {
+    "id": "c5qe4",
+    "kind": "mcq",
+    "marks": 3,
+    "tier": "must",
+    "correct": 2,
+    "choices": [
+      "100",
+      "70",
+      "40",
+      "an error"
+    ],
+    "explain": "100 - 30 = 70, then 70 - 30 = 40."
+  },
+  {
+    "id": "c5qe5",
+    "kind": "mcq",
+    "marks": 2,
+    "tier": "must",
+    "correct": 1,
+    "choices": [
+      "140",
+      "100",
+      "240",
+      "40"
+    ],
+    "explain": "<code>min</code> gives the SMALLER value, 100 \u2014 that's how we cap a stat."
+  },
+  {
+    "id": "c5qe6",
+    "kind": "mcq",
+    "marks": 2,
+    "tier": "must",
+    "correct": 1,
+    "choices": [
+      "-15",
+      "0",
+      "15",
+      "an error"
+    ],
+    "explain": "<code>max</code> gives the BIGGER value, 0 \u2014 that's how we stop a stat going negative."
+  },
+  {
+    "id": "c5qe7",
+    "kind": "fill",
+    "marks": 3,
+    "tier": "must",
+    "answer": "self.happiness += 15",
+    "explain": "<code>self.happiness += 15</code> raises happiness by 15."
+  },
+  {
+    "id": "c5qe8",
+    "kind": "build",
+    "marks": 5,
+    "tier": "should",
+    "rubric": "Full marks: method adds to self.score, called 4 times, prints 40. Half: wrong number of calls."
+  },
+  {
+    "id": "c5qe9",
+    "kind": "build",
+    "marks": 6,
+    "tier": "should",
+    "rubric": "Full marks: feed caps with min(), fed 3 times, prints 100. Half: changes hunger but no min() cap (would print 140)."
+  },
+  {
+    "id": "c5qe10",
+    "kind": "build",
+    "marks": 4,
+    "tier": "could",
+    "rubric": "Full marks: correctly reports 1, 2, 3 and explains the object REMEMBERS its data between method calls \u2014 the key idea of L5."
   }
 ];
 
@@ -677,7 +916,7 @@ document.getElementById("submit-btn").addEventListener("click", () => {
     <div class="breakdown-item"><div class="label">✅ Must do</div><div class="value">${tierScore.must}</div></div>
     <div class="breakdown-item"><div class="label">⭐ Should do</div><div class="value">${tierScore.should}</div></div>
     <div class="breakdown-item"><div class="label">🚀 Could do</div><div class="value">${tierScore.could}</div></div>
-    <div class="breakdown-item"><div class="label">Total</div><div class="value">${score} / 43</div></div>`;
+    <div class="breakdown-item"><div class="label">Total</div><div class="value">${score} / 75</div></div>`;
   document.getElementById("results").style.display = "block";
   document.getElementById("results").scrollIntoView({behavior:"smooth", block:"start"});
 });

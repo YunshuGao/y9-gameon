@@ -36,6 +36,34 @@ body { max-width: 940px; margin: 0 auto; padding: 1.5rem; overflow-x: hidden; }
 .video-panel video { width: 100%; border-radius: 8px; background: #000; }
 .video-panel iframe { width: 100%; aspect-ratio: 16/9; border: 0; border-radius: 8px; }
 
+/* LEARN panel — lean: watch + visualise + run + notes button */
+.learn { margin: 1.4rem 0; }
+.learn-grid { display: grid; gap: 1rem; }
+.learn-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem; }
+.learn-card h2 { color: var(--py-gold); margin: 0 0 0.3rem; font-size: 1.05rem; }
+.learn-card .sub { color: var(--text-muted); font-size: 0.84rem; margin: 0 0 0.7rem; line-height: 1.45; }
+.learn-card iframe.video { width: 100%; aspect-ratio: 16/9; border: 0; border-radius: 8px; }
+.learn-card iframe.tutor { width: 100%; height: 440px; border: 1px solid var(--border); border-radius: 8px; background: #fff; }
+.learn-card iframe.trinket { width: 100%; height: 360px; border: 1px solid var(--border); border-radius: 8px; background: #fff; }
+.notes-button { display: flex; align-items: center; gap: 1rem; padding: 1.1rem 1.3rem;
+                background: linear-gradient(135deg, rgba(168,85,247,0.18), rgba(31,58,104,0.25));
+                border: 2px solid #a855f7; border-radius: 12px; text-decoration: none; color: var(--text);
+                margin: 1.2rem 0; transition: transform 0.15s; }
+.notes-button:hover { transform: translateY(-2px); }
+.notes-button .big { font-size: 2rem; }
+.notes-button h3 { margin: 0 0 0.2rem; color: #d8b4fe; font-size: 1.05rem; }
+.notes-button p { margin: 0; font-size: 0.88rem; color: var(--text-muted); }
+/* quick reference cheat-sheet card */
+.quickref { background: rgba(0,0,0,0.28); border: 1px solid var(--border); border-left: 3px solid var(--py-gold);
+            border-radius: 10px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.quickref h3 { color: var(--py-gold); margin: 0 0 0.6rem; font-size: 1rem; }
+.quickref table { width: 100%; border-collapse: collapse; }
+.quickref td { padding: 0.3rem 0.4rem; vertical-align: top; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.quickref td.code { font-family: 'Fira Code', monospace; color: var(--py-gold); font-size: 0.85rem; white-space: nowrap; padding-right: 1rem; }
+.quickref td.mean { color: var(--text); font-size: 0.86rem; }
+.tools-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; margin: 0.5rem 0; }
+@media (max-width: 620px) { .tools-row { grid-template-columns: 1fr; } }
+
 /* concept teach block */
 .teach { margin: 1.6rem 0; padding: 1.3rem; background: var(--surface);
          border-radius: 12px; border: 1px solid var(--border); }
@@ -160,8 +188,8 @@ textarea { min-height: 120px; resize: vertical; }
   <p><strong>Today:</strong> Attributes are what an object HAS. Methods are what an object DOES. Today: give your objects actions.</p>
   <div class="meta">
     <div><strong>Lesson</strong>4 of 8</div>
-    <div><strong>Time</strong>55 min</div>
-    <div><strong>Marks</strong>/40 (classwork)</div>
+    <div><strong>Time</strong>75 min</div>
+    <div><strong>Marks</strong>/68 (classwork)</div>
     <div><strong>Builds toward</strong>Objects with behaviour</div>
   </div>
   <div class="name-row">
@@ -178,55 +206,40 @@ textarea { min-height: 120px; resize: vertical; }
   <strong>📋 This counts as classwork.</strong> Work through the <strong>MUST DO</strong> tier first — everyone finishes those. Then <strong>SHOULD DO</strong>. <strong>COULD DO</strong> is for when you're flying. Ms Gao checks your progress at the end. Auto-saves on this laptop.
 </div>
 
-
-<div class="video-panel">
-  <h2>📹 Watch first — methods (functions inside a class)</h2>
-  <p class="vmeta">A gentle look at methods — the actions an object can do. Watch before the exercises.</p>
-  <iframe src="https://www.youtube-nocookie.com/embed/wfcWRAxRVBA" title="Watch first — methods (functions inside a class)" allowfullscreen loading="lazy"></iframe>
+<div class="learn"><div class="learn-grid">
+<div class="learn-card">
+  <h2>📹 Watch this first</h2>
+  <p class="sub">A gentle look at methods — the actions an object can do. Watch before the exercises.</p>
+  <iframe class="video" src="https://www.youtube-nocookie.com/embed/wfcWRAxRVBA" title="Watch first — methods (functions inside a class)" allowfullscreen loading="lazy"></iframe>
 </div>
-
-<div class="teach">
-<h2>A method is an ACTION the object can do</h2>
-<p>A <strong>method</strong> is just a function that lives INSIDE a class. It's something the object can DO. A dog's method might be <code>bark()</code>. A player's might be <code>jump()</code>.</p>
-<div class="codeblock"><code>class Dog:
-    def __init__(self, name):
-        self.name = name
-
-    def bark(self):                       # a METHOD — an action
-        print(self.name + &quot; says Woof!&quot;)</code></div>
-<h3>Calling a method</h3>
-<p>You call a method with a dot and brackets, just like reading an attribute but with <code>()</code> on the end:</p>
-<div class="codeblock"><code>class Dog:
-    def __init__(self, name):
-        self.name = name
-    def bark(self):
-        print(self.name + &quot; says Woof!&quot;)
-
-rex = Dog(&quot;Rex&quot;)
-rex.bark()        # Rex says Woof!</code></div>
-<p><code>rex.bark()</code> = "tell rex to do its bark action". The brackets <code>()</code> are how you know it's a method (an action), not an attribute (data).</p>
-<h3>Methods always start with self</h3>
-<p>Just like __init__, every method has <code>self</code> as its first parameter. That's how the method can reach the object's own data — <code>self.name</code> inside bark() is THIS dog's name.</p>
-<div class="codeblock"><code>def bark(self):              # self = this dog
-    print(self.name)        # reach this dog&#x27;s name</code></div>
-<h3>Attribute vs Method — the quick test</h3>
-<ul><li><strong>Attribute</strong> (data, what it HAS): no brackets. <code>rex.name</code></li><li><strong>Method</strong> (action, what it DOES): has brackets. <code>rex.bark()</code></li><li>If it ends in <code>()</code> it's an action. If it doesn't, it's data.</li></ul>
-<h3>Methods can take extra inputs too</h3>
-<div class="codeblock"><code>class Dog:
-    def __init__(self, name):
-        self.name = name
-    def greet(self, person):           # extra input: person
-        print(self.name + &quot; greets &quot; + person)
-
-rex = Dog(&quot;Rex&quot;)
-rex.greet(&quot;Ada&quot;)        # Rex greets Ada</code></div>
-<p>After <code>self</code>, a method can have more parameters — just like __init__. <code>rex.greet("Ada")</code> sends "Ada" in as <code>person</code>.</p>
+<div class="learn-card">
+  <h2>🔬 See it happen — press Forward to step through</h2>
+  <p class="sub">Watch the objects appear and the data fill in, one line at a time. This is the best way to understand classes.</p>
+  <iframe class="tutor" src="https://pythontutor.com/iframe-embed.html#code=class%20Dog%3A%0A%20%20%20%20def%20__init__%28self%2C%20name%29%3A%0A%20%20%20%20%20%20%20%20self.name%20%3D%20name%0A%20%20%20%20def%20bark%28self%29%3A%0A%20%20%20%20%20%20%20%20print%28self.name%20%2B%20%22%20says%20Woof%21%22%29%0A%0Arex%20%3D%20Dog%28%22Rex%22%29%0Arex.bark%28%29&cumulative=false&py=3&curInstr=0&codeDivHeight=400&codeDivWidth=520&origin=opt-frontend.js&rawInputLstJSON=%5B%5D&textReferences=false" loading="lazy"></iframe>
+</div>
+<div class="learn-card">
+  <h2>✏️ Try it yourself — write &amp; run Python here</h2>
+  <p class="sub">Type code and press the ▶ Run button. Use this whenever a question asks you to write or test code.</p>
+  <iframe class="trinket" src="https://trinket.io/embed/python3" loading="lazy"></iframe>
+</div>
+</div>
+<a class="notes-button" href="notes/L4-methods-notes.html">
+  <span class="big">📖</span>
+  <div>
+    <h3>Want the full explanation? Open the Study Notes</h3>
+    <p>The detailed guide with lots of examples — read it at your own pace, then come back and practise.</p>
+  </div>
+</a>
+<div class="quickref">
+  <h3>⚡ Quick reference — today's syntax</h3>
+  <table><tr><td class="code">def bark(self):</td><td class="mean">a method = an action the object can do</td></tr><tr><td class="code">    print(self.name)</td><td class="mean">methods can reach the object&#x27;s own data</td></tr><tr><td class="code">rex.bark()</td><td class="mean">call a method — note the brackets ()</td></tr><tr><td class="code">rex.name</td><td class="mean">attribute = data, NO brackets</td></tr></table>
+</div>
 </div>
 
 <div class="progress-bar-wrap">
   <div class="progress-text">
     <span><span id="answered-count">0</span> / <span id="total-count">0</span> attempted</span>
-    <span class="marks">Score: <span id="est-marks">0</span> / 40</span>
+    <span class="marks">Score: <span id="est-marks">0</span> / 68</span>
   </div>
   <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
 </div>
@@ -333,6 +346,76 @@ rex.jump()</code></pre>
     </div>
     <div class="feedback" id="fb-c4q8"></div>
   </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q14 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Fill the keyword that defines a method.</div>
+    <pre><code>class Cat:
+    ______ meow(self):
+        print(&quot;Meow&quot;)</code></pre>
+    <input type="text" id="c4qe1" placeholder="keyword">
+    <div class="feedback" id="fb-c4qe1"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q15 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Fill the first parameter every method needs.</div>
+    <pre><code>def meow(______):
+    print(&quot;Meow&quot;)</code></pre>
+    <input type="text" id="c4qe2" placeholder="one word">
+    <div class="feedback" id="fb-c4qe2"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q16 · 3 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Fill the blank to CALL the cat's meow method (don't forget the brackets!).</div>
+    <pre><code>felix = Cat()
+felix.______</code></pre>
+    <input type="text" id="c4qe3" placeholder="method with brackets">
+    <div class="feedback" id="fb-c4qe3"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q17 · 3 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">What does this print?</div>
+    <pre><code>class Cat:
+    def __init__(self, name):
+        self.name = name
+    def meow(self):
+        print(self.name + &quot; says Meow&quot;)
+
+c = Cat(&quot;Felix&quot;)
+c.meow()</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="c4qe4" value="0"> Meow</label>
+      <label><input type="radio" name="c4qe4" value="1"> Felix says Meow</label>
+      <label><input type="radio" name="c4qe4" value="2"> self.name says Meow</label>
+      <label><input type="radio" name="c4qe4" value="3"> an error</label>
+    </div>
+    <div class="feedback" id="fb-c4qe4"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q18 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Which is a METHOD (action), not an attribute (data)?</div>
+    <pre><code>dog.name
+dog.age
+dog.bark()</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="c4qe5" value="0"> dog.name</label>
+      <label><input type="radio" name="c4qe5" value="1"> dog.age</label>
+      <label><input type="radio" name="c4qe5" value="2"> dog.bark()</label>
+      <label><input type="radio" name="c4qe5" value="3"> all of them</label>
+    </div>
+    <div class="feedback" id="fb-c4qe5"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q19 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Why does <code>rex.bark</code> (no brackets) NOT make the dog bark?</div>
+    
+    <div class="choices">
+      <label><input type="radio" name="c4qe6" value="0"> bark is spelled wrong</label>
+      <label><input type="radio" name="c4qe6" value="1"> without () you&#x27;re pointing at the method, not running it — need rex.bark()</label>
+      <label><input type="radio" name="c4qe6" value="2"> rex doesn&#x27;t exist</label>
+      <label><input type="radio" name="c4qe6" value="3"> methods can&#x27;t bark</label>
+    </div>
+    <div class="feedback" id="fb-c4qe6"></div>
+  </div>
 <div class="tier should">
   <span class="badge">⭐ SHOULD DO</span>
   <span class="tier-desc">Most of you will get here. This is applying the idea.</span>
@@ -380,6 +463,36 @@ rex.jump()</code></pre>
 </code></pre><textarea id="c4q11" placeholder="Paste your code or written answer..."></textarea>
     <div class="feedback" id="fb-c4q11"></div>
   </div>
+  <div class="question t-should">
+    <div class="qnum"><span>Q20 · 5 marks (self-marked)</span><span class="tiertag should">should</span></div>
+    <div class="qtext">STEP-BY-STEP. (1) Write a class <code>Wizard</code> with <code>__init__(self, name)</code>. (2) Add a method <code>cast_spell(self)</code> that prints "NAME casts a fireball!". (3) Build a wizard called "Merlin". (4) Make him cast a spell.</div>
+    
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code>class Wizard:
+    def __init__(self, name):
+        self.name = name
+    def cast_spell(self):
+        # print NAME casts a fireball!
+
+# build Merlin, cast a spell
+</code></pre><textarea id="c4qe7" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c4qe7"></div>
+  </div>
+  <div class="question t-should">
+    <div class="qnum"><span>Q21 · 5 marks (self-marked)</span><span class="tiertag should">should</span></div>
+    <div class="qtext">STEP-BY-STEP. Write a class <code>Robot</code> with a name and TWO methods: <code>beep(self)</code> prints "NAME goes beep" and <code>walk(self)</code> prints "NAME walks forward". Build a robot and call BOTH methods.</div>
+    
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code>class Robot:
+    def __init__(self, name):
+        self.name = name
+    def beep(self):
+        # ...
+    def walk(self):
+        # ...
+
+# build a robot, call both methods
+</code></pre><textarea id="c4qe8" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c4qe8"></div>
+  </div>
 <div class="tier could">
   <span class="badge">🚀 COULD DO</span>
   <span class="tier-desc">For when you're flying — stretch yourself, often with your OWN game code.</span>
@@ -406,6 +519,20 @@ rex.jump()</code></pre>
     <textarea id="c4q13" placeholder="Paste your code or written answer..."></textarea>
     <div class="feedback" id="fb-c4q13"></div>
   </div>
+  <div class="question t-could">
+    <div class="qnum"><span>Q22 · 4 marks (self-marked)</span><span class="tiertag could">could</span></div>
+    <div class="qtext">🚀 Write a method that takes an EXTRA input (a parameter after self). A <code>Dog</code> with <code>greet(self, person)</code> that prints "NAME greets PERSON". Build a dog and greet two different people.</div>
+    
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code>class Dog:
+    def __init__(self, name):
+        self.name = name
+    def greet(self, person):
+        # print NAME greets PERSON
+
+# build a dog, greet two people
+</code></pre><textarea id="c4qe9" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c4qe9"></div>
+  </div>
 <div id="submit-section">
   <p style="margin: 0 0 1rem; color: var(--text-muted);">Done with your tier? Submit to see your score + answer key. Keep editing after if you want.</p>
   <button id="submit-btn" disabled>Submit worksheet</button>
@@ -415,7 +542,7 @@ rex.jump()</code></pre>
 <div id="results">
   <h2>📊 Your clean-code check</h2>
   <div class="score-hero">
-    <div class="big"><span id="final-score">0</span> / 40</div>
+    <div class="big"><span id="final-score">0</span> / 68</div>
     <div class="sub" id="score-comment">—</div>
   </div>
   <div class="breakdown" id="breakdown"></div>
@@ -565,6 +692,93 @@ const QUESTIONS = [
     "marks": 4,
     "tier": "could",
     "rubric": "Full marks: a themed class with 2+ sensible methods using self, object built and methods used. Creative application."
+  },
+  {
+    "id": "c4qe1",
+    "kind": "fill",
+    "marks": 2,
+    "tier": "must",
+    "answer": "def",
+    "explain": "<code>def</code> \u2014 methods are defined like functions."
+  },
+  {
+    "id": "c4qe2",
+    "kind": "fill",
+    "marks": 2,
+    "tier": "must",
+    "answer": "self",
+    "explain": "<code>self</code> always comes first."
+  },
+  {
+    "id": "c4qe3",
+    "kind": "fill",
+    "marks": 3,
+    "tier": "must",
+    "answer": "meow()",
+    "explain": "<code>felix.meow()</code> \u2014 the brackets make it run."
+  },
+  {
+    "id": "c4qe4",
+    "kind": "mcq",
+    "marks": 3,
+    "tier": "must",
+    "correct": 1,
+    "choices": [
+      "Meow",
+      "Felix says Meow",
+      "self.name says Meow",
+      "an error"
+    ],
+    "explain": "<code>self.name</code> is \"Felix\", so it prints \"Felix says Meow\"."
+  },
+  {
+    "id": "c4qe5",
+    "kind": "mcq",
+    "marks": 2,
+    "tier": "must",
+    "correct": 2,
+    "choices": [
+      "dog.name",
+      "dog.age",
+      "dog.bark()",
+      "all of them"
+    ],
+    "explain": "<code>dog.bark()</code> has brackets \u2014 it's an action. The others are data."
+  },
+  {
+    "id": "c4qe6",
+    "kind": "mcq",
+    "marks": 2,
+    "tier": "must",
+    "correct": 1,
+    "choices": [
+      "bark is spelled wrong",
+      "without () you're pointing at the method, not running it \u2014 need rex.bark()",
+      "rex doesn't exist",
+      "methods can't bark"
+    ],
+    "explain": "The brackets <code>()</code> are what RUN the method."
+  },
+  {
+    "id": "c4qe7",
+    "kind": "build",
+    "marks": 5,
+    "tier": "should",
+    "rubric": "Full marks: method uses self.name, wizard built, spell cast, prints correctly. Half: method doesn't use self.name."
+  },
+  {
+    "id": "c4qe8",
+    "kind": "build",
+    "marks": 5,
+    "tier": "should",
+    "rubric": "Full marks: two methods both using self.name, object built, both called. Half: only one method works."
+  },
+  {
+    "id": "c4qe9",
+    "kind": "build",
+    "marks": 4,
+    "tier": "could",
+    "rubric": "Full marks: method uses both self.name and the person parameter, called twice with different people."
   }
 ];
 
@@ -661,7 +875,7 @@ document.getElementById("submit-btn").addEventListener("click", () => {
     <div class="breakdown-item"><div class="label">✅ Must do</div><div class="value">${tierScore.must}</div></div>
     <div class="breakdown-item"><div class="label">⭐ Should do</div><div class="value">${tierScore.should}</div></div>
     <div class="breakdown-item"><div class="label">🚀 Could do</div><div class="value">${tierScore.could}</div></div>
-    <div class="breakdown-item"><div class="label">Total</div><div class="value">${score} / 40</div></div>`;
+    <div class="breakdown-item"><div class="label">Total</div><div class="value">${score} / 68</div></div>`;
   document.getElementById("results").style.display = "block";
   document.getElementById("results").scrollIntoView({behavior:"smooth", block:"start"});
 });
