@@ -36,6 +36,27 @@ body { max-width: 940px; margin: 0 auto; padding: 1.5rem; overflow-x: hidden; }
 .video-panel video { width: 100%; border-radius: 8px; background: #000; }
 .video-panel iframe { width: 100%; aspect-ratio: 16/9; border: 0; border-radius: 8px; }
 
+/* START-HERE banner — the can't-miss entry to Study Notes + practice */
+.start-here { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin: 1.2rem 0; }
+@media (max-width: 620px) { .start-here { grid-template-columns: 1fr; } }
+.sh-step { border-radius: 12px; padding: 0; }
+.sh-notes a { display: flex; align-items: center; gap: 0.8rem; padding: 1rem 1.2rem; text-decoration: none;
+              color: var(--text); background: linear-gradient(135deg, rgba(168,85,247,0.22), rgba(31,58,104,0.3));
+              border: 2px solid #a855f7; border-radius: 12px; height: 100%; box-sizing: border-box;
+              transition: transform 0.15s, box-shadow 0.15s; }
+.sh-notes a:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(168,85,247,0.35); }
+.sh-practice { display: flex; align-items: center; gap: 0.8rem; padding: 1rem 1.2rem;
+               background: rgba(20,184,166,0.10); border: 2px solid #14b8a6; border-radius: 12px; }
+.sh-num { flex-shrink: 0; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center;
+          justify-content: center; font-weight: 700; font-size: 1.1rem; }
+.sh-notes .sh-num { background: #a855f7; color: #1a0633; }
+.sh-practice .sh-num { background: #14b8a6; color: #04211f; }
+.sh-step strong { display: block; color: var(--py-gold); font-size: 1rem; margin-bottom: 0.15rem; }
+.sh-notes strong { color: #d8b4fe; }
+.sh-practice strong { color: #5eead4; }
+.sh-step span { font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; display: block; }
+.sh-arrow { margin-left: auto; font-size: 1.5rem; color: #d8b4fe; flex-shrink: 0; }
+
 /* LEARN panel — lean: watch + visualise + run + notes button */
 .learn { margin: 1.4rem 0; }
 .learn-grid { display: grid; gap: 1rem; }
@@ -175,6 +196,7 @@ textarea { min-height: 120px; resize: vertical; }
     <nav class="site-nav">
       <a href="../index.html">Overview</a>
       <a href="index.html">📚 Classes</a>
+      <a href="notes/L1-what-is-a-class-notes.html">📖 Study Notes</a>
       <a href="../arcade/index.html">🎮 Arcade</a>
     </nav>
   </div>
@@ -195,6 +217,21 @@ textarea { min-height: 120px; resize: vertical; }
   <div class="name-row">
     <input type="text" id="student-name" placeholder="First name" autocomplete="given-name">
     <input type="text" id="student-last" placeholder="Last name" autocomplete="family-name">
+  </div>
+</div>
+
+<!-- START-HERE: two clear paths, before the embeds, impossible to miss -->
+<div class="start-here">
+  <div class="sh-step sh-notes">
+    <a href="notes/L1-what-is-a-class-notes.html">
+      <span class="sh-num">1</span>
+      <div><strong>📖 Read the Study Notes</strong><span>The full explanation with lots of examples. Open it, read at your own pace.</span></div>
+      <span class="sh-arrow">→</span>
+    </a>
+  </div>
+  <div class="sh-step sh-practice">
+    <span class="sh-num">2</span>
+    <div><strong>✏️ Then practise below</strong><span>Watch &amp; explore, then work through the questions. Ms Gao checks your progress.</span></div>
   </div>
 </div>
 
@@ -223,13 +260,6 @@ textarea { min-height: 120px; resize: vertical; }
   <iframe class="trinket" src="https://trinket.io/embed/python3" loading="lazy"></iframe>
 </div>
 </div>
-<a class="notes-button" href="notes/L1-what-is-a-class-notes.html">
-  <span class="big">📖</span>
-  <div>
-    <h3>Want the full explanation? Open the Study Notes</h3>
-    <p>The detailed guide with lots of examples — read it at your own pace, then come back and practise.</p>
-  </div>
-</a>
 <div class="quickref">
   <h3>⚡ Quick reference — today's syntax</h3>
   <table><tr><td class="code">class Dog:</td><td class="mean">make a blueprint called Dog</td></tr><tr><td class="code">    pass</td><td class="mean">nothing inside yet</td></tr><tr><td class="code">rex = Dog()</td><td class="mean">build ONE dog object</td></tr><tr><td class="code">a = Dog()  b = Dog()</td><td class="mean">build as many as you like</td></tr></table>
