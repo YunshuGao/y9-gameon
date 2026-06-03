@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Classes Step-by-Step · Y9 Game On</title>
+<link rel="stylesheet" href="../../assets/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body { max-width: 940px; margin: 0 auto; padding: 1.5rem; }
+.cc-list { display: grid; gap: 1rem; margin: 1.5rem 0; }
+.cc-card { display: flex; gap: 1rem; padding: 1.2rem 1.4rem; background: var(--surface);
+           border: 1px solid var(--border); border-radius: 12px; text-decoration: none;
+           color: var(--text); transition: border 0.15s, transform 0.15s; }
+.cc-card:hover { border-color: var(--py-gold); transform: translateY(-2px); }
+.cc-emoji { font-size: 2.2rem; line-height: 1; }
+.cc-body h3 { margin: 0 0 0.3rem; color: var(--py-gold); font-size: 1.05rem; }
+.cc-meta { margin: 0 0 0.4rem; color: var(--text-muted); font-size: 0.83rem; }
+.cc-desc { margin: 0; font-size: 0.9rem; line-height: 1.5; }
+.intro { background: rgba(255,212,59,0.08); border-left: 3px solid var(--py-gold);
+         padding: 1rem 1.2rem; border-radius: 8px; margin: 1rem 0; line-height: 1.6; }
+</style>
+</head>
+<body>
+<header class="site-header"><div class="site-header-inner">
+  <a href="../index.html" class="site-brand">🐍 Y9 Game On · Term 2</a>
+  <nav class="site-nav"><a href="../index.html">Overview</a><a href="../arcade/index.html">🎮 Arcade</a></nav>
+</div></header>
+<main class="container">
+  <h1>📚 Classes Step-by-Step</h1>
+  <div class="intro">
+    <strong>Classes are the big idea for Term 3 — so let's learn them slowly and properly, from zero.</strong>
+    These 8 lessons each teach ONE small piece of how classes work, with lots of practice. No rushing. If you can
+    finish the <strong>Must Do</strong> tier of each lesson, you'll walk into Term 3 ready to build a whole game out
+    of classes. Take them in order, one per lesson.
+  </div>
+  <div class="cc-list">
+
+    <a class="cc-card" href="L1-what-is-a-class.html">
+      <div class="cc-emoji">📘</div>
+      <div class="cc-body">
+        <h3>Lesson 1 — What is a class?</h3>
+        <p class="cc-meta">Lesson 1 · 50 min · /32 marks</p>
+        <p class="cc-desc">Next term we build a whole game out of classes. Today we start at the very beginning — no rush, no pressure. By the end of this lesson you'll be able to write a class and build an object from it. That's it. One small win.</p>
+      </div>
+    </a>
+
+    <a class="cc-card" href="L2-attributes.html">
+      <div class="cc-emoji">🏷️</div>
+      <div class="cc-body">
+        <h3>Lesson 2 — Attributes: giving your object data</h3>
+        <p class="cc-meta">Lesson 2 · 55 min · /41 marks</p>
+        <p class="cc-desc">Last lesson your objects were empty. A real game dog needs a name; a player needs a score. Today you learn to store data ON an object. This is the half of classes that holds INFORMATION.</p>
+      </div>
+    </a>
+
+    <a class="cc-card" href="L3-init-parameters.html">
+      <div class="cc-emoji">🎚️</div>
+      <div class="cc-body">
+        <h3>Lesson 3 — Objects that are DIFFERENT</h3>
+        <p class="cc-meta">Lesson 3 · 55 min · /42 marks</p>
+        <p class="cc-desc">In Lesson 2, every Dog was named "Rex". Boring! Real games need a goblin AND an orc, a player called Ada AND one called Sam. Today you pass values IN when you build an object, so each one is unique.</p>
+      </div>
+    </a>
+
+    <a class="cc-card" href="L4-methods.html">
+      <div class="cc-emoji">⚙️</div>
+      <div class="cc-body">
+        <h3>Lesson 4 — Methods: teaching your object to DO things</h3>
+        <p class="cc-meta">Lesson 4 · 55 min · /40 marks</p>
+        <p class="cc-desc">So far your objects just hold data — they sit there. A real game dog can BARK. A player can JUMP. Today you give objects ACTIONS, called methods. This is the other half of classes: behaviour.</p>
+      </div>
+    </a>
+
+    <a class="cc-card" href="L5-methods-change-data.html">
+      <div class="cc-emoji">🔄</div>
+      <div class="cc-body">
+        <h3>Lesson 5 — Methods that CHANGE the object's data</h3>
+        <p class="cc-meta">Lesson 5 · 60 min · /43 marks</p>
+        <p class="cc-desc">This is where classes become magic. A method can CHANGE the object's data — <code>self.score += 1</code> — and the object keeps the new value forever. This is how every game tracks health, score, coins, and lives.</p>
+      </div>
+    </a>
+
+    <a class="cc-card" href="L6-many-objects.html">
+      <div class="cc-emoji">👥</div>
+      <div class="cc-body">
+        <h3>Lesson 6 — Many objects from one class</h3>
+        <p class="cc-meta">Lesson 6 · 60 min · /40 marks</p>
+        <p class="cc-desc">Here's why games LOVE classes. Write one Enemy class, then build a list of 10 enemies and loop over them all. This is how the Pac-Man game in our class made 4 ghosts, and how every game with 'lots of things' works.</p>
+      </div>
+    </a>
+
+    <a class="cc-card" href="L7-objects-together.html">
+      <div class="cc-emoji">🤝</div>
+      <div class="cc-body">
+        <h3>Lesson 7 — Objects working together</h3>
+        <p class="cc-meta">Lesson 7 · 60 min · /40 marks</p>
+        <p class="cc-desc">So far a method changed its OWN object. Today the leap: <code>hero.attack(goblin)</code> — the hero's method reaches into the goblin and lowers ITS health. Once two objects can affect each other, you can build any interactive game.</p>
+      </div>
+    </a>
+
+    <a class="cc-card" href="L8-build-your-own.html">
+      <div class="cc-emoji">🏗️</div>
+      <div class="cc-body">
+        <h3>Lesson 8 — Build your own class (capstone)</h3>
+        <p class="cc-meta">Lesson 8 · 70 min · /41 marks</p>
+        <p class="cc-desc">You've met blueprints, attributes, __init__, methods, changing data, lists of objects, and objects interacting. Today you put it all together by building ONE complete class from scratch — guided every step of the way. This is your warm-up for the full game you'll build with classes in Term 3.</p>
+      </div>
+    </a>
+  </div>
+  <div class="intro" style="background: rgba(59,130,246,0.08); border-left-color: var(--py-blue);">
+    <strong>How the tiers work:</strong> every worksheet has <strong>✅ Must do</strong> (everyone),
+    <strong>⭐ Should do</strong> (most of you), and <strong>🚀 Could do</strong> (stretch — often using your own game).
+    Finish Must-do, then climb. Counts as classwork.
+  </div>
+</main>
+</body>
+</html>

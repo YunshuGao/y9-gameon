@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lesson 7 — Inheritance: parent and child classes · 9GAMZA</title>
+<title>Lesson 8 — Build your own class (capstone) · 9GAMZA</title>
 <link rel="stylesheet" href="../../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -146,7 +146,7 @@ textarea { min-height: 120px; resize: vertical; }
     <a href="../index.html" class="site-brand">🐍 Y9 Game On · Term 2</a>
     <nav class="site-nav">
       <a href="../index.html">Overview</a>
-      <a href="index.html">🧹 Clean Code</a>
+      <a href="index.html">📚 Classes</a>
       <a href="../arcade/index.html">🎮 Arcade</a>
     </nav>
   </div>
@@ -155,14 +155,14 @@ textarea { min-height: 120px; resize: vertical; }
 <main class="container">
 
 <div class="ws-header">
-  <h1>🧬 Lesson 7 — Inheritance: parent and child classes</h1>
+  <h1>🏗️ Lesson 8 — Build your own class (capstone)</h1>
   <p><strong>Class:</strong> Year 9 Game On · 9GAMZA · Term 2 2026</p>
-  <p><strong>Today:</strong> How the Pac-Man game in our class made 4 different ghosts WITHOUT copy-pasting — and how you'll do it too.</p>
+  <p><strong>Today:</strong> Everything you've learned, put together into ONE class you design and build — step by step, with scaffolding.</p>
   <div class="meta">
-    <div><strong>Lesson</strong>7 of 8</div>
-    <div><strong>Time</strong>60 min</div>
-    <div><strong>Marks</strong>/37 (classwork)</div>
-    <div><strong>Builds toward</strong>Professional OOP design</div>
+    <div><strong>Lesson</strong>8 of 8</div>
+    <div><strong>Time</strong>70 min</div>
+    <div><strong>Marks</strong>/41 (classwork)</div>
+    <div><strong>Builds toward</strong>Ready for Term 3</div>
   </div>
   <div class="name-row">
     <input type="text" id="student-name" placeholder="First name" autocomplete="given-name">
@@ -171,7 +171,7 @@ textarea { min-height: 120px; resize: vertical; }
 </div>
 
 <div class="intent">
-  <strong>🎯 Why this lesson:</strong> The most advanced game in our class had FOUR ghost types — Blinky, Pinky, Inky, Clyde — that shared most of their code but each chased the player differently. The student didn't copy-paste four times. They used INHERITANCE: a parent Ghost class, and four children that only changed what was different. This is the most powerful idea in classes, and the heart of Term 3.
+  <strong>🎯 Why this lesson:</strong> You've met blueprints, attributes, __init__, methods, changing data, lists of objects, and objects interacting. Today you put it all together by building ONE complete class from scratch — guided every step of the way. This is your warm-up for the full game you'll build with classes in Term 3.
 </div>
 
 <div class="classwork-note">
@@ -181,48 +181,45 @@ textarea { min-height: 120px; resize: vertical; }
 
 
 <div class="teach">
-<h2>The problem inheritance solves</h2>
-<p>Imagine four enemy types. They all have name, health, damage, and a take_damage method. Only their ATTACK differs. Without inheritance you'd copy the shared code into all four classes — pure DRY violation (Lesson 2!).</p>
-<h3>Parent class — the shared stuff, written ONCE</h3>
-<div class="code-label good">✅ Parent: shared behaviour, once</div><div class="codeblock good"><code>class Enemy:                         # PARENT
-    def __init__(self, name, health, damage):
+<h2>The 7 things you now know</h2>
+<div class="codeblock"><code>1. CLASS    — the blueprint:           class Pet:
+2. __init__ — the setup method:        def __init__(self):
+3. self     — this object:             self.name
+4. PARAMS   — values coming in:        def __init__(self, name):
+5. ATTRIBUTE— data the object has:     self.health = 100
+6. METHOD   — an action it does:       def feed(self):
+7. CHANGE   — a method edits data:     self.hunger += 10</code></div>
+<h3>Build along: a complete Pet class, one piece at a time</h3>
+<p>We'll build a full virtual pet together. Each step adds ONE thing you already know. Follow along, then the tasks ask you to build your OWN.</p>
+<p><strong>Step 1 — the blueprint and setup:</strong></p>
+<div class="codeblock"><code>class Pet:
+    def __init__(self, name):
         self.name = name
-        self.health = health
-        self.damage = damage
-    def take_damage(self, amount):
-        self.health -= amount
-    def attack(self, target):
-        target.health -= self.damage</code></div>
-<h3>Child classes — inherit everything, change only what's different</h3>
-<div class="code-label good">✅ Children: only the differences</div><div class="codeblock good"><code>class Zombie(Enemy):                 # CHILD — inherits from Enemy
-    def __init__(self):
-        super().__init__(&quot;Zombie&quot;, 40, 8)   # call parent setup
-
-class Skeleton(Enemy):               # another CHILD
-    def __init__(self):
-        super().__init__(&quot;Skeleton&quot;, 25, 5)
-    def attack(self, target):        # OVERRIDE — skeletons attack differently
-        target.health -= self.damage * 2     # double damage!
-        print(f&quot;{self.name} fires an arrow!&quot;)</code></div>
-<h3>The three magic words</h3>
-<ul><li><code>class Zombie(Enemy):</code> — the <code>(Enemy)</code> means 'Zombie inherits from Enemy'. Zombie gets <code>take_damage</code> and <code>attack</code> for free.</li><li><code>super().__init__(...)</code> — calls the PARENT's setup, so you don't re-type <code>self.name = name</code> etc.</li><li><strong>Overriding</strong> — if a child defines a method the parent already has (like Skeleton's <code>attack</code>), the child's version wins for that child.</li></ul>
-<h3>Why this is the big one</h3>
-<p><code>Zombie()</code> and <code>Skeleton()</code> both have <code>take_damage()</code> — written ONCE in the parent. Want a Dragon? <code>class Dragon(Enemy):</code> and only write what's special. Shared code lives in one place; differences live in the children. This is exactly how the ghosts worked: one <code>Ghost</code> parent, four children that only changed <code>choose_move</code>.</p>
-<div class="codeblock"><code># all four ghosts share the parent Ghost class.
-# each child only overrides how it chooses where to move:
-class Blinky(Ghost):
-    def choose_move(self, player):
-        return chase_directly(self, player)
-
-class Clyde(Ghost):
-    def choose_move(self, player):
-        return move_randomly(self)</code></div>
+        self.hunger = 50
+        self.happiness = 50</code></div>
+<p><strong>Step 2 — add a method that changes data (with capping):</strong></p>
+<div class="codeblock"><code>    def feed(self):
+        self.hunger = min(100, self.hunger + 20)
+        print(self.name + &quot; has been fed. Hunger: &quot; + str(self.hunger))</code></div>
+<p><strong>Step 3 — add another method:</strong></p>
+<div class="codeblock"><code>    def play(self):
+        self.happiness = min(100, self.happiness + 15)
+        print(self.name + &quot; played. Happiness: &quot; + str(self.happiness))</code></div>
+<p><strong>Step 4 — build the object and use it:</strong></p>
+<div class="codeblock"><code>my_pet = Pet(&quot;Mochi&quot;)
+my_pet.feed()
+my_pet.play()
+print(my_pet.hunger, my_pet.happiness)</code></div>
+<h3>That's a complete program made of one class!</h3>
+<p>Blueprint + attributes + methods + changing data — everything from Lessons 1-5. The capstone tasks below ask you to build your own version. Take it step by step, just like this. Run it after each step to check it works.</p>
+<h3>How to build without getting stuck</h3>
+<ul><li>Write the <code>class</code> line and <code>__init__</code> first. Run it. No errors? Good.</li><li>Add ONE method. Run it. Test it.</li><li>Add the next method. Run it.</li><li>Never write the whole thing then run — add one piece at a time.</li><li>Stuck? Look back at the build-along above, or ask Ms Gao.</li></ul>
 </div>
 
 <div class="progress-bar-wrap">
   <div class="progress-text">
     <span><span id="answered-count">0</span> / <span id="total-count">0</span> attempted</span>
-    <span class="marks">Score: <span id="est-marks">0</span> / 37</span>
+    <span class="marks">Score: <span id="est-marks">0</span> / 41</span>
   </div>
   <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
 </div>
@@ -233,56 +230,57 @@ class Clyde(Ghost):
 
   <div class="question t-must">
     <div class="qnum"><span>Q1 · 2 marks</span><span class="tiertag must">must</span></div>
-    <div class="qtext">What does <code>class Zombie(Enemy):</code> mean?</div>
-    
-    <div class="choices">
-      <label><input type="radio" name="l7q1" value="0"> Zombie is the same as Enemy</label>
-      <label><input type="radio" name="l7q1" value="1"> Zombie INHERITS from Enemy — it gets Enemy&#x27;s attributes and methods</label>
-      <label><input type="radio" name="l7q1" value="2"> Zombie deletes Enemy</label>
-      <label><input type="radio" name="l7q1" value="3"> Enemy is created inside Zombie</label>
-    </div>
-    <div class="feedback" id="fb-l7q1"></div>
+    <div class="qtext">Quick recall: fill the keyword that starts a class.</div>
+    <pre><code>______ Robot:</code></pre>
+    <input type="text" id="c8q1" placeholder="keyword">
+    <div class="feedback" id="fb-c8q1"></div>
   </div>
   <div class="question t-must">
     <div class="qnum"><span>Q2 · 2 marks</span><span class="tiertag must">must</span></div>
-    <div class="qtext">What does <code>super().__init__("Zombie", 40, 8)</code> do?</div>
-    
-    <div class="choices">
-      <label><input type="radio" name="l7q2" value="0"> Creates a new Enemy</label>
-      <label><input type="radio" name="l7q2" value="1"> Calls the PARENT class&#x27;s __init__ to set up the shared attributes</label>
-      <label><input type="radio" name="l7q2" value="2"> Deletes the parent</label>
-      <label><input type="radio" name="l7q2" value="3"> Imports the super library</label>
-    </div>
-    <div class="feedback" id="fb-l7q2"></div>
+    <div class="qtext">Quick recall: fill the setup method name.</div>
+    <pre><code>class Robot:
+    def ______(self):</code></pre>
+    <input type="text" id="c8q2" placeholder="setup method">
+    <div class="feedback" id="fb-c8q2"></div>
   </div>
   <div class="question t-must">
     <div class="qnum"><span>Q3 · 2 marks</span><span class="tiertag must">must</span></div>
-    <div class="qtext">If a child class has NO <code>attack</code> method of its own, but the parent does, what happens when you call <code>child.attack(...)</code>?</div>
+    <div class="qtext">Quick recall: fill the word that means 'this object'.</div>
+    <pre><code>def feed(______):</code></pre>
+    <input type="text" id="c8q3" placeholder="one word">
+    <div class="feedback" id="fb-c8q3"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q4 · 4 marks (self-marked)</span><span class="tiertag must">must</span></div>
+    <div class="qtext"><strong>Build Step 1.</strong> Write a class for a game character of YOUR choice (a wizard, a robot, a dragon — anything). Give it <code>__init__(self, name)</code> that stores <code>self.name</code> and at least one number attribute (like <code>self.health = 100</code>). Paste your class so far.</div>
     
-    <div class="choices">
-      <label><input type="radio" name="l7q3" value="0"> It crashes</label>
-      <label><input type="radio" name="l7q3" value="1"> It uses the PARENT&#x27;s attack method (inherited for free)</label>
-      <label><input type="radio" name="l7q3" value="2"> Nothing happens</label>
-      <label><input type="radio" name="l7q3" value="3"> It asks the user to write one</label>
-    </div>
-    <div class="feedback" id="fb-l7q3"></div>
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code>class ______:
+    def __init__(self, name):
+        self.name = name
+        # add a number attribute (health, energy, power...)
+</code></pre><textarea id="c8q4" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c8q4"></div>
   </div>
   <div class="question t-must">
-    <div class="qnum"><span>Q4 · 3 marks</span><span class="tiertag must">must</span></div>
-    <div class="qtext">Fill the blank so Goblin inherits from Enemy.</div>
-    <pre><code>class Goblin(______):
-    pass</code></pre>
-    <input type="text" id="l7q4" placeholder="the parent class name">
-    <div class="feedback" id="fb-l7q4"></div>
+    <div class="qnum"><span>Q5 · 4 marks (self-marked)</span><span class="tiertag must">must</span></div>
+    <div class="qtext"><strong>Build Step 2.</strong> Add a METHOD to your class that DOES something and prints a message using <code>self.name</code> (e.g. a wizard's <code>cast_spell(self)</code> that prints "NAME casts a fireball!"). Paste your class with the method added.</div>
+    
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code># your class from Step 1, now with a method:
+
+    def ______(self):
+        print(self.name + &quot; ...&quot;)
+</code></pre><textarea id="c8q5" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c8q5"></div>
   </div>
   <div class="question t-must">
-    <div class="qnum"><span>Q5 · 3 marks</span><span class="tiertag must">must</span></div>
-    <div class="qtext">Fill the blank so the child calls the parent's setup with its own values.</div>
-    <pre><code>class Goblin(Enemy):
-    def __init__(self):
-        ______.__init__(&quot;Goblin&quot;, 20, 3)</code></pre>
-    <input type="text" id="l7q5" placeholder="the parent">
-    <div class="feedback" id="fb-l7q5"></div>
+    <div class="qnum"><span>Q6 · 4 marks (self-marked)</span><span class="tiertag must">must</span></div>
+    <div class="qtext"><strong>Build Step 3.</strong> Build an OBJECT from your class (give it a name) and CALL your method on it. Paste these lines and write what it prints.</div>
+    
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code># build your object and call the method:
+my_character = ______(&quot;...&quot;)
+my_character.______()
+</code></pre><textarea id="c8q6" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c8q6"></div>
   </div>
 <div class="tier should">
   <span class="badge">⭐ SHOULD DO</span>
@@ -290,69 +288,28 @@ class Clyde(Ghost):
 </div>
 
   <div class="question t-should">
-    <div class="qnum"><span>Q6 · 3 marks</span><span class="tiertag should">should</span></div>
-    <div class="qtext">What is method OVERRIDING?</div>
+    <div class="qnum"><span>Q7 · 6 marks (self-marked)</span><span class="tiertag should">should</span></div>
+    <div class="qtext"><strong>Add a method that CHANGES data.</strong> Add a method to your class that changes a number attribute (e.g. <code>take_damage(self, amount)</code> that lowers health, or <code>train(self)</code> that raises power). Use <code>min()</code> or <code>max()</code> to keep it in range. Test it and paste the result.</div>
     
-    <div class="choices">
-      <label><input type="radio" name="l7q6" value="0"> Deleting a method</label>
-      <label><input type="radio" name="l7q6" value="1"> When a child defines a method with the same name as the parent — the child&#x27;s version wins for that child</label>
-      <label><input type="radio" name="l7q6" value="2"> Calling a method twice</label>
-      <label><input type="radio" name="l7q6" value="3"> Importing a method from another file</label>
-    </div>
-    <div class="feedback" id="fb-l7q6"></div>
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code>    def ______(self, amount):
+        # change a number attribute, clamp with min or max
+
+# test it: build object, call this method, print the attribute
+</code></pre><textarea id="c8q7" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c8q7"></div>
   </div>
   <div class="question t-should">
-    <div class="qnum"><span>Q7 · 3 marks</span><span class="tiertag should">should</span></div>
-    <div class="qtext">What does this print?</div>
-    <pre><code>class Enemy:
-    def speak(self):
-        print(&quot;...&quot;)
-class Zombie(Enemy):
-    def speak(self):
-        print(&quot;Braaains&quot;)
-
-Zombie().speak()</code></pre>
-    <div class="choices">
-      <label><input type="radio" name="l7q7" value="0"> ...</label>
-      <label><input type="radio" name="l7q7" value="1"> Braaains</label>
-      <label><input type="radio" name="l7q7" value="2"> ... then Braaains</label>
-      <label><input type="radio" name="l7q7" value="3"> an error</label>
-    </div>
-    <div class="feedback" id="fb-l7q7"></div>
-  </div>
-  <div class="question t-should">
-    <div class="qnum"><span>Q8 · 3 marks</span><span class="tiertag should">should</span></div>
-    <div class="qtext">A real bug from our class: a game called <code>Character.attack(player, enemy)</code> but the parent <code>Character</code> had NO attack method (only the child did). What error happens?</div>
+    <div class="qnum"><span>Q8 · 6 marks (self-marked)</span><span class="tiertag should">should</span></div>
+    <div class="qtext"><strong>Make MANY of them.</strong> Build a LIST of three objects from your class (different names). Loop over the list and call one of your methods on each. Paste your code.</div>
     
-    <div class="choices">
-      <label><input type="radio" name="l7q8" value="0"> The game runs fine</label>
-      <label><input type="radio" name="l7q8" value="1"> AttributeError — Character has no attack method</label>
-      <label><input type="radio" name="l7q8" value="2"> The enemy heals</label>
-      <label><input type="radio" name="l7q8" value="3"> It prints &#x27;attack&#x27;</label>
-    </div>
-    <div class="feedback" id="fb-l7q8"></div>
-  </div>
-  <div class="question t-should">
-    <div class="qnum"><span>Q9 · 7 marks (self-marked)</span><span class="tiertag should">should</span></div>
-    <div class="qtext">Write a parent <code>Enemy</code> class (name, health, damage + a <code>take_damage(self, amount)</code> method). Then write TWO children: <code>Goblin</code> (health 20, damage 3) and <code>Dragon</code> (health 80, damage 15). Each child's <code>__init__</code> uses <code>super().__init__(...)</code>. Create one of each and print both names + healths.</div>
-    
-    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code>class Enemy:
-    def __init__(self, name, health, damage):
-        # set three attributes
-    def take_damage(self, amount):
-        self.health -= amount
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code>characters = [
+    # three objects with different names
+]
 
-class Goblin(Enemy):
-    def __init__(self):
-        super().__init__(...)   # fill in
-
-class Dragon(Enemy):
-    def __init__(self):
-        super().__init__(...)
-
-# create one of each, print names + healths
-</code></pre><textarea id="l7q9" placeholder="Paste your code or written answer..."></textarea>
-    <div class="feedback" id="fb-l7q9"></div>
+for character in characters:
+    # call a method on each
+</code></pre><textarea id="c8q8" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c8q8"></div>
   </div>
 <div class="tier could">
   <span class="badge">🚀 COULD DO</span>
@@ -360,23 +317,22 @@ class Dragon(Enemy):
 </div>
 
   <div class="question t-could">
-    <div class="qnum"><span>Q10 · 6 marks (self-marked)</span><span class="tiertag could">could</span></div>
-    <div class="qtext">🚀 Add a THIRD child to your Q9 hierarchy that OVERRIDES a method. For example, a <code>Skeleton</code> whose <code>take_damage</code> only takes HALF damage (armoured), or whose attack does double. Paste the child class and show it behaving differently from the others.</div>
+    <div class="qnum"><span>Q9 · 6 marks (self-marked)</span><span class="tiertag could">could</span></div>
+    <div class="qtext">🚀 <strong>Two objects interacting.</strong> Add a method where one object affects another (like <code>attack(self, target)</code> or <code>help(self, target)</code>). Build two objects and make one affect the other. Paste your code and describe what happens.</div>
     
-    <textarea id="l7q10" placeholder="Paste your code or written answer..."></textarea>
-    <div class="feedback" id="fb-l7q10"></div>
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code>    def ______(self, target):
+        # change target.something
+
+# build two objects, make one affect the other
+</code></pre><textarea id="c8q9" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c8q9"></div>
   </div>
   <div class="question t-could">
-    <div class="qnum"><span>Q11 · 3 marks</span><span class="tiertag could">could</span></div>
-    <div class="qtext">🚀 The Pac-Man game gave 4 ghosts the SAME movement code except for one method. Why is inheritance the perfect tool here?</div>
+    <div class="qnum"><span>Q10 · 5 marks (self-marked)</span><span class="tiertag could">could</span></div>
+    <div class="qtext">🚀 <strong>Reflection + Term 3 plan.</strong> In 4-5 sentences: which lesson clicked the most for you, and which was the hardest? Now that you understand classes, what ONE game would you like to build with them in Term 3, and what classes would it need (e.g. 'a maze game with a Player class and a Ghost class')?</div>
     
-    <div class="choices">
-      <label><input type="radio" name="l7q11" value="0"> It makes the ghosts move faster</label>
-      <label><input type="radio" name="l7q11" value="1"> All shared ghost behaviour is written ONCE in the parent; each ghost child only overrides the one method that&#x27;s different (how it chooses where to move)</label>
-      <label><input type="radio" name="l7q11" value="2"> Ghosts can&#x27;t exist without inheritance</label>
-      <label><input type="radio" name="l7q11" value="3"> It lets ghosts share one health bar</label>
-    </div>
-    <div class="feedback" id="fb-l7q11"></div>
+    <textarea id="c8q10" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c8q10"></div>
   </div>
 <div id="submit-section">
   <p style="margin: 0 0 1rem; color: var(--text-muted);">Done with your tier? Submit to see your score + answer key. Keep editing after if you want.</p>
@@ -387,148 +343,93 @@ class Dragon(Enemy):
 <div id="results">
   <h2>📊 Your clean-code check</h2>
   <div class="score-hero">
-    <div class="big"><span id="final-score">0</span> / 37</div>
+    <div class="big"><span id="final-score">0</span> / 41</div>
     <div class="sub" id="score-comment">—</div>
   </div>
   <div class="breakdown" id="breakdown"></div>
   <div class="submit-actions">
     <button onclick="window.scrollTo({top:0, behavior:'smooth'})">↑ Review answers</button>
-    <a href="index.html" class="primary">→ Back to Clean Code series</a>
+    <a href="index.html" class="primary">→ Back to Classes series</a>
   </div>
 </div>
 
 </main>
 
 <script>
-const WS_KEY = "y9-cc-L7-v1";
+const WS_KEY = "y9-cls-L8-v1";
 const QUESTIONS = [
   {
-    "id": "l7q1",
-    "kind": "mcq",
-    "marks": 2,
-    "tier": "must",
-    "correct": 1,
-    "choices": [
-      "Zombie is the same as Enemy",
-      "Zombie INHERITS from Enemy \u2014 it gets Enemy's attributes and methods",
-      "Zombie deletes Enemy",
-      "Enemy is created inside Zombie"
-    ],
-    "explain": "The <code>(Enemy)</code> in the brackets means Zombie is a child of Enemy and inherits everything."
-  },
-  {
-    "id": "l7q2",
-    "kind": "mcq",
-    "marks": 2,
-    "tier": "must",
-    "correct": 1,
-    "choices": [
-      "Creates a new Enemy",
-      "Calls the PARENT class's __init__ to set up the shared attributes",
-      "Deletes the parent",
-      "Imports the super library"
-    ],
-    "explain": "<code>super()</code> means the parent. <code>super().__init__(...)</code> runs the parent's setup so you don't re-type it."
-  },
-  {
-    "id": "l7q3",
-    "kind": "mcq",
-    "marks": 2,
-    "tier": "must",
-    "correct": 1,
-    "choices": [
-      "It crashes",
-      "It uses the PARENT's attack method (inherited for free)",
-      "Nothing happens",
-      "It asks the user to write one"
-    ],
-    "explain": "Inheritance: the child uses the parent's method automatically."
-  },
-  {
-    "id": "l7q4",
+    "id": "c8q1",
     "kind": "fill",
-    "marks": 3,
+    "marks": 2,
     "tier": "must",
-    "answer": "Enemy",
-    "explain": "The parent class name goes in the brackets: <code>class Goblin(Enemy):</code>."
+    "answer": "class",
+    "explain": "<code>class</code> starts every class."
   },
   {
-    "id": "l7q5",
+    "id": "c8q2",
     "kind": "fill",
-    "marks": 3,
+    "marks": 2,
     "tier": "must",
-    "answer": "super()",
-    "explain": "<code>super().__init__(...)</code> runs the parent's __init__."
+    "answer": "__init__",
+    "explain": "<code>__init__</code> sets up the object."
   },
   {
-    "id": "l7q6",
-    "kind": "mcq",
-    "marks": 3,
-    "tier": "should",
-    "correct": 1,
-    "choices": [
-      "Deleting a method",
-      "When a child defines a method with the same name as the parent \u2014 the child's version wins for that child",
-      "Calling a method twice",
-      "Importing a method from another file"
-    ],
-    "explain": "Override = redefine an inherited method in the child to change its behaviour."
+    "id": "c8q3",
+    "kind": "fill",
+    "marks": 2,
+    "tier": "must",
+    "answer": "self",
+    "explain": "<code>self</code> is this object."
   },
   {
-    "id": "l7q7",
-    "kind": "mcq",
-    "marks": 3,
-    "tier": "should",
-    "correct": 1,
-    "choices": [
-      "...",
-      "Braaains",
-      "... then Braaains",
-      "an error"
-    ],
-    "explain": "Zombie overrides speak, so the child's version (\"Braaains\") runs."
-  },
-  {
-    "id": "l7q8",
-    "kind": "mcq",
-    "marks": 3,
-    "tier": "should",
-    "correct": 1,
-    "choices": [
-      "The game runs fine",
-      "AttributeError \u2014 Character has no attack method",
-      "The enemy heals",
-      "It prints 'attack'"
-    ],
-    "explain": "Calling a method that the class doesn't have raises AttributeError. The method lived in the CHILD, not the parent \u2014 a classic 'where does this method live?' mix-up."
-  },
-  {
-    "id": "l7q9",
+    "id": "c8q4",
     "kind": "build",
-    "marks": 7,
-    "tier": "should",
-    "rubric": "Full marks: parent correct, BOTH children use super().__init__ with their own values, objects created and printed. Half: one child correct, or super() missing."
+    "marks": 4,
+    "tier": "must",
+    "rubric": "Full marks: a named class with __init__ storing name + a number attribute. The foundation of their capstone."
   },
   {
-    "id": "l7q10",
+    "id": "c8q5",
+    "kind": "build",
+    "marks": 4,
+    "tier": "must",
+    "rubric": "Full marks: a working method that uses self.name in a printed message. Adds behaviour to their class."
+  },
+  {
+    "id": "c8q6",
+    "kind": "build",
+    "marks": 4,
+    "tier": "must",
+    "rubric": "Full marks: object built with a name, method called, correct output described. A complete working class program."
+  },
+  {
+    "id": "c8q7",
+    "kind": "build",
+    "marks": 6,
+    "tier": "should",
+    "rubric": "Full marks: a method that changes the object's data with clamping, tested. Brings in L5."
+  },
+  {
+    "id": "c8q8",
+    "kind": "build",
+    "marks": 6,
+    "tier": "should",
+    "rubric": "Full marks: a list of 3 objects, a loop calling a method on each. Brings in L6."
+  },
+  {
+    "id": "c8q9",
     "kind": "build",
     "marks": 6,
     "tier": "could",
-    "rubric": "Full marks: a third child that correctly overrides a method to behave differently, using super() in __init__. Demonstrates the full inheritance + override skill."
+    "rubric": "Full marks: a method taking another object and changing it, tested with two objects. Brings in L7 \u2014 the hardest idea."
   },
   {
-    "id": "l7q11",
-    "kind": "mcq",
-    "marks": 3,
+    "id": "c8q10",
+    "kind": "build",
+    "marks": 5,
     "tier": "could",
-    "correct": 1,
-    "choices": [
-      "It makes the ghosts move faster",
-      "All shared ghost behaviour is written ONCE in the parent; each ghost child only overrides the one method that's different (how it chooses where to move)",
-      "Ghosts can't exist without inheritance",
-      "It lets ghosts share one health bar"
-    ],
-    "explain": "One Ghost parent holds everything shared; four tiny children each override <code>choose_move</code>. Zero duplication \u2014 DRY + inheritance working together."
+    "rubric": "Full marks: honest reflection naming a clicked + hard lesson, plus a Term 3 game idea with sensible classes named. Shows they can now THINK in classes."
   }
 ];
 
@@ -625,7 +526,7 @@ document.getElementById("submit-btn").addEventListener("click", () => {
     <div class="breakdown-item"><div class="label">✅ Must do</div><div class="value">${tierScore.must}</div></div>
     <div class="breakdown-item"><div class="label">⭐ Should do</div><div class="value">${tierScore.should}</div></div>
     <div class="breakdown-item"><div class="label">🚀 Could do</div><div class="value">${tierScore.could}</div></div>
-    <div class="breakdown-item"><div class="label">Total</div><div class="value">${score} / 37</div></div>`;
+    <div class="breakdown-item"><div class="label">Total</div><div class="value">${score} / 41</div></div>`;
   document.getElementById("results").style.display = "block";
   document.getElementById("results").scrollIntoView({behavior:"smooth", block:"start"});
 });

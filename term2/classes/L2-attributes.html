@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lesson 3 — The Right Data Structure: lists vs dictionaries · 9GAMZA</title>
+<title>Lesson 2 — Attributes: giving your object data · 9GAMZA</title>
 <link rel="stylesheet" href="../../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -146,7 +146,7 @@ textarea { min-height: 120px; resize: vertical; }
     <a href="../index.html" class="site-brand">🐍 Y9 Game On · Term 2</a>
     <nav class="site-nav">
       <a href="../index.html">Overview</a>
-      <a href="index.html">🧹 Clean Code</a>
+      <a href="index.html">📚 Classes</a>
       <a href="../arcade/index.html">🎮 Arcade</a>
     </nav>
   </div>
@@ -155,14 +155,14 @@ textarea { min-height: 120px; resize: vertical; }
 <main class="container">
 
 <div class="ws-header">
-  <h1>🗂️ Lesson 3 — The Right Data Structure: lists vs dictionaries</h1>
+  <h1>🏷️ Lesson 2 — Attributes: giving your object data</h1>
   <p><strong>Class:</strong> Year 9 Game On · 9GAMZA · Term 2 2026</p>
-  <p><strong>Today:</strong> Why keeping questions in one list and answers in ANOTHER list is fragile — and how dictionaries fix it.</p>
+  <p><strong>Today:</strong> An empty object is boring. Today we give objects DATA — like a name or a score — using self.</p>
   <div class="meta">
-    <div><strong>Lesson</strong>3 of 8</div>
+    <div><strong>Lesson</strong>2 of 8</div>
     <div><strong>Time</strong>55 min</div>
-    <div><strong>Marks</strong>/35 (classwork)</div>
-    <div><strong>Builds toward</strong>Organised data (key for classes)</div>
+    <div><strong>Marks</strong>/41 (classwork)</div>
+    <div><strong>Builds toward</strong>Objects that hold information</div>
   </div>
   <div class="name-row">
     <input type="text" id="student-name" placeholder="First name" autocomplete="given-name">
@@ -171,7 +171,7 @@ textarea { min-height: 120px; resize: vertical; }
 </div>
 
 <div class="intent">
-  <strong>🎯 Why this lesson:</strong> Lots of our quiz games kept questions in one list and answers in a SEPARATE list, matched by position. Add one question in the wrong spot and every answer is suddenly wrong. Today: how to GROUP related data so it can't fall out of sync. This is the exact thinking you'll need for classes next.
+  <strong>🎯 Why this lesson:</strong> Last lesson your objects were empty. A real game dog needs a name; a player needs a score. Today you learn to store data ON an object. This is the half of classes that holds INFORMATION.
 </div>
 
 <div class="classwork-note">
@@ -179,41 +179,46 @@ textarea { min-height: 120px; resize: vertical; }
 </div>
 
 
+<div class="video-panel">
+  <h2>📹 Watch first — the __init__ method and self, explained slowly</h2>
+  <p class="vmeta">A beginner walkthrough of __init__ and self. These two words are new — let the video introduce them gently.</p>
+  <iframe src="https://www.youtube-nocookie.com/embed/apACNr7DC_s" title="Watch first — the __init__ method and self, explained slowly" allowfullscreen loading="lazy"></iframe>
+</div>
 
 <div class="teach">
-<h2>The parallel-list trap</h2>
-<p>Here's a real quiz from our class. The questions are in one list, the answers in another:</p>
-<div class="code-label bad">❌ Two lists kept in sync by position</div><div class="codeblock bad"><code>questions = [&quot;Capital of Australia?&quot;, &quot;How many continents?&quot;, &quot;12 x 12?&quot;]
-answers   = [&quot;canberra&quot;, &quot;7&quot;, &quot;144&quot;]
+<h2>Attributes = the data an object HAS</h2>
+<p>An <strong>attribute</strong> is a piece of data that belongs to an object. A dog HAS a name. A player HAS a score. We store these using a special setup method called <code>__init__</code>.</p>
+<h3>Meet __init__ (the setup method)</h3>
+<p><code>__init__</code> (that's TWO underscores on each side) runs automatically when you build an object. It's where you set up the starting data:</p>
+<div class="codeblock"><code>class Dog:
+    def __init__(self):
+        self.name = &quot;Rex&quot;
+        self.age = 3</code></div>
+<p>Now every Dog you build starts with a name of "Rex" and an age of 3. The data lives ON the object.</p>
+<h3>What is self?</h3>
+<p><code>self</code> means "this particular object". <code>self.name = "Rex"</code> means "THIS dog's name is Rex". You write <code>self</code> as the first thing in the brackets, and before every attribute. It's how the object refers to its own data.</p>
+<h3>Reading the data back</h3>
+<p>Once an object has attributes, you read them with a dot:</p>
+<div class="codeblock"><code>class Dog:
+    def __init__(self):
+        self.name = &quot;Rex&quot;
+        self.age = 3
 
-for i in range(len(questions)):
-    user = input(questions[i]).lower()
-    if user == answers[i]:    # matched by POSITION — fragile!
-        score += 1</code></div>
-<p>This works... until you insert a new question at the start of <code>questions</code> but forget to insert its answer at the start of <code>answers</code>. Now every question is paired with the WRONG answer and the whole quiz is broken. Nothing crashes — it's just silently wrong.</p>
-<h3>Fix — group each question WITH its answer (a dictionary)</h3>
-<p>A <strong>dictionary</strong> stores data as <code>key: value</code> pairs. Keep each question glued to its own answer:</p>
-<div class="code-label good">✅ A list of dictionaries</div><div class="codeblock good"><code>quiz = [
-    {&quot;question&quot;: &quot;Capital of Australia?&quot;, &quot;answer&quot;: &quot;canberra&quot;},
-    {&quot;question&quot;: &quot;How many continents?&quot;,  &quot;answer&quot;: &quot;7&quot;},
-    {&quot;question&quot;: &quot;12 x 12?&quot;,               &quot;answer&quot;: &quot;144&quot;},
-]
-
-for item in quiz:
-    user = input(item[&quot;question&quot;]).lower()
-    if user == item[&quot;answer&quot;]:    # answer can NEVER drift from its question
-        score += 1</code></div>
-<p>Now each question and its answer live in the same little box. Move a question, and its answer moves with it. They can't fall out of sync.</p>
-<h3>List vs Dictionary — when to use which</h3>
-<ul><li><strong>List</strong> <code>[ ]</code> — an ordered line-up of things you reach by POSITION: <code>scores[0]</code>, <code>players[2]</code>.</li><li><strong>Dictionary</strong> <code>{ }</code> — labelled boxes you reach by NAME (key): <code>item["answer"]</code>, <code>player["health"]</code>.</li><li><strong>List of dictionaries</strong> — the power combo: many records, each with named fields. Perfect for quiz questions, enemies, inventory items.</li></ul>
-<h3>Why this matters for classes (next week)</h3>
-<p>A dictionary like <code>{"name": "Goblin", "health": 40}</code> is one step away from a class. A CLASS is just a dictionary that also carries its own behaviour (methods). Master grouping data now, and classes will feel natural.</p>
+my_dog = Dog()
+print(my_dog.name)    # Rex
+print(my_dog.age)     # 3</code></div>
+<p><code>my_dog.name</code> = "go into my_dog and get its name". The dot means "belonging to".</p>
+<h3>The pattern to memorise</h3>
+<div class="codeblock"><code>class Thing:
+    def __init__(self):
+        self.something = a_value     # store data ON the object</code></div>
+<p>Three new things today: <code>__init__</code> (the setup), <code>self</code> (this object), and <code>self.name = ...</code> (storing data). Take them slowly — the exercises repeat them a LOT so they sink in.</p>
 </div>
 
 <div class="progress-bar-wrap">
   <div class="progress-text">
     <span><span id="answered-count">0</span> / <span id="total-count">0</span> attempted</span>
-    <span class="marks">Score: <span id="est-marks">0</span> / 35</span>
+    <span class="marks">Score: <span id="est-marks">0</span> / 41</span>
   </div>
   <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
 </div>
@@ -224,56 +229,112 @@ for item in quiz:
 
   <div class="question t-must">
     <div class="qnum"><span>Q1 · 2 marks</span><span class="tiertag must">must</span></div>
-    <div class="qtext">Which brackets make a DICTIONARY?</div>
+    <div class="qtext">An ATTRIBUTE is...</div>
     
     <div class="choices">
-      <label><input type="radio" name="l3q1" value="0"> [ ] square brackets</label>
-      <label><input type="radio" name="l3q1" value="1"> { } curly brackets</label>
-      <label><input type="radio" name="l3q1" value="2"> ( ) round brackets</label>
-      <label><input type="radio" name="l3q1" value="3"> &lt; &gt; angle brackets</label>
+      <label><input type="radio" name="c2q1" value="0"> a kind of loop</label>
+      <label><input type="radio" name="c2q1" value="1"> a piece of data that belongs to an object (like its name)</label>
+      <label><input type="radio" name="c2q1" value="2"> the class name</label>
+      <label><input type="radio" name="c2q1" value="3"> a print statement</label>
     </div>
-    <div class="feedback" id="fb-l3q1"></div>
+    <div class="feedback" id="fb-c2q1"></div>
   </div>
   <div class="question t-must">
     <div class="qnum"><span>Q2 · 2 marks</span><span class="tiertag must">must</span></div>
-    <div class="qtext">How do you read the health out of this dictionary?</div>
-    <pre><code>enemy = {&quot;name&quot;: &quot;Goblin&quot;, &quot;health&quot;: 40}</code></pre>
+    <div class="qtext">What does <code>self</code> mean?</div>
+    
     <div class="choices">
-      <label><input type="radio" name="l3q2" value="0"> enemy[0]</label>
-      <label><input type="radio" name="l3q2" value="1"> enemy[&quot;health&quot;]</label>
-      <label><input type="radio" name="l3q2" value="2"> enemy.health()</label>
-      <label><input type="radio" name="l3q2" value="3"> enemy(health)</label>
+      <label><input type="radio" name="c2q2" value="0"> the whole class</label>
+      <label><input type="radio" name="c2q2" value="1"> THIS particular object</label>
+      <label><input type="radio" name="c2q2" value="2"> a random word</label>
+      <label><input type="radio" name="c2q2" value="3"> the print function</label>
     </div>
-    <div class="feedback" id="fb-l3q2"></div>
+    <div class="feedback" id="fb-c2q2"></div>
   </div>
   <div class="question t-must">
     <div class="qnum"><span>Q3 · 2 marks</span><span class="tiertag must">must</span></div>
-    <div class="qtext">What does this print?</div>
-    <pre><code>player = {&quot;name&quot;: &quot;Ada&quot;, &quot;score&quot;: 12}
-print(player[&quot;name&quot;])</code></pre>
+    <div class="qtext">What is the special setup method called?</div>
+    
     <div class="choices">
-      <label><input type="radio" name="l3q3" value="0"> name</label>
-      <label><input type="radio" name="l3q3" value="1"> Ada</label>
-      <label><input type="radio" name="l3q3" value="2"> 12</label>
-      <label><input type="radio" name="l3q3" value="3"> player</label>
+      <label><input type="radio" name="c2q3" value="0"> setup()</label>
+      <label><input type="radio" name="c2q3" value="1"> __init__</label>
+      <label><input type="radio" name="c2q3" value="2"> start()</label>
+      <label><input type="radio" name="c2q3" value="3"> begin()</label>
     </div>
-    <div class="feedback" id="fb-l3q3"></div>
+    <div class="feedback" id="fb-c2q3"></div>
   </div>
   <div class="question t-must">
-    <div class="qnum"><span>Q4 · 3 marks</span><span class="tiertag must">must</span></div>
-    <div class="qtext">Fill the blank so this reads the answer out of the dictionary.</div>
-    <pre><code>item = {&quot;question&quot;: &quot;2+2?&quot;, &quot;answer&quot;: &quot;4&quot;}
-print(item[______])</code></pre>
-    <input type="text" id="l3q4" placeholder="the key, in quotes">
-    <div class="feedback" id="fb-l3q4"></div>
+    <div class="qnum"><span>Q4 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Fill the method name that sets up an object's data.</div>
+    <pre><code>class Cat:
+    def ______(self):
+        self.name = &quot;Felix&quot;</code></pre>
+    <input type="text" id="c2q4" placeholder="the setup method">
+    <div class="feedback" id="fb-c2q4"></div>
   </div>
   <div class="question t-must">
-    <div class="qnum"><span>Q5 · 3 marks</span><span class="tiertag must">must</span></div>
-    <div class="qtext">A list uses POSITION, a dictionary uses ______. Fill the missing word (one word).</div>
-    <pre><code># list:        scores[0]   &lt;- by position
-# dictionary:  player[&quot;name&quot;]   &lt;- by ______</code></pre>
-    <input type="text" id="l3q5" placeholder="one word">
-    <div class="feedback" id="fb-l3q5"></div>
+    <div class="qnum"><span>Q5 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Fill the word that means "this object".</div>
+    <pre><code>def __init__(______):
+    self.score = 0</code></pre>
+    <input type="text" id="c2q5" placeholder="one word">
+    <div class="feedback" id="fb-c2q5"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q6 · 3 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Fill the blank so the cat's name is stored ON the object.</div>
+    <pre><code>class Cat:
+    def __init__(self):
+        ______ = &quot;Felix&quot;</code></pre>
+    <input type="text" id="c2q6" placeholder="self dot something">
+    <div class="feedback" id="fb-c2q6"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q7 · 3 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">What does this print?</div>
+    <pre><code>class Dog:
+    def __init__(self):
+        self.name = &quot;Rex&quot;
+
+d = Dog()
+print(d.name)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="c2q7" value="0"> name</label>
+      <label><input type="radio" name="c2q7" value="1"> Rex</label>
+      <label><input type="radio" name="c2q7" value="2"> self.name</label>
+      <label><input type="radio" name="c2q7" value="3"> Dog</label>
+    </div>
+    <div class="feedback" id="fb-c2q7"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q8 · 3 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">What does this print?</div>
+    <pre><code>class Player:
+    def __init__(self):
+        self.score = 0
+        self.lives = 3
+
+p = Player()
+print(p.lives)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="c2q8" value="0"> 0</label>
+      <label><input type="radio" name="c2q8" value="1"> 3</label>
+      <label><input type="radio" name="c2q8" value="2"> lives</label>
+      <label><input type="radio" name="c2q8" value="3"> an error</label>
+    </div>
+    <div class="feedback" id="fb-c2q8"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q9 · 3 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Fill the blank to READ the dog's age out of the object.</div>
+    <pre><code>class Dog:
+    def __init__(self):
+        self.age = 5
+
+d = Dog()
+print(______)</code></pre>
+    <input type="text" id="c2q9" placeholder="object dot attribute">
+    <div class="feedback" id="fb-c2q9"></div>
   </div>
 <div class="tier should">
   <span class="badge">⭐ SHOULD DO</span>
@@ -281,54 +342,45 @@ print(item[______])</code></pre>
 </div>
 
   <div class="question t-should">
-    <div class="qnum"><span>Q6 · 3 marks</span><span class="tiertag should">should</span></div>
-    <div class="qtext">Why is a LIST OF DICTIONARIES safer than two parallel lists for quiz data?</div>
+    <div class="qnum"><span>Q10 · 5 marks (self-marked)</span><span class="tiertag should">should</span></div>
+    <div class="qtext">Write a class called <code>Player</code>. In <code>__init__</code>, give it two attributes: <code>self.name = "Hero"</code> and <code>self.health = 100</code>. Then build a player object and print BOTH the name and the health.</div>
     
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code>class Player:
+    def __init__(self):
+        # set self.name and self.health
+
+# build a player, print name and health
+</code></pre><textarea id="c2q10" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c2q10"></div>
+  </div>
+  <div class="question t-should">
+    <div class="qnum"><span>Q11 · 3 marks</span><span class="tiertag should">should</span></div>
+    <div class="qtext">Spot the bug: why does <code>print(p.name)</code> crash?</div>
+    <pre><code>class Player:
+    def __init__(self):
+        name = &quot;Ada&quot;      # &lt;-- the bug
+
+p = Player()
+print(p.name)</code></pre>
     <div class="choices">
-      <label><input type="radio" name="l3q6" value="0"> It runs faster</label>
-      <label><input type="radio" name="l3q6" value="1"> Each question is glued to its own answer, so they can never fall out of sync</label>
-      <label><input type="radio" name="l3q6" value="2"> It uses curly brackets which Python prefers</label>
-      <label><input type="radio" name="l3q6" value="3"> Dictionaries can hold more questions</label>
+      <label><input type="radio" name="c2q11" value="0"> Player should be lowercase</label>
+      <label><input type="radio" name="c2q11" value="1"> It says &lt;code&gt;name = &lt;/code&gt; instead of &lt;code&gt;self.name = &lt;/code&gt;, so the name was never stored on the object</label>
+      <label><input type="radio" name="c2q11" value="2"> You can&#x27;t print names</label>
+      <label><input type="radio" name="c2q11" value="3"> __init__ is spelled wrong</label>
     </div>
-    <div class="feedback" id="fb-l3q6"></div>
+    <div class="feedback" id="fb-c2q11"></div>
   </div>
   <div class="question t-should">
-    <div class="qnum"><span>Q7 · 3 marks</span><span class="tiertag should">should</span></div>
-    <div class="qtext">What does this loop print on its FIRST time around?</div>
-    <pre><code>quiz = [{&quot;q&quot;: &quot;A?&quot;, &quot;a&quot;: &quot;1&quot;}, {&quot;q&quot;: &quot;B?&quot;, &quot;a&quot;: &quot;2&quot;}]
-for item in quiz:
-    print(item[&quot;q&quot;])</code></pre>
-    <div class="choices">
-      <label><input type="radio" name="l3q7" value="0"> A?</label>
-      <label><input type="radio" name="l3q7" value="1"> B?</label>
-      <label><input type="radio" name="l3q7" value="2"> q</label>
-      <label><input type="radio" name="l3q7" value="3"> item</label>
-    </div>
-    <div class="feedback" id="fb-l3q7"></div>
-  </div>
-  <div class="question t-should">
-    <div class="qnum"><span>Q8 · 4 marks</span><span class="tiertag should">should</span></div>
-    <div class="qtext">Complete the loop so it asks each question and checks against the stored answer.</div>
-    <pre><code>quiz = [{&quot;question&quot;: &quot;2+2?&quot;, &quot;answer&quot;: &quot;4&quot;}]
-for item in quiz:
-    user = input(item[&quot;question&quot;])
-    if user == item[______]:
-        score += 1</code></pre>
-    <input type="text" id="l3q8" placeholder="the key">
-    <div class="feedback" id="fb-l3q8"></div>
-  </div>
-  <div class="question t-should">
-    <div class="qnum"><span>Q9 · 5 marks (self-marked)</span><span class="tiertag should">should</span></div>
-    <div class="qtext">Write a small dictionary for ONE enemy in a game. It must have at least 3 keys: a name, a health number, and a damage number. Then print a sentence using all three values, like <code>Goblin has 40 health and deals 8 damage</code>.</div>
+    <div class="qnum"><span>Q12 · 4 marks (self-marked)</span><span class="tiertag should">should</span></div>
+    <div class="qtext">Write a class <code>Enemy</code> with THREE attributes in __init__: a name, a health number, and a damage number (your choice of values). Build one enemy and print all three attributes.</div>
     
-    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code>enemy = {
-    &quot;name&quot;: ...,
-    &quot;health&quot;: ...,
-    &quot;damage&quot;: ...,
-}
-print(...)
-</code></pre><textarea id="l3q9" placeholder="Paste your code or written answer..."></textarea>
-    <div class="feedback" id="fb-l3q9"></div>
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code>class Enemy:
+    def __init__(self):
+        # three attributes: name, health, damage
+
+# build and print all three
+</code></pre><textarea id="c2q12" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c2q12"></div>
   </div>
 <div class="tier could">
   <span class="badge">🚀 COULD DO</span>
@@ -336,23 +388,30 @@ print(...)
 </div>
 
   <div class="question t-could">
-    <div class="qnum"><span>Q10 · 5 marks (self-marked)</span><span class="tiertag could">could</span></div>
-    <div class="qtext">🚀 Open YOUR game. Find where you stored game data (questions, rooms, enemies, items). If you used parallel lists, paste them and rewrite as a list of dictionaries. If you already used dictionaries — paste them and explain in one sentence why that was a good choice.</div>
-    
-    <textarea id="l3q10" placeholder="Paste your code or written answer..."></textarea>
-    <div class="feedback" id="fb-l3q10"></div>
+    <div class="qnum"><span>Q13 · 3 marks</span><span class="tiertag could">could</span></div>
+    <div class="qtext">🚀 Two players are built. What does this print?</div>
+    <pre><code>class Player:
+    def __init__(self):
+        self.score = 0
+
+a = Player()
+b = Player()
+a.score = 50
+print(b.score)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="c2q13" value="0"> 50</label>
+      <label><input type="radio" name="c2q13" value="1"> 0</label>
+      <label><input type="radio" name="c2q13" value="2"> an error</label>
+      <label><input type="radio" name="c2q13" value="3"> 100</label>
+    </div>
+    <div class="feedback" id="fb-c2q13"></div>
   </div>
   <div class="question t-could">
-    <div class="qnum"><span>Q11 · 3 marks</span><span class="tiertag could">could</span></div>
-    <div class="qtext">🚀 A dictionary <code>{"name":"Goblin", "health":40}</code> is ONE step away from a class. What does a CLASS add that a plain dictionary doesn't have?</div>
+    <div class="qnum"><span>Q14 · 4 marks (self-marked)</span><span class="tiertag could">could</span></div>
+    <div class="qtext">🚀 Build a class for something in YOUR game idea (a coin, a star, a monster). Give it at least 2 attributes. Build two objects from it and give them DIFFERENT data by changing their attributes after building (e.g. <code>coin1.value = 5</code>). Print both.</div>
     
-    <div class="choices">
-      <label><input type="radio" name="l3q11" value="0"> Nothing — they&#x27;re identical</label>
-      <label><input type="radio" name="l3q11" value="1"> A class can carry its own BEHAVIOUR (methods like attack()), not just data</label>
-      <label><input type="radio" name="l3q11" value="2"> A class can only hold numbers</label>
-      <label><input type="radio" name="l3q11" value="3"> A class doesn&#x27;t need curly brackets</label>
-    </div>
-    <div class="feedback" id="fb-l3q11"></div>
+    <textarea id="c2q14" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c2q14"></div>
   </div>
 <div id="submit-section">
   <p style="margin: 0 0 1rem; color: var(--text-muted);">Done with your tier? Submit to see your score + answer key. Keep editing after if you want.</p>
@@ -363,142 +422,171 @@ print(...)
 <div id="results">
   <h2>📊 Your clean-code check</h2>
   <div class="score-hero">
-    <div class="big"><span id="final-score">0</span> / 35</div>
+    <div class="big"><span id="final-score">0</span> / 41</div>
     <div class="sub" id="score-comment">—</div>
   </div>
   <div class="breakdown" id="breakdown"></div>
   <div class="submit-actions">
     <button onclick="window.scrollTo({top:0, behavior:'smooth'})">↑ Review answers</button>
-    <a href="index.html" class="primary">→ Back to Clean Code series</a>
+    <a href="index.html" class="primary">→ Back to Classes series</a>
   </div>
 </div>
 
 </main>
 
 <script>
-const WS_KEY = "y9-cc-L3-v1";
+const WS_KEY = "y9-cls-L2-v1";
 const QUESTIONS = [
   {
-    "id": "l3q1",
+    "id": "c2q1",
     "kind": "mcq",
     "marks": 2,
     "tier": "must",
     "correct": 1,
     "choices": [
-      "[ ] square brackets",
-      "{ } curly brackets",
-      "( ) round brackets",
-      "< > angle brackets"
+      "a kind of loop",
+      "a piece of data that belongs to an object (like its name)",
+      "the class name",
+      "a print statement"
     ],
-    "explain": "Dictionaries use curly braces <code>{ }</code> with <code>key: value</code> pairs."
+    "explain": "Attributes are the data an object holds, like <code>self.name</code>."
   },
   {
-    "id": "l3q2",
+    "id": "c2q2",
     "kind": "mcq",
     "marks": 2,
     "tier": "must",
     "correct": 1,
     "choices": [
-      "enemy[0]",
-      "enemy[\"health\"]",
-      "enemy.health()",
-      "enemy(health)"
+      "the whole class",
+      "THIS particular object",
+      "a random word",
+      "the print function"
     ],
-    "explain": "Dictionaries are read by KEY name: <code>enemy[\"health\"]</code> gives 40."
+    "explain": "<code>self</code> = this specific object. <code>self.name</code> is THIS object's name."
   },
   {
-    "id": "l3q3",
+    "id": "c2q3",
     "kind": "mcq",
     "marks": 2,
+    "tier": "must",
+    "correct": 1,
+    "choices": [
+      "setup()",
+      "__init__",
+      "start()",
+      "begin()"
+    ],
+    "explain": "<code>__init__</code> (two underscores each side) runs when you build an object."
+  },
+  {
+    "id": "c2q4",
+    "kind": "fill",
+    "marks": 2,
+    "tier": "must",
+    "answer": "__init__",
+    "explain": "<code>__init__</code> \u2014 two underscores, the letters init, two underscores."
+  },
+  {
+    "id": "c2q5",
+    "kind": "fill",
+    "marks": 2,
+    "tier": "must",
+    "answer": "self",
+    "explain": "<code>self</code> is always the first thing in the brackets of a method."
+  },
+  {
+    "id": "c2q6",
+    "kind": "fill",
+    "marks": 3,
+    "tier": "must",
+    "answer": "self.name",
+    "explain": "<code>self.name = \"Felix\"</code> stores the name on this object."
+  },
+  {
+    "id": "c2q7",
+    "kind": "mcq",
+    "marks": 3,
     "tier": "must",
     "correct": 1,
     "choices": [
       "name",
-      "Ada",
-      "12",
-      "player"
+      "Rex",
+      "self.name",
+      "Dog"
     ],
-    "explain": "<code>player[\"name\"]</code> looks up the value stored under the key 'name' \u2014 \"Ada\"."
+    "explain": "<code>d.name</code> reads the name attribute, which was set to \"Rex\"."
   },
   {
-    "id": "l3q4",
+    "id": "c2q8",
+    "kind": "mcq",
+    "marks": 3,
+    "tier": "must",
+    "correct": 1,
+    "choices": [
+      "0",
+      "3",
+      "lives",
+      "an error"
+    ],
+    "explain": "<code>p.lives</code> reads the lives attribute, which was set to 3."
+  },
+  {
+    "id": "c2q9",
     "kind": "fill",
     "marks": 3,
     "tier": "must",
-    "answer": "\"answer\"",
-    "explain": "Use the key in quotes: <code>item[\"answer\"]</code>."
+    "answer": "d.age",
+    "explain": "<code>d.age</code> \u2014 the object's name, a dot, then the attribute name."
   },
   {
-    "id": "l3q5",
-    "kind": "fill",
-    "marks": 3,
-    "tier": "must",
-    "answer": "key",
-    "explain": "Dictionaries are accessed by KEY (the name in the quotes)."
+    "id": "c2q10",
+    "kind": "build",
+    "marks": 5,
+    "tier": "should",
+    "rubric": "Full marks: __init__ sets both attributes, object built, both printed. Half: class correct but only one attribute printed."
   },
   {
-    "id": "l3q6",
+    "id": "c2q11",
     "kind": "mcq",
     "marks": 3,
     "tier": "should",
     "correct": 1,
     "choices": [
-      "It runs faster",
-      "Each question is glued to its own answer, so they can never fall out of sync",
-      "It uses curly brackets which Python prefers",
-      "Dictionaries can hold more questions"
+      "Player should be lowercase",
+      "It says <code>name = </code> instead of <code>self.name = </code>, so the name was never stored on the object",
+      "You can't print names",
+      "__init__ is spelled wrong"
     ],
-    "explain": "Grouping keeps each question + answer together. Reorder or insert freely \u2014 the pairing holds."
+    "explain": "Without <code>self.</code>, the name is just a temporary variable that vanishes. It must be <code>self.name = \"Ada\"</code>."
   },
   {
-    "id": "l3q7",
-    "kind": "mcq",
-    "marks": 3,
-    "tier": "should",
-    "correct": 0,
-    "choices": [
-      "A?",
-      "B?",
-      "q",
-      "item"
-    ],
-    "explain": "First loop, <code>item</code> is the first dictionary, so <code>item[\"q\"]</code> is \"A?\"."
-  },
-  {
-    "id": "l3q8",
-    "kind": "fill",
+    "id": "c2q12",
+    "kind": "build",
     "marks": 4,
     "tier": "should",
-    "answer": "\"answer\"",
-    "explain": "Match the user's input against <code>item[\"answer\"]</code> \u2014 the answer that belongs to THIS question."
+    "rubric": "Full marks: three sensible attributes all set with self, object built, all three printed."
   },
   {
-    "id": "l3q9",
-    "kind": "build",
-    "marks": 5,
-    "tier": "should",
-    "rubric": "Full marks: dictionary has 3+ sensible keys, and the print uses all three values via their keys. Half: dictionary correct but print hard-codes the values instead of reading keys."
-  },
-  {
-    "id": "l3q10",
-    "kind": "build",
-    "marks": 5,
-    "tier": "could",
-    "rubric": "Full marks: real data from their game, either refactored to dictionaries or correctly explained. Connects to their actual submission."
-  },
-  {
-    "id": "l3q11",
+    "id": "c2q13",
     "kind": "mcq",
     "marks": 3,
     "tier": "could",
     "correct": 1,
     "choices": [
-      "Nothing \u2014 they're identical",
-      "A class can carry its own BEHAVIOUR (methods like attack()), not just data",
-      "A class can only hold numbers",
-      "A class doesn't need curly brackets"
+      "50",
+      "0",
+      "an error",
+      "100"
     ],
-    "explain": "A class bundles DATA + BEHAVIOUR together. <code>goblin.attack()</code> isn't possible with a plain dict. That's the leap we make in Lessons 4-7."
+    "explain": "Each object has its OWN score. Changing a's score doesn't touch b's \u2014 b is still 0. This is why objects are great for games."
+  },
+  {
+    "id": "c2q14",
+    "kind": "build",
+    "marks": 4,
+    "tier": "could",
+    "rubric": "Full marks: a class with 2+ attributes, two objects built and given different data, both printed. Shows they understand objects are independent."
   }
 ];
 
@@ -595,7 +683,7 @@ document.getElementById("submit-btn").addEventListener("click", () => {
     <div class="breakdown-item"><div class="label">✅ Must do</div><div class="value">${tierScore.must}</div></div>
     <div class="breakdown-item"><div class="label">⭐ Should do</div><div class="value">${tierScore.should}</div></div>
     <div class="breakdown-item"><div class="label">🚀 Could do</div><div class="value">${tierScore.could}</div></div>
-    <div class="breakdown-item"><div class="label">Total</div><div class="value">${score} / 35</div></div>`;
+    <div class="breakdown-item"><div class="label">Total</div><div class="value">${score} / 41</div></div>`;
   document.getElementById("results").style.display = "block";
   document.getElementById("results").scrollIntoView({behavior:"smooth", block:"start"});
 });

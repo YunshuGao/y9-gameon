@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lesson 8 — Refactor Your Own Game (capstone) · 9GAMZA</title>
+<title>Lesson 3 — Objects that are DIFFERENT · 9GAMZA</title>
 <link rel="stylesheet" href="../../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -146,7 +146,7 @@ textarea { min-height: 120px; resize: vertical; }
     <a href="../index.html" class="site-brand">🐍 Y9 Game On · Term 2</a>
     <nav class="site-nav">
       <a href="../index.html">Overview</a>
-      <a href="index.html">🧹 Clean Code</a>
+      <a href="index.html">📚 Classes</a>
       <a href="../arcade/index.html">🎮 Arcade</a>
     </nav>
   </div>
@@ -155,14 +155,14 @@ textarea { min-height: 120px; resize: vertical; }
 <main class="container">
 
 <div class="ws-header">
-  <h1>🏆 Lesson 8 — Refactor Your Own Game (capstone)</h1>
+  <h1>🎚️ Lesson 3 — Objects that are DIFFERENT</h1>
   <p><strong>Class:</strong> Year 9 Game On · 9GAMZA · Term 2 2026</p>
-  <p><strong>Today:</strong> Everything from Lessons 1-7, applied to YOUR submitted game. Make your code as good as your idea.</p>
+  <p><strong>Today:</strong> Right now every object starts the same. Today: pass in values so each object can be different — Dog("Rex") vs Dog("Bella").</p>
   <div class="meta">
-    <div><strong>Lesson</strong>8 of 8</div>
-    <div><strong>Time</strong>70 min</div>
-    <div><strong>Marks</strong>/40 (classwork)</div>
-    <div><strong>Builds toward</strong>A portfolio-quality game + Term 3 readiness</div>
+    <div><strong>Lesson</strong>3 of 8</div>
+    <div><strong>Time</strong>55 min</div>
+    <div><strong>Marks</strong>/42 (classwork)</div>
+    <div><strong>Builds toward</strong>Custom objects</div>
   </div>
   <div class="name-row">
     <input type="text" id="student-name" placeholder="First name" autocomplete="given-name">
@@ -171,7 +171,7 @@ textarea { min-height: 120px; resize: vertical; }
 </div>
 
 <div class="intent">
-  <strong>🎯 Why this lesson:</strong> You've learned to validate input, kill duplication, group data, build classes, make objects interact, and use inheritance. Today you put it ALL together — on your own game. By the end you'll have a cleaner version of your project AND the exact mindset you need for the big classes work in Term 3.
+  <strong>🎯 Why this lesson:</strong> In Lesson 2, every Dog was named "Rex". Boring! Real games need a goblin AND an orc, a player called Ada AND one called Sam. Today you pass values IN when you build an object, so each one is unique.
 </div>
 
 <div class="classwork-note">
@@ -181,50 +181,44 @@ textarea { min-height: 120px; resize: vertical; }
 
 
 <div class="teach">
-<h2>The Clean Code Checklist</h2>
-<p>This is the checklist Ms Gao will use on your Term 3 work. Run YOUR game through it today. Each item links back to a lesson:</p>
-<div class="codeblock"><code>[ ] 1. INPUT — every input() that becomes a number is protected
-       (try/except or .isdigit())                    -&gt; Lesson 1
-[ ] 2. DRY — no big block is copy-pasted; repeats are
-       functions with parameters                       -&gt; Lesson 2
-[ ] 3. DATA — related data is grouped (dicts / objects),
-       not parallel lists                              -&gt; Lesson 3
-[ ] 4. STATE — game data lives in objects, not scattered
-       global variables                                -&gt; Lesson 4
-[ ] 5. CLASSES — attributes set in __init__, methods use
-       self correctly                                  -&gt; Lesson 5
-[ ] 6. INTERACTION — objects affecting each other do it
-       cleanly (with clamping)                         -&gt; Lesson 6
-[ ] 7. INHERITANCE — similar classes share a parent
-       instead of duplicating                          -&gt; Lesson 7
-[ ] 8. NAMES + COMMENTS — meaningful variable names; a
-       comment on each tricky part</code></div>
-<h3>How to refactor without breaking your game</h3>
-<ul><li><strong>Make a copy first.</strong> Save <code>mygame_v2.py</code> so your working version is safe.</li><li><strong>Change ONE thing, then run it.</strong> Fix input validation → run → still works? Good. Next item.</li><li><strong>Never change five things then run.</strong> If it breaks you won't know which change did it.</li><li><strong>Test the edges.</strong> Type a letter at a number prompt. Enter blank. Type a huge number. Your game should survive all of it now.</li></ul>
-<h3>What 'good' looks like</h3>
-<p>Here's the difference one refactor pass makes, using a real before/after shape from our class:</p>
-<div class="code-label bad">❌ Before</div><div class="codeblock bad"><code># BEFORE: global, repeated, crashes on bad input
-score = 0
-ans = int(input(&quot;Q1? &quot;))      # crashes on text
-if ans == 4: score = score + 1
-ans = int(input(&quot;Q2? &quot;))      # same line, pasted
-if ans == 9: score = score + 1</code></div>
-<div class="code-label good">✅ After — every lesson applied</div><div class="codeblock good"><code># AFTER: a function, a data structure, validated input
-def ask(question, answer):
-    while True:
-        t = input(question + &quot; &quot;)
-        if t.isdigit():
-            return int(t) == answer
-        print(&quot;Numbers only.&quot;)
+<h2>The problem: every object is identical</h2>
+<div class="code-label bad">❌ Every dog is the same</div><div class="codeblock bad"><code>class Dog:
+    def __init__(self):
+        self.name = &quot;Rex&quot;     # EVERY dog is Rex!
 
-quiz = [{&quot;q&quot;: &quot;Q1?&quot;, &quot;a&quot;: 4}, {&quot;q&quot;: &quot;Q2?&quot;, &quot;a&quot;: 9}]
-score = sum(1 for item in quiz if ask(item[&quot;q&quot;], item[&quot;a&quot;]))</code></div>
+a = Dog()
+b = Dog()
+print(a.name, b.name)    # Rex Rex  :(</code></div>
+<h3>The fix: a PARAMETER in __init__</h3>
+<p>Add a parameter (an input) to <code>__init__</code> after <code>self</code>. Then the name comes from OUTSIDE when you build the object:</p>
+<div class="code-label good">✅ Each dog is different</div><div class="codeblock good"><code>class Dog:
+    def __init__(self, name):     # name comes IN
+        self.name = name          # store the value we were given
+
+a = Dog(&quot;Rex&quot;)
+b = Dog(&quot;Bella&quot;)
+print(a.name, b.name)    # Rex Bella  :)</code></div>
+<h3>Reading it carefully</h3>
+<ul><li><code>def __init__(self, name):</code> — <code>self</code> first (always), then <code>name</code> is a value coming in.</li><li><code>self.name = name</code> — store the incoming <code>name</code> onto the object as <code>self.name</code>.</li><li><code>Dog("Rex")</code> — the "Rex" goes IN as <code>name</code>. This dog's name becomes Rex.</li><li><code>Dog("Bella")</code> — a different dog, name Bella. Same blueprint, different data.</li></ul>
+<h3>Passing in MORE than one value</h3>
+<div class="codeblock"><code>class Enemy:
+    def __init__(self, name, health):
+        self.name = name
+        self.health = health
+
+goblin = Enemy(&quot;Goblin&quot;, 30)
+orc = Enemy(&quot;Orc&quot;, 50)
+print(goblin.health)   # 30
+print(orc.health)      # 50</code></div>
+<p>List the parameters in order after self. When you build, pass the values in the SAME order: <code>Enemy("Goblin", 30)</code> → name="Goblin", health=30.</p>
+<h3>The golden rule</h3>
+<p><strong><code>self.name = name</code></strong> is the most common line in all of classes. "Store the value I was given onto this object." You'll write it hundreds of times. Practise it until it's automatic.</p>
 </div>
 
 <div class="progress-bar-wrap">
   <div class="progress-text">
     <span><span id="answered-count">0</span> / <span id="total-count">0</span> attempted</span>
-    <span class="marks">Score: <span id="est-marks">0</span> / 40</span>
+    <span class="marks">Score: <span id="est-marks">0</span> / 42</span>
   </div>
   <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
 </div>
@@ -234,56 +228,105 @@ score = sum(1 for item in quiz if ask(item[&quot;q&quot;], item[&quot;a&quot;]))
 </div>
 
   <div class="question t-must">
-    <div class="qnum"><span>Q1 · 4 marks (self-marked)</span><span class="tiertag must">must</span></div>
-    <div class="qtext"><strong>Audit your game — input safety (Lesson 1).</strong> Open your submitted game. Does every <code>int(input(...))</code> have protection? Paste ONE input line from your game, and write 'SAFE' if it's protected or 'NEEDS FIX' if it would crash on a letter. If it needs a fix, write the fixed version.</div>
-    
-    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code># paste one input line from YOUR game:
-
-# SAFE or NEEDS FIX? if needs fix, write the fix:
-</code></pre><textarea id="l8q1" placeholder="Paste your code or written answer..."></textarea>
-    <div class="feedback" id="fb-l8q1"></div>
-  </div>
-  <div class="question t-must">
-    <div class="qnum"><span>Q2 · 4 marks (self-marked)</span><span class="tiertag must">must</span></div>
-    <div class="qtext"><strong>Audit your game — repetition (Lesson 2).</strong> Find the most-repeated part of your game. Paste it (or describe it). Could it be a function? Write the function header (<code>def name(parameters):</code>) you would extract.</div>
-    
-    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code># the repeated part of my game:
-
-# the function I would extract:
-def ___(...):
-</code></pre><textarea id="l8q2" placeholder="Paste your code or written answer..."></textarea>
-    <div class="feedback" id="fb-l8q2"></div>
-  </div>
-  <div class="question t-must">
-    <div class="qnum"><span>Q3 · 2 marks</span><span class="tiertag must">must</span></div>
-    <div class="qtext">When refactoring, what's the safest way to work?</div>
+    <div class="qnum"><span>Q1 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Where do you write a parameter (an incoming value) in __init__?</div>
     
     <div class="choices">
-      <label><input type="radio" name="l8q3" value="0"> Change everything at once then run</label>
-      <label><input type="radio" name="l8q3" value="1"> Change ONE thing, run it, check it still works, then change the next</label>
-      <label><input type="radio" name="l8q3" value="2"> Never run it until you&#x27;re completely finished</label>
-      <label><input type="radio" name="l8q3" value="3"> Delete the old code first</label>
+      <label><input type="radio" name="c3q1" value="0"> before self</label>
+      <label><input type="radio" name="c3q1" value="1"> after self, inside the brackets</label>
+      <label><input type="radio" name="c3q1" value="2"> outside the class</label>
+      <label><input type="radio" name="c3q1" value="3"> after pass</label>
     </div>
-    <div class="feedback" id="fb-l8q3"></div>
+    <div class="feedback" id="fb-c3q1"></div>
   </div>
   <div class="question t-must">
-    <div class="qnum"><span>Q4 · 2 marks</span><span class="tiertag must">must</span></div>
-    <div class="qtext">Before you start refactoring, what should you do first?</div>
-    
+    <div class="qnum"><span>Q2 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">In <code>Dog("Rex")</code>, where does "Rex" go?</div>
+    <pre><code>class Dog:
+    def __init__(self, name):
+        self.name = name</code></pre>
     <div class="choices">
-      <label><input type="radio" name="l8q4" value="0"> Delete the original</label>
-      <label><input type="radio" name="l8q4" value="1"> Save a COPY of your working game so the original is safe</label>
-      <label><input type="radio" name="l8q4" value="2"> Rewrite it from scratch</label>
-      <label><input type="radio" name="l8q4" value="3"> Change the file name only</label>
+      <label><input type="radio" name="c3q2" value="0"> nowhere</label>
+      <label><input type="radio" name="c3q2" value="1"> it becomes the name parameter</label>
+      <label><input type="radio" name="c3q2" value="2"> it becomes self</label>
+      <label><input type="radio" name="c3q2" value="3"> it prints</label>
     </div>
-    <div class="feedback" id="fb-l8q4"></div>
+    <div class="feedback" id="fb-c3q2"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q3 · 3 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Fill the blank so the name comes IN as a parameter.</div>
+    <pre><code>class Dog:
+    def __init__(self, ______):
+        self.name = name</code></pre>
+    <input type="text" id="c3q3" placeholder="the parameter">
+    <div class="feedback" id="fb-c3q3"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q4 · 3 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Fill the GOLDEN RULE line: store the incoming name onto the object.</div>
+    <pre><code>class Dog:
+    def __init__(self, name):
+        ______ = name</code></pre>
+    <input type="text" id="c3q4" placeholder="self dot name">
+    <div class="feedback" id="fb-c3q4"></div>
   </div>
   <div class="question t-must">
     <div class="qnum"><span>Q5 · 3 marks</span><span class="tiertag must">must</span></div>
-    <div class="qtext">On the checklist, grouping related data into dictionaries or objects (instead of parallel lists) was which lesson? Fill the number.</div>
-    <pre><code>DATA — related data is grouped, not parallel lists -&gt; Lesson ___</code></pre>
-    <input type="text" id="l8q5" placeholder="lesson number">
-    <div class="feedback" id="fb-l8q5"></div>
+    <div class="qtext">Fill the blank to build a dog named "Bella".</div>
+    <pre><code>class Dog:
+    def __init__(self, name):
+        self.name = name
+
+my_dog = ______</code></pre>
+    <input type="text" id="c3q5" placeholder="Dog(...)">
+    <div class="feedback" id="fb-c3q5"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q6 · 3 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">What does this print?</div>
+    <pre><code>class Dog:
+    def __init__(self, name):
+        self.name = name
+
+a = Dog(&quot;Rex&quot;)
+b = Dog(&quot;Bella&quot;)
+print(b.name)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="c3q6" value="0"> Rex</label>
+      <label><input type="radio" name="c3q6" value="1"> Bella</label>
+      <label><input type="radio" name="c3q6" value="2"> name</label>
+      <label><input type="radio" name="c3q6" value="3"> Rex Bella</label>
+    </div>
+    <div class="feedback" id="fb-c3q6"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q7 · 3 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">What does this print?</div>
+    <pre><code>class Enemy:
+    def __init__(self, name, health):
+        self.name = name
+        self.health = health
+
+g = Enemy(&quot;Goblin&quot;, 30)
+print(g.health)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="c3q7" value="0"> Goblin</label>
+      <label><input type="radio" name="c3q7" value="1"> 30</label>
+      <label><input type="radio" name="c3q7" value="2"> name</label>
+      <label><input type="radio" name="c3q7" value="3"> an error</label>
+    </div>
+    <div class="feedback" id="fb-c3q7"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q8 · 3 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Fill BOTH golden-rule lines to store name and health.</div>
+    <pre><code>class Enemy:
+    def __init__(self, name, health):
+        self.name = name
+        ______ = health</code></pre>
+    <input type="text" id="c3q8" placeholder="self dot health">
+    <div class="feedback" id="fb-c3q8"></div>
   </div>
 <div class="tier should">
   <span class="badge">⭐ SHOULD DO</span>
@@ -291,40 +334,44 @@ def ___(...):
 </div>
 
   <div class="question t-should">
-    <div class="qnum"><span>Q6 · 6 marks (self-marked)</span><span class="tiertag should">should</span></div>
-    <div class="qtext"><strong>Refactor one thing for real.</strong> Pick the EASIEST win from your checklist audit (usually input validation). Make a copy of your game, apply the fix, and run it. Paste the BEFORE and AFTER of the part you changed, and write one line confirming it still runs.</div>
+    <div class="qnum"><span>Q9 · 5 marks (self-marked)</span><span class="tiertag should">should</span></div>
+    <div class="qtext">Write a class <code>Dog</code> with <code>__init__(self, name, age)</code> that stores both. Then build THREE dogs with different names and ages. Print each dog's name and age.</div>
     
-    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code># BEFORE:
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code>class Dog:
+    def __init__(self, name, age):
+        # store both with self
 
-# AFTER:
-
-# Confirmed it still runs? (yes/no + what you tested):
-</code></pre><textarea id="l8q6" placeholder="Paste your code or written answer..."></textarea>
-    <div class="feedback" id="fb-l8q6"></div>
+# build three different dogs, print each
+</code></pre><textarea id="c3q9" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c3q9"></div>
   </div>
   <div class="question t-should">
-    <div class="qnum"><span>Q7 · 6 marks (self-marked)</span><span class="tiertag should">should</span></div>
-    <div class="qtext"><strong>Add a class (or improve one).</strong> If your game used global variables or loose data, wrap the main thing (player, game state) into a class with <code>__init__</code> and at least one method. If your game already had a good class, ADD a useful new method to it. Paste your class.</div>
-    
-    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code>class ___:
-    def __init__(self):
-        # the data your game tracks
-    def ___(self):
-        # a useful method
-</code></pre><textarea id="l8q7" placeholder="Paste your code or written answer..."></textarea>
-    <div class="feedback" id="fb-l8q7"></div>
-  </div>
-  <div class="question t-should">
-    <div class="qnum"><span>Q8 · 3 marks</span><span class="tiertag should">should</span></div>
-    <div class="qtext">After refactoring, how do you know your game is actually better?</div>
-    
+    <div class="qnum"><span>Q10 · 3 marks</span><span class="tiertag should">should</span></div>
+    <div class="qtext">Spot the bug: this crashes with an error about missing arguments. Why?</div>
+    <pre><code>class Cat:
+    def __init__(self, name):
+        self.name = name
+
+c = Cat()       # &lt;-- the bug</code></pre>
     <div class="choices">
-      <label><input type="radio" name="l8q8" value="0"> It has more lines of code</label>
-      <label><input type="radio" name="l8q8" value="1"> It survives bad input, has no copy-paste, and a stranger could read it and understand it</label>
-      <label><input type="radio" name="l8q8" value="2"> It uses more colours</label>
-      <label><input type="radio" name="l8q8" value="3"> It runs slower but looks nicer</label>
+      <label><input type="radio" name="c3q10" value="0"> Cat should be lowercase</label>
+      <label><input type="radio" name="c3q10" value="1"> &lt;code&gt;__init__&lt;/code&gt; needs a name, but &lt;code&gt;Cat()&lt;/code&gt; didn&#x27;t give one. It should be &lt;code&gt;Cat(&quot;Felix&quot;)&lt;/code&gt;</label>
+      <label><input type="radio" name="c3q10" value="2"> self is missing</label>
+      <label><input type="radio" name="c3q10" value="3"> You can&#x27;t have one parameter</label>
     </div>
-    <div class="feedback" id="fb-l8q8"></div>
+    <div class="feedback" id="fb-c3q10"></div>
+  </div>
+  <div class="question t-should">
+    <div class="qnum"><span>Q11 · 4 marks (self-marked)</span><span class="tiertag should">should</span></div>
+    <div class="qtext">Write an <code>Enemy</code> class with three parameters: name, health, damage. Build a goblin ("Goblin", 30, 5) and a dragon ("Dragon", 100, 20). Print both their names and healths.</div>
+    
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code>class Enemy:
+    def __init__(self, name, health, damage):
+        # store all three
+
+# build goblin and dragon, print their names + healths
+</code></pre><textarea id="c3q11" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c3q11"></div>
   </div>
 <div class="tier could">
   <span class="badge">🚀 COULD DO</span>
@@ -332,26 +379,24 @@ def ___(...):
 </div>
 
   <div class="question t-could">
-    <div class="qnum"><span>Q9 · 6 marks (self-marked)</span><span class="tiertag could">could</span></div>
-    <div class="qtext">🚀 <strong>Full checklist pass.</strong> Run your game through ALL 8 checklist items. Paste the checklist with each item marked ✅ (done), 🔧 (fixed today), or ⬜ (not applicable to my game), with a one-line note for each. Be honest — 'not applicable' is fine if your game genuinely doesn't need it.</div>
+    <div class="qnum"><span>Q12 · 4 marks (self-marked)</span><span class="tiertag could">could</span></div>
+    <div class="qtext">🚀 Some attributes should NOT be parameters — they start the same for everyone. Write a <code>Player</code> class where <code>name</code> comes IN as a parameter, but <code>score</code> always starts at 0 (NOT a parameter). Build two players and print their names and scores.</div>
     
-    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code>[ ] 1. INPUT validation     - 
-[ ] 2. DRY / no copy-paste  - 
-[ ] 3. Grouped data         - 
-[ ] 4. State in objects     - 
-[ ] 5. Classes (init+self)  - 
-[ ] 6. Objects interacting  - 
-[ ] 7. Inheritance          - 
-[ ] 8. Names + comments     - 
-</code></pre><textarea id="l8q9" placeholder="Paste your code or written answer..."></textarea>
-    <div class="feedback" id="fb-l8q9"></div>
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code>class Player:
+    def __init__(self, name):
+        self.name = name
+        self.score = 0      # not a parameter — always starts at 0
+
+# build two players, print names and scores
+</code></pre><textarea id="c3q12" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c3q12"></div>
   </div>
   <div class="question t-could">
-    <div class="qnum"><span>Q10 · 4 marks (self-marked)</span><span class="tiertag could">could</span></div>
-    <div class="qtext">🚀 <strong>Reflection.</strong> In 3-4 sentences: which of the 8 lessons changed how you think about code the most, and why? What's one thing you'll do differently when we build classes properly in Term 3?</div>
+    <div class="qnum"><span>Q13 · 4 marks (self-marked)</span><span class="tiertag could">could</span></div>
+    <div class="qtext">🚀 Design a class for YOUR game (a character, weapon, or item). Decide which attributes should be parameters (different per object) and which should start the same. Write the class and build two different objects. Add a comment explaining your choice.</div>
     
-    <textarea id="l8q10" placeholder="Paste your code or written answer..."></textarea>
-    <div class="feedback" id="fb-l8q10"></div>
+    <textarea id="c3q13" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c3q13"></div>
   </div>
 <div id="submit-section">
   <p style="margin: 0 0 1rem; color: var(--text-muted);">Done with your tier? Submit to see your score + answer key. Keep editing after if you want.</p>
@@ -362,112 +407,150 @@ def ___(...):
 <div id="results">
   <h2>📊 Your clean-code check</h2>
   <div class="score-hero">
-    <div class="big"><span id="final-score">0</span> / 40</div>
+    <div class="big"><span id="final-score">0</span> / 42</div>
     <div class="sub" id="score-comment">—</div>
   </div>
   <div class="breakdown" id="breakdown"></div>
   <div class="submit-actions">
     <button onclick="window.scrollTo({top:0, behavior:'smooth'})">↑ Review answers</button>
-    <a href="index.html" class="primary">→ Back to Clean Code series</a>
+    <a href="index.html" class="primary">→ Back to Classes series</a>
   </div>
 </div>
 
 </main>
 
 <script>
-const WS_KEY = "y9-cc-L8-v1";
+const WS_KEY = "y9-cls-L3-v1";
 const QUESTIONS = [
   {
-    "id": "l8q1",
-    "kind": "build",
-    "marks": 4,
-    "tier": "must",
-    "rubric": "Full marks: real line from their game, honest assessment, and a correct fix if needed."
-  },
-  {
-    "id": "l8q2",
-    "kind": "build",
-    "marks": 4,
-    "tier": "must",
-    "rubric": "Full marks: identifies real repetition and proposes a sensible function with parameters."
-  },
-  {
-    "id": "l8q3",
+    "id": "c3q1",
     "kind": "mcq",
     "marks": 2,
     "tier": "must",
     "correct": 1,
     "choices": [
-      "Change everything at once then run",
-      "Change ONE thing, run it, check it still works, then change the next",
-      "Never run it until you're completely finished",
-      "Delete the old code first"
+      "before self",
+      "after self, inside the brackets",
+      "outside the class",
+      "after pass"
     ],
-    "explain": "One change at a time means if it breaks, you know exactly what caused it."
+    "explain": "Parameters come after <code>self</code>: <code>def __init__(self, name):</code>."
   },
   {
-    "id": "l8q4",
+    "id": "c3q2",
     "kind": "mcq",
     "marks": 2,
     "tier": "must",
     "correct": 1,
     "choices": [
-      "Delete the original",
-      "Save a COPY of your working game so the original is safe",
-      "Rewrite it from scratch",
-      "Change the file name only"
+      "nowhere",
+      "it becomes the name parameter",
+      "it becomes self",
+      "it prints"
     ],
-    "explain": "Always keep a working copy. Refactoring should never risk your submitted version."
+    "explain": "\"Rex\" goes in as the <code>name</code> parameter, then gets stored as <code>self.name</code>."
   },
   {
-    "id": "l8q5",
+    "id": "c3q3",
     "kind": "fill",
     "marks": 3,
     "tier": "must",
-    "answer": "3",
-    "explain": "Lesson 3 \u2014 the right data structure."
+    "answer": "name",
+    "explain": "<code>def __init__(self, name):</code> \u2014 name is the incoming value."
   },
   {
-    "id": "l8q6",
+    "id": "c3q4",
+    "kind": "fill",
+    "marks": 3,
+    "tier": "must",
+    "answer": "self.name",
+    "explain": "<code>self.name = name</code> \u2014 the most common line in all of classes."
+  },
+  {
+    "id": "c3q5",
+    "kind": "fill",
+    "marks": 3,
+    "tier": "must",
+    "answer": "Dog(\"Bella\")",
+    "explain": "<code>Dog(\"Bella\")</code> \u2014 the name goes in the brackets."
+  },
+  {
+    "id": "c3q6",
+    "kind": "mcq",
+    "marks": 3,
+    "tier": "must",
+    "correct": 1,
+    "choices": [
+      "Rex",
+      "Bella",
+      "name",
+      "Rex Bella"
+    ],
+    "explain": "<code>b</code> was built with \"Bella\", so <code>b.name</code> is \"Bella\"."
+  },
+  {
+    "id": "c3q7",
+    "kind": "mcq",
+    "marks": 3,
+    "tier": "must",
+    "correct": 1,
+    "choices": [
+      "Goblin",
+      "30",
+      "name",
+      "an error"
+    ],
+    "explain": "The 30 went in as health (the second parameter), so <code>g.health</code> is 30."
+  },
+  {
+    "id": "c3q8",
+    "kind": "fill",
+    "marks": 3,
+    "tier": "must",
+    "answer": "self.health",
+    "explain": "<code>self.health = health</code> \u2014 same pattern as self.name."
+  },
+  {
+    "id": "c3q9",
     "kind": "build",
-    "marks": 6,
+    "marks": 5,
     "tier": "should",
-    "rubric": "Full marks: a genuine before/after refactor from their own game that improves one checklist item, with confirmation it runs."
+    "rubric": "Full marks: both parameters stored with self, three different dogs built, all printed. Half: class correct but fewer than 3 dogs or only name printed."
   },
   {
-    "id": "l8q7",
-    "kind": "build",
-    "marks": 6,
-    "tier": "should",
-    "rubric": "Full marks: a working class that genuinely improves their game's organisation, with __init__ and a method using self."
-  },
-  {
-    "id": "l8q8",
+    "id": "c3q10",
     "kind": "mcq",
     "marks": 3,
     "tier": "should",
     "correct": 1,
     "choices": [
-      "It has more lines of code",
-      "It survives bad input, has no copy-paste, and a stranger could read it and understand it",
-      "It uses more colours",
-      "It runs slower but looks nicer"
+      "Cat should be lowercase",
+      "<code>__init__</code> needs a name, but <code>Cat()</code> didn't give one. It should be <code>Cat(\"Felix\")</code>",
+      "self is missing",
+      "You can't have one parameter"
     ],
-    "explain": "Clean code = robust (handles bad input), DRY (no duplication), and readable (someone else can follow it)."
+    "explain": "Once __init__ has a <code>name</code> parameter, you MUST pass a name when building: <code>Cat(\"Felix\")</code>."
   },
   {
-    "id": "l8q9",
+    "id": "c3q11",
     "kind": "build",
-    "marks": 6,
-    "tier": "could",
-    "rubric": "Full marks: honest, specific self-audit across all 8 items with notes that show real understanding of each concept."
+    "marks": 4,
+    "tier": "should",
+    "rubric": "Full marks: three params stored, two enemies built with correct values, printed. Half: works but values mixed up."
   },
   {
-    "id": "l8q10",
+    "id": "c3q12",
     "kind": "build",
     "marks": 4,
     "tier": "could",
-    "rubric": "Full marks: a thoughtful, specific reflection naming a real takeaway and a concrete intention for Term 3."
+    "rubric": "Full marks: name as parameter, score hard-coded to 0, two players built, all printed. Shows they understand parameters vs fixed starting values."
+  },
+  {
+    "id": "c3q13",
+    "kind": "build",
+    "marks": 4,
+    "tier": "could",
+    "rubric": "Full marks: thoughtful split between parameters and fixed attributes, two objects, explanatory comment. Real design thinking."
   }
 ];
 
@@ -564,7 +647,7 @@ document.getElementById("submit-btn").addEventListener("click", () => {
     <div class="breakdown-item"><div class="label">✅ Must do</div><div class="value">${tierScore.must}</div></div>
     <div class="breakdown-item"><div class="label">⭐ Should do</div><div class="value">${tierScore.should}</div></div>
     <div class="breakdown-item"><div class="label">🚀 Could do</div><div class="value">${tierScore.could}</div></div>
-    <div class="breakdown-item"><div class="label">Total</div><div class="value">${score} / 40</div></div>`;
+    <div class="breakdown-item"><div class="label">Total</div><div class="value">${score} / 42</div></div>`;
   document.getElementById("results").style.display = "block";
   document.getElementById("results").scrollIntoView({behavior:"smooth", block:"start"});
 });

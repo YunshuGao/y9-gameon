@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lesson 4 — Why a Class? From globals to objects · 9GAMZA</title>
+<title>Lesson 4 — Methods: teaching your object to DO things · 9GAMZA</title>
 <link rel="stylesheet" href="../../assets/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -146,7 +146,7 @@ textarea { min-height: 120px; resize: vertical; }
     <a href="../index.html" class="site-brand">🐍 Y9 Game On · Term 2</a>
     <nav class="site-nav">
       <a href="../index.html">Overview</a>
-      <a href="index.html">🧹 Clean Code</a>
+      <a href="index.html">📚 Classes</a>
       <a href="../arcade/index.html">🎮 Arcade</a>
     </nav>
   </div>
@@ -155,14 +155,14 @@ textarea { min-height: 120px; resize: vertical; }
 <main class="container">
 
 <div class="ws-header">
-  <h1>📦 Lesson 4 — Why a Class? From globals to objects</h1>
+  <h1>⚙️ Lesson 4 — Methods: teaching your object to DO things</h1>
   <p><strong>Class:</strong> Year 9 Game On · 9GAMZA · Term 2 2026</p>
-  <p><strong>Today:</strong> Why scattering health, score and inventory as loose 'global' variables gets messy — and how a class tidies it all into one box.</p>
+  <p><strong>Today:</strong> Attributes are what an object HAS. Methods are what an object DOES. Today: give your objects actions.</p>
   <div class="meta">
     <div><strong>Lesson</strong>4 of 8</div>
-    <div><strong>Time</strong>60 min</div>
-    <div><strong>Marks</strong>/35 (classwork)</div>
-    <div><strong>Builds toward</strong>Your first real class</div>
+    <div><strong>Time</strong>55 min</div>
+    <div><strong>Marks</strong>/40 (classwork)</div>
+    <div><strong>Builds toward</strong>Objects with behaviour</div>
   </div>
   <div class="name-row">
     <input type="text" id="student-name" placeholder="First name" autocomplete="given-name">
@@ -171,7 +171,7 @@ textarea { min-height: 120px; resize: vertical; }
 </div>
 
 <div class="intent">
-  <strong>🎯 Why this lesson:</strong> One of the most ambitious games in our class used <code>global coins</code>, <code>global inventory</code>, <code>global player</code> all over the place — while ANOTHER game kept everything tidy in a player object. Today you'll feel the difference, and write your first class to hold related data together.
+  <strong>🎯 Why this lesson:</strong> So far your objects just hold data — they sit there. A real game dog can BARK. A player can JUMP. Today you give objects ACTIONS, called methods. This is the other half of classes: behaviour.
 </div>
 
 <div class="classwork-note">
@@ -179,53 +179,54 @@ textarea { min-height: 120px; resize: vertical; }
 </div>
 
 
+<div class="video-panel">
+  <h2>📹 Watch first — methods (functions inside a class)</h2>
+  <p class="vmeta">A gentle look at methods — the actions an object can do. Watch before the exercises.</p>
+  <iframe src="https://www.youtube-nocookie.com/embed/wfcWRAxRVBA" title="Watch first — methods (functions inside a class)" allowfullscreen loading="lazy"></iframe>
+</div>
 
 <div class="teach">
-<h2>The 'global' mess</h2>
-<p>Here's the pattern from a real game in our class. The player's stuff is scattered as separate global variables, and every function has to declare <code>global</code> to touch them:</p>
-<div class="code-label bad">❌ Player data scattered as globals</div><div class="codeblock bad"><code>coins = 0
-inventory = []
-health = 100
+<h2>A method is an ACTION the object can do</h2>
+<p>A <strong>method</strong> is just a function that lives INSIDE a class. It's something the object can DO. A dog's method might be <code>bark()</code>. A player's might be <code>jump()</code>.</p>
+<div class="codeblock"><code>class Dog:
+    def __init__(self, name):
+        self.name = name
 
-def buy_sword():
-    global coins, inventory       # need this in EVERY function
-    coins = coins - 10
-    inventory.append(&quot;sword&quot;)
+    def bark(self):                       # a METHOD — an action
+        print(self.name + &quot; says Woof!&quot;)</code></div>
+<h3>Calling a method</h3>
+<p>You call a method with a dot and brackets, just like reading an attribute but with <code>()</code> on the end:</p>
+<div class="codeblock"><code>class Dog:
+    def __init__(self, name):
+        self.name = name
+    def bark(self):
+        print(self.name + &quot; says Woof!&quot;)
 
-def take_damage(amount):
-    global health
-    health = health - amount</code></div>
-<p>Problems: the player's data is in 3 separate places; every function needs <code>global</code>; and if you want a SECOND player, you'd have to copy every variable (<code>coins2</code>, <code>health2</code>...). Messy and doesn't scale.</p>
-<h3>Fix — put related data in ONE box (a class)</h3>
-<p>A <strong>class</strong> is a blueprint for an object that holds related data together. Here, all the player's stuff lives inside one <code>Player</code>:</p>
-<div class="code-label good">✅ One Player object holds it all</div><div class="codeblock good"><code>class Player:
-    def __init__(self):
-        self.coins = 0
-        self.inventory = []
-        self.health = 100
+rex = Dog(&quot;Rex&quot;)
+rex.bark()        # Rex says Woof!</code></div>
+<p><code>rex.bark()</code> = "tell rex to do its bark action". The brackets <code>()</code> are how you know it's a method (an action), not an attribute (data).</p>
+<h3>Methods always start with self</h3>
+<p>Just like __init__, every method has <code>self</code> as its first parameter. That's how the method can reach the object's own data — <code>self.name</code> inside bark() is THIS dog's name.</p>
+<div class="codeblock"><code>def bark(self):              # self = this dog
+    print(self.name)        # reach this dog&#x27;s name</code></div>
+<h3>Attribute vs Method — the quick test</h3>
+<ul><li><strong>Attribute</strong> (data, what it HAS): no brackets. <code>rex.name</code></li><li><strong>Method</strong> (action, what it DOES): has brackets. <code>rex.bark()</code></li><li>If it ends in <code>()</code> it's an action. If it doesn't, it's data.</li></ul>
+<h3>Methods can take extra inputs too</h3>
+<div class="codeblock"><code>class Dog:
+    def __init__(self, name):
+        self.name = name
+    def greet(self, person):           # extra input: person
+        print(self.name + &quot; greets &quot; + person)
 
-    def buy_sword(self):
-        self.coins -= 10
-        self.inventory.append(&quot;sword&quot;)
-
-    def take_damage(self, amount):
-        self.health -= amount
-
-# make a player and use it:
-hero = Player()
-hero.buy_sword()
-hero.take_damage(20)
-print(hero.health)    # 80</code></div>
-<h3>What just happened?</h3>
-<ul><li><code>class Player:</code> — the blueprint (the cookie cutter).</li><li><code>__init__</code> — the setup method that runs when you make a player. It puts the starting data ON the object.</li><li><code>self.coins</code> — 'this particular player's coins'. No more <code>global</code>.</li><li><code>hero = Player()</code> — builds one actual player (an 'instance') from the blueprint.</li><li><strong>Want a second player?</strong> <code>villain = Player()</code>. Done. Each has its own coins, health, inventory.</li></ul>
-<h3>self is the magic word</h3>
-<p><code>self</code> means 'the object this method was called on'. <code>hero.take_damage(20)</code> sends <code>hero</code> in as <code>self</code>, so <code>self.health -= 20</code> changes <em>hero's</em> health. Call it on <code>villain</code> and it changes villain's. Same method, different object — no globals needed.</p>
+rex = Dog(&quot;Rex&quot;)
+rex.greet(&quot;Ada&quot;)        # Rex greets Ada</code></div>
+<p>After <code>self</code>, a method can have more parameters — just like __init__. <code>rex.greet("Ada")</code> sends "Ada" in as <code>person</code>.</p>
 </div>
 
 <div class="progress-bar-wrap">
   <div class="progress-text">
     <span><span id="answered-count">0</span> / <span id="total-count">0</span> attempted</span>
-    <span class="marks">Score: <span id="est-marks">0</span> / 35</span>
+    <span class="marks">Score: <span id="est-marks">0</span> / 40</span>
   </div>
   <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
 </div>
@@ -236,59 +237,101 @@ print(hero.health)    # 80</code></div>
 
   <div class="question t-must">
     <div class="qnum"><span>Q1 · 2 marks</span><span class="tiertag must">must</span></div>
-    <div class="qtext">What is a <strong>class</strong>?</div>
+    <div class="qtext">A METHOD is...</div>
     
     <div class="choices">
-      <label><input type="radio" name="l4q1" value="0"> A type of loop</label>
-      <label><input type="radio" name="l4q1" value="1"> A blueprint for an object that bundles related data (and behaviour) together</label>
-      <label><input type="radio" name="l4q1" value="2"> A way to import libraries</label>
-      <label><input type="radio" name="l4q1" value="3"> A list with a name</label>
+      <label><input type="radio" name="c4q1" value="0"> data the object has</label>
+      <label><input type="radio" name="c4q1" value="1"> an ACTION the object can do (a function inside the class)</label>
+      <label><input type="radio" name="c4q1" value="2"> the class name</label>
+      <label><input type="radio" name="c4q1" value="3"> a comment</label>
     </div>
-    <div class="feedback" id="fb-l4q1"></div>
+    <div class="feedback" id="fb-c4q1"></div>
   </div>
   <div class="question t-must">
     <div class="qnum"><span>Q2 · 2 marks</span><span class="tiertag must">must</span></div>
-    <div class="qtext">What does <code>__init__</code> do?</div>
+    <div class="qtext">How can you tell a METHOD from an ATTRIBUTE when you use it?</div>
     
     <div class="choices">
-      <label><input type="radio" name="l4q2" value="0"> Imports the class</label>
-      <label><input type="radio" name="l4q2" value="1"> Runs automatically when you create an object, to set up its starting data</label>
-      <label><input type="radio" name="l4q2" value="2"> Deletes the object</label>
-      <label><input type="radio" name="l4q2" value="3"> Prints the object</label>
+      <label><input type="radio" name="c4q2" value="0"> methods are red</label>
+      <label><input type="radio" name="c4q2" value="1"> methods have brackets () on the end</label>
+      <label><input type="radio" name="c4q2" value="2"> attributes have brackets</label>
+      <label><input type="radio" name="c4q2" value="3"> there&#x27;s no difference</label>
     </div>
-    <div class="feedback" id="fb-l4q2"></div>
+    <div class="feedback" id="fb-c4q2"></div>
   </div>
   <div class="question t-must">
     <div class="qnum"><span>Q3 · 2 marks</span><span class="tiertag must">must</span></div>
-    <div class="qtext">What does <code>self.health</code> mean inside a method?</div>
+    <div class="qtext">What must be the FIRST word in a method's brackets?</div>
     
     <div class="choices">
-      <label><input type="radio" name="l4q3" value="0"> A global variable</label>
-      <label><input type="radio" name="l4q3" value="1"> THIS particular object&#x27;s health</label>
-      <label><input type="radio" name="l4q3" value="2"> The class&#x27;s name</label>
-      <label><input type="radio" name="l4q3" value="3"> A brand new variable each time</label>
+      <label><input type="radio" name="c4q3" value="0"> name</label>
+      <label><input type="radio" name="c4q3" value="1"> self</label>
+      <label><input type="radio" name="c4q3" value="2"> def</label>
+      <label><input type="radio" name="c4q3" value="3"> the class name</label>
     </div>
-    <div class="feedback" id="fb-l4q3"></div>
+    <div class="feedback" id="fb-c4q3"></div>
   </div>
   <div class="question t-must">
-    <div class="qnum"><span>Q4 · 3 marks</span><span class="tiertag must">must</span></div>
-    <div class="qtext">Fill the keyword that DEFINES a class.</div>
-    <pre><code>______ Player:
-    def __init__(self):
-        self.health = 100</code></pre>
-    <input type="text" id="l4q4" placeholder="keyword">
-    <div class="feedback" id="fb-l4q4"></div>
+    <div class="qnum"><span>Q4 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Fill the keyword that DEFINES a method (same as a function).</div>
+    <pre><code>class Dog:
+    ______ bark(self):
+        print(&quot;Woof&quot;)</code></pre>
+    <input type="text" id="c4q4" placeholder="keyword">
+    <div class="feedback" id="fb-c4q4"></div>
   </div>
   <div class="question t-must">
-    <div class="qnum"><span>Q5 · 3 marks</span><span class="tiertag must">must</span></div>
-    <div class="qtext">Fill the blank to CREATE a player object from the blueprint.</div>
-    <pre><code>class Player:
-    def __init__(self):
-        self.health = 100
+    <div class="qnum"><span>Q5 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Fill the first parameter every method needs.</div>
+    <pre><code>def bark(______):
+    print(&quot;Woof&quot;)</code></pre>
+    <input type="text" id="c4q5" placeholder="one word">
+    <div class="feedback" id="fb-c4q5"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q6 · 3 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Fill the blank to CALL the dog's bark method.</div>
+    <pre><code>class Dog:
+    def bark(self):
+        print(&quot;Woof&quot;)
 
-hero = ______</code></pre>
-    <input type="text" id="l4q5" placeholder="build an instance">
-    <div class="feedback" id="fb-l4q5"></div>
+rex = Dog()
+rex.______</code></pre>
+    <input type="text" id="c4q6" placeholder="method with brackets">
+    <div class="feedback" id="fb-c4q6"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q7 · 3 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">What does this print?</div>
+    <pre><code>class Dog:
+    def __init__(self, name):
+        self.name = name
+    def bark(self):
+        print(self.name + &quot; says Woof!&quot;)
+
+d = Dog(&quot;Rex&quot;)
+d.bark()</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="c4q7" value="0"> Woof!</label>
+      <label><input type="radio" name="c4q7" value="1"> Rex says Woof!</label>
+      <label><input type="radio" name="c4q7" value="2"> self.name says Woof!</label>
+      <label><input type="radio" name="c4q7" value="3"> an error</label>
+    </div>
+    <div class="feedback" id="fb-c4q7"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q8 · 3 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Which of these is an ATTRIBUTE (data), not a method (action)?</div>
+    <pre><code>rex.name
+rex.bark()
+rex.jump()</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="c4q8" value="0"> rex.bark()</label>
+      <label><input type="radio" name="c4q8" value="1"> rex.jump()</label>
+      <label><input type="radio" name="c4q8" value="2"> rex.name</label>
+      <label><input type="radio" name="c4q8" value="3"> all of them</label>
+    </div>
+    <div class="feedback" id="fb-c4q8"></div>
   </div>
 <div class="tier should">
   <span class="badge">⭐ SHOULD DO</span>
@@ -296,70 +339,46 @@ hero = ______</code></pre>
 </div>
 
   <div class="question t-should">
-    <div class="qnum"><span>Q6 · 3 marks</span><span class="tiertag should">should</span></div>
-    <div class="qtext">Why is a Player class BETTER than scattered global variables?</div>
+    <div class="qnum"><span>Q9 · 5 marks (self-marked)</span><span class="tiertag should">should</span></div>
+    <div class="qtext">Write a class <code>Cat</code> with <code>__init__(self, name)</code> and a method <code>meow(self)</code> that prints <code>"NAME says Meow"</code> using the cat's name. Build a cat called "Felix" and make it meow.</div>
     
-    <div class="choices">
-      <label><input type="radio" name="l4q6" value="0"> Classes always run faster</label>
-      <label><input type="radio" name="l4q6" value="1"> All the player&#x27;s data lives in one box, no &#x27;global&#x27; needed, and you can make many players easily</label>
-      <label><input type="radio" name="l4q6" value="2"> Global variables don&#x27;t work in Python</label>
-      <label><input type="radio" name="l4q6" value="3"> Classes use less typing in every case</label>
-    </div>
-    <div class="feedback" id="fb-l4q6"></div>
-  </div>
-  <div class="question t-should">
-    <div class="qnum"><span>Q7 · 3 marks</span><span class="tiertag should">should</span></div>
-    <div class="qtext">What does this print?</div>
-    <pre><code>class Player:
-    def __init__(self):
-        self.health = 100
-    def take_damage(self, amount):
-        self.health -= amount
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code>class Cat:
+    def __init__(self, name):
+        self.name = name
+    def meow(self):
+        # print NAME says Meow
 
-hero = Player()
-hero.take_damage(30)
-print(hero.health)</code></pre>
-    <div class="choices">
-      <label><input type="radio" name="l4q7" value="0"> 100</label>
-      <label><input type="radio" name="l4q7" value="1"> 70</label>
-      <label><input type="radio" name="l4q7" value="2"> 30</label>
-      <label><input type="radio" name="l4q7" value="3"> an error</label>
-    </div>
-    <div class="feedback" id="fb-l4q7"></div>
+# build Felix and make it meow
+</code></pre><textarea id="c4q9" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c4q9"></div>
   </div>
   <div class="question t-should">
-    <div class="qnum"><span>Q8 · 3 marks</span><span class="tiertag should">should</span></div>
-    <div class="qtext">Two players are created. What does this print?</div>
-    <pre><code>class Player:
-    def __init__(self):
-        self.health = 100
-
-hero = Player()
-villain = Player()
-hero.health = 50
-print(villain.health)</code></pre>
+    <div class="qnum"><span>Q10 · 3 marks</span><span class="tiertag should">should</span></div>
+    <div class="qtext">Spot the bug: <code>rex.bark</code> doesn't make the dog bark. Why?</div>
+    <pre><code>rex.bark      # &lt;-- nothing happens</code></pre>
     <div class="choices">
-      <label><input type="radio" name="l4q8" value="0"> 50</label>
-      <label><input type="radio" name="l4q8" value="1"> 100</label>
-      <label><input type="radio" name="l4q8" value="2"> 150</label>
-      <label><input type="radio" name="l4q8" value="3"> an error</label>
+      <label><input type="radio" name="c4q10" value="0"> bark is spelled wrong</label>
+      <label><input type="radio" name="c4q10" value="1"> It&#x27;s missing the brackets () — to CALL a method you need &lt;code&gt;rex.bark()&lt;/code&gt;</label>
+      <label><input type="radio" name="c4q10" value="2"> rex doesn&#x27;t exist</label>
+      <label><input type="radio" name="c4q10" value="3"> self is missing</label>
     </div>
-    <div class="feedback" id="fb-l4q8"></div>
+    <div class="feedback" id="fb-c4q10"></div>
   </div>
   <div class="question t-should">
-    <div class="qnum"><span>Q9 · 6 marks (self-marked)</span><span class="tiertag should">should</span></div>
-    <div class="qtext">Write a <code>Player</code> class with <code>__init__</code> that sets <code>self.health = 100</code> and <code>self.coins = 0</code>. Add a method <code>collect_coin(self)</code> that adds 1 to coins. Then create a player, collect 3 coins, and print the coin total.</div>
+    <div class="qnum"><span>Q11 · 5 marks (self-marked)</span><span class="tiertag should">should</span></div>
+    <div class="qtext">Write a class <code>Player</code> with a name, and TWO methods: <code>jump(self)</code> that prints "NAME jumps!" and <code>wave(self)</code> that prints "NAME waves!". Build a player and call both methods.</div>
     
     <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code>class Player:
-    def __init__(self):
-        # set health and coins
+    def __init__(self, name):
+        self.name = name
+    def jump(self):
+        # print NAME jumps!
+    def wave(self):
+        # print NAME waves!
 
-    def collect_coin(self):
-        # add 1 to self.coins
-
-# create, collect 3 coins, print total
-</code></pre><textarea id="l4q9" placeholder="Paste your code or written answer..."></textarea>
-    <div class="feedback" id="fb-l4q9"></div>
+# build a player, call both methods
+</code></pre><textarea id="c4q11" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c4q11"></div>
   </div>
 <div class="tier could">
   <span class="badge">🚀 COULD DO</span>
@@ -367,23 +386,25 @@ print(villain.health)</code></pre>
 </div>
 
   <div class="question t-could">
-    <div class="qnum"><span>Q10 · 5 marks (self-marked)</span><span class="tiertag could">could</span></div>
-    <div class="qtext">🚀 Did YOUR game use global variables, or did you keep data in an object? Paste the relevant part. If you used globals, sketch how you'd group them into a class. If you used a class/object already — paste it and explain what data it holds.</div>
+    <div class="qnum"><span>Q12 · 4 marks (self-marked)</span><span class="tiertag could">could</span></div>
+    <div class="qtext">🚀 Write a method that takes an EXTRA input. A <code>Dog</code> with a method <code>greet(self, person)</code> that prints "NAME greets PERSON". Build a dog and have it greet two different people.</div>
     
-    <textarea id="l4q10" placeholder="Paste your code or written answer..."></textarea>
-    <div class="feedback" id="fb-l4q10"></div>
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code>class Dog:
+    def __init__(self, name):
+        self.name = name
+    def greet(self, person):
+        # print NAME greets PERSON
+
+# build a dog, greet two people
+</code></pre><textarea id="c4q12" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c4q12"></div>
   </div>
   <div class="question t-could">
-    <div class="qnum"><span>Q11 · 3 marks</span><span class="tiertag could">could</span></div>
-    <div class="qtext">🚀 You want 5 enemies, each with their own health. Which is the cleanest?</div>
+    <div class="qnum"><span>Q13 · 4 marks (self-marked)</span><span class="tiertag could">could</span></div>
+    <div class="qtext">🚀 Design a class for a game character (your choice). Give it a name attribute and at least TWO action methods that fit the character (e.g. a wizard with <code>cast_spell()</code> and <code>heal()</code>). Build one and use both actions.</div>
     
-    <div class="choices">
-      <label><input type="radio" name="l4q11" value="0"> 5 separate variables: enemy1_health, enemy2_health, ...</label>
-      <label><input type="radio" name="l4q11" value="1"> One Enemy class, then a list: &lt;code&gt;enemies = [Enemy(), Enemy(), Enemy(), Enemy(), Enemy()]&lt;/code&gt;</label>
-      <label><input type="radio" name="l4q11" value="2"> One giant global health variable shared by all</label>
-      <label><input type="radio" name="l4q11" value="3"> Copy the whole program 5 times</label>
-    </div>
-    <div class="feedback" id="fb-l4q11"></div>
+    <textarea id="c4q13" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-c4q13"></div>
   </div>
 <div id="submit-section">
   <p style="margin: 0 0 1rem; color: var(--text-muted);">Done with your tier? Submit to see your score + answer key. Keep editing after if you want.</p>
@@ -394,148 +415,156 @@ print(villain.health)</code></pre>
 <div id="results">
   <h2>📊 Your clean-code check</h2>
   <div class="score-hero">
-    <div class="big"><span id="final-score">0</span> / 35</div>
+    <div class="big"><span id="final-score">0</span> / 40</div>
     <div class="sub" id="score-comment">—</div>
   </div>
   <div class="breakdown" id="breakdown"></div>
   <div class="submit-actions">
     <button onclick="window.scrollTo({top:0, behavior:'smooth'})">↑ Review answers</button>
-    <a href="index.html" class="primary">→ Back to Clean Code series</a>
+    <a href="index.html" class="primary">→ Back to Classes series</a>
   </div>
 </div>
 
 </main>
 
 <script>
-const WS_KEY = "y9-cc-L4-v1";
+const WS_KEY = "y9-cls-L4-v1";
 const QUESTIONS = [
   {
-    "id": "l4q1",
+    "id": "c4q1",
     "kind": "mcq",
     "marks": 2,
     "tier": "must",
     "correct": 1,
     "choices": [
-      "A type of loop",
-      "A blueprint for an object that bundles related data (and behaviour) together",
-      "A way to import libraries",
-      "A list with a name"
+      "data the object has",
+      "an ACTION the object can do (a function inside the class)",
+      "the class name",
+      "a comment"
     ],
-    "explain": "A class is a blueprint. You build objects (instances) from it."
+    "explain": "A method is an action \u2014 a function inside the class, like <code>bark()</code>."
   },
   {
-    "id": "l4q2",
+    "id": "c4q2",
     "kind": "mcq",
     "marks": 2,
     "tier": "must",
     "correct": 1,
     "choices": [
-      "Imports the class",
-      "Runs automatically when you create an object, to set up its starting data",
-      "Deletes the object",
-      "Prints the object"
+      "methods are red",
+      "methods have brackets () on the end",
+      "attributes have brackets",
+      "there's no difference"
     ],
-    "explain": "<code>__init__</code> is the setup method \u2014 it runs when you write <code>Player()</code>."
+    "explain": "Methods end in <code>()</code> because they're actions. Attributes (data) don't."
   },
   {
-    "id": "l4q3",
+    "id": "c4q3",
     "kind": "mcq",
     "marks": 2,
     "tier": "must",
     "correct": 1,
     "choices": [
-      "A global variable",
-      "THIS particular object's health",
-      "The class's name",
-      "A brand new variable each time"
+      "name",
+      "self",
+      "def",
+      "the class name"
     ],
-    "explain": "<code>self</code> is this specific object; <code>self.health</code> is its own health value."
+    "explain": "<code>self</code> is always first, so the method can reach the object's own data."
   },
   {
-    "id": "l4q4",
+    "id": "c4q4",
+    "kind": "fill",
+    "marks": 2,
+    "tier": "must",
+    "answer": "def",
+    "explain": "Methods are defined with <code>def</code>, just like functions."
+  },
+  {
+    "id": "c4q5",
+    "kind": "fill",
+    "marks": 2,
+    "tier": "must",
+    "answer": "self",
+    "explain": "<code>self</code> \u2014 always the first parameter of a method."
+  },
+  {
+    "id": "c4q6",
     "kind": "fill",
     "marks": 3,
     "tier": "must",
-    "answer": "class",
-    "explain": "<code>class</code> defines the blueprint."
+    "answer": "bark()",
+    "explain": "<code>rex.bark()</code> \u2014 dot, method name, brackets."
   },
   {
-    "id": "l4q5",
-    "kind": "fill",
+    "id": "c4q7",
+    "kind": "mcq",
     "marks": 3,
     "tier": "must",
-    "answer": "Player()",
-    "explain": "Call the class like a function: <code>Player()</code> builds one object."
-  },
-  {
-    "id": "l4q6",
-    "kind": "mcq",
-    "marks": 3,
-    "tier": "should",
     "correct": 1,
     "choices": [
-      "Classes always run faster",
-      "All the player's data lives in one box, no 'global' needed, and you can make many players easily",
-      "Global variables don't work in Python",
-      "Classes use less typing in every case"
-    ],
-    "explain": "Encapsulation: related data grouped, no globals, and trivially make a second/third object."
-  },
-  {
-    "id": "l4q7",
-    "kind": "mcq",
-    "marks": 3,
-    "tier": "should",
-    "correct": 1,
-    "choices": [
-      "100",
-      "70",
-      "30",
+      "Woof!",
+      "Rex says Woof!",
+      "self.name says Woof!",
       "an error"
     ],
-    "explain": "Start 100, take 30 damage, <code>self.health</code> becomes 70."
+    "explain": "<code>self.name</code> is \"Rex\", so it prints \"Rex says Woof!\"."
   },
   {
-    "id": "l4q8",
+    "id": "c4q8",
     "kind": "mcq",
     "marks": 3,
-    "tier": "should",
-    "correct": 1,
+    "tier": "must",
+    "correct": 2,
     "choices": [
-      "50",
-      "100",
-      "150",
-      "an error"
+      "rex.bark()",
+      "rex.jump()",
+      "rex.name",
+      "all of them"
     ],
-    "explain": "Each object has its OWN health. Changing hero's doesn't touch villain's \u2014 still 100. This is the whole point of objects."
+    "explain": "<code>rex.name</code> has no brackets \u2014 it's data. The others end in <code>()</code>, so they're actions."
   },
   {
-    "id": "l4q9",
-    "kind": "build",
-    "marks": 6,
-    "tier": "should",
-    "rubric": "Full marks: __init__ sets both attributes, method updates self.coins, object created and method called 3 times, total printed. Half: class correct but coins not collected/printed."
-  },
-  {
-    "id": "l4q10",
+    "id": "c4q9",
     "kind": "build",
     "marks": 5,
-    "tier": "could",
-    "rubric": "Full marks: shows their real approach and either a refactor plan or an explanation of their existing class. Connects lesson to their code."
+    "tier": "should",
+    "rubric": "Full marks: method uses self.name, object built, method called, prints correctly. Half: method works but doesn't use self.name."
   },
   {
-    "id": "l4q11",
+    "id": "c4q10",
     "kind": "mcq",
     "marks": 3,
-    "tier": "could",
+    "tier": "should",
     "correct": 1,
     "choices": [
-      "5 separate variables: enemy1_health, enemy2_health, ...",
-      "One Enemy class, then a list: <code>enemies = [Enemy(), Enemy(), Enemy(), Enemy(), Enemy()]</code>",
-      "One giant global health variable shared by all",
-      "Copy the whole program 5 times"
+      "bark is spelled wrong",
+      "It's missing the brackets () \u2014 to CALL a method you need <code>rex.bark()</code>",
+      "rex doesn't exist",
+      "self is missing"
     ],
-    "explain": "A class + a list of objects scales effortlessly. Each <code>Enemy()</code> has its own health. This is exactly how the Pac-Man game in our class made its 4 ghosts."
+    "explain": "Without <code>()</code>, you're just pointing at the method, not running it. You need <code>rex.bark()</code>."
+  },
+  {
+    "id": "c4q11",
+    "kind": "build",
+    "marks": 5,
+    "tier": "should",
+    "rubric": "Full marks: two methods both using self.name, object built, both called. Half: only one method works."
+  },
+  {
+    "id": "c4q12",
+    "kind": "build",
+    "marks": 4,
+    "tier": "could",
+    "rubric": "Full marks: method uses both self.name and the person parameter, called twice with different people."
+  },
+  {
+    "id": "c4q13",
+    "kind": "build",
+    "marks": 4,
+    "tier": "could",
+    "rubric": "Full marks: a themed class with 2+ sensible methods using self, object built and methods used. Creative application."
   }
 ];
 
@@ -632,7 +661,7 @@ document.getElementById("submit-btn").addEventListener("click", () => {
     <div class="breakdown-item"><div class="label">✅ Must do</div><div class="value">${tierScore.must}</div></div>
     <div class="breakdown-item"><div class="label">⭐ Should do</div><div class="value">${tierScore.should}</div></div>
     <div class="breakdown-item"><div class="label">🚀 Could do</div><div class="value">${tierScore.could}</div></div>
-    <div class="breakdown-item"><div class="label">Total</div><div class="value">${score} / 35</div></div>`;
+    <div class="breakdown-item"><div class="label">Total</div><div class="value">${score} / 40</div></div>`;
   document.getElementById("results").style.display = "block";
   document.getElementById("results").scrollIntoView({behavior:"smooth", block:"start"});
 });
