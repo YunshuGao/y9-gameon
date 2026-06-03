@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 7 — Inheritance: parent and child classes · 9GAMZA</title>
+<link rel="stylesheet" href="../../assets/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body { max-width: 940px; margin: 0 auto; padding: 1.5rem; overflow-x: hidden; }
+.ws-header { background: linear-gradient(135deg, rgba(31,58,104,0.45), rgba(20,184,166,0.18));
+             border: 2px solid var(--py-gold); border-radius: 14px;
+             padding: 1.4rem 1.6rem; margin-bottom: 1.5rem; }
+.ws-header h1 { margin: 0 0 0.5rem; color: var(--py-gold); font-size: 1.5rem; line-height: 1.2; }
+.ws-header p { margin: 0.25rem 0; color: var(--text); font-size: 0.95rem; }
+.ws-header .meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                   gap: 0.6rem; margin-top: 0.9rem; }
+.ws-header .meta div { background: rgba(0,0,0,0.25); padding: 0.5rem 0.7rem;
+                       border-radius: 6px; font-size: 0.85rem; }
+.ws-header .meta strong { color: var(--py-gold); display: block; font-size: 0.78rem;
+                          text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.2rem; }
+.name-row { display: flex; gap: 1rem; margin-top: 1rem; }
+.name-row input { flex: 1; padding: 0.6rem 0.8rem; border: 1px solid var(--border);
+                  border-radius: 6px; background: var(--surface); color: var(--text);
+                  font-family: inherit; font-size: 0.95rem; }
+
+/* learning intent + concept recap */
+.intent { background: rgba(59,130,246,0.08); border-left: 3px solid var(--py-blue);
+          padding: 0.9rem 1.1rem; border-radius: 8px; margin: 1.2rem 0; font-size: 0.93rem; line-height: 1.6; }
+.intent strong { color: #93c5fd; }
+.video-panel { background: var(--surface); border: 1px solid var(--border);
+               border-radius: 12px; padding: 1.1rem; margin: 1.5rem 0; }
+.video-panel h2 { color: var(--py-gold); margin: 0 0 0.4rem; font-size: 1.1rem; }
+.video-panel .vmeta { color: var(--text-muted); font-size: 0.84rem; margin-bottom: 0.7rem; }
+.video-panel video { width: 100%; border-radius: 8px; background: #000; }
+.video-panel iframe { width: 100%; aspect-ratio: 16/9; border: 0; border-radius: 8px; }
+
+/* concept teach block */
+.teach { margin: 1.6rem 0; padding: 1.3rem; background: var(--surface);
+         border-radius: 12px; border: 1px solid var(--border); }
+.teach h2 { color: var(--py-gold); margin: 0 0 0.6rem; font-size: 1.25rem; }
+.teach h3 { color: #5eead4; margin: 1rem 0 0.4rem; font-size: 1rem; }
+.teach p { color: var(--text); line-height: 1.65; margin: 0.5rem 0; font-size: 0.95rem; }
+.teach ul { color: var(--text); line-height: 1.7; padding-left: 1.3rem; }
+.teach code { background: rgba(0,0,0,0.35); padding: 0.1rem 0.4rem; border-radius: 3px;
+              color: var(--py-gold); font-family: 'Fira Code', monospace; font-size: 0.88em; }
+.codeblock { background: rgba(0,0,0,0.45); padding: 0.9rem 1.1rem; border-radius: 8px;
+             overflow-x: auto; margin: 0.7rem 0; max-width: 100%; }
+.codeblock code { font-family: 'Fira Code', monospace; font-size: 0.86rem; color: var(--py-gold);
+                  white-space: pre; display: block; min-width: 0; line-height: 1.5; }
+.codeblock.bad { border-left: 3px solid #ef4444; }
+.codeblock.good { border-left: 3px solid #22c55e; }
+.code-label { font-size: 0.78rem; font-weight: 700; text-transform: uppercase;
+              letter-spacing: 0.05em; margin: 0.8rem 0 0.2rem; }
+.code-label.bad { color: #fca5a5; }
+.code-label.good { color: #86efac; }
+.from-class { display: inline-block; background: rgba(255,212,59,0.15); color: var(--py-gold);
+              padding: 0.1rem 0.5rem; border-radius: 4px; font-size: 0.74rem; font-weight: 600;
+              margin-left: 0.4rem; }
+
+/* tier dividers */
+.tier { margin: 2.2rem 0 1.2rem; padding: 0.9rem 1.2rem; border-radius: 10px;
+        display: flex; align-items: center; gap: 0.8rem; }
+.tier.must { background: rgba(34,197,94,0.12); border: 1px solid #22c55e; }
+.tier.should { background: rgba(255,212,59,0.10); border: 1px solid var(--py-gold); }
+.tier.could { background: rgba(168,85,247,0.12); border: 1px solid #a855f7; }
+.tier .badge { font-weight: 700; font-size: 0.82rem; text-transform: uppercase;
+               letter-spacing: 0.06em; padding: 0.25rem 0.7rem; border-radius: 5px; }
+.tier.must .badge { background: #22c55e; color: #04210f; }
+.tier.should .badge { background: var(--py-gold); color: var(--bg); }
+.tier.could .badge { background: #a855f7; color: #1a0633; }
+.tier .tier-desc { color: var(--text); font-size: 0.9rem; line-height: 1.45; }
+.tier .tier-desc strong { color: var(--text); }
+
+/* questions */
+.question { margin: 1.3rem 0; padding: 1rem 1.2rem; background: rgba(31,58,104,0.18);
+            border-radius: 8px; border-left: 3px solid var(--py-blue); overflow: hidden; }
+.question.t-must { border-left-color: #22c55e; }
+.question.t-should { border-left-color: var(--py-gold); }
+.question.t-could { border-left-color: #a855f7; }
+.question .qnum { color: var(--py-gold); font-weight: 600; font-size: 0.85rem;
+                  display: flex; justify-content: space-between; align-items: center; }
+.question .qnum .tiertag { font-size: 0.7rem; padding: 0.1rem 0.45rem; border-radius: 4px;
+                           text-transform: uppercase; letter-spacing: 0.04em; font-weight: 700; }
+.question .qnum .tiertag.must { background: rgba(34,197,94,0.2); color: #86efac; }
+.question .qnum .tiertag.should { background: rgba(255,212,59,0.18); color: #fde047; }
+.question .qnum .tiertag.could { background: rgba(168,85,247,0.2); color: #d8b4fe; }
+.question .qtext { margin: 0.4rem 0 0.8rem; color: var(--text); line-height: 1.5; overflow-wrap: break-word; }
+.question .qtext code { background: rgba(0,0,0,0.35); padding: 0.1rem 0.4rem; border-radius: 3px;
+                        color: var(--py-gold); font-family: 'Fira Code', monospace; word-break: break-word; }
+.question pre { background: rgba(0,0,0,0.42); padding: 0.8rem; border-radius: 6px;
+                overflow-x: auto; margin: 0.6rem 0; max-width: 100%; }
+.question pre code { font-family: 'Fira Code', monospace; font-size: 0.85rem; color: var(--py-gold);
+                     white-space: pre; display: block; min-width: 0; line-height: 1.5; }
+.choices label { display: block; padding: 0.5rem 0.8rem; margin: 0.3rem 0; border-radius: 6px;
+                 cursor: pointer; transition: background 0.15s; color: var(--text); }
+.choices label:hover { background: rgba(255,212,59,0.08); }
+.choices input[type=radio] { margin-right: 0.6rem; }
+input[type=text], textarea { width: 100%; padding: 0.6rem 0.8rem; background: var(--bg); color: var(--text);
+                             border: 1px solid var(--border); border-radius: 6px;
+                             font-family: 'Fira Code', monospace; font-size: 0.9rem; box-sizing: border-box; }
+textarea { min-height: 120px; resize: vertical; }
+.feedback { margin-top: 0.6rem; padding: 0.7rem 1rem; border-radius: 6px; font-size: 0.9rem;
+            display: none; overflow-wrap: break-word; }
+.feedback.correct { background: rgba(34,197,94,0.15); border-left: 3px solid #22c55e; color: #86efac; }
+.feedback.wrong { background: rgba(239,68,68,0.12); border-left: 3px solid #ef4444; color: #fca5a5; }
+.feedback.info { background: rgba(59,130,246,0.12); border-left: 3px solid #3b82f6; color: #93c5fd; }
+.feedback code { background: rgba(0,0,0,0.3); padding: 0.1rem 0.4rem; border-radius: 3px; color: var(--py-gold); }
+
+.progress-bar-wrap { position: sticky; top: 0; z-index: 10; background: var(--bg);
+                     padding: 0.8rem 0; margin-bottom: 1rem; border-bottom: 1px solid var(--border); }
+.progress-text { font-weight: 600; color: var(--text); margin-bottom: 0.5rem;
+                 display: flex; justify-content: space-between; }
+.progress-text .marks { color: var(--text-muted); font-weight: 400; font-size: 0.85rem; }
+.progress-track { height: 10px; background: var(--surface); border-radius: 5px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #14b8a6, #22c55e); transition: width 0.3s; }
+#submit-section { margin: 2.5rem 0; padding: 1.4rem; background: var(--surface); border-radius: 12px;
+                  border: 2px solid var(--border); text-align: center; }
+#submit-btn { padding: 1rem 2.5rem; font-size: 1.1rem; font-weight: 600; border-radius: 8px;
+              cursor: pointer; border: none; background: linear-gradient(135deg, #3776AB, #14b8a6); color: white; }
+#submit-btn:disabled { background: var(--surface); color: var(--text-muted); cursor: not-allowed; border: 1px solid var(--border); }
+#results { display: none; margin: 2rem 0; padding: 1.6rem; background: var(--surface);
+           border-radius: 12px; border: 2px solid var(--py-gold); }
+#results h2 { color: var(--py-gold); margin: 0 0 1rem; }
+.score-hero { text-align: center; padding: 1rem; }
+.score-hero .big { font-size: 3rem; font-weight: 700; color: var(--py-gold); }
+.score-hero .sub { color: var(--text-muted); }
+.breakdown { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.8rem; margin-top: 1rem; }
+.breakdown-item { padding: 0.8rem; background: rgba(31,58,104,0.15); border-radius: 8px; }
+.breakdown-item .label { color: var(--text-muted); font-size: 0.85rem; }
+.breakdown-item .value { color: var(--text); font-size: 1.3rem; font-weight: 600; }
+.submit-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.2rem; }
+.submit-actions button, .submit-actions a { flex: 1; padding: 0.8rem 1.2rem; border-radius: 8px; cursor: pointer;
+                     border: 1px solid var(--border); background: var(--bg); color: var(--text); font-weight: 500;
+                     text-align: center; text-decoration: none; font-family: inherit; font-size: 0.95rem; }
+.submit-actions .primary { background: linear-gradient(135deg, #3776AB, #14b8a6); color: white; border: none; }
+.classwork-note { background: rgba(255,212,59,0.08); border-left: 3px solid var(--py-gold);
+                  padding: 0.8rem 1rem; border-radius: 6px; margin: 1rem 0; font-size: 0.9rem; line-height: 1.55; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="site-brand">🐍 Y9 Game On · Term 2</a>
+    <nav class="site-nav">
+      <a href="../index.html">Overview</a>
+      <a href="index.html">🧹 Clean Code</a>
+      <a href="../arcade/index.html">🎮 Arcade</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+<div class="ws-header">
+  <h1>🧬 Lesson 7 — Inheritance: parent and child classes</h1>
+  <p><strong>Class:</strong> Year 9 Game On · 9GAMZA · Term 2 2026</p>
+  <p><strong>Today:</strong> How the Pac-Man game in our class made 4 different ghosts WITHOUT copy-pasting — and how you'll do it too.</p>
+  <div class="meta">
+    <div><strong>Lesson</strong>7 of 8</div>
+    <div><strong>Time</strong>60 min</div>
+    <div><strong>Marks</strong>/37 (classwork)</div>
+    <div><strong>Builds toward</strong>Professional OOP design</div>
+  </div>
+  <div class="name-row">
+    <input type="text" id="student-name" placeholder="First name" autocomplete="given-name">
+    <input type="text" id="student-last" placeholder="Last name" autocomplete="family-name">
+  </div>
+</div>
+
+<div class="intent">
+  <strong>🎯 Why this lesson:</strong> The most advanced game in our class had FOUR ghost types — Blinky, Pinky, Inky, Clyde — that shared most of their code but each chased the player differently. The student didn't copy-paste four times. They used INHERITANCE: a parent Ghost class, and four children that only changed what was different. This is the most powerful idea in classes, and the heart of Term 3.
+</div>
+
+<div class="classwork-note">
+  <strong>📋 This counts as classwork.</strong> Work through the <strong>MUST DO</strong> tier first — everyone finishes those. Then <strong>SHOULD DO</strong>. <strong>COULD DO</strong> is for when you're flying. Ms Gao checks your progress at the end. Auto-saves on this laptop.
+</div>
+
+
+
+<div class="teach">
+<h2>The problem inheritance solves</h2>
+<p>Imagine four enemy types. They all have name, health, damage, and a take_damage method. Only their ATTACK differs. Without inheritance you'd copy the shared code into all four classes — pure DRY violation (Lesson 2!).</p>
+<h3>Parent class — the shared stuff, written ONCE</h3>
+<div class="code-label good">✅ Parent: shared behaviour, once</div><div class="codeblock good"><code>class Enemy:                         # PARENT
+    def __init__(self, name, health, damage):
+        self.name = name
+        self.health = health
+        self.damage = damage
+    def take_damage(self, amount):
+        self.health -= amount
+    def attack(self, target):
+        target.health -= self.damage</code></div>
+<h3>Child classes — inherit everything, change only what's different</h3>
+<div class="code-label good">✅ Children: only the differences</div><div class="codeblock good"><code>class Zombie(Enemy):                 # CHILD — inherits from Enemy
+    def __init__(self):
+        super().__init__(&quot;Zombie&quot;, 40, 8)   # call parent setup
+
+class Skeleton(Enemy):               # another CHILD
+    def __init__(self):
+        super().__init__(&quot;Skeleton&quot;, 25, 5)
+    def attack(self, target):        # OVERRIDE — skeletons attack differently
+        target.health -= self.damage * 2     # double damage!
+        print(f&quot;{self.name} fires an arrow!&quot;)</code></div>
+<h3>The three magic words</h3>
+<ul><li><code>class Zombie(Enemy):</code> — the <code>(Enemy)</code> means 'Zombie inherits from Enemy'. Zombie gets <code>take_damage</code> and <code>attack</code> for free.</li><li><code>super().__init__(...)</code> — calls the PARENT's setup, so you don't re-type <code>self.name = name</code> etc.</li><li><strong>Overriding</strong> — if a child defines a method the parent already has (like Skeleton's <code>attack</code>), the child's version wins for that child.</li></ul>
+<h3>Why this is the big one</h3>
+<p><code>Zombie()</code> and <code>Skeleton()</code> both have <code>take_damage()</code> — written ONCE in the parent. Want a Dragon? <code>class Dragon(Enemy):</code> and only write what's special. Shared code lives in one place; differences live in the children. This is exactly how the ghosts worked: one <code>Ghost</code> parent, four children that only changed <code>choose_move</code>.</p>
+<div class="codeblock"><code># all four ghosts share the parent Ghost class.
+# each child only overrides how it chooses where to move:
+class Blinky(Ghost):
+    def choose_move(self, player):
+        return chase_directly(self, player)
+
+class Clyde(Ghost):
+    def choose_move(self, player):
+        return move_randomly(self)</code></div>
+</div>
+
+<div class="progress-bar-wrap">
+  <div class="progress-text">
+    <span><span id="answered-count">0</span> / <span id="total-count">0</span> attempted</span>
+    <span class="marks">Score: <span id="est-marks">0</span> / 37</span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+</div>
+<div class="tier must">
+  <span class="badge">✅ MUST DO</span>
+  <span class="tier-desc">Everyone completes this tier. These are the essentials.</span>
+</div>
+
+  <div class="question t-must">
+    <div class="qnum"><span>Q1 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">What does <code>class Zombie(Enemy):</code> mean?</div>
+    
+    <div class="choices">
+      <label><input type="radio" name="l7q1" value="0"> Zombie is the same as Enemy</label>
+      <label><input type="radio" name="l7q1" value="1"> Zombie INHERITS from Enemy — it gets Enemy&#x27;s attributes and methods</label>
+      <label><input type="radio" name="l7q1" value="2"> Zombie deletes Enemy</label>
+      <label><input type="radio" name="l7q1" value="3"> Enemy is created inside Zombie</label>
+    </div>
+    <div class="feedback" id="fb-l7q1"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q2 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">What does <code>super().__init__("Zombie", 40, 8)</code> do?</div>
+    
+    <div class="choices">
+      <label><input type="radio" name="l7q2" value="0"> Creates a new Enemy</label>
+      <label><input type="radio" name="l7q2" value="1"> Calls the PARENT class&#x27;s __init__ to set up the shared attributes</label>
+      <label><input type="radio" name="l7q2" value="2"> Deletes the parent</label>
+      <label><input type="radio" name="l7q2" value="3"> Imports the super library</label>
+    </div>
+    <div class="feedback" id="fb-l7q2"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q3 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">If a child class has NO <code>attack</code> method of its own, but the parent does, what happens when you call <code>child.attack(...)</code>?</div>
+    
+    <div class="choices">
+      <label><input type="radio" name="l7q3" value="0"> It crashes</label>
+      <label><input type="radio" name="l7q3" value="1"> It uses the PARENT&#x27;s attack method (inherited for free)</label>
+      <label><input type="radio" name="l7q3" value="2"> Nothing happens</label>
+      <label><input type="radio" name="l7q3" value="3"> It asks the user to write one</label>
+    </div>
+    <div class="feedback" id="fb-l7q3"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q4 · 3 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Fill the blank so Goblin inherits from Enemy.</div>
+    <pre><code>class Goblin(______):
+    pass</code></pre>
+    <input type="text" id="l7q4" placeholder="the parent class name">
+    <div class="feedback" id="fb-l7q4"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q5 · 3 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Fill the blank so the child calls the parent's setup with its own values.</div>
+    <pre><code>class Goblin(Enemy):
+    def __init__(self):
+        ______.__init__(&quot;Goblin&quot;, 20, 3)</code></pre>
+    <input type="text" id="l7q5" placeholder="the parent">
+    <div class="feedback" id="fb-l7q5"></div>
+  </div>
+<div class="tier should">
+  <span class="badge">⭐ SHOULD DO</span>
+  <span class="tier-desc">Most of you will get here. This is applying the idea.</span>
+</div>
+
+  <div class="question t-should">
+    <div class="qnum"><span>Q6 · 3 marks</span><span class="tiertag should">should</span></div>
+    <div class="qtext">What is method OVERRIDING?</div>
+    
+    <div class="choices">
+      <label><input type="radio" name="l7q6" value="0"> Deleting a method</label>
+      <label><input type="radio" name="l7q6" value="1"> When a child defines a method with the same name as the parent — the child&#x27;s version wins for that child</label>
+      <label><input type="radio" name="l7q6" value="2"> Calling a method twice</label>
+      <label><input type="radio" name="l7q6" value="3"> Importing a method from another file</label>
+    </div>
+    <div class="feedback" id="fb-l7q6"></div>
+  </div>
+  <div class="question t-should">
+    <div class="qnum"><span>Q7 · 3 marks</span><span class="tiertag should">should</span></div>
+    <div class="qtext">What does this print?</div>
+    <pre><code>class Enemy:
+    def speak(self):
+        print(&quot;...&quot;)
+class Zombie(Enemy):
+    def speak(self):
+        print(&quot;Braaains&quot;)
+
+Zombie().speak()</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="l7q7" value="0"> ...</label>
+      <label><input type="radio" name="l7q7" value="1"> Braaains</label>
+      <label><input type="radio" name="l7q7" value="2"> ... then Braaains</label>
+      <label><input type="radio" name="l7q7" value="3"> an error</label>
+    </div>
+    <div class="feedback" id="fb-l7q7"></div>
+  </div>
+  <div class="question t-should">
+    <div class="qnum"><span>Q8 · 3 marks</span><span class="tiertag should">should</span></div>
+    <div class="qtext">A real bug from our class: a game called <code>Character.attack(player, enemy)</code> but the parent <code>Character</code> had NO attack method (only the child did). What error happens?</div>
+    
+    <div class="choices">
+      <label><input type="radio" name="l7q8" value="0"> The game runs fine</label>
+      <label><input type="radio" name="l7q8" value="1"> AttributeError — Character has no attack method</label>
+      <label><input type="radio" name="l7q8" value="2"> The enemy heals</label>
+      <label><input type="radio" name="l7q8" value="3"> It prints &#x27;attack&#x27;</label>
+    </div>
+    <div class="feedback" id="fb-l7q8"></div>
+  </div>
+  <div class="question t-should">
+    <div class="qnum"><span>Q9 · 7 marks (self-marked)</span><span class="tiertag should">should</span></div>
+    <div class="qtext">Write a parent <code>Enemy</code> class (name, health, damage + a <code>take_damage(self, amount)</code> method). Then write TWO children: <code>Goblin</code> (health 20, damage 3) and <code>Dragon</code> (health 80, damage 15). Each child's <code>__init__</code> uses <code>super().__init__(...)</code>. Create one of each and print both names + healths.</div>
+    
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code>class Enemy:
+    def __init__(self, name, health, damage):
+        # set three attributes
+    def take_damage(self, amount):
+        self.health -= amount
+
+class Goblin(Enemy):
+    def __init__(self):
+        super().__init__(...)   # fill in
+
+class Dragon(Enemy):
+    def __init__(self):
+        super().__init__(...)
+
+# create one of each, print names + healths
+</code></pre><textarea id="l7q9" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-l7q9"></div>
+  </div>
+<div class="tier could">
+  <span class="badge">🚀 COULD DO</span>
+  <span class="tier-desc">For when you're flying — stretch yourself, often with your OWN game code.</span>
+</div>
+
+  <div class="question t-could">
+    <div class="qnum"><span>Q10 · 6 marks (self-marked)</span><span class="tiertag could">could</span></div>
+    <div class="qtext">🚀 Add a THIRD child to your Q9 hierarchy that OVERRIDES a method. For example, a <code>Skeleton</code> whose <code>take_damage</code> only takes HALF damage (armoured), or whose attack does double. Paste the child class and show it behaving differently from the others.</div>
+    
+    <textarea id="l7q10" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-l7q10"></div>
+  </div>
+  <div class="question t-could">
+    <div class="qnum"><span>Q11 · 3 marks</span><span class="tiertag could">could</span></div>
+    <div class="qtext">🚀 The Pac-Man game gave 4 ghosts the SAME movement code except for one method. Why is inheritance the perfect tool here?</div>
+    
+    <div class="choices">
+      <label><input type="radio" name="l7q11" value="0"> It makes the ghosts move faster</label>
+      <label><input type="radio" name="l7q11" value="1"> All shared ghost behaviour is written ONCE in the parent; each ghost child only overrides the one method that&#x27;s different (how it chooses where to move)</label>
+      <label><input type="radio" name="l7q11" value="2"> Ghosts can&#x27;t exist without inheritance</label>
+      <label><input type="radio" name="l7q11" value="3"> It lets ghosts share one health bar</label>
+    </div>
+    <div class="feedback" id="fb-l7q11"></div>
+  </div>
+<div id="submit-section">
+  <p style="margin: 0 0 1rem; color: var(--text-muted);">Done with your tier? Submit to see your score + answer key. Keep editing after if you want.</p>
+  <button id="submit-btn" disabled>Submit worksheet</button>
+  <p style="margin: 0.8rem 0 0; font-size: 0.85rem; color: var(--text-muted);">Auto-saves on this laptop.</p>
+</div>
+
+<div id="results">
+  <h2>📊 Your clean-code check</h2>
+  <div class="score-hero">
+    <div class="big"><span id="final-score">0</span> / 37</div>
+    <div class="sub" id="score-comment">—</div>
+  </div>
+  <div class="breakdown" id="breakdown"></div>
+  <div class="submit-actions">
+    <button onclick="window.scrollTo({top:0, behavior:'smooth'})">↑ Review answers</button>
+    <a href="index.html" class="primary">→ Back to Clean Code series</a>
+  </div>
+</div>
+
+</main>
+
+<script>
+const WS_KEY = "y9-cc-L7-v1";
+const QUESTIONS = [
+  {
+    "id": "l7q1",
+    "kind": "mcq",
+    "marks": 2,
+    "tier": "must",
+    "correct": 1,
+    "choices": [
+      "Zombie is the same as Enemy",
+      "Zombie INHERITS from Enemy \u2014 it gets Enemy's attributes and methods",
+      "Zombie deletes Enemy",
+      "Enemy is created inside Zombie"
+    ],
+    "explain": "The <code>(Enemy)</code> in the brackets means Zombie is a child of Enemy and inherits everything."
+  },
+  {
+    "id": "l7q2",
+    "kind": "mcq",
+    "marks": 2,
+    "tier": "must",
+    "correct": 1,
+    "choices": [
+      "Creates a new Enemy",
+      "Calls the PARENT class's __init__ to set up the shared attributes",
+      "Deletes the parent",
+      "Imports the super library"
+    ],
+    "explain": "<code>super()</code> means the parent. <code>super().__init__(...)</code> runs the parent's setup so you don't re-type it."
+  },
+  {
+    "id": "l7q3",
+    "kind": "mcq",
+    "marks": 2,
+    "tier": "must",
+    "correct": 1,
+    "choices": [
+      "It crashes",
+      "It uses the PARENT's attack method (inherited for free)",
+      "Nothing happens",
+      "It asks the user to write one"
+    ],
+    "explain": "Inheritance: the child uses the parent's method automatically."
+  },
+  {
+    "id": "l7q4",
+    "kind": "fill",
+    "marks": 3,
+    "tier": "must",
+    "answer": "Enemy",
+    "explain": "The parent class name goes in the brackets: <code>class Goblin(Enemy):</code>."
+  },
+  {
+    "id": "l7q5",
+    "kind": "fill",
+    "marks": 3,
+    "tier": "must",
+    "answer": "super()",
+    "explain": "<code>super().__init__(...)</code> runs the parent's __init__."
+  },
+  {
+    "id": "l7q6",
+    "kind": "mcq",
+    "marks": 3,
+    "tier": "should",
+    "correct": 1,
+    "choices": [
+      "Deleting a method",
+      "When a child defines a method with the same name as the parent \u2014 the child's version wins for that child",
+      "Calling a method twice",
+      "Importing a method from another file"
+    ],
+    "explain": "Override = redefine an inherited method in the child to change its behaviour."
+  },
+  {
+    "id": "l7q7",
+    "kind": "mcq",
+    "marks": 3,
+    "tier": "should",
+    "correct": 1,
+    "choices": [
+      "...",
+      "Braaains",
+      "... then Braaains",
+      "an error"
+    ],
+    "explain": "Zombie overrides speak, so the child's version (\"Braaains\") runs."
+  },
+  {
+    "id": "l7q8",
+    "kind": "mcq",
+    "marks": 3,
+    "tier": "should",
+    "correct": 1,
+    "choices": [
+      "The game runs fine",
+      "AttributeError \u2014 Character has no attack method",
+      "The enemy heals",
+      "It prints 'attack'"
+    ],
+    "explain": "Calling a method that the class doesn't have raises AttributeError. The method lived in the CHILD, not the parent \u2014 a classic 'where does this method live?' mix-up."
+  },
+  {
+    "id": "l7q9",
+    "kind": "build",
+    "marks": 7,
+    "tier": "should",
+    "rubric": "Full marks: parent correct, BOTH children use super().__init__ with their own values, objects created and printed. Half: one child correct, or super() missing."
+  },
+  {
+    "id": "l7q10",
+    "kind": "build",
+    "marks": 6,
+    "tier": "could",
+    "rubric": "Full marks: a third child that correctly overrides a method to behave differently, using super() in __init__. Demonstrates the full inheritance + override skill."
+  },
+  {
+    "id": "l7q11",
+    "kind": "mcq",
+    "marks": 3,
+    "tier": "could",
+    "correct": 1,
+    "choices": [
+      "It makes the ghosts move faster",
+      "All shared ghost behaviour is written ONCE in the parent; each ghost child only overrides the one method that's different (how it chooses where to move)",
+      "Ghosts can't exist without inheritance",
+      "It lets ghosts share one health bar"
+    ],
+    "explain": "One Ghost parent holds everything shared; four tiny children each override <code>choose_move</code>. Zero duplication \u2014 DRY + inheritance working together."
+  }
+];
+
+function restore() {
+  const saved = JSON.parse(localStorage.getItem(WS_KEY) || "{}");
+  if (saved.name) document.getElementById("student-name").value = saved.name;
+  if (saved.last) document.getElementById("student-last").value = saved.last;
+  for (const id in saved.answers || {}) {
+    const val = saved.answers[id];
+    const el = document.querySelector(`[name="${id}"]`);
+    if (!el) continue;
+    if (el.type === "radio") {
+      const r = document.querySelector(`[name="${id}"][value="${val}"]`);
+      if (r) r.checked = true;
+    } else {
+      const node = document.getElementById(id);
+      if (node) node.value = val;
+    }
+  }
+  updateProgress();
+}
+function save() {
+  const data = { name: document.getElementById("student-name").value,
+                last: document.getElementById("student-last").value, answers: {} };
+  QUESTIONS.forEach(q => {
+    if (q.kind === "mcq") { const r = document.querySelector(`[name="${q.id}"]:checked`); if (r) data.answers[q.id] = r.value; }
+    else { const el = document.getElementById(q.id); if (el && el.value) data.answers[q.id] = el.value; }
+  });
+  localStorage.setItem(WS_KEY, JSON.stringify(data));
+}
+function updateProgress() {
+  let answered = 0, est = 0;
+  QUESTIONS.forEach(q => {
+    let val = null;
+    if (q.kind === "mcq") { const r = document.querySelector(`[name="${q.id}"]:checked`); if (r) val = r.value; }
+    else { const el = document.getElementById(q.id); if (el && el.value.trim()) val = el.value.trim(); }
+    if (val !== null) {
+      answered++;
+      if (q.kind === "mcq" && String(val) === String(q.correct)) est += q.marks;
+      else if (q.kind === "fill" && q.answer && val.toLowerCase().replace(/\s+/g,'') === String(q.answer).toLowerCase().replace(/\s+/g,'')) est += q.marks;
+      else if (q.kind === "build") est += Math.floor(q.marks * 0.6);
+    }
+  });
+  document.getElementById("answered-count").textContent = answered;
+  document.getElementById("total-count").textContent = QUESTIONS.length;
+  document.getElementById("est-marks").textContent = est;
+  document.getElementById("progress-fill").style.width = (answered/QUESTIONS.length*100) + "%";
+  // unlock submit once all MUST-DO questions are attempted
+  const mustQs = QUESTIONS.filter(q => q.tier === "must");
+  let mustDone = 0;
+  mustQs.forEach(q => {
+    if (q.kind === "mcq") { if (document.querySelector(`[name="${q.id}"]:checked`)) mustDone++; }
+    else { const el = document.getElementById(q.id); if (el && el.value.trim()) mustDone++; }
+  });
+  document.getElementById("submit-btn").disabled = (mustDone < mustQs.length);
+}
+document.addEventListener("input", () => { save(); updateProgress(); });
+document.addEventListener("change", () => { save(); updateProgress(); });
+
+document.getElementById("submit-btn").addEventListener("click", () => {
+  let score = 0, mcqOk = 0, fillOk = 0;
+  let tierScore = { must: 0, should: 0, could: 0 };
+  QUESTIONS.forEach(q => {
+    let val = null;
+    if (q.kind === "mcq") { const r = document.querySelector(`[name="${q.id}"]:checked`); if (r) val = r.value; }
+    else { const el = document.getElementById(q.id); if (el) val = el.value.trim(); }
+    const fb = document.getElementById("fb-" + q.id);
+    if (q.kind === "mcq") {
+      if (String(val) === String(q.correct)) { score += q.marks; mcqOk++; tierScore[q.tier] += q.marks;
+        if (fb) { fb.className="feedback correct"; fb.style.display="block"; fb.innerHTML = `✅ Correct (+${q.marks}). ${q.explain||''}`; } }
+      else { const ct = q.choices[q.correct];
+        if (fb) { fb.className="feedback wrong"; fb.style.display="block"; fb.innerHTML = `❌ Correct: <code>${ct}</code>. ${q.explain||''}`; } }
+    } else if (q.kind === "fill") {
+      const norm = (val||"").toLowerCase().replace(/\s+/g,''); const target = String(q.answer).toLowerCase().replace(/\s+/g,'');
+      if (norm === target) { score += q.marks; fillOk++; tierScore[q.tier] += q.marks;
+        if (fb) { fb.className="feedback correct"; fb.style.display="block"; fb.innerHTML = `✅ Exactly right (+${q.marks}). ${q.explain||''}`; } }
+      else { if (fb) { fb.className="feedback wrong"; fb.style.display="block"; fb.innerHTML = `❌ Expected: <code>${q.answer}</code>. ${q.explain||''}`; } }
+    } else if (q.kind === "build") {
+      if (val && val.length > 30) { score += q.marks; tierScore[q.tier] += q.marks;
+        if (fb) { fb.className="feedback info"; fb.style.display="block"; fb.innerHTML = `✏️ Self-marked (+${q.marks}). Ms Gao checks this in class. ${q.rubric||''}`; } }
+      else if (val && val.length > 0) { score += Math.floor(q.marks/2);
+        if (fb) { fb.className="feedback info"; fb.style.display="block"; fb.innerHTML = `✏️ Partial (+${Math.floor(q.marks/2)}). Add more detail. ${q.rubric||''}`; } }
+    }
+  });
+  document.getElementById("final-score").textContent = score;
+  const total = QUESTIONS.reduce((s,q)=>s+q.marks,0);
+  let cmt;
+  if (score >= total*0.85) cmt = "🌟 Outstanding — your code is going to be so much cleaner.";
+  else if (score >= total*0.6) cmt = "✅ Solid work. Review what you missed.";
+  else if (score >= total*0.35) cmt = "🛠️ Good start — finish the MUST-DO tier and ask Ms Gao about the rest.";
+  else cmt = "💛 Let's go through this together — grab Ms Gao.";
+  document.getElementById("score-comment").textContent = cmt;
+  document.getElementById("breakdown").innerHTML = `
+    <div class="breakdown-item"><div class="label">✅ Must do</div><div class="value">${tierScore.must}</div></div>
+    <div class="breakdown-item"><div class="label">⭐ Should do</div><div class="value">${tierScore.should}</div></div>
+    <div class="breakdown-item"><div class="label">🚀 Could do</div><div class="value">${tierScore.could}</div></div>
+    <div class="breakdown-item"><div class="label">Total</div><div class="value">${score} / 37</div></div>`;
+  document.getElementById("results").style.display = "block";
+  document.getElementById("results").scrollIntoView({behavior:"smooth", block:"start"});
+});
+restore();
+</script>
+</body>
+</html>

@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 8 — Refactor Your Own Game (capstone) · 9GAMZA</title>
+<link rel="stylesheet" href="../../assets/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body { max-width: 940px; margin: 0 auto; padding: 1.5rem; overflow-x: hidden; }
+.ws-header { background: linear-gradient(135deg, rgba(31,58,104,0.45), rgba(20,184,166,0.18));
+             border: 2px solid var(--py-gold); border-radius: 14px;
+             padding: 1.4rem 1.6rem; margin-bottom: 1.5rem; }
+.ws-header h1 { margin: 0 0 0.5rem; color: var(--py-gold); font-size: 1.5rem; line-height: 1.2; }
+.ws-header p { margin: 0.25rem 0; color: var(--text); font-size: 0.95rem; }
+.ws-header .meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                   gap: 0.6rem; margin-top: 0.9rem; }
+.ws-header .meta div { background: rgba(0,0,0,0.25); padding: 0.5rem 0.7rem;
+                       border-radius: 6px; font-size: 0.85rem; }
+.ws-header .meta strong { color: var(--py-gold); display: block; font-size: 0.78rem;
+                          text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.2rem; }
+.name-row { display: flex; gap: 1rem; margin-top: 1rem; }
+.name-row input { flex: 1; padding: 0.6rem 0.8rem; border: 1px solid var(--border);
+                  border-radius: 6px; background: var(--surface); color: var(--text);
+                  font-family: inherit; font-size: 0.95rem; }
+
+/* learning intent + concept recap */
+.intent { background: rgba(59,130,246,0.08); border-left: 3px solid var(--py-blue);
+          padding: 0.9rem 1.1rem; border-radius: 8px; margin: 1.2rem 0; font-size: 0.93rem; line-height: 1.6; }
+.intent strong { color: #93c5fd; }
+.video-panel { background: var(--surface); border: 1px solid var(--border);
+               border-radius: 12px; padding: 1.1rem; margin: 1.5rem 0; }
+.video-panel h2 { color: var(--py-gold); margin: 0 0 0.4rem; font-size: 1.1rem; }
+.video-panel .vmeta { color: var(--text-muted); font-size: 0.84rem; margin-bottom: 0.7rem; }
+.video-panel video { width: 100%; border-radius: 8px; background: #000; }
+.video-panel iframe { width: 100%; aspect-ratio: 16/9; border: 0; border-radius: 8px; }
+
+/* concept teach block */
+.teach { margin: 1.6rem 0; padding: 1.3rem; background: var(--surface);
+         border-radius: 12px; border: 1px solid var(--border); }
+.teach h2 { color: var(--py-gold); margin: 0 0 0.6rem; font-size: 1.25rem; }
+.teach h3 { color: #5eead4; margin: 1rem 0 0.4rem; font-size: 1rem; }
+.teach p { color: var(--text); line-height: 1.65; margin: 0.5rem 0; font-size: 0.95rem; }
+.teach ul { color: var(--text); line-height: 1.7; padding-left: 1.3rem; }
+.teach code { background: rgba(0,0,0,0.35); padding: 0.1rem 0.4rem; border-radius: 3px;
+              color: var(--py-gold); font-family: 'Fira Code', monospace; font-size: 0.88em; }
+.codeblock { background: rgba(0,0,0,0.45); padding: 0.9rem 1.1rem; border-radius: 8px;
+             overflow-x: auto; margin: 0.7rem 0; max-width: 100%; }
+.codeblock code { font-family: 'Fira Code', monospace; font-size: 0.86rem; color: var(--py-gold);
+                  white-space: pre; display: block; min-width: 0; line-height: 1.5; }
+.codeblock.bad { border-left: 3px solid #ef4444; }
+.codeblock.good { border-left: 3px solid #22c55e; }
+.code-label { font-size: 0.78rem; font-weight: 700; text-transform: uppercase;
+              letter-spacing: 0.05em; margin: 0.8rem 0 0.2rem; }
+.code-label.bad { color: #fca5a5; }
+.code-label.good { color: #86efac; }
+.from-class { display: inline-block; background: rgba(255,212,59,0.15); color: var(--py-gold);
+              padding: 0.1rem 0.5rem; border-radius: 4px; font-size: 0.74rem; font-weight: 600;
+              margin-left: 0.4rem; }
+
+/* tier dividers */
+.tier { margin: 2.2rem 0 1.2rem; padding: 0.9rem 1.2rem; border-radius: 10px;
+        display: flex; align-items: center; gap: 0.8rem; }
+.tier.must { background: rgba(34,197,94,0.12); border: 1px solid #22c55e; }
+.tier.should { background: rgba(255,212,59,0.10); border: 1px solid var(--py-gold); }
+.tier.could { background: rgba(168,85,247,0.12); border: 1px solid #a855f7; }
+.tier .badge { font-weight: 700; font-size: 0.82rem; text-transform: uppercase;
+               letter-spacing: 0.06em; padding: 0.25rem 0.7rem; border-radius: 5px; }
+.tier.must .badge { background: #22c55e; color: #04210f; }
+.tier.should .badge { background: var(--py-gold); color: var(--bg); }
+.tier.could .badge { background: #a855f7; color: #1a0633; }
+.tier .tier-desc { color: var(--text); font-size: 0.9rem; line-height: 1.45; }
+.tier .tier-desc strong { color: var(--text); }
+
+/* questions */
+.question { margin: 1.3rem 0; padding: 1rem 1.2rem; background: rgba(31,58,104,0.18);
+            border-radius: 8px; border-left: 3px solid var(--py-blue); overflow: hidden; }
+.question.t-must { border-left-color: #22c55e; }
+.question.t-should { border-left-color: var(--py-gold); }
+.question.t-could { border-left-color: #a855f7; }
+.question .qnum { color: var(--py-gold); font-weight: 600; font-size: 0.85rem;
+                  display: flex; justify-content: space-between; align-items: center; }
+.question .qnum .tiertag { font-size: 0.7rem; padding: 0.1rem 0.45rem; border-radius: 4px;
+                           text-transform: uppercase; letter-spacing: 0.04em; font-weight: 700; }
+.question .qnum .tiertag.must { background: rgba(34,197,94,0.2); color: #86efac; }
+.question .qnum .tiertag.should { background: rgba(255,212,59,0.18); color: #fde047; }
+.question .qnum .tiertag.could { background: rgba(168,85,247,0.2); color: #d8b4fe; }
+.question .qtext { margin: 0.4rem 0 0.8rem; color: var(--text); line-height: 1.5; overflow-wrap: break-word; }
+.question .qtext code { background: rgba(0,0,0,0.35); padding: 0.1rem 0.4rem; border-radius: 3px;
+                        color: var(--py-gold); font-family: 'Fira Code', monospace; word-break: break-word; }
+.question pre { background: rgba(0,0,0,0.42); padding: 0.8rem; border-radius: 6px;
+                overflow-x: auto; margin: 0.6rem 0; max-width: 100%; }
+.question pre code { font-family: 'Fira Code', monospace; font-size: 0.85rem; color: var(--py-gold);
+                     white-space: pre; display: block; min-width: 0; line-height: 1.5; }
+.choices label { display: block; padding: 0.5rem 0.8rem; margin: 0.3rem 0; border-radius: 6px;
+                 cursor: pointer; transition: background 0.15s; color: var(--text); }
+.choices label:hover { background: rgba(255,212,59,0.08); }
+.choices input[type=radio] { margin-right: 0.6rem; }
+input[type=text], textarea { width: 100%; padding: 0.6rem 0.8rem; background: var(--bg); color: var(--text);
+                             border: 1px solid var(--border); border-radius: 6px;
+                             font-family: 'Fira Code', monospace; font-size: 0.9rem; box-sizing: border-box; }
+textarea { min-height: 120px; resize: vertical; }
+.feedback { margin-top: 0.6rem; padding: 0.7rem 1rem; border-radius: 6px; font-size: 0.9rem;
+            display: none; overflow-wrap: break-word; }
+.feedback.correct { background: rgba(34,197,94,0.15); border-left: 3px solid #22c55e; color: #86efac; }
+.feedback.wrong { background: rgba(239,68,68,0.12); border-left: 3px solid #ef4444; color: #fca5a5; }
+.feedback.info { background: rgba(59,130,246,0.12); border-left: 3px solid #3b82f6; color: #93c5fd; }
+.feedback code { background: rgba(0,0,0,0.3); padding: 0.1rem 0.4rem; border-radius: 3px; color: var(--py-gold); }
+
+.progress-bar-wrap { position: sticky; top: 0; z-index: 10; background: var(--bg);
+                     padding: 0.8rem 0; margin-bottom: 1rem; border-bottom: 1px solid var(--border); }
+.progress-text { font-weight: 600; color: var(--text); margin-bottom: 0.5rem;
+                 display: flex; justify-content: space-between; }
+.progress-text .marks { color: var(--text-muted); font-weight: 400; font-size: 0.85rem; }
+.progress-track { height: 10px; background: var(--surface); border-radius: 5px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #14b8a6, #22c55e); transition: width 0.3s; }
+#submit-section { margin: 2.5rem 0; padding: 1.4rem; background: var(--surface); border-radius: 12px;
+                  border: 2px solid var(--border); text-align: center; }
+#submit-btn { padding: 1rem 2.5rem; font-size: 1.1rem; font-weight: 600; border-radius: 8px;
+              cursor: pointer; border: none; background: linear-gradient(135deg, #3776AB, #14b8a6); color: white; }
+#submit-btn:disabled { background: var(--surface); color: var(--text-muted); cursor: not-allowed; border: 1px solid var(--border); }
+#results { display: none; margin: 2rem 0; padding: 1.6rem; background: var(--surface);
+           border-radius: 12px; border: 2px solid var(--py-gold); }
+#results h2 { color: var(--py-gold); margin: 0 0 1rem; }
+.score-hero { text-align: center; padding: 1rem; }
+.score-hero .big { font-size: 3rem; font-weight: 700; color: var(--py-gold); }
+.score-hero .sub { color: var(--text-muted); }
+.breakdown { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.8rem; margin-top: 1rem; }
+.breakdown-item { padding: 0.8rem; background: rgba(31,58,104,0.15); border-radius: 8px; }
+.breakdown-item .label { color: var(--text-muted); font-size: 0.85rem; }
+.breakdown-item .value { color: var(--text); font-size: 1.3rem; font-weight: 600; }
+.submit-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.2rem; }
+.submit-actions button, .submit-actions a { flex: 1; padding: 0.8rem 1.2rem; border-radius: 8px; cursor: pointer;
+                     border: 1px solid var(--border); background: var(--bg); color: var(--text); font-weight: 500;
+                     text-align: center; text-decoration: none; font-family: inherit; font-size: 0.95rem; }
+.submit-actions .primary { background: linear-gradient(135deg, #3776AB, #14b8a6); color: white; border: none; }
+.classwork-note { background: rgba(255,212,59,0.08); border-left: 3px solid var(--py-gold);
+                  padding: 0.8rem 1rem; border-radius: 6px; margin: 1rem 0; font-size: 0.9rem; line-height: 1.55; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="site-brand">🐍 Y9 Game On · Term 2</a>
+    <nav class="site-nav">
+      <a href="../index.html">Overview</a>
+      <a href="index.html">🧹 Clean Code</a>
+      <a href="../arcade/index.html">🎮 Arcade</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+<div class="ws-header">
+  <h1>🏆 Lesson 8 — Refactor Your Own Game (capstone)</h1>
+  <p><strong>Class:</strong> Year 9 Game On · 9GAMZA · Term 2 2026</p>
+  <p><strong>Today:</strong> Everything from Lessons 1-7, applied to YOUR submitted game. Make your code as good as your idea.</p>
+  <div class="meta">
+    <div><strong>Lesson</strong>8 of 8</div>
+    <div><strong>Time</strong>70 min</div>
+    <div><strong>Marks</strong>/40 (classwork)</div>
+    <div><strong>Builds toward</strong>A portfolio-quality game + Term 3 readiness</div>
+  </div>
+  <div class="name-row">
+    <input type="text" id="student-name" placeholder="First name" autocomplete="given-name">
+    <input type="text" id="student-last" placeholder="Last name" autocomplete="family-name">
+  </div>
+</div>
+
+<div class="intent">
+  <strong>🎯 Why this lesson:</strong> You've learned to validate input, kill duplication, group data, build classes, make objects interact, and use inheritance. Today you put it ALL together — on your own game. By the end you'll have a cleaner version of your project AND the exact mindset you need for the big classes work in Term 3.
+</div>
+
+<div class="classwork-note">
+  <strong>📋 This counts as classwork.</strong> Work through the <strong>MUST DO</strong> tier first — everyone finishes those. Then <strong>SHOULD DO</strong>. <strong>COULD DO</strong> is for when you're flying. Ms Gao checks your progress at the end. Auto-saves on this laptop.
+</div>
+
+
+
+<div class="teach">
+<h2>The Clean Code Checklist</h2>
+<p>This is the checklist Ms Gao will use on your Term 3 work. Run YOUR game through it today. Each item links back to a lesson:</p>
+<div class="codeblock"><code>[ ] 1. INPUT — every input() that becomes a number is protected
+       (try/except or .isdigit())                    -&gt; Lesson 1
+[ ] 2. DRY — no big block is copy-pasted; repeats are
+       functions with parameters                       -&gt; Lesson 2
+[ ] 3. DATA — related data is grouped (dicts / objects),
+       not parallel lists                              -&gt; Lesson 3
+[ ] 4. STATE — game data lives in objects, not scattered
+       global variables                                -&gt; Lesson 4
+[ ] 5. CLASSES — attributes set in __init__, methods use
+       self correctly                                  -&gt; Lesson 5
+[ ] 6. INTERACTION — objects affecting each other do it
+       cleanly (with clamping)                         -&gt; Lesson 6
+[ ] 7. INHERITANCE — similar classes share a parent
+       instead of duplicating                          -&gt; Lesson 7
+[ ] 8. NAMES + COMMENTS — meaningful variable names; a
+       comment on each tricky part</code></div>
+<h3>How to refactor without breaking your game</h3>
+<ul><li><strong>Make a copy first.</strong> Save <code>mygame_v2.py</code> so your working version is safe.</li><li><strong>Change ONE thing, then run it.</strong> Fix input validation → run → still works? Good. Next item.</li><li><strong>Never change five things then run.</strong> If it breaks you won't know which change did it.</li><li><strong>Test the edges.</strong> Type a letter at a number prompt. Enter blank. Type a huge number. Your game should survive all of it now.</li></ul>
+<h3>What 'good' looks like</h3>
+<p>Here's the difference one refactor pass makes, using a real before/after shape from our class:</p>
+<div class="code-label bad">❌ Before</div><div class="codeblock bad"><code># BEFORE: global, repeated, crashes on bad input
+score = 0
+ans = int(input(&quot;Q1? &quot;))      # crashes on text
+if ans == 4: score = score + 1
+ans = int(input(&quot;Q2? &quot;))      # same line, pasted
+if ans == 9: score = score + 1</code></div>
+<div class="code-label good">✅ After — every lesson applied</div><div class="codeblock good"><code># AFTER: a function, a data structure, validated input
+def ask(question, answer):
+    while True:
+        t = input(question + &quot; &quot;)
+        if t.isdigit():
+            return int(t) == answer
+        print(&quot;Numbers only.&quot;)
+
+quiz = [{&quot;q&quot;: &quot;Q1?&quot;, &quot;a&quot;: 4}, {&quot;q&quot;: &quot;Q2?&quot;, &quot;a&quot;: 9}]
+score = sum(1 for item in quiz if ask(item[&quot;q&quot;], item[&quot;a&quot;]))</code></div>
+</div>
+
+<div class="progress-bar-wrap">
+  <div class="progress-text">
+    <span><span id="answered-count">0</span> / <span id="total-count">0</span> attempted</span>
+    <span class="marks">Score: <span id="est-marks">0</span> / 40</span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+</div>
+<div class="tier must">
+  <span class="badge">✅ MUST DO</span>
+  <span class="tier-desc">Everyone completes this tier. These are the essentials.</span>
+</div>
+
+  <div class="question t-must">
+    <div class="qnum"><span>Q1 · 4 marks (self-marked)</span><span class="tiertag must">must</span></div>
+    <div class="qtext"><strong>Audit your game — input safety (Lesson 1).</strong> Open your submitted game. Does every <code>int(input(...))</code> have protection? Paste ONE input line from your game, and write 'SAFE' if it's protected or 'NEEDS FIX' if it would crash on a letter. If it needs a fix, write the fixed version.</div>
+    
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code># paste one input line from YOUR game:
+
+# SAFE or NEEDS FIX? if needs fix, write the fix:
+</code></pre><textarea id="l8q1" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-l8q1"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q2 · 4 marks (self-marked)</span><span class="tiertag must">must</span></div>
+    <div class="qtext"><strong>Audit your game — repetition (Lesson 2).</strong> Find the most-repeated part of your game. Paste it (or describe it). Could it be a function? Write the function header (<code>def name(parameters):</code>) you would extract.</div>
+    
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code># the repeated part of my game:
+
+# the function I would extract:
+def ___(...):
+</code></pre><textarea id="l8q2" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-l8q2"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q3 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">When refactoring, what's the safest way to work?</div>
+    
+    <div class="choices">
+      <label><input type="radio" name="l8q3" value="0"> Change everything at once then run</label>
+      <label><input type="radio" name="l8q3" value="1"> Change ONE thing, run it, check it still works, then change the next</label>
+      <label><input type="radio" name="l8q3" value="2"> Never run it until you&#x27;re completely finished</label>
+      <label><input type="radio" name="l8q3" value="3"> Delete the old code first</label>
+    </div>
+    <div class="feedback" id="fb-l8q3"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q4 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Before you start refactoring, what should you do first?</div>
+    
+    <div class="choices">
+      <label><input type="radio" name="l8q4" value="0"> Delete the original</label>
+      <label><input type="radio" name="l8q4" value="1"> Save a COPY of your working game so the original is safe</label>
+      <label><input type="radio" name="l8q4" value="2"> Rewrite it from scratch</label>
+      <label><input type="radio" name="l8q4" value="3"> Change the file name only</label>
+    </div>
+    <div class="feedback" id="fb-l8q4"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q5 · 3 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">On the checklist, grouping related data into dictionaries or objects (instead of parallel lists) was which lesson? Fill the number.</div>
+    <pre><code>DATA — related data is grouped, not parallel lists -&gt; Lesson ___</code></pre>
+    <input type="text" id="l8q5" placeholder="lesson number">
+    <div class="feedback" id="fb-l8q5"></div>
+  </div>
+<div class="tier should">
+  <span class="badge">⭐ SHOULD DO</span>
+  <span class="tier-desc">Most of you will get here. This is applying the idea.</span>
+</div>
+
+  <div class="question t-should">
+    <div class="qnum"><span>Q6 · 6 marks (self-marked)</span><span class="tiertag should">should</span></div>
+    <div class="qtext"><strong>Refactor one thing for real.</strong> Pick the EASIEST win from your checklist audit (usually input validation). Make a copy of your game, apply the fix, and run it. Paste the BEFORE and AFTER of the part you changed, and write one line confirming it still runs.</div>
+    
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code># BEFORE:
+
+# AFTER:
+
+# Confirmed it still runs? (yes/no + what you tested):
+</code></pre><textarea id="l8q6" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-l8q6"></div>
+  </div>
+  <div class="question t-should">
+    <div class="qnum"><span>Q7 · 6 marks (self-marked)</span><span class="tiertag should">should</span></div>
+    <div class="qtext"><strong>Add a class (or improve one).</strong> If your game used global variables or loose data, wrap the main thing (player, game state) into a class with <code>__init__</code> and at least one method. If your game already had a good class, ADD a useful new method to it. Paste your class.</div>
+    
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code>class ___:
+    def __init__(self):
+        # the data your game tracks
+    def ___(self):
+        # a useful method
+</code></pre><textarea id="l8q7" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-l8q7"></div>
+  </div>
+  <div class="question t-should">
+    <div class="qnum"><span>Q8 · 3 marks</span><span class="tiertag should">should</span></div>
+    <div class="qtext">After refactoring, how do you know your game is actually better?</div>
+    
+    <div class="choices">
+      <label><input type="radio" name="l8q8" value="0"> It has more lines of code</label>
+      <label><input type="radio" name="l8q8" value="1"> It survives bad input, has no copy-paste, and a stranger could read it and understand it</label>
+      <label><input type="radio" name="l8q8" value="2"> It uses more colours</label>
+      <label><input type="radio" name="l8q8" value="3"> It runs slower but looks nicer</label>
+    </div>
+    <div class="feedback" id="fb-l8q8"></div>
+  </div>
+<div class="tier could">
+  <span class="badge">🚀 COULD DO</span>
+  <span class="tier-desc">For when you're flying — stretch yourself, often with your OWN game code.</span>
+</div>
+
+  <div class="question t-could">
+    <div class="qnum"><span>Q9 · 6 marks (self-marked)</span><span class="tiertag could">could</span></div>
+    <div class="qtext">🚀 <strong>Full checklist pass.</strong> Run your game through ALL 8 checklist items. Paste the checklist with each item marked ✅ (done), 🔧 (fixed today), or ⬜ (not applicable to my game), with a one-line note for each. Be honest — 'not applicable' is fine if your game genuinely doesn't need it.</div>
+    
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code>[ ] 1. INPUT validation     - 
+[ ] 2. DRY / no copy-paste  - 
+[ ] 3. Grouped data         - 
+[ ] 4. State in objects     - 
+[ ] 5. Classes (init+self)  - 
+[ ] 6. Objects interacting  - 
+[ ] 7. Inheritance          - 
+[ ] 8. Names + comments     - 
+</code></pre><textarea id="l8q9" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-l8q9"></div>
+  </div>
+  <div class="question t-could">
+    <div class="qnum"><span>Q10 · 4 marks (self-marked)</span><span class="tiertag could">could</span></div>
+    <div class="qtext">🚀 <strong>Reflection.</strong> In 3-4 sentences: which of the 8 lessons changed how you think about code the most, and why? What's one thing you'll do differently when we build classes properly in Term 3?</div>
+    
+    <textarea id="l8q10" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-l8q10"></div>
+  </div>
+<div id="submit-section">
+  <p style="margin: 0 0 1rem; color: var(--text-muted);">Done with your tier? Submit to see your score + answer key. Keep editing after if you want.</p>
+  <button id="submit-btn" disabled>Submit worksheet</button>
+  <p style="margin: 0.8rem 0 0; font-size: 0.85rem; color: var(--text-muted);">Auto-saves on this laptop.</p>
+</div>
+
+<div id="results">
+  <h2>📊 Your clean-code check</h2>
+  <div class="score-hero">
+    <div class="big"><span id="final-score">0</span> / 40</div>
+    <div class="sub" id="score-comment">—</div>
+  </div>
+  <div class="breakdown" id="breakdown"></div>
+  <div class="submit-actions">
+    <button onclick="window.scrollTo({top:0, behavior:'smooth'})">↑ Review answers</button>
+    <a href="index.html" class="primary">→ Back to Clean Code series</a>
+  </div>
+</div>
+
+</main>
+
+<script>
+const WS_KEY = "y9-cc-L8-v1";
+const QUESTIONS = [
+  {
+    "id": "l8q1",
+    "kind": "build",
+    "marks": 4,
+    "tier": "must",
+    "rubric": "Full marks: real line from their game, honest assessment, and a correct fix if needed."
+  },
+  {
+    "id": "l8q2",
+    "kind": "build",
+    "marks": 4,
+    "tier": "must",
+    "rubric": "Full marks: identifies real repetition and proposes a sensible function with parameters."
+  },
+  {
+    "id": "l8q3",
+    "kind": "mcq",
+    "marks": 2,
+    "tier": "must",
+    "correct": 1,
+    "choices": [
+      "Change everything at once then run",
+      "Change ONE thing, run it, check it still works, then change the next",
+      "Never run it until you're completely finished",
+      "Delete the old code first"
+    ],
+    "explain": "One change at a time means if it breaks, you know exactly what caused it."
+  },
+  {
+    "id": "l8q4",
+    "kind": "mcq",
+    "marks": 2,
+    "tier": "must",
+    "correct": 1,
+    "choices": [
+      "Delete the original",
+      "Save a COPY of your working game so the original is safe",
+      "Rewrite it from scratch",
+      "Change the file name only"
+    ],
+    "explain": "Always keep a working copy. Refactoring should never risk your submitted version."
+  },
+  {
+    "id": "l8q5",
+    "kind": "fill",
+    "marks": 3,
+    "tier": "must",
+    "answer": "3",
+    "explain": "Lesson 3 \u2014 the right data structure."
+  },
+  {
+    "id": "l8q6",
+    "kind": "build",
+    "marks": 6,
+    "tier": "should",
+    "rubric": "Full marks: a genuine before/after refactor from their own game that improves one checklist item, with confirmation it runs."
+  },
+  {
+    "id": "l8q7",
+    "kind": "build",
+    "marks": 6,
+    "tier": "should",
+    "rubric": "Full marks: a working class that genuinely improves their game's organisation, with __init__ and a method using self."
+  },
+  {
+    "id": "l8q8",
+    "kind": "mcq",
+    "marks": 3,
+    "tier": "should",
+    "correct": 1,
+    "choices": [
+      "It has more lines of code",
+      "It survives bad input, has no copy-paste, and a stranger could read it and understand it",
+      "It uses more colours",
+      "It runs slower but looks nicer"
+    ],
+    "explain": "Clean code = robust (handles bad input), DRY (no duplication), and readable (someone else can follow it)."
+  },
+  {
+    "id": "l8q9",
+    "kind": "build",
+    "marks": 6,
+    "tier": "could",
+    "rubric": "Full marks: honest, specific self-audit across all 8 items with notes that show real understanding of each concept."
+  },
+  {
+    "id": "l8q10",
+    "kind": "build",
+    "marks": 4,
+    "tier": "could",
+    "rubric": "Full marks: a thoughtful, specific reflection naming a real takeaway and a concrete intention for Term 3."
+  }
+];
+
+function restore() {
+  const saved = JSON.parse(localStorage.getItem(WS_KEY) || "{}");
+  if (saved.name) document.getElementById("student-name").value = saved.name;
+  if (saved.last) document.getElementById("student-last").value = saved.last;
+  for (const id in saved.answers || {}) {
+    const val = saved.answers[id];
+    const el = document.querySelector(`[name="${id}"]`);
+    if (!el) continue;
+    if (el.type === "radio") {
+      const r = document.querySelector(`[name="${id}"][value="${val}"]`);
+      if (r) r.checked = true;
+    } else {
+      const node = document.getElementById(id);
+      if (node) node.value = val;
+    }
+  }
+  updateProgress();
+}
+function save() {
+  const data = { name: document.getElementById("student-name").value,
+                last: document.getElementById("student-last").value, answers: {} };
+  QUESTIONS.forEach(q => {
+    if (q.kind === "mcq") { const r = document.querySelector(`[name="${q.id}"]:checked`); if (r) data.answers[q.id] = r.value; }
+    else { const el = document.getElementById(q.id); if (el && el.value) data.answers[q.id] = el.value; }
+  });
+  localStorage.setItem(WS_KEY, JSON.stringify(data));
+}
+function updateProgress() {
+  let answered = 0, est = 0;
+  QUESTIONS.forEach(q => {
+    let val = null;
+    if (q.kind === "mcq") { const r = document.querySelector(`[name="${q.id}"]:checked`); if (r) val = r.value; }
+    else { const el = document.getElementById(q.id); if (el && el.value.trim()) val = el.value.trim(); }
+    if (val !== null) {
+      answered++;
+      if (q.kind === "mcq" && String(val) === String(q.correct)) est += q.marks;
+      else if (q.kind === "fill" && q.answer && val.toLowerCase().replace(/\s+/g,'') === String(q.answer).toLowerCase().replace(/\s+/g,'')) est += q.marks;
+      else if (q.kind === "build") est += Math.floor(q.marks * 0.6);
+    }
+  });
+  document.getElementById("answered-count").textContent = answered;
+  document.getElementById("total-count").textContent = QUESTIONS.length;
+  document.getElementById("est-marks").textContent = est;
+  document.getElementById("progress-fill").style.width = (answered/QUESTIONS.length*100) + "%";
+  // unlock submit once all MUST-DO questions are attempted
+  const mustQs = QUESTIONS.filter(q => q.tier === "must");
+  let mustDone = 0;
+  mustQs.forEach(q => {
+    if (q.kind === "mcq") { if (document.querySelector(`[name="${q.id}"]:checked`)) mustDone++; }
+    else { const el = document.getElementById(q.id); if (el && el.value.trim()) mustDone++; }
+  });
+  document.getElementById("submit-btn").disabled = (mustDone < mustQs.length);
+}
+document.addEventListener("input", () => { save(); updateProgress(); });
+document.addEventListener("change", () => { save(); updateProgress(); });
+
+document.getElementById("submit-btn").addEventListener("click", () => {
+  let score = 0, mcqOk = 0, fillOk = 0;
+  let tierScore = { must: 0, should: 0, could: 0 };
+  QUESTIONS.forEach(q => {
+    let val = null;
+    if (q.kind === "mcq") { const r = document.querySelector(`[name="${q.id}"]:checked`); if (r) val = r.value; }
+    else { const el = document.getElementById(q.id); if (el) val = el.value.trim(); }
+    const fb = document.getElementById("fb-" + q.id);
+    if (q.kind === "mcq") {
+      if (String(val) === String(q.correct)) { score += q.marks; mcqOk++; tierScore[q.tier] += q.marks;
+        if (fb) { fb.className="feedback correct"; fb.style.display="block"; fb.innerHTML = `✅ Correct (+${q.marks}). ${q.explain||''}`; } }
+      else { const ct = q.choices[q.correct];
+        if (fb) { fb.className="feedback wrong"; fb.style.display="block"; fb.innerHTML = `❌ Correct: <code>${ct}</code>. ${q.explain||''}`; } }
+    } else if (q.kind === "fill") {
+      const norm = (val||"").toLowerCase().replace(/\s+/g,''); const target = String(q.answer).toLowerCase().replace(/\s+/g,'');
+      if (norm === target) { score += q.marks; fillOk++; tierScore[q.tier] += q.marks;
+        if (fb) { fb.className="feedback correct"; fb.style.display="block"; fb.innerHTML = `✅ Exactly right (+${q.marks}). ${q.explain||''}`; } }
+      else { if (fb) { fb.className="feedback wrong"; fb.style.display="block"; fb.innerHTML = `❌ Expected: <code>${q.answer}</code>. ${q.explain||''}`; } }
+    } else if (q.kind === "build") {
+      if (val && val.length > 30) { score += q.marks; tierScore[q.tier] += q.marks;
+        if (fb) { fb.className="feedback info"; fb.style.display="block"; fb.innerHTML = `✏️ Self-marked (+${q.marks}). Ms Gao checks this in class. ${q.rubric||''}`; } }
+      else if (val && val.length > 0) { score += Math.floor(q.marks/2);
+        if (fb) { fb.className="feedback info"; fb.style.display="block"; fb.innerHTML = `✏️ Partial (+${Math.floor(q.marks/2)}). Add more detail. ${q.rubric||''}`; } }
+    }
+  });
+  document.getElementById("final-score").textContent = score;
+  const total = QUESTIONS.reduce((s,q)=>s+q.marks,0);
+  let cmt;
+  if (score >= total*0.85) cmt = "🌟 Outstanding — your code is going to be so much cleaner.";
+  else if (score >= total*0.6) cmt = "✅ Solid work. Review what you missed.";
+  else if (score >= total*0.35) cmt = "🛠️ Good start — finish the MUST-DO tier and ask Ms Gao about the rest.";
+  else cmt = "💛 Let's go through this together — grab Ms Gao.";
+  document.getElementById("score-comment").textContent = cmt;
+  document.getElementById("breakdown").innerHTML = `
+    <div class="breakdown-item"><div class="label">✅ Must do</div><div class="value">${tierScore.must}</div></div>
+    <div class="breakdown-item"><div class="label">⭐ Should do</div><div class="value">${tierScore.should}</div></div>
+    <div class="breakdown-item"><div class="label">🚀 Could do</div><div class="value">${tierScore.could}</div></div>
+    <div class="breakdown-item"><div class="label">Total</div><div class="value">${score} / 40</div></div>`;
+  document.getElementById("results").style.display = "block";
+  document.getElementById("results").scrollIntoView({behavior:"smooth", block:"start"});
+});
+restore();
+</script>
+</body>
+</html>

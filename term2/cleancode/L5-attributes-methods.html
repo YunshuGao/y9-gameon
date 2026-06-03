@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 5 — Attributes & Methods: the inside of an object · 9GAMZA</title>
+<link rel="stylesheet" href="../../assets/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body { max-width: 940px; margin: 0 auto; padding: 1.5rem; overflow-x: hidden; }
+.ws-header { background: linear-gradient(135deg, rgba(31,58,104,0.45), rgba(20,184,166,0.18));
+             border: 2px solid var(--py-gold); border-radius: 14px;
+             padding: 1.4rem 1.6rem; margin-bottom: 1.5rem; }
+.ws-header h1 { margin: 0 0 0.5rem; color: var(--py-gold); font-size: 1.5rem; line-height: 1.2; }
+.ws-header p { margin: 0.25rem 0; color: var(--text); font-size: 0.95rem; }
+.ws-header .meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                   gap: 0.6rem; margin-top: 0.9rem; }
+.ws-header .meta div { background: rgba(0,0,0,0.25); padding: 0.5rem 0.7rem;
+                       border-radius: 6px; font-size: 0.85rem; }
+.ws-header .meta strong { color: var(--py-gold); display: block; font-size: 0.78rem;
+                          text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.2rem; }
+.name-row { display: flex; gap: 1rem; margin-top: 1rem; }
+.name-row input { flex: 1; padding: 0.6rem 0.8rem; border: 1px solid var(--border);
+                  border-radius: 6px; background: var(--surface); color: var(--text);
+                  font-family: inherit; font-size: 0.95rem; }
+
+/* learning intent + concept recap */
+.intent { background: rgba(59,130,246,0.08); border-left: 3px solid var(--py-blue);
+          padding: 0.9rem 1.1rem; border-radius: 8px; margin: 1.2rem 0; font-size: 0.93rem; line-height: 1.6; }
+.intent strong { color: #93c5fd; }
+.video-panel { background: var(--surface); border: 1px solid var(--border);
+               border-radius: 12px; padding: 1.1rem; margin: 1.5rem 0; }
+.video-panel h2 { color: var(--py-gold); margin: 0 0 0.4rem; font-size: 1.1rem; }
+.video-panel .vmeta { color: var(--text-muted); font-size: 0.84rem; margin-bottom: 0.7rem; }
+.video-panel video { width: 100%; border-radius: 8px; background: #000; }
+.video-panel iframe { width: 100%; aspect-ratio: 16/9; border: 0; border-radius: 8px; }
+
+/* concept teach block */
+.teach { margin: 1.6rem 0; padding: 1.3rem; background: var(--surface);
+         border-radius: 12px; border: 1px solid var(--border); }
+.teach h2 { color: var(--py-gold); margin: 0 0 0.6rem; font-size: 1.25rem; }
+.teach h3 { color: #5eead4; margin: 1rem 0 0.4rem; font-size: 1rem; }
+.teach p { color: var(--text); line-height: 1.65; margin: 0.5rem 0; font-size: 0.95rem; }
+.teach ul { color: var(--text); line-height: 1.7; padding-left: 1.3rem; }
+.teach code { background: rgba(0,0,0,0.35); padding: 0.1rem 0.4rem; border-radius: 3px;
+              color: var(--py-gold); font-family: 'Fira Code', monospace; font-size: 0.88em; }
+.codeblock { background: rgba(0,0,0,0.45); padding: 0.9rem 1.1rem; border-radius: 8px;
+             overflow-x: auto; margin: 0.7rem 0; max-width: 100%; }
+.codeblock code { font-family: 'Fira Code', monospace; font-size: 0.86rem; color: var(--py-gold);
+                  white-space: pre; display: block; min-width: 0; line-height: 1.5; }
+.codeblock.bad { border-left: 3px solid #ef4444; }
+.codeblock.good { border-left: 3px solid #22c55e; }
+.code-label { font-size: 0.78rem; font-weight: 700; text-transform: uppercase;
+              letter-spacing: 0.05em; margin: 0.8rem 0 0.2rem; }
+.code-label.bad { color: #fca5a5; }
+.code-label.good { color: #86efac; }
+.from-class { display: inline-block; background: rgba(255,212,59,0.15); color: var(--py-gold);
+              padding: 0.1rem 0.5rem; border-radius: 4px; font-size: 0.74rem; font-weight: 600;
+              margin-left: 0.4rem; }
+
+/* tier dividers */
+.tier { margin: 2.2rem 0 1.2rem; padding: 0.9rem 1.2rem; border-radius: 10px;
+        display: flex; align-items: center; gap: 0.8rem; }
+.tier.must { background: rgba(34,197,94,0.12); border: 1px solid #22c55e; }
+.tier.should { background: rgba(255,212,59,0.10); border: 1px solid var(--py-gold); }
+.tier.could { background: rgba(168,85,247,0.12); border: 1px solid #a855f7; }
+.tier .badge { font-weight: 700; font-size: 0.82rem; text-transform: uppercase;
+               letter-spacing: 0.06em; padding: 0.25rem 0.7rem; border-radius: 5px; }
+.tier.must .badge { background: #22c55e; color: #04210f; }
+.tier.should .badge { background: var(--py-gold); color: var(--bg); }
+.tier.could .badge { background: #a855f7; color: #1a0633; }
+.tier .tier-desc { color: var(--text); font-size: 0.9rem; line-height: 1.45; }
+.tier .tier-desc strong { color: var(--text); }
+
+/* questions */
+.question { margin: 1.3rem 0; padding: 1rem 1.2rem; background: rgba(31,58,104,0.18);
+            border-radius: 8px; border-left: 3px solid var(--py-blue); overflow: hidden; }
+.question.t-must { border-left-color: #22c55e; }
+.question.t-should { border-left-color: var(--py-gold); }
+.question.t-could { border-left-color: #a855f7; }
+.question .qnum { color: var(--py-gold); font-weight: 600; font-size: 0.85rem;
+                  display: flex; justify-content: space-between; align-items: center; }
+.question .qnum .tiertag { font-size: 0.7rem; padding: 0.1rem 0.45rem; border-radius: 4px;
+                           text-transform: uppercase; letter-spacing: 0.04em; font-weight: 700; }
+.question .qnum .tiertag.must { background: rgba(34,197,94,0.2); color: #86efac; }
+.question .qnum .tiertag.should { background: rgba(255,212,59,0.18); color: #fde047; }
+.question .qnum .tiertag.could { background: rgba(168,85,247,0.2); color: #d8b4fe; }
+.question .qtext { margin: 0.4rem 0 0.8rem; color: var(--text); line-height: 1.5; overflow-wrap: break-word; }
+.question .qtext code { background: rgba(0,0,0,0.35); padding: 0.1rem 0.4rem; border-radius: 3px;
+                        color: var(--py-gold); font-family: 'Fira Code', monospace; word-break: break-word; }
+.question pre { background: rgba(0,0,0,0.42); padding: 0.8rem; border-radius: 6px;
+                overflow-x: auto; margin: 0.6rem 0; max-width: 100%; }
+.question pre code { font-family: 'Fira Code', monospace; font-size: 0.85rem; color: var(--py-gold);
+                     white-space: pre; display: block; min-width: 0; line-height: 1.5; }
+.choices label { display: block; padding: 0.5rem 0.8rem; margin: 0.3rem 0; border-radius: 6px;
+                 cursor: pointer; transition: background 0.15s; color: var(--text); }
+.choices label:hover { background: rgba(255,212,59,0.08); }
+.choices input[type=radio] { margin-right: 0.6rem; }
+input[type=text], textarea { width: 100%; padding: 0.6rem 0.8rem; background: var(--bg); color: var(--text);
+                             border: 1px solid var(--border); border-radius: 6px;
+                             font-family: 'Fira Code', monospace; font-size: 0.9rem; box-sizing: border-box; }
+textarea { min-height: 120px; resize: vertical; }
+.feedback { margin-top: 0.6rem; padding: 0.7rem 1rem; border-radius: 6px; font-size: 0.9rem;
+            display: none; overflow-wrap: break-word; }
+.feedback.correct { background: rgba(34,197,94,0.15); border-left: 3px solid #22c55e; color: #86efac; }
+.feedback.wrong { background: rgba(239,68,68,0.12); border-left: 3px solid #ef4444; color: #fca5a5; }
+.feedback.info { background: rgba(59,130,246,0.12); border-left: 3px solid #3b82f6; color: #93c5fd; }
+.feedback code { background: rgba(0,0,0,0.3); padding: 0.1rem 0.4rem; border-radius: 3px; color: var(--py-gold); }
+
+.progress-bar-wrap { position: sticky; top: 0; z-index: 10; background: var(--bg);
+                     padding: 0.8rem 0; margin-bottom: 1rem; border-bottom: 1px solid var(--border); }
+.progress-text { font-weight: 600; color: var(--text); margin-bottom: 0.5rem;
+                 display: flex; justify-content: space-between; }
+.progress-text .marks { color: var(--text-muted); font-weight: 400; font-size: 0.85rem; }
+.progress-track { height: 10px; background: var(--surface); border-radius: 5px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #14b8a6, #22c55e); transition: width 0.3s; }
+#submit-section { margin: 2.5rem 0; padding: 1.4rem; background: var(--surface); border-radius: 12px;
+                  border: 2px solid var(--border); text-align: center; }
+#submit-btn { padding: 1rem 2.5rem; font-size: 1.1rem; font-weight: 600; border-radius: 8px;
+              cursor: pointer; border: none; background: linear-gradient(135deg, #3776AB, #14b8a6); color: white; }
+#submit-btn:disabled { background: var(--surface); color: var(--text-muted); cursor: not-allowed; border: 1px solid var(--border); }
+#results { display: none; margin: 2rem 0; padding: 1.6rem; background: var(--surface);
+           border-radius: 12px; border: 2px solid var(--py-gold); }
+#results h2 { color: var(--py-gold); margin: 0 0 1rem; }
+.score-hero { text-align: center; padding: 1rem; }
+.score-hero .big { font-size: 3rem; font-weight: 700; color: var(--py-gold); }
+.score-hero .sub { color: var(--text-muted); }
+.breakdown { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.8rem; margin-top: 1rem; }
+.breakdown-item { padding: 0.8rem; background: rgba(31,58,104,0.15); border-radius: 8px; }
+.breakdown-item .label { color: var(--text-muted); font-size: 0.85rem; }
+.breakdown-item .value { color: var(--text); font-size: 1.3rem; font-weight: 600; }
+.submit-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.2rem; }
+.submit-actions button, .submit-actions a { flex: 1; padding: 0.8rem 1.2rem; border-radius: 8px; cursor: pointer;
+                     border: 1px solid var(--border); background: var(--bg); color: var(--text); font-weight: 500;
+                     text-align: center; text-decoration: none; font-family: inherit; font-size: 0.95rem; }
+.submit-actions .primary { background: linear-gradient(135deg, #3776AB, #14b8a6); color: white; border: none; }
+.classwork-note { background: rgba(255,212,59,0.08); border-left: 3px solid var(--py-gold);
+                  padding: 0.8rem 1rem; border-radius: 6px; margin: 1rem 0; font-size: 0.9rem; line-height: 1.55; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="site-brand">🐍 Y9 Game On · Term 2</a>
+    <nav class="site-nav">
+      <a href="../index.html">Overview</a>
+      <a href="index.html">🧹 Clean Code</a>
+      <a href="../arcade/index.html">🎮 Arcade</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+<div class="ws-header">
+  <h1>🔧 Lesson 5 — Attributes & Methods: the inside of an object</h1>
+  <p><strong>Class:</strong> Year 9 Game On · 9GAMZA · Term 2 2026</p>
+  <p><strong>Today:</strong> Attributes are what an object HAS. Methods are what an object DOES. Let's master both with self.</p>
+  <div class="meta">
+    <div><strong>Lesson</strong>5 of 8</div>
+    <div><strong>Time</strong>60 min</div>
+    <div><strong>Marks</strong>/36 (classwork)</div>
+    <div><strong>Builds toward</strong>Confident class-building</div>
+  </div>
+  <div class="name-row">
+    <input type="text" id="student-name" placeholder="First name" autocomplete="given-name">
+    <input type="text" id="student-last" placeholder="Last name" autocomplete="family-name">
+  </div>
+</div>
+
+<div class="intent">
+  <strong>🎯 Why this lesson:</strong> You can make a class now (Lesson 4). Today we go deeper: passing values into <code>__init__</code>, the difference between attributes and methods, and a real trick from a pet game in our class — keeping a stat between 0 and 100 with <code>min()</code> and <code>max()</code>.
+</div>
+
+<div class="classwork-note">
+  <strong>📋 This counts as classwork.</strong> Work through the <strong>MUST DO</strong> tier first — everyone finishes those. Then <strong>SHOULD DO</strong>. <strong>COULD DO</strong> is for when you're flying. Ms Gao checks your progress at the end. Auto-saves on this laptop.
+</div>
+
+
+
+<div class="teach">
+<h2>Attributes (HAS) vs Methods (DOES)</h2>
+<p>Think of an object as a noun. Its <strong>attributes</strong> are adjectives (what it HAS); its <strong>methods</strong> are verbs (what it DOES).</p>
+<div class="codeblock"><code>class Pet:
+    def __init__(self, name):
+        self.name = name        # ATTRIBUTE — what the pet HAS
+        self.hunger = 50        # ATTRIBUTE
+
+    def feed(self):             # METHOD — what the pet DOES
+        self.hunger = self.hunger + 10</code></div>
+<h3>Passing values IN through __init__</h3>
+<p>In Lesson 4 every player started the same. But real objects differ — this pet's NAME comes in as a parameter when you build it:</p>
+<div class="code-label good">✅ Each object built with its own values</div><div class="codeblock good"><code>class Pet:
+    def __init__(self, name, species):
+        self.name = name
+        self.species = species
+        self.hunger = 50
+
+mochi = Pet(&quot;Mochi&quot;, &quot;dog&quot;)
+felix = Pet(&quot;Felix&quot;, &quot;cat&quot;)
+print(mochi.name)     # Mochi
+print(felix.species)  # cat</code></div>
+<p><code>Pet("Mochi", "dog")</code> sends "Mochi" in as <code>name</code> and "dog" in as <code>species</code>. <code>__init__</code> stores them on <code>self</code>. Two pets, different data, same blueprint.</p>
+<h3>The real trick from our class — clamping a stat</h3>
+<p>A pet game in our class needed hunger to stay between 0 and 100, no matter how much you feed. Feeding past 100 should cap at 100. Here's the clean way, using <code>min()</code>:</p>
+<div class="code-label good">✅ min() caps the top, max() caps the bottom</div><div class="codeblock good"><code>def feed(self):
+    self.hunger = min(100, self.hunger + 10)   # never goes above 100
+
+def pass_time(self):
+    self.hunger = max(0, self.hunger - 5)      # never goes below 0</code></div>
+<p><code>min(100, x)</code> = 'the smaller of 100 and x' → can't exceed 100. <code>max(0, x)</code> = 'the bigger of 0 and x' → can't go below 0. Two tiny functions that replace clunky if-statements.</p>
+<h3>Methods can take parameters too</h3>
+<p>A method isn't limited to <code>self</code> — it can take more inputs:</p>
+<div class="codeblock"><code>def feed(self, amount):
+    self.hunger = min(100, self.hunger + amount)
+
+mochi.feed(25)   # feed 25, not the fixed 10</code></div>
+</div>
+
+<div class="progress-bar-wrap">
+  <div class="progress-text">
+    <span><span id="answered-count">0</span> / <span id="total-count">0</span> attempted</span>
+    <span class="marks">Score: <span id="est-marks">0</span> / 36</span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+</div>
+<div class="tier must">
+  <span class="badge">✅ MUST DO</span>
+  <span class="tier-desc">Everyone completes this tier. These are the essentials.</span>
+</div>
+
+  <div class="question t-must">
+    <div class="qnum"><span>Q1 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">An ATTRIBUTE is...</div>
+    
+    <div class="choices">
+      <label><input type="radio" name="l5q1" value="0"> something the object DOES</label>
+      <label><input type="radio" name="l5q1" value="1"> something the object HAS (its data)</label>
+      <label><input type="radio" name="l5q1" value="2"> the name of the class</label>
+      <label><input type="radio" name="l5q1" value="3"> a kind of loop</label>
+    </div>
+    <div class="feedback" id="fb-l5q1"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q2 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">A METHOD is...</div>
+    
+    <div class="choices">
+      <label><input type="radio" name="l5q2" value="0"> data the object has</label>
+      <label><input type="radio" name="l5q2" value="1"> something the object DOES (a function inside the class)</label>
+      <label><input type="radio" name="l5q2" value="2"> a dictionary key</label>
+      <label><input type="radio" name="l5q2" value="3"> an import</label>
+    </div>
+    <div class="feedback" id="fb-l5q2"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q3 · 2 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">What does this print?</div>
+    <pre><code>class Pet:
+    def __init__(self, name):
+        self.name = name
+
+p = Pet(&quot;Rex&quot;)
+print(p.name)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="l5q3" value="0"> name</label>
+      <label><input type="radio" name="l5q3" value="1"> Rex</label>
+      <label><input type="radio" name="l5q3" value="2"> self.name</label>
+      <label><input type="radio" name="l5q3" value="3"> Pet</label>
+    </div>
+    <div class="feedback" id="fb-l5q3"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q4 · 3 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Fill the blank so the pet's name is stored on the object.</div>
+    <pre><code>class Pet:
+    def __init__(self, name):
+        ______ = name</code></pre>
+    <input type="text" id="l5q4" placeholder="self dot something">
+    <div class="feedback" id="fb-l5q4"></div>
+  </div>
+  <div class="question t-must">
+    <div class="qnum"><span>Q5 · 3 marks</span><span class="tiertag must">must</span></div>
+    <div class="qtext">Fill the function that stops hunger going above 100.</div>
+    <pre><code>self.hunger = ______(100, self.hunger + 10)</code></pre>
+    <input type="text" id="l5q5" placeholder="a built-in function">
+    <div class="feedback" id="fb-l5q5"></div>
+  </div>
+<div class="tier should">
+  <span class="badge">⭐ SHOULD DO</span>
+  <span class="tier-desc">Most of you will get here. This is applying the idea.</span>
+</div>
+
+  <div class="question t-should">
+    <div class="qnum"><span>Q6 · 3 marks</span><span class="tiertag should">should</span></div>
+    <div class="qtext">What does <code>max(0, self.energy - 30)</code> guarantee?</div>
+    
+    <div class="choices">
+      <label><input type="radio" name="l5q6" value="0"> energy goes up by 30</label>
+      <label><input type="radio" name="l5q6" value="1"> energy never drops below 0 (even if energy - 30 would be negative)</label>
+      <label><input type="radio" name="l5q6" value="2"> energy is exactly 30</label>
+      <label><input type="radio" name="l5q6" value="3"> energy doubles</label>
+    </div>
+    <div class="feedback" id="fb-l5q6"></div>
+  </div>
+  <div class="question t-should">
+    <div class="qnum"><span>Q7 · 3 marks</span><span class="tiertag should">should</span></div>
+    <div class="qtext">What's printed?</div>
+    <pre><code>class Pet:
+    def __init__(self, name):
+        self.name = name
+        self.hunger = 50
+    def feed(self, amount):
+        self.hunger = min(100, self.hunger + amount)
+
+p = Pet(&quot;Sky&quot;)
+p.feed(70)
+print(p.hunger)</code></pre>
+    <div class="choices">
+      <label><input type="radio" name="l5q7" value="0"> 120</label>
+      <label><input type="radio" name="l5q7" value="1"> 100</label>
+      <label><input type="radio" name="l5q7" value="2"> 70</label>
+      <label><input type="radio" name="l5q7" value="3"> 50</label>
+    </div>
+    <div class="feedback" id="fb-l5q7"></div>
+  </div>
+  <div class="question t-should">
+    <div class="qnum"><span>Q8 · 4 marks</span><span class="tiertag should">should</span></div>
+    <div class="qtext">Fill the blank so this builds a pet named "Bolt" of species "dog".</div>
+    <pre><code>class Pet:
+    def __init__(self, name, species):
+        self.name = name
+        self.species = species
+
+my_pet = ______</code></pre>
+    <input type="text" id="l5q8" placeholder="Pet(...)">
+    <div class="feedback" id="fb-l5q8"></div>
+  </div>
+  <div class="question t-should">
+    <div class="qnum"><span>Q9 · 6 marks (self-marked)</span><span class="tiertag should">should</span></div>
+    <div class="qtext">Write a <code>Pet</code> class. <code>__init__</code> takes a <code>name</code> and sets <code>self.name</code>, <code>self.happiness = 50</code>. Add a method <code>play(self)</code> that raises happiness by 20 but caps at 100 using <code>min()</code>. Create a pet, play twice, print happiness (should be 90).</div>
+    
+    <p style="margin:0.4rem 0; color: var(--text-muted); font-size: 0.85rem;">Starter:</p><pre><code>class Pet:
+    def __init__(self, name):
+        # name + happiness=50
+
+    def play(self):
+        # raise happiness by 20, cap at 100
+
+# create, play twice, print
+</code></pre><textarea id="l5q9" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-l5q9"></div>
+  </div>
+<div class="tier could">
+  <span class="badge">🚀 COULD DO</span>
+  <span class="tier-desc">For when you're flying — stretch yourself, often with your OWN game code.</span>
+</div>
+
+  <div class="question t-could">
+    <div class="qnum"><span>Q10 · 5 marks (self-marked)</span><span class="tiertag could">could</span></div>
+    <div class="qtext">🚀 Add a NEW attribute and a NEW method to a class in your own game (or the Pet above). For example: add <code>self.level = 1</code> and a <code>level_up(self)</code> method. Paste your class with the addition.</div>
+    
+    <textarea id="l5q10" placeholder="Paste your code or written answer..."></textarea>
+    <div class="feedback" id="fb-l5q10"></div>
+  </div>
+  <div class="question t-could">
+    <div class="qnum"><span>Q11 · 3 marks</span><span class="tiertag could">could</span></div>
+    <div class="qtext">🚀 Why is <code>self.hunger = min(100, self.hunger + amount)</code> better than an if-statement that does the same job?</div>
+    
+    <div class="choices">
+      <label><input type="radio" name="l5q11" value="0"> It isn&#x27;t — the if-statement is clearer</label>
+      <label><input type="radio" name="l5q11" value="1"> It&#x27;s one short line instead of three, and there&#x27;s no way to forget the &#x27;else&#x27; branch</label>
+      <label><input type="radio" name="l5q11" value="2"> min() runs the game faster</label>
+      <label><input type="radio" name="l5q11" value="3"> if-statements don&#x27;t work inside methods</label>
+    </div>
+    <div class="feedback" id="fb-l5q11"></div>
+  </div>
+<div id="submit-section">
+  <p style="margin: 0 0 1rem; color: var(--text-muted);">Done with your tier? Submit to see your score + answer key. Keep editing after if you want.</p>
+  <button id="submit-btn" disabled>Submit worksheet</button>
+  <p style="margin: 0.8rem 0 0; font-size: 0.85rem; color: var(--text-muted);">Auto-saves on this laptop.</p>
+</div>
+
+<div id="results">
+  <h2>📊 Your clean-code check</h2>
+  <div class="score-hero">
+    <div class="big"><span id="final-score">0</span> / 36</div>
+    <div class="sub" id="score-comment">—</div>
+  </div>
+  <div class="breakdown" id="breakdown"></div>
+  <div class="submit-actions">
+    <button onclick="window.scrollTo({top:0, behavior:'smooth'})">↑ Review answers</button>
+    <a href="index.html" class="primary">→ Back to Clean Code series</a>
+  </div>
+</div>
+
+</main>
+
+<script>
+const WS_KEY = "y9-cc-L5-v1";
+const QUESTIONS = [
+  {
+    "id": "l5q1",
+    "kind": "mcq",
+    "marks": 2,
+    "tier": "must",
+    "correct": 1,
+    "choices": [
+      "something the object DOES",
+      "something the object HAS (its data)",
+      "the name of the class",
+      "a kind of loop"
+    ],
+    "explain": "Attributes = data the object holds, like <code>self.name</code>, <code>self.hunger</code>."
+  },
+  {
+    "id": "l5q2",
+    "kind": "mcq",
+    "marks": 2,
+    "tier": "must",
+    "correct": 1,
+    "choices": [
+      "data the object has",
+      "something the object DOES (a function inside the class)",
+      "a dictionary key",
+      "an import"
+    ],
+    "explain": "Methods = the object's actions, defined with <code>def</code> inside the class."
+  },
+  {
+    "id": "l5q3",
+    "kind": "mcq",
+    "marks": 2,
+    "tier": "must",
+    "correct": 1,
+    "choices": [
+      "name",
+      "Rex",
+      "self.name",
+      "Pet"
+    ],
+    "explain": "\"Rex\" was passed in and stored as <code>self.name</code>, so <code>p.name</code> is \"Rex\"."
+  },
+  {
+    "id": "l5q4",
+    "kind": "fill",
+    "marks": 3,
+    "tier": "must",
+    "answer": "self.name",
+    "explain": "<code>self.name = name</code> stores the parameter on this object."
+  },
+  {
+    "id": "l5q5",
+    "kind": "fill",
+    "marks": 3,
+    "tier": "must",
+    "answer": "min",
+    "explain": "<code>min(100, x)</code> returns the smaller value \u2014 capping at 100."
+  },
+  {
+    "id": "l5q6",
+    "kind": "mcq",
+    "marks": 3,
+    "tier": "should",
+    "correct": 1,
+    "choices": [
+      "energy goes up by 30",
+      "energy never drops below 0 (even if energy - 30 would be negative)",
+      "energy is exactly 30",
+      "energy doubles"
+    ],
+    "explain": "<code>max(0, x)</code> returns whichever is bigger \u2014 so the result is never below 0."
+  },
+  {
+    "id": "l5q7",
+    "kind": "mcq",
+    "marks": 3,
+    "tier": "should",
+    "correct": 1,
+    "choices": [
+      "120",
+      "100",
+      "70",
+      "50"
+    ],
+    "explain": "50 + 70 = 120, but <code>min(100, 120)</code> caps it at 100."
+  },
+  {
+    "id": "l5q8",
+    "kind": "fill",
+    "marks": 4,
+    "tier": "should",
+    "answer": "Pet(\"Bolt\", \"dog\")",
+    "explain": "Pass both values in order: <code>Pet(\"Bolt\", \"dog\")</code>."
+  },
+  {
+    "id": "l5q9",
+    "kind": "build",
+    "marks": 6,
+    "tier": "should",
+    "rubric": "Full marks: name passed in, happiness capped with min(), play called twice, prints 90. Half: works but no min() cap (would print 90 here anyway \u2014 check they USED min)."
+  },
+  {
+    "id": "l5q10",
+    "kind": "build",
+    "marks": 5,
+    "tier": "could",
+    "rubric": "Full marks: a working new attribute + method that uses self correctly. Stretches their own class."
+  },
+  {
+    "id": "l5q11",
+    "kind": "mcq",
+    "marks": 3,
+    "tier": "could",
+    "correct": 1,
+    "choices": [
+      "It isn't \u2014 the if-statement is clearer",
+      "It's one short line instead of three, and there's no way to forget the 'else' branch",
+      "min() runs the game faster",
+      "if-statements don't work inside methods"
+    ],
+    "explain": "<code>min()</code>/<code>max()</code> express 'cap at this value' in one tidy line \u2014 less code, fewer places for bugs to hide."
+  }
+];
+
+function restore() {
+  const saved = JSON.parse(localStorage.getItem(WS_KEY) || "{}");
+  if (saved.name) document.getElementById("student-name").value = saved.name;
+  if (saved.last) document.getElementById("student-last").value = saved.last;
+  for (const id in saved.answers || {}) {
+    const val = saved.answers[id];
+    const el = document.querySelector(`[name="${id}"]`);
+    if (!el) continue;
+    if (el.type === "radio") {
+      const r = document.querySelector(`[name="${id}"][value="${val}"]`);
+      if (r) r.checked = true;
+    } else {
+      const node = document.getElementById(id);
+      if (node) node.value = val;
+    }
+  }
+  updateProgress();
+}
+function save() {
+  const data = { name: document.getElementById("student-name").value,
+                last: document.getElementById("student-last").value, answers: {} };
+  QUESTIONS.forEach(q => {
+    if (q.kind === "mcq") { const r = document.querySelector(`[name="${q.id}"]:checked`); if (r) data.answers[q.id] = r.value; }
+    else { const el = document.getElementById(q.id); if (el && el.value) data.answers[q.id] = el.value; }
+  });
+  localStorage.setItem(WS_KEY, JSON.stringify(data));
+}
+function updateProgress() {
+  let answered = 0, est = 0;
+  QUESTIONS.forEach(q => {
+    let val = null;
+    if (q.kind === "mcq") { const r = document.querySelector(`[name="${q.id}"]:checked`); if (r) val = r.value; }
+    else { const el = document.getElementById(q.id); if (el && el.value.trim()) val = el.value.trim(); }
+    if (val !== null) {
+      answered++;
+      if (q.kind === "mcq" && String(val) === String(q.correct)) est += q.marks;
+      else if (q.kind === "fill" && q.answer && val.toLowerCase().replace(/\s+/g,'') === String(q.answer).toLowerCase().replace(/\s+/g,'')) est += q.marks;
+      else if (q.kind === "build") est += Math.floor(q.marks * 0.6);
+    }
+  });
+  document.getElementById("answered-count").textContent = answered;
+  document.getElementById("total-count").textContent = QUESTIONS.length;
+  document.getElementById("est-marks").textContent = est;
+  document.getElementById("progress-fill").style.width = (answered/QUESTIONS.length*100) + "%";
+  // unlock submit once all MUST-DO questions are attempted
+  const mustQs = QUESTIONS.filter(q => q.tier === "must");
+  let mustDone = 0;
+  mustQs.forEach(q => {
+    if (q.kind === "mcq") { if (document.querySelector(`[name="${q.id}"]:checked`)) mustDone++; }
+    else { const el = document.getElementById(q.id); if (el && el.value.trim()) mustDone++; }
+  });
+  document.getElementById("submit-btn").disabled = (mustDone < mustQs.length);
+}
+document.addEventListener("input", () => { save(); updateProgress(); });
+document.addEventListener("change", () => { save(); updateProgress(); });
+
+document.getElementById("submit-btn").addEventListener("click", () => {
+  let score = 0, mcqOk = 0, fillOk = 0;
+  let tierScore = { must: 0, should: 0, could: 0 };
+  QUESTIONS.forEach(q => {
+    let val = null;
+    if (q.kind === "mcq") { const r = document.querySelector(`[name="${q.id}"]:checked`); if (r) val = r.value; }
+    else { const el = document.getElementById(q.id); if (el) val = el.value.trim(); }
+    const fb = document.getElementById("fb-" + q.id);
+    if (q.kind === "mcq") {
+      if (String(val) === String(q.correct)) { score += q.marks; mcqOk++; tierScore[q.tier] += q.marks;
+        if (fb) { fb.className="feedback correct"; fb.style.display="block"; fb.innerHTML = `✅ Correct (+${q.marks}). ${q.explain||''}`; } }
+      else { const ct = q.choices[q.correct];
+        if (fb) { fb.className="feedback wrong"; fb.style.display="block"; fb.innerHTML = `❌ Correct: <code>${ct}</code>. ${q.explain||''}`; } }
+    } else if (q.kind === "fill") {
+      const norm = (val||"").toLowerCase().replace(/\s+/g,''); const target = String(q.answer).toLowerCase().replace(/\s+/g,'');
+      if (norm === target) { score += q.marks; fillOk++; tierScore[q.tier] += q.marks;
+        if (fb) { fb.className="feedback correct"; fb.style.display="block"; fb.innerHTML = `✅ Exactly right (+${q.marks}). ${q.explain||''}`; } }
+      else { if (fb) { fb.className="feedback wrong"; fb.style.display="block"; fb.innerHTML = `❌ Expected: <code>${q.answer}</code>. ${q.explain||''}`; } }
+    } else if (q.kind === "build") {
+      if (val && val.length > 30) { score += q.marks; tierScore[q.tier] += q.marks;
+        if (fb) { fb.className="feedback info"; fb.style.display="block"; fb.innerHTML = `✏️ Self-marked (+${q.marks}). Ms Gao checks this in class. ${q.rubric||''}`; } }
+      else if (val && val.length > 0) { score += Math.floor(q.marks/2);
+        if (fb) { fb.className="feedback info"; fb.style.display="block"; fb.innerHTML = `✏️ Partial (+${Math.floor(q.marks/2)}). Add more detail. ${q.rubric||''}`; } }
+    }
+  });
+  document.getElementById("final-score").textContent = score;
+  const total = QUESTIONS.reduce((s,q)=>s+q.marks,0);
+  let cmt;
+  if (score >= total*0.85) cmt = "🌟 Outstanding — your code is going to be so much cleaner.";
+  else if (score >= total*0.6) cmt = "✅ Solid work. Review what you missed.";
+  else if (score >= total*0.35) cmt = "🛠️ Good start — finish the MUST-DO tier and ask Ms Gao about the rest.";
+  else cmt = "💛 Let's go through this together — grab Ms Gao.";
+  document.getElementById("score-comment").textContent = cmt;
+  document.getElementById("breakdown").innerHTML = `
+    <div class="breakdown-item"><div class="label">✅ Must do</div><div class="value">${tierScore.must}</div></div>
+    <div class="breakdown-item"><div class="label">⭐ Should do</div><div class="value">${tierScore.should}</div></div>
+    <div class="breakdown-item"><div class="label">🚀 Could do</div><div class="value">${tierScore.could}</div></div>
+    <div class="breakdown-item"><div class="label">Total</div><div class="value">${score} / 36</div></div>`;
+  document.getElementById("results").style.display = "block";
+  document.getElementById("results").scrollIntoView({behavior:"smooth", block:"start"});
+});
+restore();
+</script>
+</body>
+</html>
